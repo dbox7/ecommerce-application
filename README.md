@@ -9,17 +9,17 @@ An important aspect of our application is that it's responsive, ensuring it look
 
 The application is powered by CommerceTools 🌐, a leading provider of commerce solutions for B2C and B2B enterprises. CommerceTools offers a cloud-native, microservices-based commerce platform that enables brands to create unique and engaging digital commerce experiences.
 
-### Technologies stack:
-•	TypeScript
-•	React
-•	Sass
-•	Webpack
-•	Prettier
-•	ESlint
-•	Husky
-•	Jest
+## Technologies stack:
+* TypeScript
+* React
+* Sass
+* Webpack
+* Prettier
+* ESlint
+* Husky
+* Jest
 
-### Available scripts:
+## Available scripts:
 This project was bootstrapped with Create React App.
 
 In the project directory, you can run:
@@ -46,28 +46,28 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except eject will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 You don’t have to ever use eject. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### Prerequisites
+## Prerequisites
 1.	Access to a commercetools Project and the Merchant Center. If you do not have a commercetools Project, follow our Getting started guide.
 2.	Node.js (version 10 or later) must be installed on your computer.
 
-### Setting up and running the project locally:
+## Setting up and running the project locally:
 * Clone repo
-$ git clone https://github.com/dbox7/ecommerce-application.git
+  * $ git clone https://github.com/dbox7/ecommerce-application.git
 
 * Change directory
-$ cd ecommerce-application
+  * $ cd ecommerce-application
 
 * Switch to the develop branch
-$ git checkout develop
+  * $ git checkout develop
 
 * Install all dependencies
-$ npm install
+  * $ npm install
 
 * Run
-$ npm run start
+  * $ npm run start
 
 
-### Our team:
+## Our team:
 1. Kseniya (spiridonova.kseniya@gmail.com)
 2. Artem (artem@mikolyuk.com)
 3. Dmitry (dbox.insight@gmail.com)
