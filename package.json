@@ -1,6 +1,9 @@
 {
   "name": "ecommerce-application",
   "version": "0.1.0",
+  "description": "Ecommerce application",
+  "author": "JS do IT",
+  "license": "ISC",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -23,9 +26,15 @@
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .ts,.tsx ./src"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }, 
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint"
+      "npm run lint",
+      "git add"
     ]
   },
   "browserslist": {
@@ -44,8 +53,6 @@
     "eslint-config-prettier": "^8.9.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "prettier": "3.0.0",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "prettier": "3.0.0" 
   }
 }
