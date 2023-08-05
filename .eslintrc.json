@@ -1,18 +1,31 @@
 {
-    "extends": [
-        "react-app",
-        "react-app/jest",
-        "prettier"
+  "extends": [
+    "react-app", 
+    "react-app/jest", 
+    "prettier"
+  ],
+  "rules": {
+    "semi": ["warn", "always"],
+    "no-console": "warn",
+    "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "indent": ["warn", 2],
+    "max-len": ["warn", { "code": 140 }],
+    "react/jsx-indent": ["warn", 2],
+    "react/jsx-indent-props": ["warn", 2],
+    "react/jsx-max-props-per-line": [
+      "warn",
+      { "maximum": 1, "when": "multiline" }
     ],
-    "rules": {
-        "semi": ["warn", "always"],
-        "no-console": "warn",
-        "quotes": ["error", "single"],
-        "jsx-quotes": ["error", "prefer-double"],
-        "indent": ["warn", 2],
-        "max-len": ["warn", { "code": 120 }],
-        "react/jsx-indent": ["warn", 2],
-        "react/jsx-indent-props": ["warn", 2],
-        "react/jsx-max-props-per-line": ["warn", { "maximum": 1, "when": "multiline" }]
-    }
+    "array-element-newline": ["warn", {
+        "ArrayExpression": "consistent",
+        "ArrayPattern": { "minItems": 3 }
+    }],
+    "padding-line-between-statements": [
+        "warn",
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+        { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}
+    ],
+    "padded-blocks": ["warn", "always"]
+  }
 }

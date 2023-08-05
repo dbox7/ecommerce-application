@@ -1,0 +1,15 @@
+{
+  "overrides": [
+    {
+      "files": ["*.html", "*.css", "*.json"],
+      "options": {
+        "semi": true,
+        "tabWidth": 2,
+        "useTabs": false,
+        "trailingComma": "es5",
+        "singleAttributePerLine": true,
+        "proseWrap": "preserve"
+      }
+    }
+  ]
+}
