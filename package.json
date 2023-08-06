@@ -36,8 +36,7 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "npm run lint",
-      "npm run pre",
-      "git add"
+      "npm run pre"
     ]
   },
   "browserslist": {
