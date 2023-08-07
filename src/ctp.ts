@@ -1,11 +1,12 @@
 import fetch from 'node-fetch';
 import {
   ClientBuilder,
-
   // Import middlewares
   type AuthMiddlewareOptions, // Required for auth
   type HttpMiddlewareOptions, // Required for sending HTTP requests
 } from '@commercetools/sdk-client-v2';
+
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 const projectKey = '{rss-final-task}';
 /* eslint-disable */
@@ -36,3 +37,6 @@ export const ctpClient = new ClientBuilder()
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware() // Include middleware for logging
   .build();
+
+export const apiRoot = createApiBuilderFromCtpClient(ctpClient)
+.withProjectKey({ projectKey: '{projectKey}' });  
