@@ -10,6 +10,8 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
+import './CRegistrationForm.css';
+
 const CRegistrationForm = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
@@ -144,7 +146,10 @@ const CRegistrationForm = () => {
   return (
     <div>
       <h1>Registration</h1>
-      <form onSubmit={handleSubmit}>
+      <form 
+        className="registration"
+        onSubmit={handleSubmit}
+      >
         <CEmail 
           value={email}
           changeHandler={(e) => handleInputChange('email', (e.target as HTMLInputElement).value)}
@@ -202,7 +207,7 @@ const CRegistrationForm = () => {
           changeHandler={handleCheckboxChange}
         />
         {!useBillingAddress && (
-          <div>
+          <div className="registration">
             <p>Enter the billing address:</p>
             <CTextDateInput 
               value={billingStreet}
