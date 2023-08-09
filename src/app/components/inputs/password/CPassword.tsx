@@ -1,12 +1,7 @@
 import { FC } from 'react';
+import { IInputProps } from '../../../utils/types';
 
-interface IPasswordProps {
-  title: string;
-  value: string;
-  changeHandler: React.ChangeEventHandler;
-}
-
-const Password: FC<IPasswordProps> = (props) => {
+const CPassword: FC<IInputProps> = (props) => {
 
   return ( 
     <div className="input-wrap">
@@ -26,4 +21,4 @@ const Password: FC<IPasswordProps> = (props) => {
 
 };
 
-export default Password;
+export default CPassword;

@@ -4,3 +4,9 @@ export interface IButtonProps {
   value: string,
   clickHandler?: React.MouseEventHandler,
 }
+
+export interface IInputProps {
+  title: string;
+  value: string;
+  changeHandler: React.ChangeEventHandler;
+}

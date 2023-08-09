@@ -1,21 +1,22 @@
 import { FC } from 'react';
-import './CTextInput.css';
+import '../input.css';
+import { IInputProps } from '../../../utils/types';
 
-interface ITextInputProps {
-  title: string;
-  value: string;
-  changeHandler: React.ChangeEventHandler;
-  data?: string[];
+type ITextDateInputProps = IInputProps & {
+  data?: string[] | null;
+  isDate?: boolean;
 }
 
-const CTextInput: FC<ITextInputProps> = (props) => {
+const CTextDateInput: FC<ITextDateInputProps> = (props) => {
+
+  const type = props.isDate ? 'date' : 'text';
 
   return ( 
     <div className="input-wrap">
       <label className="input-title">{props.title}</label>
       <input
         className="input"
-        type="text"
+        type={type}
         value={props.value}
         onChange={props.changeHandler}
         required
@@ -33,4 +34,4 @@ const CTextInput: FC<ITextInputProps> = (props) => {
 
 };
 
-export default CTextInput;
+export default CTextDateInput;

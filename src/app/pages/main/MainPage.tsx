@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CButton from '../../components/button/CButton';
-import CTextInput from '../../components/textInput/CTextInput';
-import Password from '../../components/password/CPassword';
+import CPassword from '../../components/inputs/password/CPassword';
+import CTextDateInput from '../../components/inputs/textDateInput/CTextDateInput';
 
 export function MainPage() {
 
@@ -21,13 +21,13 @@ export function MainPage() {
       <CButton 
         value="hello"
       />
-      <CTextInput 
+      <CTextDateInput 
         title="hello"
         value="hehe"
         changeHandler={()=>{}}
         data={data}
       />
-      <Password 
+      <CPassword 
         title="hello"
         value="title"
         changeHandler={() => {}}
