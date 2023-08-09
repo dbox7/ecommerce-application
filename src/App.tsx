@@ -1,20 +1,25 @@
+import React from 'react';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import { LoginPage} from './app/pages/login/LoginPage';
+import { MainPage } from './app/pages/main/MainPage';
+import { SignUpPage } from './app/pages/signup/SignUpPage';
+import { NotFoundPage } from './app/pages/404/NotFoundPage';
+
 import './App.css';
 
-function App() {
+function App() {  
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignUpPage />} />
+        <Route path="*" element={<NotFoundPage />}/>
+      </Routes>
+    </BrowserRouter>
   );
 
 }
