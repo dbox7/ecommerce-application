@@ -1,0 +1,9 @@
+:root {
+  /* Color */
+  --basic-color: white;
+  --accent-color: #8EBBFF;
+  --border-color: #2E2E2E;
+
+  /* Font size */
+  --main-text: 14px;
+}

@@ -2,5 +2,5 @@
 
 export interface IButtonProps {
   value: string,
-  clickHandler: React.MouseEventHandler,
+  clickHandler?: React.MouseEventHandler,
 }

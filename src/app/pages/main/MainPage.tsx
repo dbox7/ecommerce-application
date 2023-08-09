@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CButton from '../../components/button/CButton';
 
 export function MainPage() {
 
@@ -13,6 +14,9 @@ export function MainPage() {
           <Link to="/signup">Sign up</Link>
         </li>
       </ul>
+      <CButton 
+        value="hello"
+      />
     </nav>
   );
 
