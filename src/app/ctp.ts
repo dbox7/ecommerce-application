@@ -6,19 +6,21 @@ import {
   type HttpMiddlewareOptions, // Required for sending HTTP requests
 } from '@commercetools/sdk-client-v2';
 
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { 
+  ApiRoot, 
+  createApiBuilderFromCtpClient 
+} from '@commercetools/platform-sdk';
 
-const projectKey = '{rss-final-task}';
-/* eslint-disable */
-const scopes = ['{create_anonymous_token:rss-final-task manage_my_business_units:rss-final-task manage_my_quote_requests:rss-final-task view_categories:rss-final-task view_products:rss-final-task manage_my_quotes:rss-final-task view_published_products:rss-final-task manage_my_payments:rss-final-task manage_my_orders:rss-final-task manage_my_shopping_lists:rss-final-task manage_my_profile:rss-final-task}'];
+const projectKey = 'rss-final-task';
+const scopes = ['manage_project:rss-final-task'];
 
 // Configure authMiddlewareOptions
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: 'https://auth.europe-west1.gcp.commercetools.com',
   projectKey: projectKey,
   credentials: {
-    clientId: '{yFGtl8U4JfQLq7XyeujB0kuF}',
-    clientSecret: '{s-lqKN5QfCMjhZwY8g4s_Myw16m7w86r}',
+    clientId: 'WqMoyyfNlL6wt3UPtf-VRde2',
+    clientSecret: 'v3QgpGgAMVDPDcGtWmPnz8cphLrAF90X',
   },
   scopes,
   fetch,
@@ -39,4 +41,5 @@ export const ctpClient = new ClientBuilder()
   .build();
 
 export const apiRoot = createApiBuilderFromCtpClient(ctpClient)
-.withProjectKey({ projectKey: '{projectKey}' });  
+  .withProjectKey({ projectKey: projectKey });  
+  
