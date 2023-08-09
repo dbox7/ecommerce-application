@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
 interface ICheckboxProps {
-  value: boolean,
+  title: string
+  checked: boolean,
   changeHandler: React.ChangeEventHandler
 }
 
@@ -11,7 +12,7 @@ const CCheckbox: FC<ICheckboxProps> = (props) => {
     <div>
       <input
         type="checkbox"
-        checked={props.value}
+        checked={props.checked}
         onChange={props.changeHandler}
       />
       <label>Set as default billing address</label>

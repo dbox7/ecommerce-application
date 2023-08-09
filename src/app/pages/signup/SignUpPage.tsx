@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { apiRoot } from '../../ctp';
-import { COUNTRIES } from '../../utils/constants';
-import SensitiveMessages from '../../SensetiveMessages';
+import CRegistrationForm from '../../components/registrationForm/CRegistrationForm';
 
-export function SignUpPage() {
+export function SignUpPage(): JSX.Element {
 
-  
+  return (
+    <CRegistrationForm />
+  );
 
 };

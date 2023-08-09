@@ -7,6 +7,8 @@ import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
+import CCheckbox from '../inputs/checkbox/CCheckbox';
+import CButton from '../button/CButton';
 
 const CRegistrationForm = () => {
 
@@ -189,84 +191,55 @@ const CRegistrationForm = () => {
           title="Country"
           data={COUNTRIES}
         />
-        <div>
-          <input
-            type="checkbox"
-            checked={defaultShippingAddress}
-            onChange={(e) => setDefaultShippingAddress(e.target.checked)}
-          />
-          <label>Set as default shipping address</label>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            checked={useBillingAddress}
-            onChange={handleCheckboxChange}
-          />
-          <label>The shipping address is the same as the billing address</label>
-        </div>
+        <CCheckbox 
+          title="Set as default shipping address"
+          checked={defaultShippingAddress}
+          changeHandler={(e) => setDefaultShippingAddress((e.target as HTMLInputElement).checked)}
+        />
+        <CCheckbox 
+          title="The shipping address is the same as the billing address"
+          checked={useBillingAddress}
+          changeHandler={handleCheckboxChange}
+        />
         {!useBillingAddress && (
           <div>
             <p>Enter the billing address:</p>
-            <div>
-              <label>Street:</label>
-              <input
-                type="text"
-                value={billingStreet}
-                onChange={(e) => handleInputChange('billingStreet', e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>City:</label>
-              <input
-                type="text"
-                value={billingCity}
-                onChange={(e) => handleInputChange('billingCity', e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Postal code:</label>
-              <input
-                type="text"
-                value={billingPostalCode}
-                onChange={(e) => handleInputChange('billingPostalCode', e.target.value)}
-                required
-                pattern="^\d{5}(-\d{4})?$"
-                title="Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)"
-              />
-            </div>
-            <div>
-              <label>Country:</label>
-              <input
-                type="text"
-                value={billingCountry}
-                onChange={(e) => handleInputChange('billingCountry', e.target.value)}
-                required
-                list="country-list"
-              />
-              <datalist id="country-list">
-                {COUNTRIES.map((country: string) => (
-                  <option value={country} key={country} />
-                ))}
-              </datalist>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                checked={defaultBillingAddress}
-                onChange={(e) => setDefaultBillingAddress(e.target.checked)}
-              />
-              <label>Set as default billing address</label>
-            </div>
+            <CTextDateInput 
+              value={billingStreet}
+              changeHandler={(e) => handleInputChange('billingStreet', (e.target as HTMLInputElement).value)}
+              title="Street"
+            />
+            <CTextDateInput 
+              value={billingCity}
+              changeHandler={(e) => handleInputChange('billingCity', (e.target as HTMLInputElement).value)}
+              title="City"
+            />
+            <CPostalCode 
+              value={billingPostalCode}
+              changeHandler={(e) => handleInputChange('billingPostalCode', (e.target as HTMLInputElement).value)}
+            />
+            <CTextDateInput 
+              value={billingCountry}
+              changeHandler={(e) => handleInputChange('billingCountry', (e.target as HTMLInputElement).value)}
+              title="Country"
+              data={COUNTRIES}
+            />
+            <CCheckbox 
+              title="Set as default billing address"
+              checked={defaultBillingAddress}
+              changeHandler={(e) => setDefaultBillingAddress((e.target as HTMLInputElement).checked)}
+            />
           </div>
         )}
-        <button type="submit">Register</button>
+        <CButton 
+          value="Register"
+        />
       </form>
     </div>
   );
 
 };
+
+export default CRegistrationForm;
 
   
