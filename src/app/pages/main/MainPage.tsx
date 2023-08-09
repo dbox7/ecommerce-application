@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CButton from '../../components/button/CButton';
 import CPassword from '../../components/inputs/password/CPassword';
 import CTextDateInput from '../../components/inputs/textDateInput/CTextDateInput';
+import CCheckbox from '../../components/inputs/checkbox/CCheckbox';
 
 export function MainPage() {
 
@@ -28,8 +29,11 @@ export function MainPage() {
         data={data}
       />
       <CPassword 
-        title="hello"
         value="title"
+        changeHandler={() => {}}
+      />
+      <CCheckbox 
+        value={true}
         changeHandler={() => {}}
       />
     </nav>
