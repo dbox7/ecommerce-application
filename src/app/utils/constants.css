@@ -1,9 +1,10 @@
 :root {
   /* Color */
   --basic-color: white;
-  --accent-color: #8EBBFF;
-  --border-color: #2E2E2E;
+  --accent-color: #8ebbff;
+  --border-color: #2e2e2e;
 
   /* Font size */
   --main-text: 14px;
+  --sub-title: 20px;
 }

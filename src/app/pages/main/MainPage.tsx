@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CButton from '../../components/button/CButton';
+import CTextInput from '../../components/TextInput/CTextInput';
 
 export function MainPage() {
+
+  const data = ['1', '2'];
 
   return (
     <nav>
@@ -16,6 +19,12 @@ export function MainPage() {
       </ul>
       <CButton 
         value="hello"
+      />
+      <CTextInput 
+        title="hello"
+        value="hehe"
+        changeHandler={()=>{}}
+        data={data}
       />
     </nav>
   );
