@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CButton from '../../components/button/CButton';
-import CTextInput from '../../components/TextInput/CTextInput';
+import CTextInput from '../../components/textInput/CTextInput';
+import Password from '../../components/password/CPassword';
 
 export function MainPage() {
 
@@ -25,6 +26,11 @@ export function MainPage() {
         value="hehe"
         changeHandler={()=>{}}
         data={data}
+      />
+      <Password 
+        title="hello"
+        value="title"
+        changeHandler={() => {}}
       />
     </nav>
   );
