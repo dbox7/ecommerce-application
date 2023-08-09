@@ -6,7 +6,6 @@ export interface IButtonProps {
 }
 
 export interface IInputProps {
-  title: string;
   value: string;
   changeHandler: React.ChangeEventHandler;
 }

@@ -3,6 +3,7 @@ import '../input.css';
 import { IInputProps } from '../../../utils/types';
 
 type ITextDateInputProps = IInputProps & {
+  title: string
   data?: string[] | null;
   isDate?: boolean;
 }

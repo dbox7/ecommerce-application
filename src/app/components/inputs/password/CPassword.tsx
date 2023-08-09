@@ -5,7 +5,7 @@ const CPassword: FC<IInputProps> = (props) => {
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">{props.title}:</label>
+      <label className="input-title">Password</label>
       <input
         className="input"
         type="password"

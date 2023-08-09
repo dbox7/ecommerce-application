@@ -6,7 +6,7 @@ const CPostalCode: FC<IInputProps> = (props) => {
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">{props.title}</label>
+      <label className="input-title">Postal Code</label>
       <input
         className="input"
         type="text"
