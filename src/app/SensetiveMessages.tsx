@@ -1,14 +1,5 @@
 export default class SensitiveMessages {
 
-  /**
-   * Коллекция сообщений.
-   * При изменении состояния, всегда вызывается коллбэк `textSetter(msg: String)`, которому передаётся
-   * строка со склеенными всеми сообщениями.
-   *
-   * errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
-   * errors.add("ашипка");  // Тут вызовется setError("<ul><li>ашипка</li></ul>");
-   * errors.clear(); // Теперь вызовется setError('');
-   */
   private messages: Array<String>;
   private textSetter: Function;
   private prefix: string;
