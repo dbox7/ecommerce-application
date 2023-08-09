@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import SensitiveMessages from '../../SensetiveMessages';
 import { apiRoot } from '../../ctp';
-import { BaseAddress } from '@commercetools/platform-sdk';
-
-
-const countries: string[] = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
+import { COUNTRIES } from '../../constants';
+import SensitiveMessages from '../../SensetiveMessages';
 
 export function SignUpPage(): JSX.Element {
 
@@ -15,15 +12,21 @@ export function SignUpPage(): JSX.Element {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [billingStreet, setBillingStreet] = useState('');
-  const [billingCity, setBillingCity] = useState('');
-  const [billingPostalCode, setBillingPostalCode] = useState('');
-  const [billingCountry, setBillingCountry] = useState('');
-  const [useBillingAddress, setUseBillingAddress] = useState(true);
+
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [shippingStreet, setShippingStreet] = useState('');
   const [shippingCity, setShippingCity] = useState('');
   const [shippingPostalCode, setShippingPostalCode] = useState('');
   const [shippingCountry, setShippingCountry] = useState('');
+
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
+  const [billingStreet, setBillingStreet] = useState('');
+  const [billingCity, setBillingCity] = useState('');
+  const [billingPostalCode, setBillingPostalCode] = useState('');
+  const [billingCountry, setBillingCountry] = useState('');
+
+  const [useBillingAddress, setUseBillingAddress] = useState(true);
+  
   
   const errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
 
@@ -82,22 +85,30 @@ export function SignUpPage(): JSX.Element {
     //валидацию, если надо ещё, то добавлять сюда
     console.log(email, password, firstName, lastName, dateOfBirth);
 
+    const shippingAddress = {
+      streetName: shippingStreet,
+      city: shippingCity,
+      postalCode: shippingPostalCode,
+      country: shippingCountry,
+    };
+
+    const billingAddress = {
+      streetName: billingStreet,
+      city: billingCity,
+      postalCode: billingPostalCode,
+      country: billingCountry, 
+    };
+
+
     const payload = {
       email, password, firstName, lastName, dateOfBirth,
       addresses: [
-        {
-          streetName: shippingStreet,
-          city: shippingCity,
-          postalCode: shippingPostalCode,
-          country: shippingCountry,
-        } as BaseAddress,
-        {
-          streetName: billingStreet,
-          city: billingCity,
-          postalCode: billingPostalCode,
-          country: billingCountry,  
-        } as BaseAddress
-      ]
+        shippingAddress
+      ],
+      shippingAddress: [0],
+      defaultShippingAddress: defaultShippingAddress ? 0 : undefined,
+      billingAddress: [0],
+      defaultBillingAddress: defaultBillingAddress ? 1 : undefined
     };
 
     apiRoot.customers()
@@ -216,10 +227,18 @@ export function SignUpPage(): JSX.Element {
             list="country-list"
           />
           <datalist id="country-list">
-            {countries.map((country) => (
+            {COUNTRIES.map((country: string) => (
               <option value={country} key={country} />
             ))}
           </datalist>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            checked={defaultShippingAddress}
+            onChange={(e) => setDefaultShippingAddress(e.target.checked)}
+          />
+          <label>Set as default shipping address</label>
         </div>
         <div>
           <input
@@ -271,10 +290,18 @@ export function SignUpPage(): JSX.Element {
                 list="country-list"
               />
               <datalist id="country-list">
-                {countries.map((country) => (
+                {COUNTRIES.map((country: string) => (
                   <option value={country} key={country} />
                 ))}
               </datalist>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={defaultBillingAddress}
+                onChange={(e) => setDefaultBillingAddress(e.target.checked)}
+              />
+              <label>Set as default billing address</label>
             </div>
           </div>
         )}

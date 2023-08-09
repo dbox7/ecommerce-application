@@ -7,7 +7,6 @@ import {
 } from '@commercetools/sdk-client-v2';
 
 import { 
-  ApiRoot, 
   createApiBuilderFromCtpClient 
 } from '@commercetools/platform-sdk';
 
