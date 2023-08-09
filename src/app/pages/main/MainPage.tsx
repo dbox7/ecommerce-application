@@ -7,10 +7,10 @@ export function MainPage() {
     <nav>
       <ul>
         <li>
-          <Link to="/login">Login Page</Link>
+          <Link to="/login">Log in</Link>
         </li>
         <li>
-          <Link to="/registration">Registration Page</Link>
+          <Link to="/signup">Sign up</Link>
         </li>
       </ul>
     </nav>

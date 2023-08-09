@@ -3,10 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { apiRoot } from './app/ctp';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+apiRoot.customers().post({body: {
+  email: '123email@gmail.com',
+  password: '123',
+  firstName: 'aaa',
+  lastName: 'bbbb'
+}}).execute()
+  .then(console.log)
+  .catch(console.error);
 
 root.render(
   <React.StrictMode>
