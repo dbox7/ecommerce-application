@@ -7,11 +7,13 @@ import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
 import './App.css';
+import { Header } from './app/components/header/Header';
 
 function App() {  
   
   return (
     <BrowserRouter>
+      <Header/>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="login" element={<LoginPage />} />
