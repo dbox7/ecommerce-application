@@ -8,4 +8,12 @@ export interface IButtonProps {
 export interface IInputProps {
   value: string;
   changeHandler: React.ChangeEventHandler;
+  blurHandler: React.FocusEventHandler;
+  activeState: boolean;
+  valid: IValidation;
+}
+
+export interface IValidation {
+  isEmpty: boolean;
+  isEmailGood?: boolean;
 }

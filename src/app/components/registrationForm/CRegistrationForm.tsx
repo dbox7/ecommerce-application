@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { apiRoot } from '../../ctp';
+import useInput from '../../services/customHooks/useImport';
 
 import { COUNTRIES } from '../../utils/constants';
 import SensitiveMessages from '../../SensetiveMessages';
@@ -16,7 +17,7 @@ const CRegistrationForm = () => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -143,6 +144,8 @@ const CRegistrationForm = () => {
 
   };
 
+  const email = useInput('');
+
   return (
     <div>
       <h1>Registration</h1>
@@ -151,8 +154,7 @@ const CRegistrationForm = () => {
         onSubmit={handleSubmit}
       >
         <CEmail 
-          value={email}
-          changeHandler={(e) => handleInputChange('email', (e.target as HTMLInputElement).value)}
+          {...email}
         />
         <CPassword 
           value={password}
