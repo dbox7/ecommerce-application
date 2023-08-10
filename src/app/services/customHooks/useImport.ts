@@ -12,12 +12,14 @@ const useInput = (initialValue: string, type: string) => {
     
     setValue((event.target as HTMLInputElement).value);
     setActiveState(true);
-
+  
   };
 
   const blurHandler = (event: React.ChangeEvent) => {
 
     setActiveState(false);
+    console.log('ffff');
+    
     
   };
 

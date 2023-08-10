@@ -14,6 +14,10 @@ const rules: IValidationRules = {
     isEmpty: true,
     isPasswordGood: false,
     minLength: 8
+  },
+  date: {
+    isEmpty: true,
+    isDateGood: false
   }
 };
 
@@ -22,6 +26,7 @@ const useValidation = (value: string, type: string) => {
   const [isEmpty, setEmpty] = useState(true);
   const [isEmailGood, setEmailGood] = useState(false);
   const [isPasswordGood, setPasswordGood] = useState(false);
+  const [isDateGood, setDateGood] = useState(false);
 
   useEffect(() => {
 
@@ -60,6 +65,18 @@ const useValidation = (value: string, type: string) => {
         break;
 
       }
+
+      case 'isDateGood': {
+
+        const MS_IN_YEAR = 31536000000;
+        const age = Math.floor((Date.now() - Date.parse(value)) / MS_IN_YEAR);
+
+        age >= 14 ? setDateGood(true) : setDateGood(false);
+        console.log(age);
+        
+        break;
+      
+      }
       
       }
 
@@ -71,6 +88,7 @@ const useValidation = (value: string, type: string) => {
     isEmpty,
     isEmailGood,
     isPasswordGood,
+    isDateGood,
   };
 
 };

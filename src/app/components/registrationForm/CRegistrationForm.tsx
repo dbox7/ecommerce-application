@@ -21,7 +21,7 @@ const CRegistrationForm = () => {
   // const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  // const [dateOfBirth, setDateOfBirth] = useState('');
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [shippingStreet, setShippingStreet] = useState('');
@@ -146,6 +146,7 @@ const CRegistrationForm = () => {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
+  const dateOfBirth = useInput('', 'date');  
 
   return (
     <div>
@@ -160,7 +161,7 @@ const CRegistrationForm = () => {
         <CPassword 
           {...password}
         />
-        <CTextDateInput 
+        {/* <CTextDateInput 
           value={firstName}
           changeHandler={(e) => handleInputChange('firstName', (e.target as HTMLInputElement).value)}
           title="First name"
@@ -169,16 +170,15 @@ const CRegistrationForm = () => {
           value={lastName}
           changeHandler={(e) => handleInputChange('lastName', (e.target as HTMLInputElement).value)}
           title="Last name"
-        />
+        /> */}
         <CTextDateInput 
-          value={dateOfBirth}
-          changeHandler={(e) => handleInputChange('dateOfBirth', (e.target as HTMLInputElement).value)}
+          {...dateOfBirth}
           title="Date of birth"
           data={null}
           isDate={true}
         />
         <p>Enter the shipping address:</p>
-        <CTextDateInput 
+        {/* <CTextDateInput 
           value={shippingStreet}
           changeHandler={(e) => handleInputChange('shippingStreet', (e.target as HTMLInputElement).value)}
           title="Street"
@@ -187,17 +187,17 @@ const CRegistrationForm = () => {
           value={shippingCity}
           changeHandler={(e) => handleInputChange('shippingCity', (e.target as HTMLInputElement).value)}
           title="City"
-        />
+        /> */}
         <CPostalCode 
           value={shippingPostalCode}
           changeHandler={(e) => handleInputChange('shippingPostalCode', (e.target as HTMLInputElement).value)}
         />
-        <CTextDateInput 
+        {/* <CTextDateInput 
           value={shippingCountry}
           changeHandler={(e) => handleInputChange('shippingCountry', (e.target as HTMLInputElement).value)}
           title="Country"
           data={COUNTRIES}
-        />
+        /> */}
         <CCheckbox 
           title="Set as default shipping address"
           checked={defaultShippingAddress}
@@ -211,7 +211,7 @@ const CRegistrationForm = () => {
         {!useBillingAddress && (
           <div className="registration">
             <p>Enter the billing address:</p>
-            <CTextDateInput 
+            {/* <CTextDateInput 
               value={billingStreet}
               changeHandler={(e) => handleInputChange('billingStreet', (e.target as HTMLInputElement).value)}
               title="Street"
@@ -220,17 +220,17 @@ const CRegistrationForm = () => {
               value={billingCity}
               changeHandler={(e) => handleInputChange('billingCity', (e.target as HTMLInputElement).value)}
               title="City"
-            />
+            /> */}
             <CPostalCode 
               value={billingPostalCode}
               changeHandler={(e) => handleInputChange('billingPostalCode', (e.target as HTMLInputElement).value)}
             />
-            <CTextDateInput 
+            {/* <CTextDateInput 
               value={billingCountry}
               changeHandler={(e) => handleInputChange('billingCountry', (e.target as HTMLInputElement).value)}
               title="Country"
               data={COUNTRIES}
-            />
+            /> */}
             <CCheckbox 
               title="Set as default billing address"
               checked={defaultBillingAddress}

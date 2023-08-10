@@ -8,28 +8,45 @@ type ITextDateInputProps = IInputProps & {
   isDate?: boolean;
 }
 
-const CTextDateInput: FC<ITextDateInputProps> = (props) => {
+const CTextDateInput: FC<ITextDateInputProps> = ({
+  value, 
+  changeHandler, 
+  blurHandler, 
+  activeState, 
+  valid, 
+  title, 
+  data, 
+  isDate
+}) => {
 
-  const type = props.isDate ? 'date' : 'text';
+  const type = isDate ? 'date' : 'text';
+  
+  console.log(!valid.isDateGood, !activeState, isDate);
+  
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">{props.title}</label>
+      <label className="input-title">{title}</label>
       <input
         className="input"
         type={type}
-        value={props.value}
-        onChange={props.changeHandler}
+        value={value}
+        onChange={changeHandler}
         required
         list="list"
       />
-      {props.data ? (
+
+      {data ? (
         <datalist id="list">
-          {props.data.map((item: string) => (
+          {data.map((item: string) => (
             <option value={item} key={item} />
           ))}
         </datalist>
       ) : ('')}
+
+      {!valid.isDateGood && !activeState && isDate && 
+      <div className="out-error">You too young</div>}
+
     </div>
   );
 
