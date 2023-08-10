@@ -30,10 +30,9 @@ const CEmail: FC<IInputProps> = ({value, changeHandler, blurHandler, activeState
         onChange={changeHandler}
         onBlur={blurHandler}
         title="A properly formatted email address (e.g., example@email.com)"
-        required
       />
-      {valid.isEmpty && !activeState && <div>Not empty</div>}
-      {!valid.isEmailGood && !activeState && <div>Enter right email</div>}
+      {/* {valid.isEmpty && !activeState && <div>Not empty</div>} */}
+      {!valid.isEmailGood && !activeState && <div className="out-error">Enter right email</div>}
     </div>
   );
 

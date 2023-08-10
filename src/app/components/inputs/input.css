@@ -1,6 +1,7 @@
 @import "../../utils/constants.css";
 
 .input-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,4 +28,9 @@
 .input.error {
   border-color: red;
   outline: 2px solid red;
+}
+
+.out-error {
+  position: absolute;
+  bottom: -25px;
 }

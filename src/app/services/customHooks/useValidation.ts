@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { IValidation } from '../../utils/types';
 
 interface IValidationRules {
-  [index: string]: object
+  [index: string]: IValidation
 }
 
 const rules: IValidationRules = {
@@ -11,7 +12,8 @@ const rules: IValidationRules = {
   },
   password: {
     isEmpty: true,
-    isPasswordGood: false
+    isPasswordGood: false,
+    minLength: 8
   }
 };
 
@@ -39,6 +41,13 @@ const useValidation = (value: string, type: string) => {
         const REGEXP = /^\S+@\S+\.\S+$/;
 
         REGEXP.test(value) ? setEmailGood(true) : setEmailGood(false);
+        break;
+
+      }
+
+      case 'minLength': {
+
+        value.length >= rules[type].minLength! ? setPasswordGood(true) : setPasswordGood(false);
         break;
 
       }

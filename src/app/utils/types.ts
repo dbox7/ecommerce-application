@@ -16,4 +16,6 @@ export interface IInputProps {
 export interface IValidation {
   isEmpty: boolean;
   isEmailGood?: boolean;
+  isPasswordGood?: boolean;
+  minLength?: number;
 }
