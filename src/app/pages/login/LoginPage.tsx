@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { apiRoot } from '../../ctp';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import './LoginPage.css';
@@ -102,6 +103,7 @@ export function LoginPage() {
           />
         </div>
         <button type="submit">Log me in</button>
+        <div>don't have an account yet? so <Link to="/signup">Sign up</Link> </div>
       </form>
     </div>
   );
