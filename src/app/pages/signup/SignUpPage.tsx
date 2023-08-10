@@ -108,7 +108,8 @@ export function SignUpPage(): JSX.Element {
       shippingAddress: [0],
       defaultShippingAddress: defaultShippingAddress ? 0 : undefined,
       billingAddress: [0],
-      defaultBillingAddress: defaultBillingAddress ? 0 : undefined
+      defaultBillingAddress: defaultBillingAddress ? 0 : undefined,
+      isEmailVerified: true
     };
 
     apiRoot.customers()
