@@ -144,7 +144,7 @@ const CRegistrationForm = () => {
 
   };
 
-  const email = useInput('');
+  const email = useInput('', 'email');
 
   return (
     <div>

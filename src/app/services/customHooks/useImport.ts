@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import useEmailValidation from './useEmailValidation';
+import useValidation from './useValidation';
 
-const useInput = (initialValue: string) => {
+const useInput = (initialValue: string, type: string) => {
 
   const [value, setValue] = useState(initialValue);
   const [activeState, setActiveState] = useState(true);
-  const valid = useEmailValidation(value);
+  
+  const valid = useValidation(value, type);
 
   const changeHandler = (event: React.ChangeEvent) => {
     
