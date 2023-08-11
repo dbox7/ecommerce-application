@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 export function MainPage() {
 
+  const data = ['1', '2'];
+
   return (
     <nav>
       <ul>
