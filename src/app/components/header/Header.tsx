@@ -1,19 +1,18 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useUserContext } from '../../store/UserContext';
 
-export function Header(): JSX.Element {
+export default function Header(): JSX.Element {
+
+  const { user, setUser } = useUserContext();
+
+
+  const handleLogout = (): void => {
+
+    localStorage.removeItem('user');
+    setUser(false);
   
-  const [user, setUser] = useState<boolean>(false);
+  };
 
-  useEffect(() => {
-    
-    const storedUser = localStorage.getItem('user');
-
-    setUser(!!storedUser);
-
-    // Здесь можно также добавить дополнительную логику, связанную с авторизацией
-
-  }, []);
 
   return (
     <header>
@@ -32,7 +31,7 @@ export function Header(): JSX.Element {
           </ul>  
           :
           <ul>
-            <button>Log out</button>
+            <button onClick={handleLogout}>Log out</button>
           </ul>  
         }
       </nav>
