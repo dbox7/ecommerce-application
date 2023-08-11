@@ -1,7 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
 
-const CEmail: FC<IInputProps> = ({value, changeHandler, blurHandler, activeState, valid}) => {
+const CEmail: FC<IInputProps> = ({
+  value, 
+  changeHandler, 
+  blurHandler, 
+  activeState, 
+  valid
+}) => {
 
   const [error, setError] = useState('');
 
@@ -15,9 +21,9 @@ const CEmail: FC<IInputProps> = ({value, changeHandler, blurHandler, activeState
       setError('');
 
   }, [
-    valid.isEmpty, 
+    activeState, 
     valid.isEmailGood, 
-    activeState
+    valid.isEmpty
   ]);
 
   return ( 
@@ -31,8 +37,13 @@ const CEmail: FC<IInputProps> = ({value, changeHandler, blurHandler, activeState
         onBlur={blurHandler}
         title="A properly formatted email address (e.g., example@email.com)"
       />
-      {/* {valid.isEmpty && !activeState && <div>Not empty</div>} */}
-      {!valid.isEmailGood && !activeState && <div className="out-error">Enter right email</div>}
+
+      {valid.isEmpty && !activeState &&
+      <div className="out-error">Not be an empty</div>}
+
+      {!valid.isEmailGood && !activeState && 
+      <div className="out-error">Enter right email</div>}
+
     </div>
   );
 

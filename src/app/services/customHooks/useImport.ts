@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import useValidation from './useValidation';
+import { IInputProps } from '../../utils/types';
 
-const useInput = (initialValue: string, type: string) => {
+const useInput = (initialValue: string, type: string): IInputProps => {
 
   const [value, setValue] = useState(initialValue);
   const [activeState, setActiveState] = useState(true);

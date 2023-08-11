@@ -24,71 +24,72 @@ const CRegistrationForm = () => {
   // const [dateOfBirth, setDateOfBirth] = useState('');
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
-  const [shippingStreet, setShippingStreet] = useState('');
-  const [shippingCity, setShippingCity] = useState('');
-  const [shippingPostalCode, setShippingPostalCode] = useState('');
-  const [shippingCountry, setShippingCountry] = useState('');
+  // const [shippingStreet, setShippingStreet] = useState('');
+  // const [shippingCity, setShippingCity] = useState('');
+  // const [shippingPostalCode, setShippingPostalCode] = useState('');
+  // const [shippingCountry, setShippingCountry] = useState('');
 
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
-  const [billingStreet, setBillingStreet] = useState('');
-  const [billingCity, setBillingCity] = useState('');
-  const [billingPostalCode, setBillingPostalCode] = useState('');
-  const [billingCountry, setBillingCountry] = useState('');
+  // const [billingStreet, setBillingStreet] = useState('');
+  // const [billingCity, setBillingCity] = useState('');
+  // const [billingPostalCode, setBillingPostalCode] = useState('');
+  // const [billingCountry, setBillingCountry] = useState('');
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
 
   const errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
 
-  const handleInputChange = (field: string, value: string) => {
+  // const handleInputChange = (field: string, value: string) => {
 
-    switch (field) {
+  //   switch (field) {
 
-    case 'email':
-      setEmail(value);
-      break;
-    case 'password':
-      setPassword(value);
-      break;
-    case 'firstName':
-      setFirstName(value);
-      break;
-    case 'lastName':
-      setLastName(value);
-      break;
-    case 'dateOfBirth':
-      setDateOfBirth(value);
-      break;
-    case 'billingStreet':
-      setBillingStreet(value);
-      break;
-    case 'billingCity':
-      setBillingCity(value);
-      break;
-    case 'billingPostalCode':
-      setBillingPostalCode(value);
-      break;
-    case 'billingCountry':
-      setBillingCountry(value);
-      break;
-    case 'shippingStreet':
-      setShippingStreet(value);
-      break;
-    case 'shippingCity':
-      setShippingCity(value);
-      break;
-    case 'shippingPostalCode':
-      setShippingPostalCode(value);
-      break;
-    case 'shippingCountry':
-      setShippingCountry(value);
-      break;
-    default:
-      break;
+  //   case 'email':
+  //     setEmail(value);
+  //     break;
+  //   case 'password':
+  //     setPassword(value);
+  //     break;
+  //   case 'firstName':
+  //     setFirstName(value);
+  //     break;
+  //   case 'lastName':
+  //     setLastName(value);
+  //     break;
+  //   case 'dateOfBirth':
+  //     setDateOfBirth(value);
+  //     break;
+  //   case 'billingStreet':
+  //     setBillingStreet(value);
+  //     break;
+  //   case 'billingCity':
+  //     setBillingCity(value);
+  //     break;
+  //   case 'billingPostalCode':
+  //     setBillingPostalCode(value);
+  //     break;
+  //   case 'billingCountry':
+  //     setBillingCountry(value);
+  //     break;
+  //   case 'shippingStreet':
+  //     setShippingStreet(value);
+  //     break;
+  //   case 'shippingCity':
+  //     setShippingCity(value);
+  //     break;
+  //   case 'shippingPostalCode':
+  //     setShippingPostalCode(value);
+  //     break;
+  //   case 'shippingCountry':
+  //     setShippingCountry(value);
+  //     break;
+  //   default:
+  //     break;
     
-    }
+  //   }
 
-  };
+  // };
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
@@ -96,10 +97,10 @@ const CRegistrationForm = () => {
     console.log(email, password, firstName, lastName, dateOfBirth);
 
     const shippingAddress = {
-      streetName: shippingStreet,
-      city: shippingCity,
-      postalCode: shippingPostalCode,
-      country: shippingCountry,
+      streetName: shippingStreet.value,
+      city: shippingCity.value,
+      postalCode: shippingPostalCode.value,
+      country: shippingCountry.value,
     };
 
     const billingAddress = {
@@ -111,7 +112,11 @@ const CRegistrationForm = () => {
 
 
     const payload = {
-      email, password, firstName, lastName, dateOfBirth,
+      email: email.value, 
+      password: password.value, 
+      firstName: firstName.value, 
+      lastName: lastName.value, 
+      dateOfBirth: dateOfBirth.value,
       addresses: [
         shippingAddress
       ],
@@ -149,6 +154,16 @@ const CRegistrationForm = () => {
   const dateOfBirth = useInput(`${Date.now()}`, 'date');  
   const firstName = useInput('', 'text');
   const lastName = useInput('', 'text');
+  
+  const shippingStreet = useInput('', 'text');
+  const shippingCity = useInput('', 'text');
+  const shippingPostalCode = useInput('', 'postalCode');
+  const shippingCountry = useInput('', 'text');
+
+  const billingStreet = useInput('', 'text');
+  const billingCity = useInput('', 'text');
+  const billingPostalCode = useInput('', 'postalCode');
+  const billingCountry = useInput('', 'text');
 
   return (
     <div>
@@ -178,26 +193,23 @@ const CRegistrationForm = () => {
           isDate={true}
         />
         <p>Enter the shipping address:</p>
-        {/* <CTextDateInput 
-          value={shippingStreet}
-          changeHandler={(e) => handleInputChange('shippingStreet', (e.target as HTMLInputElement).value)}
+        <CTextDateInput 
+          {...shippingStreet}
           title="Street"
         />
         <CTextDateInput 
-          value={shippingCity}
-          changeHandler={(e) => handleInputChange('shippingCity', (e.target as HTMLInputElement).value)}
+          {...shippingCity}
           title="City"
-        /> */}
-        <CPostalCode 
-          value={shippingPostalCode}
-          changeHandler={(e) => handleInputChange('shippingPostalCode', (e.target as HTMLInputElement).value)}
         />
-        {/* <CTextDateInput 
-          value={shippingCountry}
-          changeHandler={(e) => handleInputChange('shippingCountry', (e.target as HTMLInputElement).value)}
+        <CPostalCode 
+          {...shippingPostalCode}
+          country={shippingCountry.value}
+        />
+        <CTextDateInput 
+          {...shippingCountry}
           title="Country"
           data={COUNTRIES}
-        /> */}
+        />
         <CCheckbox 
           title="Set as default shipping address"
           checked={defaultShippingAddress}
@@ -211,26 +223,23 @@ const CRegistrationForm = () => {
         {!useBillingAddress && (
           <div className="registration">
             <p>Enter the billing address:</p>
-            {/* <CTextDateInput 
-              value={billingStreet}
-              changeHandler={(e) => handleInputChange('billingStreet', (e.target as HTMLInputElement).value)}
+            <CTextDateInput 
+              {...billingStreet}
               title="Street"
             />
             <CTextDateInput 
-              value={billingCity}
-              changeHandler={(e) => handleInputChange('billingCity', (e.target as HTMLInputElement).value)}
+              {...billingCity}
               title="City"
-            /> */}
-            <CPostalCode 
-              value={billingPostalCode}
-              changeHandler={(e) => handleInputChange('billingPostalCode', (e.target as HTMLInputElement).value)}
             />
-            {/* <CTextDateInput 
-              value={billingCountry}
-              changeHandler={(e) => handleInputChange('billingCountry', (e.target as HTMLInputElement).value)}
+            <CPostalCode 
+              {...billingPostalCode}
+              country={billingCountry.value}
+            />
+            <CTextDateInput 
+              {...billingCountry}
               title="Country"
               data={COUNTRIES}
-            /> */}
+            />
             <CCheckbox 
               title="Set as default billing address"
               checked={defaultBillingAddress}

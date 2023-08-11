@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IValidation } from '../../utils/types';
+import { COUNTRIES } from '../../utils/constants';
 
 interface IValidationRules {
   [index: string]: IValidation
@@ -13,7 +14,7 @@ const rules: IValidationRules = {
   password: {
     isEmpty: true,
     isPasswordGood: false,
-    isMinLength: 8
+    minLength: 8
   },
   date: {
     isEmpty: true,
@@ -22,10 +23,14 @@ const rules: IValidationRules = {
   text: {
     isEmpty: true,
     isTextGood: false,
+  },
+  postalCode: {
+    isEmpty: true,
+    isPostalCodeGood: false,
   }
 };
 
-const useValidation = (value: string, type: string) => {
+const useValidation = (value: string, type: string): IValidation => {
 
   const [isEmpty, setEmpty] = useState(true);
   const [isEmailGood, setEmailGood] = useState(false);
@@ -33,6 +38,7 @@ const useValidation = (value: string, type: string) => {
   const [isDateGood, setDateGood] = useState(false);
   const [isTextGood, setTextGood] = useState(false);
   const [isMinLength, setMinLength] = useState(false);
+  const [isPostalCodeGood, setPostalCodeGood] = useState(false);
 
   useEffect(() => {
 
@@ -56,19 +62,16 @@ const useValidation = (value: string, type: string) => {
 
       }
 
-      case 'isMinLength': {
+      case 'minLength': {
 
-        value.length >= rules[type].isMinLength! ? setMinLength(true) : setMinLength(false);
+        value.length >= rules[type].minLength! ? setMinLength(true) : setMinLength(false);
         break;
 
       }
 
       case 'isPasswordGood': {
         
-        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-
-        console.log(value);
-        
+        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;        
 
         REGEXP.test(value) ? setPasswordGood(true) : setPasswordGood(false);
         break;
@@ -94,6 +97,16 @@ const useValidation = (value: string, type: string) => {
         break;
 
       }
+
+      case 'isPostalCodeGood': {
+
+        const res = COUNTRIES.some((country) => country.postalCode.test(value));
+
+        res ? setPostalCodeGood(true) : setPostalCodeGood(false);
+        break;
+
+      }
+      
       
       }
 
@@ -107,7 +120,8 @@ const useValidation = (value: string, type: string) => {
     isPasswordGood,
     isDateGood,
     isTextGood,
-    isMinLength
+    isMinLength,
+    isPostalCodeGood
   };
 
 };

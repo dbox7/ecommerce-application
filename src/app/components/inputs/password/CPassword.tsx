@@ -1,7 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
 
-const CPassword: FC<IInputProps> = ({value, changeHandler, blurHandler, activeState, valid}) => {
+const CPassword: FC<IInputProps> = ({
+  value, 
+  changeHandler, 
+  blurHandler, 
+  activeState, 
+  valid
+}) => {
 
   const [error, setError] = useState('');
 
@@ -15,7 +21,9 @@ const CPassword: FC<IInputProps> = ({value, changeHandler, blurHandler, activeSt
       setError('');
 
   }, [
-    activeState
+    activeState, 
+    valid.isEmpty, 
+    valid.isPasswordGood
   ]);
 
   return ( 

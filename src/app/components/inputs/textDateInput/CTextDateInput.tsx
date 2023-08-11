@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import '../input.css';
-import { IInputProps } from '../../../utils/types';
+import { ICountry, IInputProps } from '../../../utils/types';
 
 type ITextDateInputProps = IInputProps & {
   title: string
-  data?: string[] | null;
+  data?: ICountry[] | null;
   isDate?: boolean;
 }
 
@@ -27,7 +27,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
     (valid.isEmpty || 
     (!valid.isDateGood && isDate) ||
-    !valid.isTextGood) && 
+    !valid.isTextGood && !isDate && (!title.toLowerCase().includes('street'))) && 
     !activeState ?
       setError('error')
       :
@@ -51,8 +51,8 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
       {data ? (
         <datalist id="list">
-          {data.map((item: string) => (
-            <option value={item} key={item} />
+          {data.map((item: ICountry) => (
+            <option value={item.name} key={item.name} />
           ))}
         </datalist>
       ) : ('')}
@@ -63,7 +63,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
       {!valid.isDateGood && !activeState && isDate && !valid.isEmpty &&
       <div className="out-error">You too young</div>}
 
-      {!valid.isTextGood && !activeState && !isDate && !valid.isEmpty &&
+      {!valid.isTextGood && !activeState && !isDate && !valid.isEmpty && (title !== 'Street') &&
       <div className="out-error">Don't use numbers or special chars</div>}
 
     </div>

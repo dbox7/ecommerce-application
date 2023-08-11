@@ -19,5 +19,13 @@ export interface IValidation {
   isPasswordGood?: boolean;
   isDateGood?: boolean;
   isTextGood?: boolean;
-  isMinLength?: number;
+  isMinLength?: boolean;
+  isPostalCodeGood?: boolean;
+  minLength?: number;
+}
+
+export interface ICountry {
+  name: string,
+  code: string,
+  postalCode: RegExp
 }
