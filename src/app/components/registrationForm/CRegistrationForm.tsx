@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { apiRoot } from '../../ctp';
 import useInput from '../../services/customHooks/useImport';
 
@@ -15,7 +15,7 @@ import './CRegistrationForm.css';
 
 const CRegistrationForm = () => {
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState(true);
 
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -154,7 +154,7 @@ const CRegistrationForm = () => {
   const dateOfBirth = useInput(`${Date.now()}`, 'date');  
   const firstName = useInput('', 'text');
   const lastName = useInput('', 'text');
-  
+
   const shippingStreet = useInput('', 'text');
   const shippingCity = useInput('', 'text');
   const shippingPostalCode = useInput('', 'postalCode');
