@@ -46,7 +46,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         value={value}
         onChange={changeHandler}
         onBlur={blurHandler}
-        list="list"
+        list={data ? 'list' : undefined}
       />
 
       {data ? (
