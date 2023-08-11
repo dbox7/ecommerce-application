@@ -12,6 +12,18 @@ import './App.css';
 
 function App() {
 
+  let initUser = localStorage.currentUser;
+
+  if (initUser) {
+
+    initUser = JSON.parse(initUser);
+
+  } else {
+
+    initUser = anonUser;
+    
+  }
+
   const [user, setUser] = useState<Customer>(anonUser);
 
   return (

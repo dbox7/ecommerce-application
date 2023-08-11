@@ -61,7 +61,8 @@ export const CLoginForm = () => {
       .execute()
 
       .then(data => {
-
+        
+        localStorage.currentUser = JSON.stringify(data.body.customer);
         setUser(data.body.customer);
         navigate('/');
 
