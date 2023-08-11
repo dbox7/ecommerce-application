@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import { apiRoot } from '../../ctp';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useUserContext } from '../../store/UserContext';
-import './LoginPage.css';
+
+import { CLoginForm } from '../../components/loginForm/CLoginForm';
+
+
 
 
 export function LoginPage(): JSX.Element {
@@ -81,33 +78,9 @@ export function LoginPage(): JSX.Element {
 
 
   return (
-    <div>
-      <h1>Log in Page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            title="A properly formatted email address (e.g., example@email.com)"
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>  
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => handleInputChange('password', e.target.value)}
-            title="A password of at least 8 characters"
-            required
-          />
-        </div>
-        <button type="submit">Log me in</button>
-        <div>don't have an account yet? so <Link to="/signup">Sign up</Link> </div>
-      </form>
-    </div>
+
+    <CLoginForm />
   );
 
-} 
+};
+
