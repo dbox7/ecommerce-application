@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import '../input.css';
 import { IInputProps } from '../../../utils/types';
 
@@ -21,18 +21,31 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   const type = isDate ? 'date' : 'text';
   
-  console.log(!valid.isDateGood, !activeState, isDate);
-  
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+
+    (valid.isEmpty || 
+    (!valid.isDateGood && isDate) ||
+    !valid.isTextGood) && 
+    !activeState ?
+      setError('error')
+      :
+      setError('');
+
+  }, [
+    activeState
+  ]);
 
   return ( 
     <div className="input-wrap">
       <label className="input-title">{title}</label>
       <input
-        className="input"
+        className={'input ' + error}
         type={type}
         value={value}
         onChange={changeHandler}
-        required
+        onBlur={blurHandler}
         list="list"
       />
 
@@ -44,8 +57,14 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         </datalist>
       ) : ('')}
 
-      {!valid.isDateGood && !activeState && isDate && 
+      {valid.isEmpty && !activeState &&
+      <div className="out-error">Not be an empty</div>}
+
+      {!valid.isDateGood && !activeState && isDate && !valid.isEmpty &&
       <div className="out-error">You too young</div>}
+
+      {!valid.isTextGood && !activeState && !isDate && !valid.isEmpty &&
+      <div className="out-error">Don't use numbers or special chars</div>}
 
     </div>
   );

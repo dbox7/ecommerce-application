@@ -19,8 +19,8 @@ const CRegistrationForm = () => {
 
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  // const [firstName, setFirstName] = useState('');
+  // const [lastName, setLastName] = useState('');
   // const [dateOfBirth, setDateOfBirth] = useState('');
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
@@ -146,7 +146,9 @@ const CRegistrationForm = () => {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
-  const dateOfBirth = useInput('', 'date');  
+  const dateOfBirth = useInput(`${Date.now()}`, 'date');  
+  const firstName = useInput('', 'text');
+  const lastName = useInput('', 'text');
 
   return (
     <div>
@@ -161,16 +163,14 @@ const CRegistrationForm = () => {
         <CPassword 
           {...password}
         />
-        {/* <CTextDateInput 
-          value={firstName}
-          changeHandler={(e) => handleInputChange('firstName', (e.target as HTMLInputElement).value)}
+        <CTextDateInput 
+          {...firstName}
           title="First name"
         />
         <CTextDateInput 
-          value={lastName}
-          changeHandler={(e) => handleInputChange('lastName', (e.target as HTMLInputElement).value)}
+          {...lastName}
           title="Last name"
-        /> */}
+        />
         <CTextDateInput 
           {...dateOfBirth}
           title="Date of birth"

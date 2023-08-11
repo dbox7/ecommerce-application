@@ -13,11 +13,15 @@ const rules: IValidationRules = {
   password: {
     isEmpty: true,
     isPasswordGood: false,
-    minLength: 8
+    isMinLength: 8
   },
   date: {
     isEmpty: true,
     isDateGood: false
+  },
+  text: {
+    isEmpty: true,
+    isTextGood: false,
   }
 };
 
@@ -27,6 +31,8 @@ const useValidation = (value: string, type: string) => {
   const [isEmailGood, setEmailGood] = useState(false);
   const [isPasswordGood, setPasswordGood] = useState(false);
   const [isDateGood, setDateGood] = useState(false);
+  const [isTextGood, setTextGood] = useState(false);
+  const [isMinLength, setMinLength] = useState(false);
 
   useEffect(() => {
 
@@ -50,16 +56,19 @@ const useValidation = (value: string, type: string) => {
 
       }
 
-      case 'minLength': {
+      case 'isMinLength': {
 
-        value.length >= rules[type].minLength! ? setPasswordGood(true) : setPasswordGood(false);
+        value.length >= rules[type].isMinLength! ? setMinLength(true) : setMinLength(false);
         break;
 
       }
 
       case 'isPasswordGood': {
         
-        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+        console.log(value);
+        
 
         REGEXP.test(value) ? setPasswordGood(true) : setPasswordGood(false);
         break;
@@ -72,10 +81,18 @@ const useValidation = (value: string, type: string) => {
         const age = Math.floor((Date.now() - Date.parse(value)) / MS_IN_YEAR);
 
         age >= 14 ? setDateGood(true) : setDateGood(false);
-        console.log(age);
         
         break;
       
+      }
+
+      case 'isTextGood': {
+
+        const REGEXP = /^[a-zA-Z]+$/;
+
+        REGEXP.test(value) ? setTextGood(true) : setTextGood(false);
+        break;
+
       }
       
       }
@@ -89,6 +106,8 @@ const useValidation = (value: string, type: string) => {
     isEmailGood,
     isPasswordGood,
     isDateGood,
+    isTextGood,
+    isMinLength
   };
 
 };

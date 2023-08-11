@@ -18,5 +18,6 @@ export interface IValidation {
   isEmailGood?: boolean;
   isPasswordGood?: boolean;
   isDateGood?: boolean;
-  minLength?: number;
+  isTextGood?: boolean;
+  isMinLength?: number;
 }

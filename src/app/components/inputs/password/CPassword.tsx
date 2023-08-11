@@ -15,8 +15,6 @@ const CPassword: FC<IInputProps> = ({value, changeHandler, blurHandler, activeSt
       setError('');
 
   }, [
-    valid.isEmpty, 
-    valid.isPasswordGood, 
     activeState
   ]);
 
@@ -31,8 +29,13 @@ const CPassword: FC<IInputProps> = ({value, changeHandler, blurHandler, activeSt
         onBlur={blurHandler}
         title="Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
       />
-      {/* {valid.isEmpty && !activeState && <div className="out-error">Not empty</div>} */}
-      {!valid.isPasswordGood && !activeState && <div className="out-error">Enter correct password</div>}
+
+      {!valid.isMinLength && !activeState &&
+      <div className="out-error">At least 8 characters</div>}
+
+      {!valid.isPasswordGood && !activeState && valid.isMinLength &&
+      <div className="out-error">Enter correct password</div>}
+
     </div>
   );
 

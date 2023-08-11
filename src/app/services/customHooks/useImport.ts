@@ -17,9 +17,7 @@ const useInput = (initialValue: string, type: string) => {
 
   const blurHandler = (event: React.ChangeEvent) => {
 
-    setActiveState(false);
-    console.log('ffff');
-    
+    setActiveState(false); 
     
   };
 
