@@ -9,15 +9,12 @@ import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';  
 
 import './App.css';
-import  Header from './app/components/header/Header';
-import { UserProvider } from './app/store/UserContext';
 
 function App() {
 
   const [user, setUser] = useState<Customer>(anonUser);
 
   return (
-
     <UserContext.Provider value={[user, setUser]}>
       <BrowserRouter>
         <Routes>
