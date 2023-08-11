@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { apiRoot } from '../../ctp';
 
 import { COUNTRIES } from '../../utils/constants';
@@ -10,9 +11,15 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
+import { UserContext } from '../contexts/UserContext';
+
 import './CRegistrationForm.css';
 
 const CRegistrationForm = () => {
+
+  const navigate = useNavigate();
+
+  const [user, setUser] = useContext(UserContext);
 
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -36,8 +43,17 @@ const CRegistrationForm = () => {
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
-
   const errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
+
+  useEffect(() => { //если юзер есть, то перенаправляем на главную
+
+    if (user.id) {
+
+      navigate('/');
+    
+    }
+  
+  }, [user]);
 
   const handleInputChange = (field: string, value: string) => {
 
@@ -238,6 +254,8 @@ const CRegistrationForm = () => {
         )}
         <CButton 
           value="Register"
+          type="submit"
+          disabled={false}
         />
       </form>
     </div>
