@@ -1,10 +1,11 @@
 @import "../../utils/constants.css";
 
 .input-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .input-title {
@@ -12,9 +13,9 @@
 }
 
 .input {
-  padding: 5px 10px;
+  padding: 3px 10px;
 
-  font-size: var(--sub-title);
+  font-size: var(--main-text);
   background-color: var(--basic-color);
   border: 1px solid var(--border-color);
 }
@@ -22,4 +23,19 @@
 .input:focus {
   border-color: var(--accent-color);
   outline: 2px solid var(--accent-color);
+}
+
+.input.error {
+  border-color: var(--error-color);
+  outline: 2px solid var(--error-color);
+}
+
+.out-error {
+  position: absolute;
+  padding: 0 3px;
+  left: -2px;
+  bottom: -17px;
+
+  font-size: 12px;
+  background-color: var(--error-color);
 }
