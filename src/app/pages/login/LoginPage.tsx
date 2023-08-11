@@ -69,16 +69,17 @@ export function LoginPage(): JSX.Element {
         localStorage.setItem('user', user);
         navigate('/');
         setUser(true);
-      
+
       })
       .catch((err) => {
-  
+
         console.log(err.message);
-        
+
       });
 
   };
-  
+
+
   return (
     <div>
       <h1>Log in Page</h1>

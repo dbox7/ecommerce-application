@@ -11,6 +11,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [user, setUser] = useState<boolean>(false);
 
+  console.log(user);
+
+  useEffect(() => {
+
+    const storedUser = localStorage.getItem('user');
+
+    setUser(!!storedUser);
+  
+  }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}
