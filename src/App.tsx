@@ -6,11 +6,10 @@ import { anonUser } from './app/utils/constants';
 import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
-import { NotFoundPage } from './app/pages/404/NotFoundPage';  
-
+import { NotFoundPage } from './app/pages/404/NotFoundPage';
 import './App.css';
-import  Header from './app/components/header/Header';
-import { UserProvider } from './app/store/UserContext';
+import Header from './app/components/header/Header';
+
 
 function App() {
 
@@ -20,10 +19,11 @@ function App() {
 
     <UserContext.Provider value={[user, setUser]}>
       <BrowserRouter>
+        <Header/>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignUpPage />} />  
+          <Route path="signup" element={<SignUpPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>

@@ -8,7 +8,7 @@ import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 
 import './CLoginForm.css';
-  
+
 export const CLoginForm = () => {
 
   const navigate = useNavigate();
@@ -25,10 +25,10 @@ export const CLoginForm = () => {
     if (user.id) {
 
       navigate('/');
-    
+
     }
-  
-  }, [user]); 
+
+  }, [navigate, user]);
 
 
   const handleInputChange = (field: string, value: string) => {
@@ -42,7 +42,7 @@ export const CLoginForm = () => {
     case 'password':
       setPassword(value);
       break;
-        
+
     }
 
   };
@@ -79,15 +79,15 @@ export const CLoginForm = () => {
   return (
     <div>
       <h1>Log in</h1>
-      <form 
+      <form
         className="login"
         onSubmit={handleSubmit}
       >
-        <CEmail 
+        <CEmail
           value={email}
           changeHandler={(e) => handleInputChange('email', (e.target as HTMLInputElement).value)}
         />
-        <CPassword 
+        <CPassword
           value={password}
           changeHandler={(e) => handleInputChange('password', (e.target as HTMLInputElement).value)}
         />
