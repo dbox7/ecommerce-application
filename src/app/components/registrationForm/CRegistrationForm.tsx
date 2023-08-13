@@ -17,6 +17,14 @@ import { UserContext } from '../contexts/UserContext';
 import './CRegistrationForm.css';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
+const getCountryCode = (countryName: string) => {
+  
+  const res = COUNTRIES.find((item) => item.name === countryName);
+
+  return res?.code;
+
+};
+
 const CRegistrationForm = () => {
 
   const navigate = useNavigate();
@@ -48,14 +56,14 @@ const CRegistrationForm = () => {
       streetName: shippingStreet.value,
       city: shippingCity.value,
       postalCode: shippingPostalCode.value,
-      country: shippingCountry.value,
+      country: getCountryCode(shippingCountry.value),
     };
 
     const billingAddress = {
-      streetName: billingStreet,
-      city: billingCity,
-      postalCode: billingPostalCode,
-      country: billingCountry, 
+      streetName: billingStreet.value,
+      city: billingCity.value,
+      postalCode: billingPostalCode.value,
+      country: getCountryCode(billingCountry.value), 
     };
 
     const payload = {
