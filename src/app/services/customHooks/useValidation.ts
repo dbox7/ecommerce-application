@@ -100,11 +100,7 @@ const useValidation = (value: string, type: string): IValidation => {
 
       case 'isPostalCodeGood': {
 
-        const res = COUNTRIES.some((country) => {
-
-          console.log(country.postalCode); country.postalCode.test(value);
-
-        });
+        const res = COUNTRIES.some((country) => country.postalCode.test(value));
 
         res ? setPostalCodeGood(true) : setPostalCodeGood(false);
         break;

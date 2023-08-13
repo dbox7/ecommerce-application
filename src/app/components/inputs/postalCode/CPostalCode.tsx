@@ -30,6 +30,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
 
   }, [
     activeState,
+    selectedCountry
   ]);
 
   return ( 
