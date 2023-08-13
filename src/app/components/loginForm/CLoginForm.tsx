@@ -3,18 +3,21 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/UserContext';
 
+import useInput from '../../services/customHooks/useImport';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 
 import './CLoginForm.css';
-
+  
 export const CLoginForm = () => {
 
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const email = useInput('', 'email');
+
+  console.log(email);
+  const password = useInput('', 'password');
   const [errors, setErrors] = useState<String[]>([]);
   const [user, setUser] = useContext(UserContext); // подключаемся к контексту
   const [formBlocked, setFormBlocked] = useState(false);
@@ -25,27 +28,10 @@ export const CLoginForm = () => {
     if (user.id) {
 
       navigate('/');
-
+    
     }
-
-  }, [navigate, user]);
-
-
-  const handleInputChange = (field: string, value: string) => {
-
-    switch (field) {
-
-    case 'email':
-      setEmail(value);
-      break;
-
-    case 'password':
-      setPassword(value);
-      break;
-
-    }
-
-  };
+  
+  }, [user]); 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -56,12 +42,13 @@ export const CLoginForm = () => {
     apiRoot
       .login()
       .post({
-        body: {email, password}
+        body: {email: email.value, password: password.value}
       })
       .execute()
 
       .then(data => {
 
+        localStorage.currentUser = JSON.stringify(data.body.customer);
         setUser(data.body.customer);
         navigate('/');
 
@@ -79,17 +66,15 @@ export const CLoginForm = () => {
   return (
     <div>
       <h1>Log in</h1>
-      <form
+      <form 
         className="login"
         onSubmit={handleSubmit}
       >
-        <CEmail
-          value={email}
-          changeHandler={(e) => handleInputChange('email', (e.target as HTMLInputElement).value)}
+        <CEmail 
+          {...email}
         />
-        <CPassword
-          value={password}
-          changeHandler={(e) => handleInputChange('password', (e.target as HTMLInputElement).value)}
+        <CPassword 
+          {...password}
         />
         <CButton
           type="submit"

@@ -1,35 +1,71 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import '../input.css';
-import { IInputProps } from '../../../utils/types';
+import { ICountry, IInputProps } from '../../../utils/types';
 
 type ITextDateInputProps = IInputProps & {
   title: string
-  data?: string[] | null;
+  data?: ICountry[] | null;
   isDate?: boolean;
 }
 
-const CTextDateInput: FC<ITextDateInputProps> = (props) => {
+const CTextDateInput: FC<ITextDateInputProps> = ({
+  value, 
+  changeHandler, 
+  blurHandler, 
+  activeState, 
+  valid, 
+  title, 
+  data, 
+  isDate
+}) => {
 
-  const type = props.isDate ? 'date' : 'text';
+  const type = isDate ? 'date' : 'text';
+  
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+
+    (valid.isEmpty || 
+    (!valid.isDateGood && isDate) ||
+    !valid.isTextGood && !isDate && (!title.toLowerCase().includes('street'))) && 
+    !activeState ?
+      setError('error')
+      :
+      setError('');
+
+  }, [
+    activeState
+  ]);
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">{props.title}</label>
+      <label className="input-title">{title}</label>
       <input
-        className="input"
+        className={'input ' + error}
         type={type}
-        value={props.value}
-        onChange={props.changeHandler}
-        required
-        list="list"
+        value={value}
+        onChange={changeHandler}
+        onBlur={blurHandler}
+        list={data ? 'list' : undefined}
       />
-      {props.data ? (
+
+      {data ? (
         <datalist id="list">
-          {props.data.map((item: string) => (
-            <option value={item} key={item} />
+          {data.map((item: ICountry) => (
+            <option value={item.name} key={item.name} />
           ))}
         </datalist>
       ) : ('')}
+
+      {valid.isEmpty && !activeState &&
+      <div className="out-error">Not be an empty</div>}
+
+      {!valid.isDateGood && !activeState && isDate && !valid.isEmpty &&
+      <div className="out-error">You too young</div>}
+
+      {!valid.isTextGood && !activeState && !isDate && !valid.isEmpty && (title !== 'Street') &&
+      <div className="out-error">Don't use numbers or special chars</div>}
+
     </div>
   );
 

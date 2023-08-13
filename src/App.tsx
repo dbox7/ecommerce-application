@@ -7,16 +7,27 @@ import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
-import './App.css';
 import Header from './app/components/header/Header';
+import './App.css';
 
 
 function App() {
 
+  let initUser = localStorage.currentUser;
+
+  if (initUser) {
+
+    initUser = JSON.parse(initUser);
+
+  } else {
+
+    initUser = anonUser;
+    
+  }
+
   const [user, setUser] = useState<Customer>(anonUser);
 
   return (
-
     <UserContext.Provider value={[user, setUser]}>
       <BrowserRouter>
         <Header/>
