@@ -1,7 +1,8 @@
+import { apiRoot } from '../../ctp';
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiRoot } from '../../ctp';
 
+import useInput from '../../services/customHooks/useImport';
 import { COUNTRIES } from '../../utils/constants';
 import SensitiveMessages from '../../SensetiveMessages';
 import CEmail from '../inputs/email/CEmail';
@@ -14,32 +15,15 @@ import CButton from '../button/CButton';
 import { UserContext } from '../contexts/UserContext';
 
 import './CRegistrationForm.css';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 
 const CRegistrationForm = () => {
 
   const navigate = useNavigate();
-
   const [user, setUser] = useContext(UserContext);
-
-  const [errorMsg, setErrorMsg] = useState('');
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
-
+  const [errorMsg, setErrorMsg] = useState(true);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
-  const [shippingStreet, setShippingStreet] = useState('');
-  const [shippingCity, setShippingCity] = useState('');
-  const [shippingPostalCode, setShippingPostalCode] = useState('');
-  const [shippingCountry, setShippingCountry] = useState('');
-
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
-  const [billingStreet, setBillingStreet] = useState('');
-  const [billingCity, setBillingCity] = useState('');
-  const [billingPostalCode, setBillingPostalCode] = useState('');
-  const [billingCountry, setBillingCountry] = useState('');
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
@@ -55,66 +39,16 @@ const CRegistrationForm = () => {
   
   }, [user]);
 
-  const handleInputChange = (field: string, value: string) => {
-
-    switch (field) {
-
-    case 'email':
-      setEmail(value);
-      break;
-    case 'password':
-      setPassword(value);
-      break;
-    case 'firstName':
-      setFirstName(value);
-      break;
-    case 'lastName':
-      setLastName(value);
-      break;
-    case 'dateOfBirth':
-      setDateOfBirth(value);
-      break;
-    case 'billingStreet':
-      setBillingStreet(value);
-      break;
-    case 'billingCity':
-      setBillingCity(value);
-      break;
-    case 'billingPostalCode':
-      setBillingPostalCode(value);
-      break;
-    case 'billingCountry':
-      setBillingCountry(value);
-      break;
-    case 'shippingStreet':
-      setShippingStreet(value);
-      break;
-    case 'shippingCity':
-      setShippingCity(value);
-      break;
-    case 'shippingPostalCode':
-      setShippingPostalCode(value);
-      break;
-    case 'shippingCountry':
-      setShippingCountry(value);
-      break;
-    default:
-      break;
-    
-    }
-
-  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    //валидацию, если надо ещё, то добавлять сюда
     console.log(email, password, firstName, lastName, dateOfBirth);
 
     const shippingAddress = {
-      streetName: shippingStreet,
-      city: shippingCity,
-      postalCode: shippingPostalCode,
-      country: shippingCountry,
+      streetName: shippingStreet.value,
+      city: shippingCity.value,
+      postalCode: shippingPostalCode.value,
+      country: shippingCountry.value,
     };
 
     const billingAddress = {
@@ -124,9 +58,12 @@ const CRegistrationForm = () => {
       country: billingCountry, 
     };
 
-
     const payload = {
-      email, password, firstName, lastName, dateOfBirth,
+      email: email.value, 
+      password: password.value, 
+      firstName: firstName.value, 
+      lastName: lastName.value, 
+      dateOfBirth: dateOfBirth.value,
       addresses: [
         shippingAddress
       ],
@@ -137,10 +74,12 @@ const CRegistrationForm = () => {
     };
 
     apiRoot.customers()
-      .post({body: payload})
+      .post({body: payload as CustomerDraft })
       .execute()
       .then((data) => {
 
+        setUser(data.body.customer);
+        navigate('/');
         console.log('SUCCESS');
         console.log(data);
       
@@ -148,7 +87,8 @@ const CRegistrationForm = () => {
       .catch((err) => {
 
         errors.add(err.message);
-      
+        console.error('Error sending POST /customers. Take a look at body.errors[x].detailedErrorMessage', err);
+
       });
 
   };
@@ -159,6 +99,22 @@ const CRegistrationForm = () => {
 
   };
 
+  const email = useInput('', 'email');
+  const password = useInput('', 'password');
+  const dateOfBirth = useInput(`${Date.now()}`, 'date');  
+  const firstName = useInput('', 'text');
+  const lastName = useInput('', 'text');
+
+  const shippingStreet = useInput('', 'text');
+  const shippingCity = useInput('', 'text');
+  const shippingPostalCode = useInput('', 'postalCode');
+  const shippingCountry = useInput('', 'text');
+
+  const billingStreet = useInput('', 'text');
+  const billingCity = useInput('', 'text');
+  const billingPostalCode = useInput('', 'postalCode');
+  const billingCountry = useInput('', 'text');
+
   return (
     <div>
       <h1>Registration</h1>
@@ -167,48 +123,40 @@ const CRegistrationForm = () => {
         onSubmit={handleSubmit}
       >
         <CEmail 
-          value={email}
-          changeHandler={(e) => handleInputChange('email', (e.target as HTMLInputElement).value)}
+          {...email}
         />
         <CPassword 
-          value={password}
-          changeHandler={(e) => handleInputChange('password', (e.target as HTMLInputElement).value)}
+          {...password}
         />
         <CTextDateInput 
-          value={firstName}
-          changeHandler={(e) => handleInputChange('firstName', (e.target as HTMLInputElement).value)}
+          {...firstName}
           title="First name"
         />
         <CTextDateInput 
-          value={lastName}
-          changeHandler={(e) => handleInputChange('lastName', (e.target as HTMLInputElement).value)}
+          {...lastName}
           title="Last name"
         />
         <CTextDateInput 
-          value={dateOfBirth}
-          changeHandler={(e) => handleInputChange('dateOfBirth', (e.target as HTMLInputElement).value)}
+          {...dateOfBirth}
           title="Date of birth"
           data={null}
           isDate={true}
         />
         <p>Enter the shipping address:</p>
         <CTextDateInput 
-          value={shippingStreet}
-          changeHandler={(e) => handleInputChange('shippingStreet', (e.target as HTMLInputElement).value)}
+          {...shippingStreet}
           title="Street"
         />
         <CTextDateInput 
-          value={shippingCity}
-          changeHandler={(e) => handleInputChange('shippingCity', (e.target as HTMLInputElement).value)}
+          {...shippingCity}
           title="City"
         />
         <CPostalCode 
-          value={shippingPostalCode}
-          changeHandler={(e) => handleInputChange('shippingPostalCode', (e.target as HTMLInputElement).value)}
+          {...shippingPostalCode}
+          country={shippingCountry.value}
         />
         <CTextDateInput 
-          value={shippingCountry}
-          changeHandler={(e) => handleInputChange('shippingCountry', (e.target as HTMLInputElement).value)}
+          {...shippingCountry}
           title="Country"
           data={COUNTRIES}
         />
@@ -226,22 +174,19 @@ const CRegistrationForm = () => {
           <div className="registration">
             <p>Enter the billing address:</p>
             <CTextDateInput 
-              value={billingStreet}
-              changeHandler={(e) => handleInputChange('billingStreet', (e.target as HTMLInputElement).value)}
+              {...billingStreet}
               title="Street"
             />
             <CTextDateInput 
-              value={billingCity}
-              changeHandler={(e) => handleInputChange('billingCity', (e.target as HTMLInputElement).value)}
+              {...billingCity}
               title="City"
             />
             <CPostalCode 
-              value={billingPostalCode}
-              changeHandler={(e) => handleInputChange('billingPostalCode', (e.target as HTMLInputElement).value)}
+              {...billingPostalCode}
+              country={billingCountry.value}
             />
             <CTextDateInput 
-              value={billingCountry}
-              changeHandler={(e) => handleInputChange('billingCountry', (e.target as HTMLInputElement).value)}
+              {...billingCountry}
               title="Country"
               data={COUNTRIES}
             />
