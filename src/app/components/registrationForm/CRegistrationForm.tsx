@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
 import { apiRoot } from '../../ctp';
-import useInput from '../../services/customHooks/useImport';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import useInput from '../../services/customHooks/useImport';
 import { COUNTRIES } from '../../utils/constants';
 import SensitiveMessages from '../../SensetiveMessages';
 import CEmail from '../inputs/email/CEmail';
@@ -11,89 +12,36 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
+import { UserContext } from '../contexts/UserContext';
+
 import './CRegistrationForm.css';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 
 const CRegistrationForm = () => {
 
+  const navigate = useNavigate();
+  const [user, setUser] = useContext(UserContext);
   const [errorMsg, setErrorMsg] = useState(true);
-
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
-  // const [dateOfBirth, setDateOfBirth] = useState('');
-
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
-  // const [shippingStreet, setShippingStreet] = useState('');
-  // const [shippingCity, setShippingCity] = useState('');
-  // const [shippingPostalCode, setShippingPostalCode] = useState('');
-  // const [shippingCountry, setShippingCountry] = useState('');
-
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
-  // const [billingStreet, setBillingStreet] = useState('');
-  // const [billingCity, setBillingCity] = useState('');
-  // const [billingPostalCode, setBillingPostalCode] = useState('');
-  // const [billingCountry, setBillingCountry] = useState('');
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
-
   const errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
 
-  // const handleInputChange = (field: string, value: string) => {
+  useEffect(() => { //если юзер есть, то перенаправляем на главную
 
-  //   switch (field) {
+    if (user.id) {
 
-  //   case 'email':
-  //     setEmail(value);
-  //     break;
-  //   case 'password':
-  //     setPassword(value);
-  //     break;
-  //   case 'firstName':
-  //     setFirstName(value);
-  //     break;
-  //   case 'lastName':
-  //     setLastName(value);
-  //     break;
-  //   case 'dateOfBirth':
-  //     setDateOfBirth(value);
-  //     break;
-  //   case 'billingStreet':
-  //     setBillingStreet(value);
-  //     break;
-  //   case 'billingCity':
-  //     setBillingCity(value);
-  //     break;
-  //   case 'billingPostalCode':
-  //     setBillingPostalCode(value);
-  //     break;
-  //   case 'billingCountry':
-  //     setBillingCountry(value);
-  //     break;
-  //   case 'shippingStreet':
-  //     setShippingStreet(value);
-  //     break;
-  //   case 'shippingCity':
-  //     setShippingCity(value);
-  //     break;
-  //   case 'shippingPostalCode':
-  //     setShippingPostalCode(value);
-  //     break;
-  //   case 'shippingCountry':
-  //     setShippingCountry(value);
-  //     break;
-  //   default:
-  //     break;
+      navigate('/');
     
-  //   }
-
-  // };
+    }
   
+  }, [user]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    //валидацию, если надо ещё, то добавлять сюда
     console.log(email, password, firstName, lastName, dateOfBirth);
 
     const shippingAddress = {
@@ -109,7 +57,6 @@ const CRegistrationForm = () => {
       postalCode: billingPostalCode,
       country: billingCountry, 
     };
-
 
     const payload = {
       email: email.value, 
@@ -127,10 +74,12 @@ const CRegistrationForm = () => {
     };
 
     apiRoot.customers()
-      .post({body: payload})
+      .post({body: payload as CustomerDraft })
       .execute()
       .then((data) => {
 
+        setUser(data.body.customer);
+        navigate('/');
         console.log('SUCCESS');
         console.log(data);
       
@@ -138,7 +87,8 @@ const CRegistrationForm = () => {
       .catch((err) => {
 
         errors.add(err.message);
-      
+        console.error('Error sending POST /customers. Take a look at body.errors[x].detailedErrorMessage', err);
+
       });
 
   };
@@ -249,6 +199,8 @@ const CRegistrationForm = () => {
         )}
         <CButton 
           value="Register"
+          type="submit"
+          disabled={false}
         />
       </form>
     </div>

@@ -1,4 +1,16 @@
+import { Customer } from '@commercetools/platform-sdk';
 import { ICountry } from './types';
+
+export const anonUser: Customer = {
+  id: '',
+  createdAt: '',
+  lastModifiedAt: '',
+  email: '',
+  version: 0,
+  addresses: [],
+  isEmailVerified: false,
+  authenticationMode: ''
+};
 
 export const COUNTRIES: ICountry[] = [
   {

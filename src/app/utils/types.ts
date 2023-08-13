@@ -3,6 +3,8 @@
 export interface IButtonProps {
   value: string,
   clickHandler?: React.MouseEventHandler,
+  type: 'button' | 'submit' | 'reset',
+  disabled?: boolean,
 }
 
 export interface IInputProps {

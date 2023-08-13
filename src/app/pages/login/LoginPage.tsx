@@ -1,12 +1,9 @@
-import React from 'react';
-import './LoginPage.css';
+import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
 export function LoginPage() {
 
   return (
-    <div>
-      <h1>Login Page</h1>
-    </div>
+    <CLoginForm />
   );
 
-}
+};
