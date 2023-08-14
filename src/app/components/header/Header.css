@@ -24,7 +24,7 @@ a {
 .logo {
   display: flex;
   justify-self: center;
-  font-family: 'Lexend Tera', sans-serif;
+  font-family: "Lexend Tera", sans-serif;
   font-size: var(--title);
   letter-spacing: 4px;
 }
@@ -48,7 +48,7 @@ a {
 
 .menu-item {
   text-align: center;
-  font-family: 'Lexend Exa', sans-serif;
+  font-family: "Lexend Exa", sans-serif;
   font-size: var(--main-text);
 }
 

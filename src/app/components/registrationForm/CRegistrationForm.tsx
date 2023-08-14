@@ -125,7 +125,7 @@ const CRegistrationForm = () => {
 
   return (
     <div>
-      <h1>Registration</h1>
+      <div className="title">Registration</div>
       <form 
         className="registration"
         onSubmit={handleSubmit}

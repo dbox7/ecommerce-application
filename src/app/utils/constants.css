@@ -1,6 +1,7 @@
 :root {
   /* Colors */
   --basic-color: white;
+  --bg-color: #FAFAFA;
   --accent-color: #8ebbff;
   --border-color: #2e2e2e;
   --error-color: #ff6565;
@@ -9,4 +10,16 @@
   --main-text: 14px;
   --sub-title: 20px;
   --title: 24px;
+}
+
+.title {
+  text-align: center;
+  margin: 20px auto 30px;
+  padding-bottom: 5px;
+  width: fit-content;
+
+  font-family: "Lexend Tera", sans-serif;
+  font-size: var(--sub-title);
+
+  border-bottom: 2px solid var(--accent-color);
 }

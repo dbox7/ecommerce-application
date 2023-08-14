@@ -65,7 +65,7 @@ export const CLoginForm = () => {
 
   return (
     <div>
-      <h1>Log in</h1>
+      <div className="title">Log in</div>
       <form 
         className="login"
         onSubmit={handleSubmit}
