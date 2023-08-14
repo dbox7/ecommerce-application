@@ -24,7 +24,7 @@ export default function Header(): JSX.Element {
           <Link to="/">Main</Link>
         </div>
         <nav className="nav">
-          {!user.id ?
+          {!user ?
             <ul className="menu-list">
               <li className="menu-item">
                 <Link to="/login">Log in</Link>
