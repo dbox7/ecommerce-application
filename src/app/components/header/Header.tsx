@@ -20,26 +20,32 @@ export default function Header(): JSX.Element {
   return (
     <header className="header">
       <div className="header-container">
-        <div>
-          <Link to="/">Main</Link>
-        </div>
         <nav className="nav">
-          {!user.id ?
-            <ul className="menu-list">
-              <li className="menu-item">
-                <Link to="/login">Log in</Link>
-              </li>
-              <li className="menu-item">
-                <Link to="/signup">Sign up</Link>
-              </li>
-            </ul>
-            :
-            <ul className="menu-list">
+          <ul className="menu">
+            <li className="menu-item">
+              <Link to="/">Main</Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/">Catalog</Link>
+            </li>
+          </ul>
+          <div className="logo"><Link to="/">SNEAKERS STORE</Link></div>
+          <ul className="menu right">
+            {!user.id ?
+              <>
+                <li className="menu-item">
+                  <Link to="/login">Log in</Link>
+                </li>
+                <li className="menu-item">
+                  <Link to="/signup">Sign up</Link>
+                </li>
+              </>
+              :
               <li className="menu-item">
                 <Link to="/" onClick={handleLogout}>Log out</Link>
               </li>
-            </ul>
-          }
+            }
+          </ul>
         </nav>
       </div>
     </header>
