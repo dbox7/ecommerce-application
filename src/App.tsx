@@ -25,7 +25,7 @@ function App() {
     
   }
 
-  const [user, setUser] = useState<Customer>(anonUser);
+  const [user, setUser] = useState<Customer>(initUser);
 
   return (
     <UserContext.Provider value={[user, setUser]}>
