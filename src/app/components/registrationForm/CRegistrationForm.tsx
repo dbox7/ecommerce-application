@@ -124,87 +124,97 @@ const CRegistrationForm = () => {
   const billingCountry = useInput('', 'text');
 
   return (
-    <div>
+    <div className="registration">
       <div className="title">Registration</div>
       <form 
-        className="registration"
+        className="reg-form"
         onSubmit={handleSubmit}
       >
-        <CEmail 
-          {...email}
-        />
-        <CPassword 
-          {...password}
-        />
-        <CTextDateInput 
-          {...firstName}
-          title="First name"
-        />
-        <CTextDateInput 
-          {...lastName}
-          title="Last name"
-        />
-        <CTextDateInput 
-          {...dateOfBirth}
-          title="Date of birth"
-          data={null}
-          isDate={true}
-        />
-        <p>Enter the shipping address:</p>
-        <CTextDateInput 
-          {...shippingStreet}
-          title="Street"
-        />
-        <CTextDateInput 
-          {...shippingCity}
-          title="City"
-        />
-        <CPostalCode 
-          {...shippingPostalCode}
-          country={shippingCountry.value}
-        />
-        <CTextDateInput 
-          {...shippingCountry}
-          title="Country"
-          data={COUNTRIES}
-        />
-        <CCheckbox 
-          title="Set as default shipping address"
-          checked={defaultShippingAddress}
-          changeHandler={(e) => setDefaultShippingAddress((e.target as HTMLInputElement).checked)}
-        />
-        <CCheckbox 
-          title="The shipping address is the same as the billing address"
-          checked={useBillingAddress}
-          changeHandler={handleCheckboxChange}
-        />
-        {!useBillingAddress && (
-          <div className="registration">
-            <p>Enter the billing address:</p>
+
+        <div className="info">
+          <div className="info-block">
+            <CEmail 
+              {...email}
+            />
+            <CPassword 
+              {...password}
+            />
             <CTextDateInput 
-              {...billingStreet}
+              {...firstName}
+              title="First name"
+            />
+            <CTextDateInput 
+              {...lastName}
+              title="Last name"
+            />
+            <CTextDateInput 
+              {...dateOfBirth}
+              title="Date of birth"
+              data={null}
+              isDate={true}
+            />
+          </div>
+          
+          <div className="info-block">
+            <h4>Enter the shipping address:</h4>
+            <CTextDateInput 
+              {...shippingStreet}
               title="Street"
             />
             <CTextDateInput 
-              {...billingCity}
+              {...shippingCity}
               title="City"
             />
             <CPostalCode 
-              {...billingPostalCode}
-              country={billingCountry.value}
+              {...shippingPostalCode}
+              country={shippingCountry.value}
             />
             <CTextDateInput 
-              {...billingCountry}
+              {...shippingCountry}
               title="Country"
               data={COUNTRIES}
             />
             <CCheckbox 
-              title="Set as default billing address"
-              checked={defaultBillingAddress}
-              changeHandler={(e) => setDefaultBillingAddress((e.target as HTMLInputElement).checked)}
+              title="Set as default shipping address"
+              checked={defaultShippingAddress}
+              changeHandler={(e) => setDefaultShippingAddress((e.target as HTMLInputElement).checked)}
+            />
+            <CCheckbox 
+              title="The shipping address is the same as the billing address"
+              checked={useBillingAddress}
+              changeHandler={handleCheckboxChange}
             />
           </div>
-        )}
+          
+          {!useBillingAddress && (
+            <div className="info-block">
+              <p>Enter the billing address:</p>
+              <CTextDateInput 
+                {...billingStreet}
+                title="Street"
+              />
+              <CTextDateInput 
+                {...billingCity}
+                title="City"
+              />
+              <CPostalCode 
+                {...billingPostalCode}
+                country={billingCountry.value}
+              />
+              <CTextDateInput 
+                {...billingCountry}
+                title="Country"
+                data={COUNTRIES}
+              />
+              <CCheckbox 
+                title="Set as default billing address"
+                checked={defaultBillingAddress}
+                changeHandler={(e) => setDefaultBillingAddress((e.target as HTMLInputElement).checked)}
+              />
+            </div>
+          )}
+        </div>
+        
         <CButton 
           value="Register"
           type="submit"
