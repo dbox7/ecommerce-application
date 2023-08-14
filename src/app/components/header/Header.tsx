@@ -11,7 +11,7 @@ export default function Header(): JSX.Element {
 
   const handleLogout = (): void => {
 
-    localStorage.removeItem('user');
+    localStorage.removeItem('currentUser');
     setUser(anonUser);
 
   };
