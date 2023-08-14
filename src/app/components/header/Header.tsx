@@ -11,7 +11,7 @@ export default function Header(): JSX.Element {
 
   const handleLogout = (): void => {
 
-    localStorage.removeItem('user');
+    localStorage.removeItem('currentUser');
     setUser(anonUser);
 
   };
@@ -24,7 +24,7 @@ export default function Header(): JSX.Element {
           <Link to="/">Main</Link>
         </div>
         <nav className="nav">
-          {!user.id ?
+          {!user ?
             <ul className="menu-list">
               <li className="menu-item">
                 <Link to="/login">Log in</Link>
