@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import useInput from '../../services/customHooks/useInput';
 import { COUNTRIES } from '../../utils/constants';
-import SensitiveMessages from '../../SensetiveMessages';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
+import CAlert from '../alert/CAlert';
 
 import { UserContext } from '../contexts/UserContext';
 
@@ -29,13 +29,11 @@ const CRegistrationForm = () => {
 
   const navigate = useNavigate();
   const [user, setUser] = useContext(UserContext);
-  const [errorMsg, setErrorMsg] = useState(true);
+  const [errors, setErrors] = useState<String[]>([]);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
-
-  const errors = new SensitiveMessages(setErrorMsg, '<ul><li>', '</li><li>', '</li></ul>');
 
   useEffect(() => { //если юзер есть, то перенаправляем на главную
 
@@ -50,7 +48,6 @@ const CRegistrationForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    console.log(email, password, firstName, lastName, dateOfBirth);
 
     const shippingAddress = {
       streetName: shippingStreet.value,
@@ -94,8 +91,7 @@ const CRegistrationForm = () => {
       })
       .catch((err) => {
 
-        errors.add(err.message);
-        console.error('Error sending POST /customers. Take a look at body.errors[x].detailedErrorMessage', err);
+        setErrors([...errors, err.message]);
 
       });
 
@@ -126,6 +122,9 @@ const CRegistrationForm = () => {
   return (
     <div>
       <h1>Registration</h1>
+
+      <CAlert messages={errors}></CAlert>
+
       <form 
         className="registration"
         onSubmit={handleSubmit}
