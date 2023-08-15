@@ -26,7 +26,7 @@ export default function Header(): JSX.Element {
               <Link to="/">Main</Link>
             </li>
             <li className="menu-item">
-              <Link to="/">Catalog</Link>
+              <Link to="/catalog">Catalog</Link>
             </li>
           </ul>
           <div className="logo"><Link to="/">SNEAKERS STORE</Link></div>
