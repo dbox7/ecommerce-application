@@ -1,10 +1,19 @@
-// Размещаем типы в алфавитном порядке по второй букве имени (первая всегда I)
+import { Dispatch, SetStateAction } from 'react';
+import { Customer } from '@commercetools/platform-sdk';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 export interface IButtonProps {
   value: string,
   clickHandler?: React.MouseEventHandler,
   type: 'button' | 'submit' | 'reset',
   disabled?: boolean,
+}
+
+export interface IGlobalStoreType {
+  currentUser: Customer,
+  setCurrentUser: Dispatch<SetStateAction<Customer>>,
+  apiMeRoot?: ByProjectKeyRequestBuilder,
+  setApiMeRoot: Dispatch<SetStateAction<Customer>>
 }
 
 export interface IInputProps {

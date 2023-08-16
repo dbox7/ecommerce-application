@@ -1,46 +1,34 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { UserContext } from './app/components/contexts/UserContext';
-import { Customer } from '@commercetools/platform-sdk';
-import { anonUser } from './app/utils/constants';
+import { GlobalContext, defaultGlobalStore } from '../src/app/components/contexts/GlobalContext';
+import { IGlobalStoreType } from '../src/app/utils/types';
 import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
-import Header from './app/components/header/Header';
+import { Header } from './app/components/header/Header';
 import './App.css';
+import { Logout } from './app/components/logout/CLogout';
 
+export default function App() {
 
-function App() {
-
-  let initUser = localStorage.currentUser;
-
-  if (initUser) {
-
-    initUser = JSON.parse(initUser);
-
-  } else {
-
-    initUser = anonUser;
-    
-  }
-
-  const [user, setUser] = useState<Customer>(initUser);
+  // Значение стейта по-умолчанию - анонимный юзер (потом будем брать значение из localStorage)
+  const [globalStore, setGlobalStore] = useState<IGlobalStoreType>(defaultGlobalStore);
 
   return (
-    <UserContext.Provider value={[user, setUser]}>
+    <GlobalContext.Provider value={[globalStore, setGlobalStore]}>
       <BrowserRouter>
         <Header/>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="logout" element={<Logout />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>
-    </UserContext.Provider>
+    </GlobalContext.Provider>
   );
 
 }
 
-export default App;
