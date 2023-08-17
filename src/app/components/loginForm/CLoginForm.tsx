@@ -7,6 +7,7 @@ import useInput from '../../services/customHooks/useInput';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
+import CAlert from '../alert/CAlert';
 
 import './CLoginForm.css';
   
@@ -20,7 +21,6 @@ export const CLoginForm = () => {
   const [errors, setErrors] = useState<String[]>([]);
   const [user, setUser] = useContext(UserContext); // подключаемся к контексту
   const [formBlocked, setFormBlocked] = useState(false);
-
 
   useEffect(() => { //если юзер есть, то перенаправляем на главную
 
@@ -65,6 +65,9 @@ export const CLoginForm = () => {
   return (
     <div className="substrate">
       <div className="sub-title">Log in</div>
+
+      <CAlert messages={errors}></CAlert>
+
       <form 
         className="form"
         onSubmit={handleSubmit}
