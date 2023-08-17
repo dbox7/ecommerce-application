@@ -29,6 +29,10 @@ a {
   letter-spacing: 4px;
 }
 
+.logo .link:hover {
+  color: inherit;
+}
+
 .nav {
   display: flex;
   justify-content: space-between;

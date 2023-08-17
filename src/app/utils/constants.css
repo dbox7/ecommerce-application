@@ -5,6 +5,7 @@
   --accent-color: #8ebbff;
   --border-color: #2e2e2e;
   --error-color: #ff6565;
+  --extra-color: #ffcb65;
 
   /* Font sizes */
   --main-text: 14px;
@@ -22,4 +23,13 @@
   font-size: var(--sub-title);
 
   border-bottom: 2px solid var(--accent-color);
+}
+
+.link:visited {
+  color: inherit;
+}
+
+.link:hover {
+  transition: color 0.2s ease-in;
+  color: var(--accent-color);
 }

@@ -20,7 +20,7 @@ export const CLoginForm = () => {
   const password = useInput('', 'password');
   const [errors, setErrors] = useState<String[]>([]);
   const [user, setUser] = useContext(UserContext); // подключаемся к контексту
-  const [formBlocked, setFormBlocked] = useState(false);
+  const [formBlocked, setFormBlocked] = useState(true);
 
 
   useEffect(() => { //если юзер есть, то перенаправляем на главную
@@ -82,7 +82,7 @@ export const CLoginForm = () => {
           disabled={formBlocked}
         />
         <div>don't have an account yet?
-          <Link to="/signup">Sign up</Link>
+          <Link to="/signup" className="link">Sign up</Link>
         </div>
       </form>
     </div>

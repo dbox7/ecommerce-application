@@ -13,9 +13,9 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import { UserContext } from '../contexts/UserContext';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 
 import './CRegistrationForm.css';
-import { CustomerDraft } from '@commercetools/platform-sdk';
 
 const getCountryCode = (countryName: string) => {
   

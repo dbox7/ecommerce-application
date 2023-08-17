@@ -23,26 +23,34 @@ export default function Header(): JSX.Element {
         <nav className="nav">
           <ul className="menu">
             <li className="menu-item">
-              <Link to="/">Main</Link>
+              <Link to="/" className="link">Main</Link>
             </li>
             <li className="menu-item">
-              <Link to="/catalog">Catalog</Link>
+              <Link to="/catalog" className="link">Catalog</Link>
             </li>
           </ul>
-          <div className="logo"><Link to="/">SNEAKERS STORE</Link></div>
+          <div className="logo">
+            <Link to="/" className="link">SNEAKERS STORE</Link>
+          </div>
           <ul className="menu right">
             {!user.id ?
               <>
                 <li className="menu-item">
-                  <Link to="/login">Log in</Link>
+                  <Link to="/login" className="link">Log in</Link>
                 </li>
                 <li className="menu-item">
-                  <Link to="/signup">Sign up</Link>
+                  <Link to="/signup" className="link">Sign up</Link>
                 </li>
               </>
               :
               <li className="menu-item">
-                <Link to="/" onClick={handleLogout}>Log out</Link>
+                <Link 
+                  to="/" 
+                  onClick={handleLogout} 
+                  className="link"
+                >
+                  Log out
+                </Link>
               </li>
             }
           </ul>
