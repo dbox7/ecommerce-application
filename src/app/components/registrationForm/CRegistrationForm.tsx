@@ -124,10 +124,10 @@ const CRegistrationForm = () => {
   const billingCountry = useInput('', 'text');
 
   return (
-    <div className="registration">
-      <div className="title">Registration</div>
+    <div className="substrate">
+      <div className="sub-title">Registration</div>
       <form 
-        className="reg-form"
+        className="form"
         onSubmit={handleSubmit}
       >
 
@@ -180,7 +180,7 @@ const CRegistrationForm = () => {
               changeHandler={(e) => setDefaultShippingAddress((e.target as HTMLInputElement).checked)}
             />
             <CCheckbox 
-              title="The shipping address is the same as the billing address"
+              title="The billing address is the same"
               checked={useBillingAddress}
               changeHandler={handleCheckboxChange}
             />
@@ -188,7 +188,7 @@ const CRegistrationForm = () => {
           
           {!useBillingAddress && (
             <div className="info-block">
-              <p>Enter the billing address:</p>
+              <h4>Enter the billing address:</h4>
               <CTextDateInput 
                 {...billingStreet}
                 title="Street"

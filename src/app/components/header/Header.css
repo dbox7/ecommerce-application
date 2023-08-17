@@ -7,14 +7,6 @@ header {
   border-bottom: 1px solid var(--border-color);
 }
 
-ul li {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
-}
-
 .header-container {
   width: 100%;
   margin: auto;
@@ -24,7 +16,7 @@ a {
 .logo {
   display: flex;
   justify-self: center;
-  font-family: "Lexend Tera", sans-serif;
+  font-family: var(--tera);
   font-size: var(--title);
   letter-spacing: 4px;
 }
@@ -52,7 +44,7 @@ a {
 
 .menu-item {
   text-align: center;
-  font-family: "Lexend Exa", sans-serif;
+  font-family: var(--exa);
   font-size: var(--main-text);
 }
 

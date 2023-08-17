@@ -16,11 +16,10 @@ export const CLoginForm = () => {
 
   const email = useInput('', 'email');
 
-  console.log(email);
   const password = useInput('', 'password');
   const [errors, setErrors] = useState<String[]>([]);
   const [user, setUser] = useContext(UserContext); // подключаемся к контексту
-  const [formBlocked, setFormBlocked] = useState(true);
+  const [formBlocked, setFormBlocked] = useState(false);
 
 
   useEffect(() => { //если юзер есть, то перенаправляем на главную
@@ -64,25 +63,27 @@ export const CLoginForm = () => {
   };
 
   return (
-    <div>
-      <div className="title">Log in</div>
+    <div className="substrate">
+      <div className="sub-title">Log in</div>
       <form 
-        className="login"
+        className="form"
         onSubmit={handleSubmit}
       >
-        <CEmail 
-          {...email}
-        />
-        <CPassword 
-          {...password}
-        />
+        <div className="info-block">
+          <CEmail 
+            {...email}
+          />
+          <CPassword 
+            {...password}
+          />
+        </div>
         <CButton
           type="submit"
           value="Log me in"
           disabled={formBlocked}
         />
-        <div>don't have an account yet?
-          <Link to="/signup" className="link">Sign up</Link>
+        <div>
+          Don't have an account yet? <Link to="/signup" className="link"><b>Sign up</b></Link>
         </div>
       </form>
     </div>

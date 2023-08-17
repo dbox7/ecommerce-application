@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import './CCheckbox.css';
 
 interface ICheckboxProps {
   title: string
@@ -9,14 +10,14 @@ interface ICheckboxProps {
 const CCheckbox: FC<ICheckboxProps> = (props) => {
 
   return ( 
-    <div>
+    <label className="checkbox-wrap">
       <input
         type="checkbox"
         checked={props.checked}
         onChange={props.changeHandler}
       />
-      <label>Set as default billing address</label>
-    </div>
+      {props.title}
+    </label>
   );
 
 };
