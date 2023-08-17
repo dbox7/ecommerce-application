@@ -1,21 +1,14 @@
 import { useContext } from 'react';
+import { GlobalContext } from '../contexts/GlobalContext';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
-import { anonUser } from '../../utils/constants';
+import { Logout } from '../../components/logout/CLogout';
+
 import './Header.css';
+  
 
-export default function Header(): JSX.Element {
-
-  const [user, setUser] = useContext(UserContext);
-
-
-  const handleLogout = (): void => {
-
-    localStorage.removeItem('currentUser');
-    setUser(anonUser);
-
-  };
-
+export function Header(): JSX.Element {
+  
+  const [globalStore, setGlobalStore] = useContext(GlobalContext);
 
   return (
     <header className="header">
@@ -33,7 +26,7 @@ export default function Header(): JSX.Element {
             <Link to="/" className="link">SNEAKERS STORE</Link>
           </div>
           <ul className="menu right">
-            {!user.id ?
+            {!globalStore.currentUser.id ?
               <>
                 <li className="menu-item">
                   <Link to="/login" className="link">Log in</Link>

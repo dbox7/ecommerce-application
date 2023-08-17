@@ -1,7 +1,9 @@
-import { apiRoot } from '../../ctp';
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from '../contexts/UserContext';
+import { GlobalContext } from '../contexts/GlobalContext';
+import { PROJECT_KEY, API_URL, AUTH_URL, CLIENT_ID, CLIENT_SECRET } from '../../ctp';
+import { ClientBuilder } from '@commercetools/sdk-client-v2';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 import useInput from '../../services/customHooks/useInput';
 import CEmail from '../inputs/email/CEmail';
@@ -11,26 +13,26 @@ import CAlert from '../alert/CAlert';
 
 import './CLoginForm.css';
   
-export const CLoginForm = () => {
+export function CLoginForm() {
 
   const navigate = useNavigate();
 
   const email = useInput('', 'email');
-
   const password = useInput('', 'password');
+  
   const [errors, setErrors] = useState<String[]>([]);
-  const [user, setUser] = useContext(UserContext); // подключаемся к контексту
+  const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [formBlocked, setFormBlocked] = useState(false);
 
-  useEffect(() => { //если юзер есть, то перенаправляем на главную
+  useEffect(() => {
 
-    if (user.id) {
+    if (globalStore.currentUser.id) {
 
       navigate('/');
     
     }
   
-  }, [user]); 
+  }, [globalStore, navigate]); 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -38,22 +40,41 @@ export const CLoginForm = () => {
     setErrors([]);
     setFormBlocked(true);
 
-    apiRoot
-      .login()
-      .post({
-        body: {email: email.value, password: password.value}
+    const ctpMeClient = new ClientBuilder()
+      .withProjectKey(PROJECT_KEY)
+      .withPasswordFlow({
+        host: AUTH_URL,
+        projectKey: PROJECT_KEY,
+        credentials: {
+          clientId: CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          user: {
+            username: email.value,
+            password: password.value
+          }
+        }
       })
+      .withHttpMiddleware({
+        host: API_URL,
+        fetch,
+      })
+      .withLoggerMiddleware() // Include middleware for logging
+      .build();
+    
+    const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
+  
+    apiMeRoot.me().login().post({
+      body: {email: email.value, password: password.value}
+    })
       .execute()
-
       .then(data => {
 
-        localStorage.currentUser = JSON.stringify(data.body.customer);
-        setUser(data.body.customer);
+        // Сохраняем в глобальном хранилище и профиль пользователя, и API для обращений от его имени
+
+        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
         navigate('/');
 
-      })
-
-      .catch(err => {
+      }).catch(err => {
 
         setErrors([...errors, err.message]);
         setFormBlocked(false);
@@ -62,12 +83,18 @@ export const CLoginForm = () => {
 
   };
 
+  if (globalStore.currentUser.id) {
+
+    return <></>;
+    
+  }
+
   return (
     <div className="substrate">
       <div className="sub-title">Log in</div>
-
+      
       <CAlert messages={errors}></CAlert>
-
+      
       <form 
         className="form"
         onSubmit={handleSubmit}
@@ -82,7 +109,7 @@ export const CLoginForm = () => {
         </div>
         <CButton
           type="submit"
-          value="Log me in"
+          value={ formBlocked ? 'Please wait...' : 'Log in' }
           disabled={formBlocked}
         />
         <div>
@@ -92,4 +119,6 @@ export const CLoginForm = () => {
     </div>
   );
 
-};
+}
+
+  

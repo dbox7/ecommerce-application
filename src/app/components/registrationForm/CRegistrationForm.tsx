@@ -11,9 +11,8 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
-
-import { UserContext } from '../contexts/UserContext';
 import { CustomerDraft } from '@commercetools/platform-sdk';
+import { GlobalContext } from '../contexts/GlobalContext';
 
 import './CRegistrationForm.css';
 
@@ -25,11 +24,12 @@ const getCountryCode = (countryName: string) => {
 
 };
 
-const CRegistrationForm = () => {
+export function CRegistrationForm() {
 
   const navigate = useNavigate();
-  const [user, setUser] = useContext(UserContext);
+  const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [errors, setErrors] = useState<String[]>([]);
+  const [formBlocked, setFormBlocked] = useState(false);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
 
@@ -37,30 +37,25 @@ const CRegistrationForm = () => {
 
   useEffect(() => { //если юзер есть, то перенаправляем на главную
 
-    if (user.id) {
+    if (globalStore.currentUser.id) {
 
       navigate('/');
     
     }
-  
-  }, [user]);
+    
+  }, [globalStore, navigate]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
+    setErrors([]);
+    setFormBlocked(true);
 
     const shippingAddress = {
       streetName: shippingStreet.value,
       city: shippingCity.value,
       postalCode: shippingPostalCode.value,
       country: getCountryCode(shippingCountry.value),
-    };
-
-    const billingAddress = {
-      streetName: billingStreet.value,
-      city: billingCity.value,
-      postalCode: billingPostalCode.value,
-      country: getCountryCode(billingCountry.value), 
     };
 
     const payload = {
@@ -83,15 +78,14 @@ const CRegistrationForm = () => {
       .execute()
       .then((data) => {
 
-        setUser(data.body.customer);
+        setGlobalStore({...globalStore, currentUser: data.body.customer});
         navigate('/');
-        console.log('SUCCESS');
-        console.log(data);
       
       })
       .catch((err) => {
 
         setErrors([...errors, err.message]);
+        setFormBlocked(false);
 
       });
 
@@ -118,6 +112,12 @@ const CRegistrationForm = () => {
   const billingCity = useInput('', 'text');
   const billingPostalCode = useInput('', 'postalCode');
   const billingCountry = useInput('', 'text');
+
+  if (globalStore.currentUser.id) {
+
+    return <></>;
+
+  }
 
   return (
     <div className="substrate">
@@ -215,9 +215,9 @@ const CRegistrationForm = () => {
         </div>
         
         <CButton 
-          value="Register"
           type="submit"
-          disabled={false}
+          value={ formBlocked ? 'Please wait...' : 'Sign up' }
+          disabled={formBlocked}
         />
       </form>
     </div>
