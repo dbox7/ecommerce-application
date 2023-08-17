@@ -63,28 +63,30 @@ export const CLoginForm = () => {
   };
 
   return (
-    <div>
-      <h1>Log in</h1>
+    <div className="substrate">
+      <div className="sub-title">Log in</div>
 
       <CAlert messages={errors}></CAlert>
 
       <form 
-        className="login"
+        className="form"
         onSubmit={handleSubmit}
       >
-        <CEmail 
-          {...email}
-        />
-        <CPassword 
-          {...password}
-        />
+        <div className="info-block">
+          <CEmail 
+            {...email}
+          />
+          <CPassword 
+            {...password}
+          />
+        </div>
         <CButton
           type="submit"
           value="Log me in"
           disabled={formBlocked}
         />
-        <div>don't have an account yet?
-          <Link to="/signup">Sign up</Link>
+        <div>
+          Don't have an account yet? <Link to="/signup" className="link"><b>Sign up</b></Link>
         </div>
       </form>
     </div>

@@ -7,6 +7,7 @@ import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
+import { CatalogPage } from './app/pages/catalog/CatalogPage';
 import Header from './app/components/header/Header';
 import './App.css';
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
+          <Route path="catalog" element={<CatalogPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>
