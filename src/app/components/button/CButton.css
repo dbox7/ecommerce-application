@@ -6,15 +6,23 @@
   align-items: center;
 
   min-width: 120px;
+  max-width: 250px;
   padding: 5px 15px;
 
   font-size: var(--main-text);
   background-color: var(--basic-color);
   border: 1px solid var(--border-color);
-  transition: background-color 0.3s ease-in;
+  transition: all 0.2s ease-in;
   cursor: pointer;
 }
 
-.button:hover {
+.button:hover:not(:disabled) {
   background-color: var(--accent-color);
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+
+.button:disabled {
 }

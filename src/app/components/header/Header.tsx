@@ -13,26 +13,40 @@ export function Header(): JSX.Element {
   return (
     <header className="header">
       <div className="header-container">
-        <div>
-          <Link to="/">Main</Link>
-        </div>
         <nav className="nav">
-          {!globalStore.currentUser.id ?
-            <ul className="menu-list">
+          <ul className="menu">
+            <li className="menu-item">
+              <Link to="/" className="link">Main</Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/catalog" className="link">Catalog</Link>
+            </li>
+          </ul>
+          <div className="logo">
+            <Link to="/" className="link">SNEAKERS STORE</Link>
+          </div>
+          <ul className="menu right">
+            {!globalStore.currentUser.id ?
+              <>
+                <li className="menu-item">
+                  <Link to="/login" className="link">Log in</Link>
+                </li>
+                <li className="menu-item">
+                  <Link to="/signup" className="link">Sign up</Link>
+                </li>
+              </>
+              :
               <li className="menu-item">
-                <Link to="/login">Log in</Link>
+                <Link 
+                  to="/" 
+                  onClick={handleLogout} 
+                  className="link"
+                >
+                  Log out
+                </Link>
               </li>
-              <li className="menu-item">
-                <Link to="/signup">Sign up</Link>
-              </li>
-            </ul>
-            :
-            <ul className="menu-list">
-              <li className="menu-item">
-                <Link to="/logout">Log out</Link>
-              </li>
-            </ul>
-          }
+            }
+          </ul>
         </nav>
       </div>
     </header>
