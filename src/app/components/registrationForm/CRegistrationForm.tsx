@@ -1,8 +1,4 @@
-import { apiRoot } from '../../ctp';
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CustomerDraft } from '@commercetools/platform-sdk';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 
 import useInput from '../../services/input/useInput';
@@ -17,6 +13,7 @@ import UseFormBlock from '../../services/useFormBlock';
 
 
 import './CRegistrationForm.css';
+import useRegistration from '../../services/useRegistration';
 
 
 const getCountryCode = (countryName: string) => {
@@ -29,18 +26,16 @@ const getCountryCode = (countryName: string) => {
 
 export function CRegistrationForm() {
 
-  const navigate = useNavigate();
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [errors, setErrors] = useState<String[]>([]);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
+  const registration = useRegistration();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    setErrors([]);
 
     const shippingAddress = {
       streetName: shippingStreet.value,
@@ -64,20 +59,7 @@ export function CRegistrationForm() {
       defaultBillingAddress: defaultBillingAddress ? 0 : undefined
     };
 
-    apiRoot.customers()
-      .post({body: payload as CustomerDraft })
-      .execute()
-      .then((data) => {
-
-        setGlobalStore({...globalStore, currentUser: data.body.customer});
-        navigate('/');
-      
-      })
-      .catch((err) => {
-
-        setErrors([...errors, err.message]);
-
-      });
+    registration.registrateCustomer(payload);
 
   };
 
@@ -89,7 +71,7 @@ export function CRegistrationForm() {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
-  const dateOfBirth = useInput(`${Date.now()}`, 'date');  
+  const dateOfBirth = useInput('', 'date');  
   const firstName = useInput('', 'text');
   const lastName = useInput('', 'text');
 
@@ -139,7 +121,7 @@ export function CRegistrationForm() {
     <div className="substrate">
       <div className="sub-title">Registration</div>
 
-      <CAlert messages={errors}></CAlert>
+      <CAlert messages={registration.errors}></CAlert>
 
       <form 
         className="form"
