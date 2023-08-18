@@ -18,6 +18,6 @@ export function useLogout() {
     }
     navigate('/');
 
-  }, [globalStore, navigate, setGlobalStore]);
+  }, [globalStore]);
 
 }

@@ -13,7 +13,7 @@ const CPassword: FC<IInputProps> = ({
 
   useEffect(() => {
 
-    (valid.isEmpty || 
+    (!valid.isNotEmpty || 
     !valid.isPasswordGood) && 
     !activeState ?
       setError('error')
@@ -22,7 +22,7 @@ const CPassword: FC<IInputProps> = ({
 
   }, [
     activeState, 
-    valid.isEmpty, 
+    valid.isNotEmpty, 
     valid.isPasswordGood
   ]);
 

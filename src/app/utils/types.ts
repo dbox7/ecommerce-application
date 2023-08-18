@@ -9,6 +9,12 @@ export interface IButtonProps {
   disabled?: boolean,
 }
 
+export interface ICountry {
+  name: string,
+  code: string,
+  postalCode: RegExp
+}
+
 export interface IGlobalStoreType {
   currentUser: Customer,
   setCurrentUser: Dispatch<SetStateAction<Customer>>,
@@ -21,11 +27,11 @@ export interface IInputProps {
   changeHandler: React.ChangeEventHandler;
   blurHandler: React.FocusEventHandler;
   activeState: boolean;
-  valid: IValidation;
+  valid: Partial<IValidation>;
 }
 
 export interface IValidation {
-  isEmpty: boolean;
+  isNotEmpty: boolean;
   isEmailGood?: boolean;
   isPasswordGood?: boolean;
   isDateGood?: boolean;
@@ -35,8 +41,6 @@ export interface IValidation {
   minLength?: number;
 }
 
-export interface ICountry {
-  name: string,
-  code: string,
-  postalCode: RegExp
+export interface IValidationRules {
+  [index: string]: IValidation
 }

@@ -1,38 +1,10 @@
 import { useState, useEffect } from 'react';
 import { IValidation } from '../../utils/types';
-import { COUNTRIES } from '../../utils/constants';
+import { COUNTRIES, RULES } from '../../utils/constants';
 
-interface IValidationRules {
-  [index: string]: IValidation
-}
+const useValidation = (value: string, type: string): Partial<IValidation> => {
 
-const rules: IValidationRules = {
-  email: {
-    isEmpty: true,
-    isEmailGood: false
-  },
-  password: {
-    isEmpty: true,
-    isPasswordGood: false,
-    minLength: 8
-  },
-  date: {
-    isEmpty: true,
-    isDateGood: false
-  },
-  text: {
-    isEmpty: true,
-    isTextGood: false,
-  },
-  postalCode: {
-    isEmpty: true,
-    isPostalCodeGood: false,
-  }
-};
-
-const useValidation = (value: string, type: string): IValidation => {
-
-  const [isEmpty, setEmpty] = useState(true);
+  const [isNotEmpty, setNotEmpty] = useState(false);
   const [isEmailGood, setEmailGood] = useState(false);
   const [isPasswordGood, setPasswordGood] = useState(false);
   const [isDateGood, setDateGood] = useState(false);
@@ -40,15 +12,18 @@ const useValidation = (value: string, type: string): IValidation => {
   const [isMinLength, setMinLength] = useState(false);
   const [isPostalCodeGood, setPostalCodeGood] = useState(false);
 
+  const res: Partial<IValidation> = {};
+
   useEffect(() => {
 
-    for (const rule in rules[type]) {
+    for (const rule in RULES[type]) {
 
       switch(rule) {
       
-      case 'isEmpty': {
+      case 'isNotEmpty': {
 
-        value ? setEmpty(false) : setEmpty(true);
+        value ? setNotEmpty(true) : setNotEmpty(false);
+        
         break;
       
       }
@@ -58,13 +33,15 @@ const useValidation = (value: string, type: string): IValidation => {
         const REGEXP = /^\S+@\S+\.\S+$/;
 
         REGEXP.test(value) ? setEmailGood(true) : setEmailGood(false);
+
         break;
 
       }
 
       case 'minLength': {
 
-        value.length >= rules[type].minLength! ? setMinLength(true) : setMinLength(false);
+        value.length >= RULES[type].minLength! ? setMinLength(true) : setMinLength(false);
+
         break;
 
       }
@@ -74,6 +51,7 @@ const useValidation = (value: string, type: string): IValidation => {
         const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;        
 
         REGEXP.test(value) ? setPasswordGood(true) : setPasswordGood(false);
+
         break;
 
       }
@@ -94,19 +72,20 @@ const useValidation = (value: string, type: string): IValidation => {
         const REGEXP = /^[a-zA-Z]+$/;
 
         REGEXP.test(value) ? setTextGood(true) : setTextGood(false);
+
         break;
 
       }
 
       case 'isPostalCodeGood': {
 
-        const res = COUNTRIES.some((country) => country.postalCode.test(value));
+        const temp = COUNTRIES.some((country) => country.postalCode.test(value));
 
-        res ? setPostalCodeGood(true) : setPostalCodeGood(false);
+        temp ? setPostalCodeGood(true) : setPostalCodeGood(false);
+
         break;
 
       }
-      
       
       }
 
@@ -115,7 +94,7 @@ const useValidation = (value: string, type: string): IValidation => {
   }, [value]);
 
   return {
-    isEmpty,
+    isNotEmpty,
     isEmailGood,
     isPasswordGood,
     isDateGood,
