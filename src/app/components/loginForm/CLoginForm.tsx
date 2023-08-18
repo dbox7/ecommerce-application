@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useLogin } from '../../services/login/useLogin';
-import { useEffect } from 'react';
 
 import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
@@ -12,8 +11,6 @@ import UseFormBlock from '../../services/useFormBlock';
 import './CLoginForm.css';
 
 export function CLoginForm() {
-
-  const navigate = useNavigate();
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
@@ -35,16 +32,6 @@ export function CLoginForm() {
     login.createClient(email.value, password.value);
   
   };
-
-  useEffect(() => {
-
-    if (login.isSuccess) {
-
-      navigate('/');
-    
-    }
-
-  }, [login.isSuccess]);
 
   return (
     <div className="substrate">
