@@ -58,6 +58,13 @@ export function CRegistrationForm() {
       country: getCountryCode(shippingCountry.value),
     };
 
+    const billingAddress = {
+      streetName: billingStreet.value,
+      city: billingCity.value,
+      postalCode: billingPostalCode.value,
+      country: getCountryCode(billingCountry.value),
+    };
+
     const payload = {
       email: email.value, 
       password: password.value, 
@@ -73,7 +80,15 @@ export function CRegistrationForm() {
       defaultBillingAddress: defaultBillingAddress ? 0 : undefined
     };
 
-    apiRoot.customers()
+    if (!useBillingAddress) {
+
+      payload.addresses[1] = billingAddress;
+      payload.billingAddress = [1];
+      payload.defaultBillingAddress = defaultBillingAddress ? 1 : undefined;
+
+    }
+
+    apiRoot.customers()      
       .post({body: payload as CustomerDraft })
       .execute()
       .then((data) => {
@@ -88,6 +103,8 @@ export function CRegistrationForm() {
         setFormBlocked(false);
 
       });
+
+    console.log(payload);
 
   };
 
