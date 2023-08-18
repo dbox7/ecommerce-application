@@ -13,7 +13,7 @@
   --main-text: 14px;
   --sub-title: 18px;
   --title: 24px;
-  
+
   --tera: "Lexend Tera", sans-serif;
   --exa: "Lexend Exa", sans-serif;
 }
@@ -35,7 +35,7 @@
 }
 
 /* Белая подложка с обрамлением */
-.substrate { 
+.substrate {
   width: fit-content;
   margin: 30px auto;
   padding: 0 80px 40px;
