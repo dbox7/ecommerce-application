@@ -4,12 +4,15 @@ import { PROJECT_KEY, AUTH_URL, CLIENT_ID, CLIENT_SECRET, API_URL } from '../../
 import { GlobalContext } from '../../store/GlobalContext';
 import { useContext, useState } from 'react';
 
-export function useLogin(setErrors: Function) {
+export function useLogin() {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errors, setErrors] = useState<String[]>([]);
 
   function createClient(email: string, password: string) {
+
+    setErrors([]);
 
     const ctpMeClient = new ClientBuilder()
       .withProjectKey(PROJECT_KEY)
@@ -40,7 +43,7 @@ export function useLogin(setErrors: Function) {
       .then(data => {
 
         // Сохраняем в глобальном хранилище и профиль пользователя, и API для обращений от его имени
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});        
         setIsSuccess(true);
 
       }).catch(err => {
@@ -49,11 +52,9 @@ export function useLogin(setErrors: Function) {
         setIsSuccess(false);
 
       });
-
-    return isSuccess;
   
   }
 
-  return { createClient };
+  return { isSuccess, errors, createClient };
 
 }

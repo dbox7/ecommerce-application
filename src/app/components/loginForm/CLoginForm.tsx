@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogin } from '../../services/login/useLogin';
+import { useEffect } from 'react';
 
 import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
@@ -9,18 +10,16 @@ import CAlert from '../alert/CAlert';
 import UseFormBlock from '../../services/useFormBlock';
 
 import './CLoginForm.css';
-import { useState } from 'react';
-  
+
 export function CLoginForm() {
 
   const navigate = useNavigate();
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
-  const [errors, setErrors] = useState<String[]>([]);
-  const login = useLogin(setErrors);
   
-
+  const login = useLogin();
+  
   const isFormBlocked = UseFormBlock([
     email.valid.isNotEmpty!,
     email.valid.isEmailGood!,
@@ -33,21 +32,25 @@ export function CLoginForm() {
 
     e.preventDefault();
 
-    const res = login.createClient(email.value, password.value);
+    login.createClient(email.value, password.value);
   
-    if (errors.length === 0 && res) {
+  };
+
+  useEffect(() => {
+
+    if (login.isSuccess) {
 
       navigate('/');
     
     }
-  
-  };
+
+  }, [login.isSuccess]);
 
   return (
     <div className="substrate">
       <div className="sub-title">Log in</div>
       
-      <CAlert messages={errors}></CAlert>
+      <CAlert messages={login.errors}></CAlert>
       
       <form 
         className="form"
