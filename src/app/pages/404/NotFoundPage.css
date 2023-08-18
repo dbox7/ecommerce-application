@@ -1,0 +1,16 @@
+.notFound {
+  text-align: center;
+
+}
+
+.cat {
+  position: relative;
+  margin: 20px;
+
+  width: 30%;
+  left: 10px
+}
+
+.text {
+  margin-top: 10px;
+}
