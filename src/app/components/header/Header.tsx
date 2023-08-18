@@ -8,7 +8,7 @@ import './Header.css';
 
 export function Header(): JSX.Element {
   
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);  
+  const [globalStore] = useContext(GlobalContext);  
 
   return (
     <header className="header">
