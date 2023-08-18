@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../contexts/GlobalContext';
+import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { Logout } from '../../components/logout/CLogout';
 

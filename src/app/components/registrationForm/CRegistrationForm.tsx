@@ -12,7 +12,7 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
 import { CustomerDraft } from '@commercetools/platform-sdk';
-import { GlobalContext } from '../contexts/GlobalContext';
+import { GlobalContext } from '../../store/GlobalContext';
 
 import './CRegistrationForm.css';
 

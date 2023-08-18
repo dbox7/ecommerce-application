@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GlobalContext, defaultGlobalStore } from '../src/app/components/contexts/GlobalContext';
+import { GlobalContext, defaultGlobalStore } from './app/store/GlobalContext';
 import { IGlobalStoreType } from '../src/app/utils/types';
 import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';

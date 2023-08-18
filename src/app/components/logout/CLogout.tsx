@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../contexts/GlobalContext';
+import { GlobalContext } from '../../store/GlobalContext';
 import { anonUser } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
 

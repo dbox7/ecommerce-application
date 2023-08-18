@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { GlobalContext } from '../contexts/GlobalContext';
+import { GlobalContext } from '../../store/GlobalContext';
 import { PROJECT_KEY, API_URL, AUTH_URL, CLIENT_ID, CLIENT_SECRET } from '../../ctp';
 import { ClientBuilder } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
