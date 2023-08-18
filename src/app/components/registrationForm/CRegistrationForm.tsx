@@ -1,5 +1,5 @@
 import { apiRoot } from '../../ctp';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 import { GlobalContext } from '../../store/GlobalContext';
@@ -36,7 +36,6 @@ export function CRegistrationForm() {
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
-  const [isFormBlocked, setisFormBlocked] = useState(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 

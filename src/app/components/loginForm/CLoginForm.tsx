@@ -9,6 +9,7 @@ import CAlert from '../alert/CAlert';
 import UseFormBlock from '../../services/useFormBlock';
 
 import './CLoginForm.css';
+import { useState } from 'react';
   
 export function CLoginForm() {
 
@@ -16,7 +17,9 @@ export function CLoginForm() {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
-  const login = useLogin();
+  const [errors, setErrors] = useState<String[]>([]);
+  const login = useLogin(setErrors);
+  
 
   const isFormBlocked = UseFormBlock([
     email.valid.isNotEmpty!,
@@ -26,27 +29,25 @@ export function CLoginForm() {
     password.valid.isPasswordGood!,
   ]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
 
-    const res = await login.createClient(email.value, password.value);
-
-    console.log(login.errors, res);
-    
-    if (!login.errors.length) {
+    const res = login.createClient(email.value, password.value);
+  
+    if (errors.length === 0 && res) {
 
       navigate('/');
     
-    };
-
+    }
+  
   };
 
   return (
     <div className="substrate">
       <div className="sub-title">Log in</div>
       
-      <CAlert messages={login.errors}></CAlert>
+      <CAlert messages={errors}></CAlert>
       
       <form 
         className="form"

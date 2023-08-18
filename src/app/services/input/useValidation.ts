@@ -12,8 +12,6 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
   const [isMinLength, setMinLength] = useState(false);
   const [isPostalCodeGood, setPostalCodeGood] = useState(false);
 
-  const res: Partial<IValidation> = {};
-
   useEffect(() => {
 
     for (const rule in RULES[type]) {
