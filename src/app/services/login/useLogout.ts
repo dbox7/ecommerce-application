@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../store/GlobalContext';
 import { anonUser } from '../../utils/constants';
@@ -9,7 +9,7 @@ export function useLogout() {
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const logout = () => {
 
     if (globalStore.currentUser.id) {
 
@@ -18,6 +18,8 @@ export function useLogout() {
     }
     navigate('/');
 
-  }, [globalStore]);
+  };
+
+  return logout;
 
 }

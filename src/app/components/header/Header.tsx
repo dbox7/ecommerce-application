@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { useLogout } from '../../services/login/useLogout';
 
 import './Header.css';
-  
 
 export function Header(): JSX.Element {
   
+  const logout = useLogout();
   const [globalStore] = useContext(GlobalContext);  
 
   return (
@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
               <li className="menu-item">
                 <Link 
                   to="/" 
-                  onClick={useLogout} 
+                  onClick={logout} 
                   className="link"
                 >
                   Log out
