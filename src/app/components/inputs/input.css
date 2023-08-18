@@ -40,3 +40,14 @@
   font-size: 12px;
   background-color: var(--error-color);
 }
+
+.password-icon {
+  position: absolute;
+  z-index: 1;
+  top: 34px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  content: "";
+  cursor: pointer;
+}
