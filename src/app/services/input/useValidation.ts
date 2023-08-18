@@ -46,7 +46,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isPasswordGood': {
         
-        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;        
+        const REGEXP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])(?=\S+$).{8,}$/;        
 
         REGEXP.test(value) ? setPasswordGood(true) : setPasswordGood(false);
 

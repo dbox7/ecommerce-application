@@ -41,6 +41,17 @@
   background-color: var(--error-color);
 }
 
+.password-icon {
+  position: absolute;
+  z-index: 1;
+  top: 34px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  content: "";
+  cursor: pointer;
+}
+
 @media screen and (max-width: 400px) {
   .input {
     min-width: 200px;

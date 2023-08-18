@@ -44,6 +44,13 @@ export function CRegistrationForm() {
       country: getCountryCode(shippingCountry.value),
     };
 
+    const billingAddress = {
+      streetName: billingStreet.value,
+      city: billingCity.value,
+      postalCode: billingPostalCode.value,
+      country: getCountryCode(billingCountry.value),
+    };
+
     const payload = {
       email: email.value, 
       password: password.value, 
@@ -58,6 +65,14 @@ export function CRegistrationForm() {
       billingAddress: [0],
       defaultBillingAddress: defaultBillingAddress ? 0 : undefined
     };
+
+    if (!useBillingAddress) {
+
+      payload.addresses[1] = billingAddress;
+      payload.billingAddress = [1];
+      payload.defaultBillingAddress = defaultBillingAddress ? 1 : undefined;
+
+    }
 
     registration.registrateCustomer(payload);
 

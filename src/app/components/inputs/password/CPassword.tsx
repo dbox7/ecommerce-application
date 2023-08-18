@@ -1,5 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
+import showPasswordIcon from '../../../assets/show-password-icon.svg';
+import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
 
 const CPassword: FC<IInputProps> = ({
   value, 
@@ -10,6 +12,7 @@ const CPassword: FC<IInputProps> = ({
 }) => {
 
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
 
@@ -26,12 +29,18 @@ const CPassword: FC<IInputProps> = ({
     valid.isPasswordGood
   ]);
 
+  const toggleShowPassword = () => {
+
+    setShowPassword(!showPassword);
+  
+  };
+
   return ( 
     <div className="input-wrap">
       <label className="input-title">Password</label>
       <input
         className={'input ' + error}
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={changeHandler}
         onBlur={blurHandler}
@@ -43,6 +52,12 @@ const CPassword: FC<IInputProps> = ({
 
       {!valid.isPasswordGood && !activeState && valid.isMinLength &&
       <div className="out-error">Enter correct password</div>}
+
+      <img className="password-icon"
+        src={showPassword ? showPasswordIcon : hidePasswordIcon}
+        alt="Toggle Password"
+        onClick={toggleShowPassword}
+      />
 
     </div>
   );
