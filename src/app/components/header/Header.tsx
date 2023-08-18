@@ -8,7 +8,7 @@ import './Header.css';
 
 export function Header(): JSX.Element {
   
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const [globalStore, setGlobalStore] = useContext(GlobalContext);  
 
   return (
     <header className="header">
@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
               <li className="menu-item">
                 <Link 
                   to="/" 
-                  onClick={handleLogout} 
+                  onClick={Logout} 
                   className="link"
                 >
                   Log out

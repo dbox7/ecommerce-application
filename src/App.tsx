@@ -24,7 +24,7 @@ export default function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
-          <Route path="logout" element={<Logout />} />
+          {/* <Route path="logout" element={<Logout />} /> */}
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
