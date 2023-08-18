@@ -20,9 +20,11 @@
   background-color: var(--accent-color);
 }
 
-.button:active {
+.button:active:not(:disabled) {
   transform: scale(0.95);
 }
 
 .button:disabled {
+  border-color: rgb(176, 176, 176);
+
 }
