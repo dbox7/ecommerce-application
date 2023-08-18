@@ -64,7 +64,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
       <div className="out-error">You too young</div>}
 
       {!valid.isTextGood && !activeState && !isDate && valid.isNotEmpty && (title !== 'Street') &&
-      <div className="out-error">Don't use numbers or special chars</div>}
+      <div className="out-error">Don't use nums or spec chars</div>}
 
     </div>
   );
