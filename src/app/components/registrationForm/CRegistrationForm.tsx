@@ -2,7 +2,7 @@ import { apiRoot } from '../../ctp';
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useInput from '../../services/customHooks/useInput';
+import useInput from '../../services/input/useInput';
 import { COUNTRIES } from '../../utils/constants';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';

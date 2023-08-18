@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
-import { Logout } from '../../components/logout/CLogout';
+import { useLogout } from '../../services/login/useLogout';
 
 import './Header.css';
   
@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
               <li className="menu-item">
                 <Link 
                   to="/" 
-                  onClick={Logout} 
+                  onClick={useLogout} 
                   className="link"
                 >
                   Log out

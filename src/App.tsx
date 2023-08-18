@@ -8,7 +8,6 @@ import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
 import { Header } from './app/components/header/Header';
 import { CatalogPage } from './app/pages/catalog/CatalogPage';
-import { Logout } from './app/components/logout/CLogout';
 import './App.css';
 
 export default function App() {
@@ -24,7 +23,6 @@ export default function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
-          {/* <Route path="logout" element={<Logout />} /> */}
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>

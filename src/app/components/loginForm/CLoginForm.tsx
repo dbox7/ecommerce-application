@@ -5,7 +5,7 @@ import { PROJECT_KEY, API_URL, AUTH_URL, CLIENT_ID, CLIENT_SECRET } from '../../
 import { ClientBuilder } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
-import useInput from '../../services/customHooks/useInput';
+import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
