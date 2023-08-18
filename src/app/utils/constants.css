@@ -18,11 +18,28 @@
   --exa: "Lexend Exa", sans-serif;
 }
 
+.cat {
+  position: relative;
+  margin: 20px;
+
+  width: 30%;
+  left: 10px;
+}
+
+.clarification {
+  text-align: center;
+}
+
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 40px;
+}
+
+.form-wrap {
+  width: fit-content;
+  margin: 30px auto;
 }
 
 .link:visited {
@@ -37,8 +54,8 @@
 /* Белая подложка с обрамлением */
 .substrate {
   width: fit-content;
-  margin: 30px auto;
-  padding: 0 80px 40px;
+  margin: 0 20px;
+  padding: 0 60px 40px;
 
   background-color: var(--basic-color);
   border: 1px solid var(--border-color);
@@ -54,4 +71,10 @@
   font-size: var(--sub-title);
 
   border-bottom: 2px solid var(--accent-color);
+}
+
+@media screen and (max-width: 400px) {
+  .substrate {
+    padding: 0 35px 40px;
+  }
 }

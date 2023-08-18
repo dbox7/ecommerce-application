@@ -40,3 +40,9 @@
   font-size: 12px;
   background-color: var(--error-color);
 }
+
+@media screen and (max-width: 400px) {
+  .input {
+    min-width: 200px;
+  }
+}

@@ -153,7 +153,7 @@ export function CRegistrationForm() {
           </div>
           
           <div className="info-block">
-            <h4>Enter the shipping address:</h4>
+            <h4 className="clarification">Enter the shipping address:</h4>
             <CTextDateInput 
               {...shippingStreet}
               title="Street"
@@ -185,7 +185,7 @@ export function CRegistrationForm() {
           
           {!useBillingAddress && (
             <div className="info-block">
-              <h4>Enter the billing address:</h4>
+              <h4 className="clarification">Enter the billing address:</h4>
               <CTextDateInput 
                 {...billingStreet}
                 title="Street"

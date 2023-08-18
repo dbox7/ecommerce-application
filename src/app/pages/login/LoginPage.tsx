@@ -1,10 +1,11 @@
 import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
-
 export function LoginPage(): JSX.Element {
 
   return (
-    <CLoginForm />
+    <div className="form-wrap">
+      <CLoginForm />
+    </div>
   );
 
 };
