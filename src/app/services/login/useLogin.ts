@@ -1,6 +1,5 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { ClientBuilder } from '@commercetools/sdk-client-v2';
-import { PROJECT_KEY, AUTH_URL, CLIENT_ID, CLIENT_SECRET, API_URL } from '../../ctp';
+import { createUserApiClient, PROJECT_KEY } from '../../ctp';
 import { GlobalContext } from '../../store/GlobalContext';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,42 +14,22 @@ export function useLogin() {
 
     setErrors([]);
 
-    const ctpMeClient = new ClientBuilder()
-      .withProjectKey(PROJECT_KEY)
-      .withPasswordFlow({
-        host: AUTH_URL,
-        projectKey: PROJECT_KEY,
-        credentials: {
-          clientId: CLIENT_ID,
-          clientSecret: CLIENT_SECRET,
-          user: {
-            username: email,
-            password: password
-          }
-        }
-      })
-      .withHttpMiddleware({
-        host: API_URL,
-        fetch,
-      })
-      .withLoggerMiddleware() // Include middleware for logging
-      .build();
-  
+    const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
-
+  
     apiMeRoot.me().login().post({
       body: {email, password}
-    }).execute()
+    })
+      .execute()
       .then(data => {
 
-        // Сохраняем в глобальном хранилище и профиль пользователя, и API для обращений от его имени
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});        
+        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
         navigate('/');
-
+      
       }).catch(err => {
 
-        setErrors([err.message]);
-
+        setErrors([...errors, err.message]);
+      
       });
   
   }

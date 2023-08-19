@@ -17,9 +17,7 @@ export interface ICountry {
 
 export interface IGlobalStoreType {
   currentUser: Customer,
-  setCurrentUser: Dispatch<SetStateAction<Customer>>,
   apiMeRoot?: ByProjectKeyRequestBuilder,
-  setApiMeRoot: Dispatch<SetStateAction<Customer>>
 }
 
 export interface IInputProps {
