@@ -2,7 +2,6 @@ header {
   display: flex;
   align-items: center;
   height: 80px;
-
   background-color: var(--basic-color);
   border-bottom: 1px solid var(--border-color);
 }

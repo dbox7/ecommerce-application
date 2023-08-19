@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Customer } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
@@ -17,9 +16,7 @@ export interface ICountry {
 
 export interface IGlobalStoreType {
   currentUser: Customer,
-  setCurrentUser: Dispatch<SetStateAction<Customer>>,
   apiMeRoot?: ByProjectKeyRequestBuilder,
-  setApiMeRoot: Dispatch<SetStateAction<Customer>>
 }
 
 export interface IInputProps {
