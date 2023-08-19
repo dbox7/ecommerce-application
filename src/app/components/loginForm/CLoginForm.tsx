@@ -58,7 +58,10 @@ export function CLoginForm() {
           disabled={isFormBlocked}
         />
         <div>
-          Don't have an account yet? <Link to="/signup" className="link"><b>Sign up</b></Link>
+          Don't have an account yet?
+          <p className="login-form-link">
+            <Link to="/signup" className="link"><b>Sign up</b></Link>
+          </p>
         </div>
       </form>
     </div>
