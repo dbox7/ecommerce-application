@@ -10,7 +10,7 @@ export function LoginPage(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
+
     if (globalStore.currentUser.id) {
 
       navigate('/');

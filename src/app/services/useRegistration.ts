@@ -27,9 +27,17 @@ export function useRegistration() {
       
       })
       .catch((err) => {
+        
+        if (err.body.message === 'There is already an existing customer with the provided email.') {
 
-        setErrors([...errors, err.message]);
-                
+          setErrors([...errors, 'An account with this email already exists.']);
+
+        } else {
+            
+          setErrors([...errors, 'Something went wrong. Please try again later.']);
+
+        }
+
       });
 
   };

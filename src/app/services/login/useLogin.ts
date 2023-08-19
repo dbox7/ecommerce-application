@@ -10,6 +10,7 @@ export function useLogin() {
   const [errors, setErrors] = useState<String[]>([]);
   const navigate = useNavigate();
 
+
   function createClient(email: string, password: string) {
 
     setErrors([]);
@@ -28,7 +29,15 @@ export function useLogin() {
       
       }).catch(err => {
 
-        setErrors([...errors, err.message]);
+        if (err.body.message === 'Customer account with the given credentials not found.') {
+
+          setErrors([...errors, 'Invalid email or password.']);
+
+        } else {
+              
+          setErrors([...errors, 'Something went wrong. Please try again later.']);
+
+        }
       
       });
   
