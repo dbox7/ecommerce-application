@@ -5,7 +5,6 @@ export function MainPage() {
 
   return (
     <div className="poster-wrap">
-      {/* <img src={poster} alt="poster" className="poster"></img> */}
     </div>
   );
 

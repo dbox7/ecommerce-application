@@ -36,15 +36,21 @@ export function Header(): JSX.Element {
                 </li>
               </>
               :
-              <li className="menu-item">
-                <Link 
-                  to="/" 
-                  onClick={logout} 
-                  className="link"
-                >
-                  Log out
-                </Link>
-              </li>
+              
+              <>
+                <li className="menu-item">
+                  <Link to="/profile" className="link">Welcome, {globalStore.currentUser.firstName}!</Link>
+                </li>
+                <li className="menu-item">
+                  <Link 
+                    to="/" 
+                    onClick={logout} 
+                    className="link"
+                  >
+                    Log out
+                  </Link>
+                </li>
+              </>
             }
           </ul>
         </nav>
