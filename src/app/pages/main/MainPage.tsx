@@ -1,4 +1,3 @@
-import poster from '../../assets/poster.png';
 import './MainPage.css';
 
 export function MainPage() {

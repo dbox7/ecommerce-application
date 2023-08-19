@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../store/GlobalContext';
 import { createUserApiClient, PROJECT_KEY, apiAnonRoot } from '../ctp';
-import { CustomerDraft, MyCustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { MyCustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 
 
@@ -28,12 +28,8 @@ export function useRegistration() {
       })
       .catch((err) => {
 
-        // Эта функция вызовется, если API-запрос вернёт HTTP-ошибку. Добавим её в Чувствительную Копилку Сообщений
         setErrors([...errors, err.message]);
-          
-        // А для программистов мы выведем в консоль полный объект ошибки, там может быть полезная инфа об отладке
-        console.error('Error sending POST /customers. Take a look at body.errors[x].detailedErrorMessage', err);
-      
+                
       });
 
   };

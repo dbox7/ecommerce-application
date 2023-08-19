@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Customer } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
