@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
               
               <>
                 <li className="menu-item">
-                  <Link to="/profile" className="link">Welcome, {globalStore.currentUser.firstName}!</Link>
+                  <p>Welcome, {globalStore.currentUser.firstName}!</p>
                 </li>
                 <li className="menu-item">
                   <Link 
