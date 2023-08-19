@@ -1,9 +1,7 @@
-import { apiRoot } from '../../ctp';
-import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import useInput from '../../services/customHooks/useInput';
+import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
+
+import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -11,10 +9,12 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
-import { CustomerDraft } from '@commercetools/platform-sdk';
-import { GlobalContext } from '../contexts/GlobalContext';
+import UseFormBlock from '../../services/useFormBlock';
+
 
 import './CRegistrationForm.css';
+import useRegistration from '../../services/useRegistration';
+
 
 const getCountryCode = (countryName: string) => {
   
@@ -26,30 +26,16 @@ const getCountryCode = (countryName: string) => {
 
 export function CRegistrationForm() {
 
-  const navigate = useNavigate();
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [errors, setErrors] = useState<String[]>([]);
-  const [formBlocked, setFormBlocked] = useState(false);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
 
   const [useBillingAddress, setUseBillingAddress] = useState(true);
 
-  useEffect(() => { //если юзер есть, то перенаправляем на главную
-
-    if (globalStore.currentUser.id) {
-
-      navigate('/');
-    
-    }
-    
-  }, [globalStore, navigate]);
+  const registration = useRegistration();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    setErrors([]);
-    setFormBlocked(true);
 
     const shippingAddress = {
       streetName: shippingStreet.value,
@@ -88,23 +74,7 @@ export function CRegistrationForm() {
 
     }
 
-    apiRoot.customers()      
-      .post({body: payload as CustomerDraft })
-      .execute()
-      .then((data) => {
-
-        setGlobalStore({...globalStore, currentUser: data.body.customer});
-        navigate('/');
-      
-      })
-      .catch((err) => {
-
-        setErrors([...errors, err.message]);
-        setFormBlocked(false);
-
-      });
-
-    console.log(payload);
+    registration.registrateCustomer(payload);
 
   };
 
@@ -116,7 +86,7 @@ export function CRegistrationForm() {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
-  const dateOfBirth = useInput(`${Date.now()}`, 'date');  
+  const dateOfBirth = useInput('', 'date');  
   const firstName = useInput('', 'text');
   const lastName = useInput('', 'text');
 
@@ -130,17 +100,43 @@ export function CRegistrationForm() {
   const billingPostalCode = useInput('', 'postalCode');
   const billingCountry = useInput('', 'text');
 
-  if (globalStore.currentUser.id) {
+  const isFormBlockedByMainInfo = UseFormBlock([
+    email.valid.isNotEmpty!,
+    email.valid.isEmailGood!,
+    password.valid.isNotEmpty!,
+    password.valid.isMinLength!,
+    password.valid.isPasswordGood!,
+    dateOfBirth.valid.isDateGood!,
+    firstName.valid.isNotEmpty!,
+    firstName.valid.isTextGood!,
+    lastName.valid.isNotEmpty!,
+    lastName.valid.isTextGood!,
+    shippingStreet.valid.isNotEmpty!,
+    shippingStreet.valid.isTextGood!,
+    shippingCity.valid.isNotEmpty!,
+    shippingCity.valid.isTextGood!,
+    shippingPostalCode.valid.isNotEmpty!,
+    shippingPostalCode.valid.isPostalCodeGood!,
+    shippingCountry.valid.isNotEmpty!,
+    shippingCountry.valid.isTextGood!,
+  ]);
 
-    return <></>;
-
-  }
-
+  const isFormBlockedByBilling = UseFormBlock([
+    billingStreet.valid.isNotEmpty!,
+    billingStreet.valid.isTextGood!,
+    billingCity.valid.isNotEmpty!,
+    billingCity.valid.isTextGood!,
+    billingPostalCode.valid.isNotEmpty!,
+    billingPostalCode.valid.isPostalCodeGood!,
+    billingCountry.valid.isNotEmpty!,
+    billingCountry.valid.isTextGood!
+  ]);
+  
   return (
     <div className="substrate">
       <div className="sub-title">Registration</div>
 
-      <CAlert messages={errors}></CAlert>
+      <CAlert messages={registration.errors}></CAlert>
 
       <form 
         className="form"
@@ -172,7 +168,7 @@ export function CRegistrationForm() {
           </div>
           
           <div className="info-block">
-            <h4>Enter the shipping address:</h4>
+            <h4 className="clarification">Enter the shipping address:</h4>
             <CTextDateInput 
               {...shippingStreet}
               title="Street"
@@ -204,7 +200,7 @@ export function CRegistrationForm() {
           
           {!useBillingAddress && (
             <div className="info-block">
-              <h4>Enter the billing address:</h4>
+              <h4 className="clarification">Enter the billing address:</h4>
               <CTextDateInput 
                 {...billingStreet}
                 title="Street"
@@ -233,8 +229,11 @@ export function CRegistrationForm() {
         
         <CButton 
           type="submit"
-          value={ formBlocked ? 'Please wait...' : 'Sign up' }
-          disabled={formBlocked}
+          value="Sign up"
+          disabled={!useBillingAddress && !isFormBlockedByMainInfo ? 
+            isFormBlockedByBilling 
+            : 
+            isFormBlockedByMainInfo}
         />
       </form>
     </div>

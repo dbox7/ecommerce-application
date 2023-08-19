@@ -13,7 +13,7 @@ const CEmail: FC<IInputProps> = ({
 
   useEffect(() => {
 
-    (valid.isEmpty || 
+    (!valid.isNotEmpty || 
     !valid.isEmailGood) && 
     !activeState ?
       setError('error')
@@ -23,7 +23,7 @@ const CEmail: FC<IInputProps> = ({
   }, [
     activeState, 
     valid.isEmailGood, 
-    valid.isEmpty
+    valid.isNotEmpty
   ]);
 
   return ( 
@@ -38,7 +38,7 @@ const CEmail: FC<IInputProps> = ({
         title="A properly formatted email address (e.g., example@email.com)"
       />
 
-      {valid.isEmpty && !activeState &&
+      {!valid.isNotEmpty && !activeState &&
       <div className="out-error">Not be an empty</div>}
 
       {!valid.isEmailGood && !activeState && 

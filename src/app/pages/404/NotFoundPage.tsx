@@ -1,17 +1,15 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import cat from '../../assets/cat.png';
 
 import './NotFoundPage.css';
 
 export function NotFoundPage() {
 
   return (
-    <div>
-      <h1>Oops! You seem to be lost.</h1>
-      <p>Here are some helpful links:</p>
-      <Link to="/">Home</Link>
-      <Link to="/login">Login Page</Link>
-      <Link to="/registration">Registration Page</Link>
+    <div className="notFound">
+      <img src={cat} alt="sad cat" className="cat"></img>
+      <h1>Oops! You seem to be lost...</h1>
+      <p className="text">Bring sadly cat on <Link to="/" className="link"><b>home page</b></Link></p>
     </div>
   );
 

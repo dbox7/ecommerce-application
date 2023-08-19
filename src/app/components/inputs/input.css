@@ -51,3 +51,9 @@
   content: "";
   cursor: pointer;
 }
+
+@media screen and (max-width: 400px) {
+  .input {
+    min-width: 200px;
+  }
+}

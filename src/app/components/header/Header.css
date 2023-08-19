@@ -19,6 +19,7 @@ header {
   font-family: var(--tera);
   font-size: var(--title);
   letter-spacing: 4px;
+  margin: 0 10px;
 }
 
 .logo .link:hover {
@@ -28,6 +29,7 @@ header {
 .nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   min-height: 100%;
 }
 
@@ -51,4 +53,30 @@ header {
 .menu-link {
   color: #cdcdcd;
   transition: color 0.2s linear;
+}
+
+@media screen and (max-width: 790px) {
+  .logo {
+    max-width: 200px;
+    text-align: center;
+    font-size: calc(var(--title) * 0.8);
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .logo {
+    font-size: calc(var(--title) * 0.6);
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 10px;
+    min-width: 65px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .logo {
+    font-size: calc(var(--title) * 0.4);
+  }
 }

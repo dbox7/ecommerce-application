@@ -1,5 +1,5 @@
 import { Customer } from '@commercetools/platform-sdk';
-import { ICountry } from './types';
+import { ICountry, IValidationRules } from './types';
 
 export const anonUser: Customer = {
   id: '',
@@ -39,3 +39,27 @@ export const COUNTRIES: ICountry[] = [
     postalCode: /\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b/
   }
 ];
+
+export const RULES: IValidationRules = {
+  email: {
+    isNotEmpty: true,
+    isEmailGood: false
+  },
+  password: {
+    isNotEmpty: true,
+    isPasswordGood: false,
+    minLength: 8
+  },
+  date: {
+    isNotEmpty: true,
+    isDateGood: false
+  },
+  text: {
+    isNotEmpty: true,
+    isTextGood: false,
+  },
+  postalCode: {
+    isNotEmpty: true,
+    isPostalCodeGood: false,
+  }
+};

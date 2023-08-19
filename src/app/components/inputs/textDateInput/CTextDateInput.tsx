@@ -25,7 +25,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   useEffect(() => {
 
-    (valid.isEmpty || 
+    (!valid.isNotEmpty || 
     (!valid.isDateGood && isDate) ||
     !valid.isTextGood && !isDate && (!title.toLowerCase().includes('street'))) && 
     !activeState ?
@@ -57,14 +57,14 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         </datalist>
       ) : ('')}
 
-      {valid.isEmpty && !activeState &&
+      {!valid.isNotEmpty && !activeState &&
       <div className="out-error">Not be an empty</div>}
 
-      {!valid.isDateGood && !activeState && isDate && !valid.isEmpty &&
+      {!valid.isDateGood && !activeState && isDate && valid.isNotEmpty &&
       <div className="out-error">You too young</div>}
 
-      {!valid.isTextGood && !activeState && !isDate && !valid.isEmpty && (title !== 'Street') &&
-      <div className="out-error">Don't use numbers or special chars</div>}
+      {!valid.isTextGood && !activeState && !isDate && valid.isNotEmpty && (title !== 'Street') &&
+      <div className="out-error">Don't use nums or spec chars</div>}
 
     </div>
   );

@@ -1,14 +1,14 @@
 import { useContext } from 'react';
-import { GlobalContext } from '../contexts/GlobalContext';
+import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
-import { Logout } from '../../components/logout/CLogout';
+import { useLogout } from '../../services/login/useLogout';
 
 import './Header.css';
-  
 
 export function Header(): JSX.Element {
   
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);  
+  const logout = useLogout();
+  const [globalStore] = useContext(GlobalContext);  
 
   return (
     <header className="header">
@@ -39,7 +39,7 @@ export function Header(): JSX.Element {
               <li className="menu-item">
                 <Link 
                   to="/" 
-                  onClick={Logout} 
+                  onClick={logout} 
                   className="link"
                 >
                   Log out

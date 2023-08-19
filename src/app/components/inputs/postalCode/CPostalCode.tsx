@@ -20,7 +20,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
 
   useEffect(() => {
 
-    (valid.isEmpty || 
+    (!valid.isNotEmpty || 
     !valid.isPostalCodeGood ||
     !selectedCountry?.postalCode.test(value)) && 
     !activeState ?
@@ -45,10 +45,10 @@ const CPostalCode: FC<IPostalCodeProps> = ({
         title="Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)"
       />
 
-      {valid.isEmpty && !activeState &&
+      {!valid.isNotEmpty && !activeState &&
       <div className="out-error">Not be an empty</div>}
 
-      {!valid.isEmpty && !selectedCountry?.postalCode.test(value) && !activeState &&
+      {valid.isNotEmpty && !selectedCountry?.postalCode.test(value) && !activeState &&
       <div className="out-error">Enter right postal code</div>}
 
     </div>

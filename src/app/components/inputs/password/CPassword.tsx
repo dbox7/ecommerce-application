@@ -16,7 +16,7 @@ const CPassword: FC<IInputProps> = ({
 
   useEffect(() => {
 
-    (valid.isEmpty || 
+    (!valid.isNotEmpty || 
     !valid.isPasswordGood) && 
     !activeState ?
       setError('error')
@@ -25,7 +25,7 @@ const CPassword: FC<IInputProps> = ({
 
   }, [
     activeState, 
-    valid.isEmpty, 
+    valid.isNotEmpty, 
     valid.isPasswordGood
   ]);
 
@@ -53,14 +53,11 @@ const CPassword: FC<IInputProps> = ({
       {!valid.isPasswordGood && !activeState && valid.isMinLength &&
       <div className="out-error">Enter correct password</div>}
 
-      <div
-        className="show-password-button"
+      <img className="password-icon"
+        src={showPassword ? showPasswordIcon : hidePasswordIcon}
+        alt="Toggle Password"
         onClick={toggleShowPassword}
-      >
-        <img className="password-icon"
-          src={showPassword ? showPasswordIcon : hidePasswordIcon}
-          alt="Toggle Password" />
-      </div>
+      />
 
     </div>
   );
