@@ -16,7 +16,7 @@ export function Header(): JSX.Element {
         <nav className="nav">
           <ul className="menu">
             <li className="menu-item">
-              <Link to="/" className="link">Main</Link>
+              <Link to="/" className="link">Home</Link>
             </li>
             <li className="menu-item">
               <Link to="/catalog" className="link">Catalog</Link>
