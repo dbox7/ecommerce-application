@@ -44,7 +44,8 @@ const CPassword: FC<IInputProps> = ({
         value={value}
         onChange={changeHandler}
         onBlur={blurHandler}
-        title="Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
+        title="Minimum 8 characters, at least 1 uppercase letter,
+         1 lowercase letter, 1 number and 1 special character. No whitespaces, please."
       />
 
       {!valid.isMinLength && !activeState &&
