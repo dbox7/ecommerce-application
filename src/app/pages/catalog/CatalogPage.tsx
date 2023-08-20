@@ -2,12 +2,14 @@ import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { apiAnonRoot } from '../../ctp';
 import { useState } from 'react';
-
-import { CProductCard } from '../../components/products/card/CProductCard';
-
-import './CatalogPage.css';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Link } from 'react-router-dom';
+
+import { CProductCard } from '../../components/products/card/CProductCard';
+import { CSearchProduct } from '../../components/products/search/CSearchProduct';
+
+import './CatalogPage.css';
+
 
 export function CatalogPage() {
 
@@ -44,6 +46,7 @@ export function CatalogPage() {
 
   return (
     <div className="catalog">
+      <CSearchProduct></CSearchProduct>
       <div className="product-card-container">
         { products.map(product => (
           <Link key={product.id} to={`/catalog/${product.id}`}>

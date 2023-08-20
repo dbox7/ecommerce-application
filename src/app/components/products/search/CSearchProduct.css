@@ -1,0 +1,25 @@
+.search-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin: 2rem 0;
+}
+
+.search-container input {
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.search-btn {
+  background-color: var(--basic-color);
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--dark-accent-color);
+}
