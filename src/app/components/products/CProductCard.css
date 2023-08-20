@@ -24,15 +24,14 @@
 
 .product-card-name,
 .product-card-description {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .product-card-name {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .product-card-description {
-  font-size: .7rem;
+  font-size: 0.7rem;
   height: 3rem;
 }
-
