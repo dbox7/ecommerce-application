@@ -24,6 +24,7 @@ export default function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="catalog" element={<CatalogPage />} />
+          <Route path="catalog/:productId" element={<CatalogPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>
