@@ -10,6 +10,7 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
 import UseFormBlock from '../../services/useFormBlock';
+import { Link } from 'react-router-dom';
 
 
 import './CRegistrationForm.css';
@@ -235,6 +236,12 @@ export function CRegistrationForm() {
             : 
             isFormBlockedByMainInfo}
         />
+        <div>
+          Already have an account?
+          <p className="login-form-link">
+            <Link to="/login" className="link"><b>Log in</b></Link>
+          </p>
+        </div>
       </form>
     </div>
   );
