@@ -20,13 +20,6 @@ const useInput = (initialValue: string, type: string, setFormBlocked?: Function)
 
     setActiveState(false); 
     
-    // if (setFormBlocked && Object.entries(valid).length) {
-      
-    //   const res = Object.values(valid).reduce((res, item) => res && item, true);
-      
-    //   res ? setFormBlocked(false) : setFormBlocked(true);
-    // }
-    
   };
 
   return {

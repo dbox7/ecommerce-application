@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useLogin } from '../../services/login/useLogin';
-import { useState } from 'react';
-
 
 import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
@@ -38,7 +36,7 @@ export function CLoginForm() {
     <div className="substrate">
       <div className="sub-title">Log in</div>
       
-      <CAlert messages={login.errors}></CAlert>
+      <CAlert messages={login.errors} />
       
       <form 
         className="form"

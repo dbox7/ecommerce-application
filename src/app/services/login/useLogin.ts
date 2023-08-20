@@ -13,8 +13,6 @@ export function useLogin() {
 
   function createClient(email: string, password: string) {
 
-    setErrors([]);
-
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
   
@@ -28,14 +26,14 @@ export function useLogin() {
         navigate('/');
       
       }).catch(err => {
-
+        
         if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          setErrors([...errors, 'Invalid email or password.']);
+          setErrors(['Invalid email or password.']);
 
         } else {
               
-          setErrors([...errors, 'Something went wrong. Please try again later.']);
+          setErrors(['Something went wrong. Please try again later.']);
 
         }
       

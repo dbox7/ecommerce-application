@@ -30,11 +30,11 @@ export function useRegistration() {
         
         if (err.body.message === 'There is already an existing customer with the provided email.') {
 
-          setErrors([...errors, 'An account with this email already exists.']);
+          setErrors(['An account with this email already exists.']);
 
         } else {
             
-          setErrors([...errors, 'Something went wrong. Please try again later.']);
+          setErrors(['Something went wrong. Please try again later.']);
 
         }
 
