@@ -35,3 +35,13 @@
   font-size: 0.7rem;
   height: 3rem;
 }
+
+.product-card-discount {
+  display: flex;
+  flex-direction: row;
+}
+
+.product-old-price {
+  margin-right: 1rem;
+  opacity: 0.5;
+}

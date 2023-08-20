@@ -46,12 +46,13 @@ export function CatalogPage() {
     <div className="catalog">
       <div className="product-card-container">
         { products.map(product => (
-          <Link to={`/catalog/${product.id}`}>
+          <Link key={product.id} to={`/catalog/${product.id}`}>
             <CProductCard product={product}></CProductCard>
           </Link>
         )) }
       </div>
     </div>
   );
+
 
 }
