@@ -47,6 +47,11 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         onChange={changeHandler}
         onBlur={blurHandler}
         list={data ? 'list' : undefined}
+        title={
+          (isDate ? 'A valid date input ensuring the user is above a certain age (e.g., 13 years old or older)' : '') ||
+          (!title.toLowerCase().includes('street') 
+            ? 'Must contain at least one character and no special characters or numbers' : 'Must contain at least one character')
+        }
       />
 
       {data ? (
