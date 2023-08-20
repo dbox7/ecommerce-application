@@ -3,7 +3,7 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { apiAnonRoot } from '../../ctp';
 import { useState } from 'react';
 
-import { CProductCard } from '../../components/products/CProductCard';
+import { CProductCard } from '../../components/products/card/CProductCard';
 
 import './CatalogPage.css';
 import { ProductProjection } from '@commercetools/platform-sdk';
@@ -38,7 +38,7 @@ export function CatalogPage() {
     }
     );
 
-  });
+  }, []);
 
 
 
@@ -46,7 +46,7 @@ export function CatalogPage() {
     <div className="catalog">
       <div className="product-card-container">
         { products.map(product => (
-          <Link to={`/catalog/${product.id}`} key={product.id}>
+          <Link to={`/catalog/${product.id}`}>
             <CProductCard product={product}></CProductCard>
           </Link>
         )) }
