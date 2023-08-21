@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.aa5c0c0e.css",
+    "main.js": "/static/js/main.cc456a6e.js",
+    "static/media/poster.png": "/static/media/poster.9f1189da10ab1f4c313f.png",
+    "static/media/cat2.png": "/static/media/cat2.377e60e2f7f9140af10e.png",
+    "static/media/cat.png": "/static/media/cat.6dc3cc928855736354c5.png",
+    "static/media/hide-password-icon.svg": "/static/media/hide-password-icon.015ec1799267f291aeb7a92e53342ae1.svg",
+    "index.html": "/index.html",
+    "static/media/show-password-icon.svg": "/static/media/show-password-icon.3f54cedc45db5d57283a927f0b15d574.svg"
+  },
+  "entrypoints": [
+    "static/css/main.aa5c0c0e.css",
+    "static/js/main.cc456a6e.js"
+  ]
+}
