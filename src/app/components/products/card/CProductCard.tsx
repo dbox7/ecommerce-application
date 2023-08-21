@@ -19,14 +19,14 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
               <del className="product-old-price"> { product.masterVariant.prices![0].value.centAmount / 100 }$
               </del>
               <div><b>
-                { product.masterVariant.prices![0].discounted?.value.centAmount / 100 }
-                $</b></div>
+                { product.masterVariant.prices![0].discounted?.value.centAmount / 100 }$
+              </b></div>
             </div> 
             <RiShoppingCartLine className="cart-icon"/>
           </>
           :
           <>
-            <div><b>
+            <div className="product-one-price"><b>
               { product.masterVariant.prices![0].value.centAmount / 100 }
               $</b></div>
             <RiShoppingCartLine className="cart-icon"/>

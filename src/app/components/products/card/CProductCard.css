@@ -39,11 +39,12 @@
 .product-card-discount {
   display: flex;
   flex-direction: row;
+  color: var(--extra-color);
 }
 
 .product-old-price {
   margin-right: 1rem;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .product-card-price-container {
