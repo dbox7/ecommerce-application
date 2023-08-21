@@ -27,6 +27,9 @@ export interface IInputProps {
   valid: Partial<IValidation>;
 }
 
+export interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
 export interface IValidation {
   isNotEmpty: boolean;
   isEmailGood?: boolean;
