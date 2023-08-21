@@ -4,8 +4,8 @@ import { IInputProps } from '../../utils/types';
 
 const useInput = (initialValue: string, type: string, setFormBlocked?: Function): IInputProps => {
 
-  const [value, setValue] = useState(initialValue);
-  const [activeState, setActiveState] = useState(true);
+  const [value, setValue] = useState<string>(initialValue);
+  const [activeState, setActiveState] = useState<boolean>(true);
   
   const valid = useValidation(value, type);
 

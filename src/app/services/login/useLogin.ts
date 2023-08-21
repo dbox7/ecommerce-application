@@ -11,7 +11,7 @@ export function useLogin() {
   const navigate = useNavigate();
 
 
-  function createClient(email: string, password: string) {
+  function createClient(email: string, password: string): void {
 
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});

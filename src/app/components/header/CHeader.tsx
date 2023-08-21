@@ -5,7 +5,7 @@ import { useLogout } from '../../services/login/useLogout';
 
 import './CHeader.css';
 
-export function Header(): JSX.Element {
+export function Header() {
   
   const logout = useLogout();
   const [globalStore] = useContext(GlobalContext);  
