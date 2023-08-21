@@ -11,7 +11,7 @@
 .search-container input {
   width: 100%;
   border: none;
-  padding: 0.5rem;
+  padding: 0.2rem;
   font-size: 1rem;
   outline: none;
 }
@@ -22,5 +22,16 @@
   padding: 0.5rem;
   font-size: 1rem;
   cursor: pointer;
-  color: var(--dark-accent-color);
+}
+
+.search-icon {
+  color: var(--border-color);
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+.search-icon:hover {
+  color: var(--accent-color);
+  opacity: 1;
+  transition: all 0.2s ease-in;
 }
