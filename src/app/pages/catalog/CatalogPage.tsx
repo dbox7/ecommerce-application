@@ -58,7 +58,11 @@ export function CatalogPage() {
 
     }
 
-    api?.productProjections().get().execute().then(data => {
+    api?.productProjections().get({
+      queryArgs: {
+        limit: 25
+      }
+    }).execute().then(data => {
 
       const products = data.body.results;
 
