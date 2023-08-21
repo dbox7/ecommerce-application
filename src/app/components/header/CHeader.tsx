@@ -3,7 +3,7 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { useLogout } from '../../services/login/useLogout';
 
-import './Header.css';
+import './CHeader.css';
 
 export function Header(): JSX.Element {
   
@@ -44,7 +44,7 @@ export function Header(): JSX.Element {
                 <li className="menu-item">
                   <Link 
                     to="/" 
-                    onClick={logout} 
+                    onClick={logout as React.MouseEventHandler} 
                     className="link"
                   >
                     Log out

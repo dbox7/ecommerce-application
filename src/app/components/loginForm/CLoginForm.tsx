@@ -36,7 +36,7 @@ export function CLoginForm() {
     <div className="substrate">
       <div className="sub-title">Log in</div>
       
-      <CAlert messages={login.errors} />
+      <CAlert message={login.error} />
       
       <form 
         className="form"

@@ -6,7 +6,7 @@ import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
-import { Header } from './app/components/header/Header';
+import { Header } from './app/components/header/CHeader';
 import { CatalogPage } from './app/pages/catalog/CatalogPage';
 import './App.css';
 

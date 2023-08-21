@@ -1,12 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import '../input.css';
-import { ICountry, IInputProps } from '../../../utils/types';
-
-type ITextDateInputProps = IInputProps & {
-  title: string
-  data?: ICountry[] | null;
-  isDate?: boolean;
-}
+import { ICountry, ITextDateInputProps } from '../../../utils/types';
 
 const CTextDateInput: FC<ITextDateInputProps> = ({
   value, 
