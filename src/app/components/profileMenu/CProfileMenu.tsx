@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { useLogout } from '../../services/login/useLogout';
@@ -36,7 +36,7 @@ const CProfileMenu = () => {
                 <li className="profile-nav-item">
                   <Link 
                     to="/" 
-                    onClick={logout} 
+                    onClick={logout as React.MouseEventHandler} 
                     className="link"
                   >
                     Log out
