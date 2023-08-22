@@ -42,8 +42,12 @@
   margin: 30px auto;
 }
 
+.link {
+  text-align: center;
+}
+
 .link:visited {
-  color: inherit;
+  color: black;
 }
 
 .link:hover {
@@ -67,7 +71,7 @@
   padding-bottom: 5px;
   width: fit-content;
 
-  font-family: "Lexend Tera", sans-serif;
+  font-family: var(--tera);
   font-size: var(--sub-title);
 
   border-bottom: 2px solid var(--accent-color);

@@ -1,0 +1,80 @@
+.profile-menu {
+  position: relative;
+  padding: 15px 0;
+
+  font-family: var(--exa);
+  font-size: var(--main-text);
+}
+
+.profile-icon {
+  height: 18px;
+}
+
+.profile-menu .info-block {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  cursor: pointer;
+}
+
+.profile-menu .profile-nav {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  z-index: 5;
+}
+
+.profile-nav::after,
+.profile-nav::before {
+  content: '';
+  border: solid transparent;
+  position: absolute;
+  left: 50%;
+  margin-left: -12px;
+  top: -26px;
+  width: 0;
+}
+
+.profile-nav::before {
+  border-bottom-color: black;
+  border-width: 12px;
+  top: -24px;
+}
+
+.profile-nav::after {
+  border-bottom-color: white;
+  border-width: 16px;
+  margin-left: -16px;
+}
+
+.profile-nav.substrate {
+  padding: 0;
+  margin: 0;
+  border-width: 1.5px;
+}
+
+.profile-nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 8px 10px;
+}
+
+.profile-nav-item:hover {
+  background-color: var(--bg-color);
+}
+
+.profile-nav:has(.profile-nav-item:first-child:hover)::after {
+  border-bottom-color: var(--bg-color);
+}
+
+.profile-nav-item:last-child {
+  padding-bottom: 11px;
+}
