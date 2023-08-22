@@ -41,3 +41,19 @@ export interface IValidation {
 export interface IValidationRules {
   [index: string]: IValidation
 }
+
+export interface IAddress {
+  id: string;
+  streetName: string;
+  postalCode: string;
+  city: string;
+  country: string;
+}
+
+export interface IAdressProps {
+  addresses: IAddress[];
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
+  defaultBillingAddressIds: string | undefined;
+  defaultShippingAddressIds: string | undefined;
+}

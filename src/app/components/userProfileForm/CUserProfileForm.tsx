@@ -1,14 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import CButton from '../button/CButton';
 import './CUserProfileForm.css';
 import { GlobalContext } from '../../store/GlobalContext';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
+import CUserAddresses from '../userAdresses/CUserAdresses';
+import { IAddress } from '../../utils/types';
 
 
-export const CUserProfileForm = () => {
+export default function CUserProfileForm(): JSX.Element {
   
   const [globalStore] = useContext(GlobalContext);
   const dataOfBirth = useInput('', 'date');
@@ -16,7 +17,13 @@ export const CUserProfileForm = () => {
   const firstName = useInput('', 'text');
   const email = useInput('', 'email');
   
-  
+  const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
+    id: address.id || '',
+    streetName: address.streetName || '',
+    postalCode: address.postalCode || '',
+    city: address.city || '',
+    country: address.country || '',
+  }));
 
 
   function handleSubmit() {}
@@ -64,31 +71,16 @@ export const CUserProfileForm = () => {
         </form>
       </section>
       <section>
-        <h2>User addresses</h2>
-        <ul className="address-list">
-          <li className="address-item">
-            <span>Default</span>
-            <div className="param-title">The shipping address</div>
-            <div className="param-value">{globalStore.currentUser.defaultShippingAddressId}</div>
-          </li>
-          <li className="address-item">
-            <span>Default</span>
-            <div className="param-title">The billing addres:</div>
-            <div className="param-value">{globalStore.currentUser.defaultBillingAddressId}</div>
-          </li>
-          {globalStore.currentUser.shippingAddressIds && globalStore.currentUser.shippingAddressIds.length > 0
-          && globalStore.currentUser.defaultShippingAddressId !== globalStore.currentUser.shippingAddressIds[0] && (
-            <li className="address-item">
-              <div className="param-title">The shipping address</div>
-              <div className="param-value">{globalStore.currentUser.shippingAddressIds[0]}</div>
-            </li>)}
-          {globalStore.currentUser.billingAddressIds && globalStore.currentUser.billingAddressIds.length > 0
-          && globalStore.currentUser.defaultShippingAddressId !== globalStore.currentUser.billingAddressIds[0] && (
-            <li className="address-item">
-              <div className="param-title">The billing address</div>
-              <div className="param-value">{globalStore.currentUser.billingAddressIds[0]}</div>
-            </li>)}
-        </ul>
+        {globalStore.currentUser.shippingAddressIds &&
+        globalStore.currentUser.billingAddressIds && (
+          <CUserAddresses
+            addresses={convertedAddresses}
+            shippingAddressIds={globalStore.currentUser.shippingAddressIds}
+            billingAddressIds={globalStore.currentUser.billingAddressIds}
+            defaultShippingAddressIds={globalStore.currentUser.defaultShippingAddressId}
+            defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
+          />
+        )}
         <button>Edit</button>
       </section>
     </div>

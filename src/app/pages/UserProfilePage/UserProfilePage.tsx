@@ -1,4 +1,4 @@
-import { CUserProfileForm } from '../../components/userProfileForm/CUserProfileForm';
+import CUserProfileForm from '../../components/userProfileForm/CUserProfileForm';
 
 export function UserProfilePage(): JSX.Element {
 

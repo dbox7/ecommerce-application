@@ -16,6 +16,8 @@ export default function App() {
   // Значение стейта по-умолчанию - анонимный юзер (потом будем брать значение из localStorage)
   const [globalStore, setGlobalStore] = useState<IGlobalStoreType>(defaultGlobalStore);
 
+  console.log(globalStore.currentUser);
+
   return (
     <GlobalContext.Provider value={[globalStore, setGlobalStore]}>
       <BrowserRouter>
