@@ -32,7 +32,7 @@
 
 .profile-nav::after,
 .profile-nav::before {
-  content: '';
+  content: "";
   border: solid transparent;
   position: absolute;
   left: 50%;
