@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 
-const UseFormBlock = (depends: boolean[]) => {
+const UseFormBlock = (depends: boolean[]): boolean => {
   
-  const [formBlocked, setFormBlocked] = useState(true);
+  const [formBlocked, setFormBlocked] = useState<boolean>(true);
   
   useEffect(() => {
 

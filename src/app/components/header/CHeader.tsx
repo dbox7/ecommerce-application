@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-
-import './Header.css';
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
-export function Header(): JSX.Element {
+import './CHeader.css';
+
+export function Header() {
 
   return (
     <header className="header">

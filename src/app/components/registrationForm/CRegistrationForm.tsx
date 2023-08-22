@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
+import { IAddress, IPayload } from '../../utils/types';
+import { Link } from 'react-router-dom';
 
 import useInput from '../../services/input/useInput';
 import CEmail from '../inputs/email/CEmail';
@@ -10,48 +12,47 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
 import UseFormBlock from '../../services/useFormBlock';
-
-
-import './CRegistrationForm.css';
 import useRegistration from '../../services/useRegistration';
 
+import './CRegistrationForm.css';
 
-const getCountryCode = (countryName: string) => {
+
+const getCountryCode = (countryName: string): string => {
   
   const res = COUNTRIES.find((item) => item.name === countryName);
 
-  return res?.code;
+  return res?.code as string;
 
 };
 
 export function CRegistrationForm() {
 
-  const [defaultShippingAddress, setDefaultShippingAddress] = useState(true);
-  const [defaultBillingAddress, setDefaultBillingAddress] = useState(true);
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(true);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(true);
 
-  const [useBillingAddress, setUseBillingAddress] = useState(true);
+  const [useBillingAddress, setUseBillingAddress] = useState<boolean>(true);
 
   const registration = useRegistration();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 
     e.preventDefault();
 
-    const shippingAddress = {
+    const shippingAddress: IAddress = {
       streetName: shippingStreet.value,
       city: shippingCity.value,
       postalCode: shippingPostalCode.value,
       country: getCountryCode(shippingCountry.value),
     };
 
-    const billingAddress = {
+    const billingAddress: IAddress = {
       streetName: billingStreet.value,
       city: billingCity.value,
       postalCode: billingPostalCode.value,
       country: getCountryCode(billingCountry.value),
     };
 
-    const payload = {
+    const payload: IPayload = {
       email: email.value, 
       password: password.value, 
       firstName: firstName.value, 
@@ -78,7 +79,7 @@ export function CRegistrationForm() {
 
   };
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = (): void => {
 
     setUseBillingAddress(!useBillingAddress);
 
@@ -136,7 +137,7 @@ export function CRegistrationForm() {
     <div className="substrate">
       <div className="sub-title">Registration</div>
 
-      <CAlert messages={registration.errors}></CAlert>
+      <CAlert message={registration.error}></CAlert>
 
       <form 
         className="form"
@@ -235,6 +236,12 @@ export function CRegistrationForm() {
             : 
             isFormBlockedByMainInfo}
         />
+        <div>
+          Already have an account?
+          <p className="login-form-link">
+            <Link to="/login" className="link"><b>Log in</b></Link>
+          </p>
+        </div>
       </form>
     </div>
   );

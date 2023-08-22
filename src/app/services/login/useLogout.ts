@@ -4,12 +4,12 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { anonUser } from '../../utils/constants';
 
 
-export function useLogout() {
+export function useLogout(): Function {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = (): void => {
 
     if (globalStore.currentUser.id) {
 

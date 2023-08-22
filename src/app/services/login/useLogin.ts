@@ -7,13 +7,11 @@ import { useNavigate } from 'react-router-dom';
 export function useLogin() {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [errors, setErrors] = useState<String[]>([]);
+  const [error, setError] = useState<String>('');
   const navigate = useNavigate();
 
 
-  function createClient(email: string, password: string) {
-
-    setErrors([]);
+  function createClient(email: string, password: string): void {
 
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
@@ -28,14 +26,14 @@ export function useLogin() {
         navigate('/');
       
       }).catch(err => {
-
+        
         if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          setErrors([...errors, 'Invalid email or password.']);
+          setError('Invalid email or password.');
 
         } else {
               
-          setErrors([...errors, 'Something went wrong. Please try again later.']);
+          setError('Something went wrong. Please try again later.');
 
         }
       
@@ -43,6 +41,6 @@ export function useLogin() {
   
   }
 
-  return { errors, createClient };
+  return { error, createClient };
 
 }

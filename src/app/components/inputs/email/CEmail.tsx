@@ -9,7 +9,7 @@ const CEmail: FC<IInputProps> = ({
   valid
 }) => {
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
 
