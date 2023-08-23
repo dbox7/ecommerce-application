@@ -113,7 +113,6 @@ export function CRegistrationForm() {
     lastName.valid.isNotEmpty!,
     lastName.valid.isTextGood!,
     shippingStreet.valid.isNotEmpty!,
-    shippingStreet.valid.isTextGood!,
     shippingCity.valid.isNotEmpty!,
     shippingCity.valid.isTextGood!,
     shippingPostalCode.valid.isNotEmpty!,
@@ -124,7 +123,6 @@ export function CRegistrationForm() {
 
   const isFormBlockedByBilling = UseFormBlock([
     billingStreet.valid.isNotEmpty!,
-    billingStreet.valid.isTextGood!,
     billingCity.valid.isNotEmpty!,
     billingCity.valid.isTextGood!,
     billingPostalCode.valid.isNotEmpty!,
