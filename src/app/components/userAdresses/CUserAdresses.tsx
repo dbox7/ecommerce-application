@@ -1,6 +1,12 @@
 import { IAdressProps } from '../../utils/types';
 
-const CUserAddresses: React.FC<IAdressProps> = ({ addresses, shippingAddressIds, billingAddressIds, defaultShippingAddressIds, defaultBillingAddressIds }) => {
+const CUserAddresses: React.FC<IAdressProps> = ({ 
+  addresses,
+  shippingAddressIds,
+  billingAddressIds,
+  defaultShippingAddressIds,
+  defaultBillingAddressIds
+}) => {
 
   return (
     <div>

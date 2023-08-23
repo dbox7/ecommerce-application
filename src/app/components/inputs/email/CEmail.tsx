@@ -6,7 +6,8 @@ const CEmail: FC<IInputProps> = ({
   changeHandler, 
   blurHandler, 
   activeState, 
-  valid
+  valid,
+  className
 }) => {
 
   const [error, setError] = useState('');
@@ -30,7 +31,7 @@ const CEmail: FC<IInputProps> = ({
     <div className="input-wrap">
       <label className="input-title">Email</label>
       <input
-        className={'input ' + error}
+        className={`input ${error} ${className || ''}`}
         type="email"
         value={value}
         onChange={changeHandler}

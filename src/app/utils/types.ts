@@ -1,5 +1,6 @@
 import { Customer } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
+import { ChangeEventHandler } from 'react';
 
 export interface IButtonProps {
   value: string,
@@ -21,10 +22,11 @@ export interface IGlobalStoreType {
 
 export interface IInputProps {
   value: string;
-  changeHandler: React.ChangeEventHandler;
+  changeHandler: ChangeEventHandler<HTMLInputElement>;
   blurHandler: React.FocusEventHandler;
   activeState: boolean;
   valid: Partial<IValidation>;
+  className?: string;
 }
 
 export interface IValidation {

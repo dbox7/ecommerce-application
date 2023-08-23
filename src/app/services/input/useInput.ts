@@ -12,6 +12,7 @@ const useInput = (initialValue: string, type: string, setFormBlocked?: Function)
   const changeHandler = (event: React.ChangeEvent) => {
     
     setValue((event.target as HTMLInputElement).value);
+    console.log((event.target as HTMLInputElement).value);
     setActiveState(true);
   
   };
