@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { useApi } from '../../services/useApi';
 
-import { CSearchBar } from '../../components/products/search/CSearchBar';
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import { IProductFilters } from '../../utils/types';
 import { CFilterProducts } from '../../components/products/filters/CFilterProducts';
@@ -80,11 +79,8 @@ export function CatalogPage() {
 
   return (
     <div className="catalog">
-      <CSearchBar onSearch={handleSearch}></CSearchBar>
-      <div className="catalog-menu">
-        <CFilterProducts filters={filters} setFilters={setFilters}/>
-        <CCategoriesList categories={categories} filters={filters} setFilters={setFilters}/>
-      </div>
+      <CFilterProducts filters={filters} setFilters={setFilters}/>
+      <CCategoriesList categories={categories} filters={filters} setFilters={setFilters}/>
       <CProductList filters={filters}/>
     </div>
   );

@@ -48,8 +48,8 @@ export function CProductList({ filters }: IProductListProps) {
       <h3 className="product-list-title">Products ({products.length})</h3>
       <div className="product-list">
         { products.map((product) => 
-          <Link to={`/catalog/${product.id}`}> 
-            <CProductCard key={ product.id } product={ product }/> 
+          <Link key={ product.id } to={`/catalog/${product.id}`}> 
+            <CProductCard product={ product }/> 
           </Link>
         )}
       </div>

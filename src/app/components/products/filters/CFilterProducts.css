@@ -1,8 +1,56 @@
 .filter-container {
-  width: 70%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--border-color);
+  margin: 2vh auto;
+}
+
+.filter-search-container {
+  width: 80%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  margin: 2rem 0;
+}
+
+.filter-search {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--basic-color);
+}
+
+.filter-search input {
+  width: 100%;
+  border: none;
+  padding: 0.2rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-btn {
+  background-color: var(--basic-color);
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-icon {
   color: var(--border-color);
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+.search-icon:hover {
+  color: var(--accent-color);
+  opacity: 1;
+  transition: all 0.2s ease-in;
 }
