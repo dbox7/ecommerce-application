@@ -44,7 +44,6 @@ export function CProductList({ filters }: IProductListProps) {
 
 
   return (
-
     <>
       <h3 className="product-list-title">Products ({products.length})</h3>
       <div className="product-list">
@@ -55,7 +54,6 @@ export function CProductList({ filters }: IProductListProps) {
         )}
       </div>
     </>
-    
   );
 
 }

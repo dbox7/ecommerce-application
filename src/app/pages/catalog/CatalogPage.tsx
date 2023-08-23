@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { apiAnonRoot } from '../../ctp';
 import { useState } from 'react'; 
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { useApi } from '../../services/useApi';
@@ -18,32 +17,34 @@ export function CatalogPage() {
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [filters, setFilters] = useState<IProductFilters>({});
   const [categories, setCategories] = useState<Category[]>([]);
+  const [errors, setErrors] = useState<String[]>([]);
 
-  let api = useApi();
+  const api = useApi();
 
   const handleSearch = (query: string) => {
+  
+    setErrors([]);
 
-    const queryLower = query.toLowerCase();
-    
-    apiAnonRoot.productProjections().search().get({
+    api.productProjections().search().get({
       queryArgs: {
-        'text.en': queryLower, 
+        'text.en': query, 
         limit: 1
       }
     }).execute().then(data => {
         
       const products = data.body.results;
-
+  
       setProducts(products);
-
-    }).catch(error => {
+  
+    }).catch(() => {
         
-      console.log(error);
+      setErrors([...errors, 'Something went wrong. Please try again later.']);
 
-    });
-    
+    }
+    );
 
-  };
+  };  
+
 
   useEffect(() => {
 
@@ -57,12 +58,19 @@ export function CatalogPage() {
 
       setProducts(products);
 
-    }
-    );
+    }).catch(() => {
+        
+      setErrors([...errors, 'Something went wrong. Please try again later.']);
+
+    });
 
     api?.categories().get().execute().then((data) => {
 
       setCategories(data.body.results);
+
+    }).catch(() => {
+        
+      setErrors([...errors, 'Something went wrong. Please try again later.']);
 
     });
 

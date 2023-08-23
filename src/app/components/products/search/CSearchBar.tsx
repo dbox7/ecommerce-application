@@ -11,7 +11,7 @@ export const CSearchBar: React.FC<ISearchBarProps> = ({ onSearch }) => {
 
   const handleSearch = () => {
 
-    onSearch(query);
+    onSearch(query.toLowerCase());
     setQuery('');
 
   };

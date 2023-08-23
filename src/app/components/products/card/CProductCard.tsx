@@ -6,7 +6,6 @@ import './CProductCard.css';
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   return (
-  
     <div className="product-card">
       <img src={ product.masterVariant.images![0].url } alt={ product.name.toString() } />
       <div className="product-card-name"><b>{ product.name.en }</b></div>
@@ -31,10 +30,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             <RiShoppingCartLine className="cart-icon"/>
           </>
         } 
-        
       </div>
     </div>
-
   );
 
 };
