@@ -8,6 +8,8 @@ import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
 import { Header } from './app/components/header/CHeader';
 import { CatalogPage } from './app/pages/catalog/CatalogPage';
+import { ProductPage } from './app/pages/product/ProductPage';
+
 import './App.css';
 
 export default function App() {
@@ -24,6 +26,7 @@ export default function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignUpPage />} />
           <Route path="catalog" element={<CatalogPage />} />
+          <Route path="catalog/:id" element={<ProductPage />} />
           <Route path="*" element={<NotFoundPage />}/>
         </Routes>
       </BrowserRouter>
