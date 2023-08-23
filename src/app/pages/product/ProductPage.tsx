@@ -1,50 +1,54 @@
 import { useContext, useEffect, useState } from 'react';
 import { apiAnonRoot } from '../../ctp';
 import { GlobalContext } from '../../store/GlobalContext';
-import { Params, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ProductVariant } from '@commercetools/platform-sdk';
 import CViewImage from '../../components/viewImage/CViewImage';
 
-function GetProduct(props: Params<string>, setProduct: Function): void {
+function GetProduct(id: string) {
 
   const [globalStore] = useContext(GlobalContext);
+  const [product, setProduct] = useState<ProductVariant>();
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
 
     let api;
 
     if (globalStore.currentUser.id) {
-
+  
       api = globalStore.apiMeRoot;
-
+  
     } else {
-
+  
       api = apiAnonRoot;
-
+  
     }
-
+  
     api?.productProjections()
-      .withId({ID: props.id as string})
+      .withId({ID: id as string})
       .get().execute().then(res => {
         
         setProduct(res.body.masterVariant);
         
       }).catch(err => {
         
-        console.log(err);
+        setError(err);
         
       });
 
-  }, [props]);
+  }, []);
+  
+
+  return { product, error };
   
 }
 
 export function ProductPage() {
  
   const props = useParams();
-  const [product, setProduct] = useState<ProductVariant>();
   
-  GetProduct(props, setProduct);  
+  const product = GetProduct(props.id!).product;  
   
   return ( 
     <div>

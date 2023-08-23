@@ -9,7 +9,7 @@
 }
 
 .viewImage_main::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 70%;
   height: 70%;
@@ -39,7 +39,7 @@
 
 .image_variant {
   width: 100%;
-  
+
   cursor: pointer;
 }
 
@@ -48,8 +48,8 @@
   position: relative;
 }
 
-.image_variant_wrap:has(.selected)::after{
-  content: '';
+.image_variant_wrap:has(.selected)::after {
+  content: "";
   position: absolute;
   display: block;
   left: 50%;
