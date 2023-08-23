@@ -27,7 +27,7 @@
 }
 
 .purple::after {
-  background-color: purple;
+  background-color: var(--purple);
 }
 
 .viewImage_variants {
