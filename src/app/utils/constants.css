@@ -9,11 +9,11 @@
   --extra-color: #ffcb65;
   --dark-extra-color: #ffaa00;
 
-  --blue: rgba(133, 205, 218, 0.70);
-  --purple: rgba(138, 116, 202, 0.70);
-  --yellow: rgba(255, 203, 101, 0.70);
-  --orange: rgba(254, 143, 63, 0.70);
-  --pink: rgba(232, 81, 91, 0.70);
+  --blue: rgba(133, 205, 218, 0.7);
+  --purple: rgba(138, 116, 202, 0.7);
+  --yellow: rgba(255, 203, 101, 0.7);
+  --orange: rgba(254, 143, 63, 0.7);
+  --pink: rgba(232, 81, 91, 0.7);
 
   /* Font sizes */
   --main-text: 14px;
