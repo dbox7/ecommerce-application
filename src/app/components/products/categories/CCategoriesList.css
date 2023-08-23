@@ -1,0 +1,21 @@
+.categories-container {
+  width: 100%;
+}
+
+.categories ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto 2vh;
+  list-style: none;
+  width: 100%;
+}
+
+.categories li {
+  margin: 0 5vw;
+}
+
+.categories li.active {
+  border-bottom: 1px solid var(--dark-accent-color);
+}

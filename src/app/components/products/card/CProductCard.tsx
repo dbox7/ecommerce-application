@@ -5,7 +5,6 @@ import './CProductCard.css';
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
-  console.log(product);
   return (
   
     <div className="product-card">

@@ -4,9 +4,3 @@
   align-items: center;
   font-family: var(--exa);
 }
-
-.product-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}

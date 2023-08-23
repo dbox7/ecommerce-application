@@ -1,27 +1,29 @@
-import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useEffect } from 'react';
 import { apiAnonRoot } from '../../ctp';
-import { useState } from 'react';
-import { ProductProjection } from '@commercetools/platform-sdk';
-import { Link } from 'react-router-dom';
+import { useState } from 'react'; 
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
+import { useApi } from '../../services/useApi';
 
-import { CProductCard } from '../../components/products/card/CProductCard';
 import { CSearchBar } from '../../components/products/search/CSearchBar';
+import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
+import { IProductFilters } from '../../utils/types';
 import { CFilterProducts } from '../../components/products/filters/CFilterProducts';
+import { CProductList } from '../../components/products/list/CProductList';
 
 import './CatalogPage.css';
 
 
 export function CatalogPage() {
 
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [products, setProducts] = useState<ProductProjection[]>([]);
-  
+  const [filters, setFilters] = useState<IProductFilters>({});
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  let api = useApi();
+
   const handleSearch = (query: string) => {
 
     const queryLower = query.toLowerCase();
-
-    console.log(queryLower);
     
     apiAnonRoot.productProjections().search().get({
       queryArgs: {
@@ -32,7 +34,6 @@ export function CatalogPage() {
         
       const products = data.body.results;
 
-      console.log(products);
       setProducts(products);
 
     }).catch(error => {
@@ -46,21 +47,9 @@ export function CatalogPage() {
 
   useEffect(() => {
 
-    let api;
-
-    if (globalStore.currentUser.id) {
-
-      api = globalStore.apiMeRoot;
-
-    } else {
-
-      api = apiAnonRoot;
-
-    }
-
     api?.productProjections().get({
       queryArgs: {
-        limit: 25
+        limit: 100
       }
     }).execute().then(data => {
 
@@ -71,6 +60,12 @@ export function CatalogPage() {
     }
     );
 
+    api?.categories().get().execute().then((data) => {
+
+      setCategories(data.body.results);
+
+    });
+
   }, []);
 
 
@@ -78,14 +73,11 @@ export function CatalogPage() {
   return (
     <div className="catalog">
       <CSearchBar onSearch={handleSearch}></CSearchBar>
-      <CFilterProducts></CFilterProducts>
-      <div className="product-card-container">
-        { products.map(product => (
-          <Link key={product.id} to={`/catalog/${product.id}`}>
-            <CProductCard product={product}></CProductCard>
-          </Link>
-        )) }
+      <div className="catalog-menu">
+        <CFilterProducts filters={filters} setFilters={setFilters}/>
+        <CCategoriesList categories={categories} filters={filters} setFilters={setFilters}/>
       </div>
+      <CProductList filters={filters}/>
     </div>
   );
 
