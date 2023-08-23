@@ -1,17 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { apiAnonRoot } from '../../ctp';
 import { GlobalContext } from '../../store/GlobalContext';
-import { useParams } from 'react-router-dom';
+import { Params, useParams } from 'react-router-dom';
 import { ProductVariant } from '@commercetools/platform-sdk';
+import CViewImage from '../../components/viewImage/CViewImage';
 
-export function ProductPage() {
+function GetProduct(props: Params<string>, setProduct: Function): void {
 
   const [globalStore] = useContext(GlobalContext);
-  const [product, setProduct] = useState<ProductVariant>();
-  const props = useParams();
 
-  console.log(props.id);
-  
   useEffect(() => {
 
     let api;
@@ -39,12 +36,23 @@ export function ProductPage() {
       });
 
   }, [props]);
-
   
+}
 
+export function ProductPage() {
+ 
+  const props = useParams();
+  const [product, setProduct] = useState<ProductVariant>();
+  
+  GetProduct(props, setProduct);  
+  
   return ( 
     <div>
-      <img src={product?.images![0].url} alt="boot" />
+      {product &&
+      <CViewImage 
+        images={product?.images!}
+        color={product?.attributes![0].value.key}
+      />}
     </div>
   );
 
