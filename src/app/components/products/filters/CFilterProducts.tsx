@@ -4,6 +4,7 @@ import { useState, FormEvent} from 'react';
 
 
 import './CFilterProducts.css';
+import { ByProjectKeyInBusinessUnitKeyByBusinessUnitKeyMeCustomersRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/customers/by-project-key-in-business-unit-key-by-business-unit-key-me-customers-request-builder';
 
 export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 
@@ -13,8 +14,8 @@ export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 
     e.preventDefault();
     setFilters({...filters, search: search});
+    console.log(filters.search);
     
-  
   };
 
   return (

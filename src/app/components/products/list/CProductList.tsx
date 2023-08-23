@@ -22,6 +22,14 @@ export function CProductList({ filters }: IProductListProps) {
       filter: []
     };
 
+    if (filters.search) {
+
+      console.log('filters search:', filters.search);
+      queryArgs['text.en'] = filters.search;
+      console.log('queryArgs:',  queryArgs);
+
+    }
+    
     if ( filters.categoryId !== undefined ) {
 
       queryArgs.filter = `categories.id:"${filters.categoryId}"`;
@@ -29,8 +37,7 @@ export function CProductList({ filters }: IProductListProps) {
     }
 
     api.productProjections().search().get({
-      queryArgs: queryArgs,
-          
+      queryArgs: queryArgs
     }).execute().then((data) => {
 
       setProducts(data.body.results);
