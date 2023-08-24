@@ -15,14 +15,23 @@ export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 
     e.preventDefault();
     setFilters({...filters, search: search, categoryId: undefined});
-    console.log(filters.search);
     
+  };
+
+  const closeSearchHandler = () => {
+
+    setSearch('');
+    setFilters({...filters, search: '', categoryId: undefined});
+
   };
 
   return (
     <div className="filter-container">
+      <BiCross 
+        className="close-icon"
+        onClick={closeSearchHandler}
+      />
       <div className="filter-search-container">
-        <BiCross className="close-icon"/>
         <form 
           className="filter-search" 
           onSubmit={ handleSearch }
