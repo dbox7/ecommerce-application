@@ -19,14 +19,12 @@ export function CProductList({ filters }: IProductListProps) {
 
     let queryArgs: IQueryArgs = {
       limit: 30,
-      filter: []
+      filter: [], 
     };
 
     if (filters.search) {
 
-      console.log('filters search:', filters.search);
       queryArgs['text.en'] = filters.search;
-      console.log('queryArgs:',  queryArgs);
 
     }
     

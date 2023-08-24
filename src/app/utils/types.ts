@@ -111,5 +111,5 @@ export interface IQueryArgs {
   offset?: number,
   sort?: string,
   where?: string,
-  [key: string]: string | number | string[] | undefined
+  [key: string]: string | number | string[] | undefined | boolean
 }

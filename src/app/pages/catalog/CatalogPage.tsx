@@ -18,33 +18,7 @@ export function CatalogPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  console.log('Catalog render');
   const api = useApi();
-
-  const handleSearch = (query: string) => {
-  
-    setErrors([]);
-
-    api.productProjections().search().get({
-      queryArgs: {
-        'text.en': query, 
-        limit: 1
-      }
-    }).execute().then(data => {
-        
-      const products = data.body.results;
-  
-      setProducts(products);
-  
-    }).catch(() => {
-        
-      setErrors([...errors, 'Something went wrong. Please try again later.']);
-
-    }
-    );
-
-  };  
-
 
   useEffect(() => {
 

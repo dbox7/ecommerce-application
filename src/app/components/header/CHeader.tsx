@@ -1,19 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
 import './CHeader.css';
 
 export function Header() {
-
-  const navigate = useNavigate();
-
-  const catalogClickHandler = (e: any) => {
-
-    e.preventDefault();
-    console.log('CLICK');
-    navigate('/catalog', {state: {}});
-  
-  };
 
   return (
     <header className="header">
@@ -21,14 +11,11 @@ export function Header() {
         <nav className="nav">
           <ul className="menu">
             <li className="menu-item">
-              <Link to="/" className="link">Home</Link>
+
+              <NavLink to="/" className="link">Home</NavLink>
             </li>
             <li className="menu-item">
-              <Link 
-                to="/catalog" 
-                className="link"
-                onClick={catalogClickHandler}
-              >Catalog</Link>
+              <NavLink to="/catalog" className="link">Catalog</NavLink>
             </li>
           </ul>
           <div className="logo">
