@@ -1,14 +1,14 @@
 import './CAlert.css';
 
-export default function Alert({ messages}: { messages: String[]}) {
+export default function Alert({ message }: { message: String}) {
 
-  if (messages.length === 0) return <></>;
+  if (!message) return <></>;
 
   return (
 
-    <div className={ 'alert' }>
+    <div className="alert">
       <ul>
-        <li>{ messages.join('</li><li>') }</li>
+        <li>{ message }</li>
       </ul>
     </div>
 

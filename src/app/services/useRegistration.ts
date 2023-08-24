@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../store/GlobalContext';
 import { createUserApiClient, PROJECT_KEY, apiAnonRoot } from '../ctp';
 import { MyCustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-
-
+import { IPayload } from '../utils/types';
 
 export function useRegistration() {
 
   const navigate = useNavigate();
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [errors, setErrors] = useState<String[]>([]);
+  const [error, setError] = useState<String>('');
 
-  const registrateCustomer = (payload: any) => {
+  const registrateCustomer = (payload: IPayload) => {
 
     apiAnonRoot.me().signup()
       .post({body: payload as MyCustomerDraft})
@@ -30,11 +29,11 @@ export function useRegistration() {
         
         if (err.body.message === 'There is already an existing customer with the provided email.') {
 
-          setErrors([...errors, 'An account with this email already exists.']);
+          setError('An account with this email already exists.');
 
         } else {
             
-          setErrors([...errors, 'Something went wrong. Please try again later.']);
+          setError('Something went wrong. Please try again later.');
 
         }
 
@@ -42,7 +41,7 @@ export function useRegistration() {
 
   };
   
-  return { errors, registrateCustomer };
+  return { error, registrateCustomer };
 
 };
 

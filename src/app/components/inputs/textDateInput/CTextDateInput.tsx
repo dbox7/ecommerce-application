@@ -1,12 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import '../input.css';
-import { ICountry, IInputProps } from '../../../utils/types';
-
-type ITextDateInputProps = IInputProps & {
-  title: string
-  data?: ICountry[] | null;
-  isDate?: boolean;
-}
+import { ICountry, ITextDateInputProps } from '../../../utils/types';
 
 const CTextDateInput: FC<ITextDateInputProps> = ({
   value, 
@@ -22,7 +16,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   const type = isDate ? 'date' : 'text';
   
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
 
@@ -48,6 +42,11 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         onChange={changeHandler}
         onBlur={blurHandler}
         list={data ? 'list' : undefined}
+        title={
+          (isDate ? 'A valid date input ensuring the user is above a certain age (e.g., 14 years old or older)' : '') ||
+          (!title.toLowerCase().includes('street') 
+            ? 'Must contain at least one character and no special characters or numbers' : 'Must contain at least one character')
+        }
       />
 
       {data ? (

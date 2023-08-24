@@ -1,10 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { ICountry, IInputProps } from '../../../utils/types';
+import { ICountry, IPostalCodeProps } from '../../../utils/types';
 import { COUNTRIES } from '../../../utils/constants';
-
-type IPostalCodeProps = IInputProps & {
-  country: string
-}
 
 const CPostalCode: FC<IPostalCodeProps> = ({
   value, 
@@ -15,11 +11,12 @@ const CPostalCode: FC<IPostalCodeProps> = ({
   country
 }) => {
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string>('');
   const selectedCountry: ICountry | undefined = COUNTRIES.find((item) => item.name === country);
 
   useEffect(() => {
 
+    selectedCountry &&
     (!valid.isNotEmpty || 
     !valid.isPostalCodeGood ||
     !selectedCountry?.postalCode.test(value)) && 
@@ -48,7 +45,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
       {!valid.isNotEmpty && !activeState &&
       <div className="out-error">Not be an empty</div>}
 
-      {valid.isNotEmpty && !selectedCountry?.postalCode.test(value) && !activeState &&
+      {valid.isNotEmpty && selectedCountry && !selectedCountry?.postalCode.test(value) && !activeState &&
       <div className="out-error">Enter right postal code</div>}
 
     </div>
