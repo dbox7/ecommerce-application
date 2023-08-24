@@ -54,3 +54,11 @@
   opacity: 1;
   transition: all 0.2s ease-in;
 }
+
+      
+.close-icon {
+  color: var(--border-color);
+  font-size: 1.5rem;
+  opacity: 0.5;
+  cursor: pointer;
+}

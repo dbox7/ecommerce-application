@@ -2,9 +2,10 @@ import { RiSearch2Line } from 'react-icons/ri';
 import { IFiltersProps } from '../../../utils/types';
 import { useState, FormEvent} from 'react';
 
+import { BiCross } from 'react-icons/bi';
 
 import './CFilterProducts.css';
-import { ByProjectKeyInBusinessUnitKeyByBusinessUnitKeyMeCustomersRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/customers/by-project-key-in-business-unit-key-by-business-unit-key-me-customers-request-builder';
+
 
 export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 
@@ -13,7 +14,7 @@ export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
   const handleSearch = (e: FormEvent) => {
 
     e.preventDefault();
-    setFilters({...filters, search: search});
+    setFilters({...filters, search: search, categoryId: undefined});
     console.log(filters.search);
     
   };
@@ -21,6 +22,7 @@ export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
   return (
     <div className="filter-container">
       <div className="filter-search-container">
+        <BiCross className="close-icon"/>
         <form 
           className="filter-search" 
           onSubmit={ handleSearch }

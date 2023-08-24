@@ -11,7 +11,7 @@ export function CCategoriesList({categories, filters, setFilters }: ICategoriesL
           <li 
             className={ undefined === filters.categoryId ? 'active': '' } 
             onClick={ (e) => {
-
+              
               setFilters({...filters, categoryId: undefined}); 
 
             } }>

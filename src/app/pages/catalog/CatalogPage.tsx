@@ -18,6 +18,7 @@ export function CatalogPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
+  console.log('Catalog render');
   const api = useApi();
 
   const handleSearch = (query: string) => {
