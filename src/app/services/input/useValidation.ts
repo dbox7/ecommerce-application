@@ -68,7 +68,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isTextGood': {
 
-        const REGEXP = /^[a-zA-Z]+$/;
+        const REGEXP = /^[a-zA-Z ]+$/;
 
         REGEXP.test(value) ? setTextGood(true) : setTextGood(false);
 
