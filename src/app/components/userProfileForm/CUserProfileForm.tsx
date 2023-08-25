@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import CButton from '../button/CButton';
 import './CUserProfileForm.css';
 import { GlobalContext } from '../../store/GlobalContext';
@@ -8,16 +8,21 @@ import CEmail from '../inputs/email/CEmail';
 import CUserAddresses from '../userAdresses/CUserAdresses';
 import { IAddress } from '../../utils/types';
 import { useNavigate } from 'react-router';
+import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function CUserProfileForm(): JSX.Element {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const { updatePersonalInfo, error } = useUpdatePersonalInfo();
   const navigate = useNavigate();
   const dataOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date');
   const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text');
   const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text');
   const email = useInput(`${globalStore.currentUser.email}`, 'email');
+  const notify = () => toast.success('Your profile has been updated successfully!');
   
   useEffect(() => {
 
@@ -31,8 +36,7 @@ export default function CUserProfileForm(): JSX.Element {
       .get()
       .execute()
       .then(data => {
-
-        console.log('Updated profile data', data.body);
+        
         setGlobalStore({...globalStore, currentUser: data.body});
       
       });
@@ -46,28 +50,19 @@ export default function CUserProfileForm(): JSX.Element {
     city: address.city || '',
     country: address.country || '',
   }));
-  
 
-  // const handleEmailChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-  //   email.changeHandler(event.target.value);
-  // };
-  //  console.log(handleEmailChange);
-  // const handleFirstNameChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-  //   firstName.changeHandler(event);
-  // };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
-  // const handleLastNameChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-  //   lastName.changeHandler(event);
-  // };
+    e.preventDefault();
+    updatePersonalInfo(
+      globalStore.currentUser.id,
+      email.value,
+      firstName.value,
+      lastName.value,
+      dataOfBirth.value,
+      globalStore.currentUser.version
+    );
 
-  // const handleDateOfBirthChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-  //   dataOfBirth.changeHandler(event);
-  // };
-
-  const handleSubmit = (event: React.FormEvent) => {
-
-    event.preventDefault();
- 
   };
   
   if (!globalStore.currentUser.id) return <></>;
@@ -112,9 +107,22 @@ export default function CUserProfileForm(): JSX.Element {
             </div>
             <CButton
               value="Save changes"
+              clickHandler={notify}
               type="submit"
               disabled={false}
             />
+            <ToastContainer
+              position="top-center"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover={false}
+              theme="light"/>
+            {error && toast.error('An error occurred while updating personal information.')}
           </form>
         </section>
         <section>
@@ -128,7 +136,11 @@ export default function CUserProfileForm(): JSX.Element {
               defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
             />
           )}
-          <button>Edit</button>
+          <CButton
+            value="Edit"
+            type="submit"
+            disabled={false}
+          />
         </section>
       </div>
       

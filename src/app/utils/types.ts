@@ -6,6 +6,7 @@ import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 export interface IAddress {
+  id?: string;
   streetName: string,
   city: string,
   postalCode: string,
@@ -107,15 +108,6 @@ export interface IValidationRules {
   [index: string]: IValidation
 }
 
-
-export interface IAddress {
-  id: string;
-  streetName: string;
-  postalCode: string;
-  city: string;
-  country: string;
-}
-
 export interface IAdressProps {
   addresses: IAddress[];
   shippingAddressIds: string[];
@@ -131,4 +123,15 @@ export interface IQueryArgs {
   where?: string,
   [key: string]: string | number | string[] | undefined
 }
-
+export interface IUpdatePersonalInfo {
+  updatePersonalInfo: (
+    customerID: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    dateOfBirth: string,
+    version: number
+  ) => void;
+  loading: boolean;
+  error: string | null;
+}
