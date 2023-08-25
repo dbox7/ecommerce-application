@@ -41,7 +41,7 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
           images.map(image => (
             <div 
               id={image.label} 
-              className="image_variant_wrap" 
+              className={'image_variant_wrap ' + color} 
               key={image.label}
             >
               <img 
