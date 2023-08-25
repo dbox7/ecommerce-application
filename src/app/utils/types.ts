@@ -66,6 +66,11 @@ export interface IInputProps {
   valid: Partial<IValidation>;
 }
 
+export interface ISortProductsProps {
+  type: 'name' | 'price'
+  filters: IProductFilters,
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
+}
 export interface ISearchBarProps {
   onSearch: (query: string) => void;
 }
@@ -115,3 +120,5 @@ export interface IQueryArgs {
   where?: string,
   [key: string]: string | number | string[] | undefined | boolean
 }
+
+

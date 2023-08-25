@@ -21,8 +21,6 @@ export function CatalogPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
-  console.log('filters', filters);
-
   const api = useApi();
 
   useEffect(() => {
