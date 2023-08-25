@@ -1,0 +1,17 @@
+.size-option {
+  display: flex;
+  gap: 30px;
+}
+
+.size {
+  font-family: var(--exa);
+  font-size: var(--sub-title);
+  font-weight: 700;
+
+  transition: color 0.2s ease-in;
+  cursor: pointer;
+}
+
+.size:hover {
+  color: var(--dark-extra-color);
+}
