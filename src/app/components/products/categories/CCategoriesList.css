@@ -1,0 +1,31 @@
+.categories-container {
+  width: 80%;
+}
+
+.categories ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto 2vh;
+  list-style: none;
+  width: 100%;
+}
+
+.categories li {
+  margin: 0 5vw;
+  cursor: pointer;
+}
+
+.categories li:hover {
+  transition: color 0.2s ease-in;
+  color: var(--dark-accent-color);
+}
+
+.categories li.active {
+  border-bottom: 1px solid var(--dark-accent-color);
+}
+
+.categories li.active:hover {
+  color: black;
+}

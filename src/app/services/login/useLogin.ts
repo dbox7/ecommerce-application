@@ -29,7 +29,7 @@ export function useLogin() {
         
         if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          setError('Invalid email or password.');
+          setError('The user does not exist or the email/password is incorrect.');
 
         } else {
               
