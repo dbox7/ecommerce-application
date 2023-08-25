@@ -14,9 +14,14 @@ import './CatalogPage.css';
 export function CatalogPage() {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
-  const [filters, setFilters] = useState<IProductFilters>({});
+  const [filters, setFilters] = useState<IProductFilters>({
+    sort: 'name',
+    sortOrder: false,
+  });
   const [categories, setCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
+
+  console.log('filters', filters);
 
   const api = useApi();
 
@@ -56,7 +61,7 @@ export function CatalogPage() {
     <div className="catalog">
       <CFilterProducts filters={filters} setFilters={setFilters}/>
       <CCategoriesList categories={categories} filters={filters} setFilters={setFilters}/>
-      <CProductList filters={filters}/>
+      <CProductList filters={filters} setFilters={setFilters}/>
     </div>
   );
 

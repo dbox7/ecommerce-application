@@ -49,11 +49,13 @@ export interface IProductFilters {
   minPrice?: number,
   maxPrice?: number,
   categoryId?: string,
-  sort?: string
+  sort: 'name' | 'price',
+  sortOrder: boolean  // true = asc, false = desc
 }
 
 export interface IProductListProps {
   filters: IProductFilters
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
 export interface IInputProps {

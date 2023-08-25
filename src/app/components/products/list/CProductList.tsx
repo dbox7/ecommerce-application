@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
 
 import './CProductList.css';
+import { CSortProducts } from '../sort/CSortProducts';
 
 
-export function CProductList({ filters }: IProductListProps) {
+export function CProductList({ filters, setFilters }: IProductListProps) {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
-
   const api = useApi();
 
   useEffect(() => {
@@ -34,6 +34,18 @@ export function CProductList({ filters }: IProductListProps) {
     
     }
 
+    if ( filters.sort === 'price' ) {
+        
+      queryArgs.sort = (filters.sort) + (filters.sortOrder ? ' asc' : ' desc');
+
+    }
+
+    if ( filters.sort === 'name' ) {
+        
+      queryArgs.sort = (filters.sort) + '.en' + (filters.sortOrder ? ' asc' : ' desc');
+
+    }
+
     api.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then((data) => {
@@ -50,7 +62,12 @@ export function CProductList({ filters }: IProductListProps) {
 
   return (
     <>
-      <h3 className="product-list-title">Products ({products.length})</h3>
+      <div className="sort-container">
+        <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
+        <div className="product-list-title">products ({products.length})</div>
+        <CSortProducts type="price" filters={filters} setFilters={setFilters}/>
+        <></>
+      </div>
       <div className="product-list">
         { products.map((product) => 
           <Link key={ product.id } to={`/catalog/${product.id}`}> 
