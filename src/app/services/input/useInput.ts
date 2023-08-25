@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useValidation from './useValidation';
 import { IInputProps } from '../../utils/types';
 
-const useInput = (initialValue: string, type: string, setFormBlocked?: Function): IInputProps => {
+const useInput = (initialValue: string, type: string, setFormBlocked?: Function, setHasChanges?: Function): IInputProps => {
 
   const [value, setValue] = useState<string>(initialValue);
   const [activeState, setActiveState] = useState<boolean>(true);
@@ -13,6 +13,11 @@ const useInput = (initialValue: string, type: string, setFormBlocked?: Function)
     
     setValue((event.target as HTMLInputElement).value);
     setActiveState(true);
+    if (setHasChanges) {
+
+      setHasChanges(true);
+    
+    }
   
   };
 

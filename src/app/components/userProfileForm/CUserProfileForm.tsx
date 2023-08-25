@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CButton from '../button/CButton';
 import './CUserProfileForm.css';
 import { GlobalContext } from '../../store/GlobalContext';
@@ -10,19 +10,22 @@ import { IAddress } from '../../utils/types';
 import { useNavigate } from 'react-router';
 import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
 import { ToastContainer, toast } from 'react-toastify';
+import UseFormBlock from '../../services/useFormBlock';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function CUserProfileForm(): JSX.Element {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const [hasChanges, setHasChanges] = useState(false);
   const { updatePersonalInfo, error } = useUpdatePersonalInfo();
   const navigate = useNavigate();
-  const dataOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date');
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text');
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text');
-  const email = useInput(`${globalStore.currentUser.email}`, 'email');
-  const notify = () => toast.success('Your profile has been updated successfully!');
+  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
+  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
+  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', undefined, setHasChanges);
+  const email = useInput(`${globalStore.currentUser.email}`, 'email', undefined, setHasChanges);
+  const notify = () => error ? toast.error('An error occurred while updating personal information.')
+    : toast.success('Your profile has been updated successfully!');
   
   useEffect(() => {
 
@@ -59,14 +62,25 @@ export default function CUserProfileForm(): JSX.Element {
       email.value,
       firstName.value,
       lastName.value,
-      dataOfBirth.value,
+      dateOfBirth.value,
       globalStore.currentUser.version
     );
 
   };
   
   if (!globalStore.currentUser.id) return <></>;
+  
+  const isFormBlockedByInfo = UseFormBlock([
+    email.valid.isNotEmpty!,
+    email.valid.isEmailGood!,
+    dateOfBirth.valid.isDateGood!,
+    firstName.valid.isNotEmpty!,
+    firstName.valid.isTextGood!,
+    lastName.valid.isNotEmpty!,
+    lastName.valid.isTextGood!,
+  ]);
 
+  console.log(isFormBlockedByInfo);
 
 
   return (
@@ -99,7 +113,7 @@ export default function CUserProfileForm(): JSX.Element {
             <div className="input-block">
               <CTextDateInput
                 className="profile-input"
-                {...dataOfBirth}
+                {...dateOfBirth}
                 title="Date of birth"
                 data={null}
                 isDate={true}
@@ -109,7 +123,8 @@ export default function CUserProfileForm(): JSX.Element {
               value="Save changes"
               clickHandler={notify}
               type="submit"
-              disabled={false}
+              disabled={!isFormBlockedByInfo && hasChanges ?
+                !hasChanges : isFormBlockedByInfo}
             />
             <ToastContainer
               position="top-center"
@@ -122,7 +137,6 @@ export default function CUserProfileForm(): JSX.Element {
               draggable
               pauseOnHover={false}
               theme="light"/>
-            {error && toast.error('An error occurred while updating personal information.')}
           </form>
         </section>
         <section>
