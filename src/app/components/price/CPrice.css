@@ -22,13 +22,13 @@
 
 .new_price {
   position: relative;
-  top: 50px;
+  top: 30px;
   left: 30px;
   margin: 0 5px 0 10px;
-  padding: 0 15px;
+  padding: 5px 15px;
 
   background-color: var(--extra-color);
-  border: 1px solid #c7d2d4;
+
   border-radius: 0 5px 5px 0;
   z-index: 0;
   transform: rotate(25deg);
@@ -37,21 +37,21 @@
 .new_price:before {
   content: "\25CF";
   position: absolute;
-  top: 12px;
-  left: -30px;
-  width: 56px;
-  height: 56px;
+  top: 0.5px;
+  left: -69px;
+  width: 49px;
+  height: 49px;
 
   color: white;
   text-shadow: 0 0 1px #aaa;
-  font-size: 50px;
-  line-height: 50px;
-  text-indent: 10px;
+  font-size: 40px;
+  line-height: 125px;
+  text-indent: 13px;
 
-  transform: rotate(45deg);
-  border-left: 1px solid #c7d2d4;
-  border-bottom: 1px solid #c7d2d4;
-  background-color: var(--extra-color);
-
+  transform: rotate(-90deg);
+  border-bottom: 20px solid var(--extra-color);
+  border-left: 11px solid transparent;
+  border-right: 11px solid transparent;
+  /* background-color: var(--extra-color); */
   z-index: -1;
 }

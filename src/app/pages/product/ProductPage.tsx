@@ -59,10 +59,12 @@ export function ProductPage() {
   return (
     product ? 
       <div className="product_page">
-        <CViewImage 
-          images={productData?.images!}
-          color={productData?.attributes![0].value.key}
-        />
+        <div className="view_image-wrap">
+          <CViewImage 
+            images={productData?.images!}
+            color={productData?.attributes![0].value.key}
+          />
+        </div>
         <div className="product_info">
           <div className="product_info-text">
             <div className="product_title">
@@ -76,6 +78,7 @@ export function ProductPage() {
           <CButton 
             value="Add to cart +"
             type="button"
+            extraClass="product_button"
           />
         </div>
       </div>

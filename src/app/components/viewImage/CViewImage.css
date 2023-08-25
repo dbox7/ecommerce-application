@@ -1,18 +1,19 @@
 .viewImage {
   display: flex;
   flex-direction: column;
-  max-width: 50%;
 }
 
 .viewImage_main {
   position: relative;
+  margin: auto;
+  width: 100%;
 }
 
 .viewImage_main::after {
   content: "";
   position: absolute;
-  width: 70%;
-  height: 70%;
+  width: 75%;
+  height: 75%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -34,7 +35,6 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  width: 100%;
 }
 
 .image_variant {
@@ -44,8 +44,8 @@
 }
 
 .image_variant_wrap {
-  width: 15%;
   position: relative;
+  width: 15%;
 }
 
 .image_variant_wrap:has(.selected)::after {
@@ -57,6 +57,6 @@
   width: 5px;
   height: 5px;
 
-  background-color: blueviolet;
+  background-color: var(--accent-color);
   border-radius: 50%;
 }

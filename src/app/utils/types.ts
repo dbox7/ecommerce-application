@@ -10,9 +10,10 @@ export interface IAddress {
 }
 export interface IButtonProps {
   value: string,
-  clickHandler?: React.MouseEventHandler,
   type: 'button' | 'submit' | 'reset',
+  clickHandler?: React.MouseEventHandler,
   disabled?: boolean,
+  extraClass?: string
 }
 
 export interface ICheckboxProps {
