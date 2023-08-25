@@ -19,7 +19,7 @@
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-  gap: 60px;
+  gap: 40px;
   margin-top: 60px;
   padding-right: 50px;
   min-width: 550px;
@@ -28,13 +28,14 @@
 .product_info-text {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
 
 .product_title {
   font-family: var(--tera);
   font-size: var(--product-title);
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .product_description {

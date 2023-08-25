@@ -23,16 +23,8 @@ const CPrice:FC<IPriceProps> = ({ price, isMini = false }) => {
       </div>
       :
       <div className="price">
-        <div className="crossed">
-          ${price.value.centAmount / 100}
-        </div>
-        <div className="new_price">
-          ${price.value.centAmount / 100}
-        </div>
+        ${price.value.centAmount / 100}
       </div>
-      // <div className="price">
-      //   ${price.value.centAmount / 100}
-      // </div>
 
   );
 

@@ -8,6 +8,7 @@ import CButton from '../../components/button/CButton';
 
 import './ProductPage.css';
 import CPrice from '../../components/price/CPrice';
+import CSizeOption from '../../components/sizeOption/CSizeOption';
 
 
 function GetProduct(id: string) {
@@ -75,6 +76,7 @@ export function ProductPage() {
             </div>
           </div>
           <CPrice price={productData?.prices![0]!} />
+          <CSizeOption {...[]}/>
           <CButton 
             value="Add to cart +"
             type="button"
