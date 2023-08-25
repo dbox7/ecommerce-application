@@ -50,11 +50,13 @@ export interface IProductFilters {
   minPrice?: number,
   maxPrice?: number,
   categoryId?: string,
-  sort?: string
+  sort: 'name' | 'price',
+  sortOrder: boolean  // true = asc, false = desc
 }
 
 export interface IProductListProps {
   filters: IProductFilters
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
 export interface IInputProps {
@@ -65,6 +67,11 @@ export interface IInputProps {
   valid: Partial<IValidation>;
 }
 
+export interface ISortProductsProps {
+  type: 'name' | 'price'
+  filters: IProductFilters,
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
+}
 export interface ISearchBarProps {
   onSearch: (query: string) => void;
 }
@@ -112,5 +119,7 @@ export interface IQueryArgs {
   offset?: number,
   sort?: string,
   where?: string,
-  [key: string]: string | number | string[] | undefined
+  [key: string]: string | number | string[] | undefined | boolean
 }
+
+

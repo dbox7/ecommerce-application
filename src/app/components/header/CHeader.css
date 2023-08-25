@@ -54,6 +54,16 @@ header {
   transition: color 0.2s linear;
 }
 
+.link.active {
+  border-bottom: 1px solid var(--dark-accent-color);
+  padding: 0 0.3vw;
+}
+
+.link.active:hover {
+  color: black;
+  cursor: default;
+}
+
 @media screen and (max-width: 790px) {
   .logo {
     max-width: 200px;
