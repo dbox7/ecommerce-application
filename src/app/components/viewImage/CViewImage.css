@@ -1,0 +1,62 @@
+.viewImage {
+  display: flex;
+  flex-direction: column;
+}
+
+.viewImage_main {
+  position: relative;
+  margin: auto;
+  width: 100%;
+}
+
+.viewImage_main::after {
+  content: "";
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.image_main {
+  width: 100%;
+  object-fit: cover;
+}
+
+.purple::after {
+  background-color: var(--purple);
+}
+
+.viewImage_variants {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.image_variant {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.image_variant_wrap {
+  position: relative;
+  width: 15%;
+}
+
+.image_variant_wrap:has(.selected)::after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 50%;
+  transform: translate(-50%);
+  width: 5px;
+  height: 5px;
+
+  background-color: var(--accent-color);
+  border-radius: 50%;
+}

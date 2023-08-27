@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
 import './CHeader.css';
@@ -11,10 +11,11 @@ export function Header() {
         <nav className="nav">
           <ul className="menu">
             <li className="menu-item">
-              <Link to="/" className="link">Home</Link>
+
+              <NavLink to="/" className="link">Home</NavLink>
             </li>
             <li className="menu-item">
-              <Link to="/catalog" className="link">Catalog</Link>
+              <NavLink to="/catalog" className="link">Catalog</NavLink>
             </li>
           </ul>
           <div className="logo">
