@@ -8,8 +8,7 @@ import { IUpdatePersonalInfo } from '../utils/types';
 const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>('');
   const api = useApi();
 
   const updatePersonalInfo = (
@@ -21,9 +20,6 @@ const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
     version: number
   ): void => {
 
-    setLoading(true);
-    setError(null);
-
     const updateData: CustomerUpdate = {
       version,
       actions: [
@@ -34,37 +30,27 @@ const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
       ],
     };
 
-    try {
 
-      api.customers()
-        .withId({ ID: customerID })
-        .post({ body: updateData })
-        .execute()
-        .then((data) => {
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
 
-          setLoading(false);
-          setGlobalStore({ ...globalStore, currentUser: data.body });
+        setGlobalStore({ ...globalStore, currentUser: data.body });
         
-        })
-        .catch((error) => {
+      })
+      .catch((error) => {
 
-          setLoading(false);
-          setError('An error occurred while updating personal information.');
-          console.error(error);
+        setError('An error occurred while updating personal information.');
+        console.error(error);
         
-        });
+      });
     
-    } catch (error) {
-
-      setLoading(false);
-      setError('An error occurred while updating personal information.');
-      console.error(error);
-    
-    }
   
   };
 
-  return { updatePersonalInfo, loading, error };
+  return { updatePersonalInfo, error };
 
 };
 

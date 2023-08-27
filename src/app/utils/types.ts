@@ -42,8 +42,8 @@ export interface IFiltersProps {
 }
 
 export interface IGlobalStoreType {
-  currentUser: Customer,
-  apiMeRoot?: ByProjectKeyRequestBuilder,
+  currentUser: Customer;
+  apiMeRoot?: ByProjectKeyRequestBuilder;
 }
 
 export interface IProductFilters {
@@ -59,6 +59,7 @@ export interface IProductListProps {
 }
 
 export interface IInputProps {
+  title?: string;
   value: string;
   changeHandler: ChangeEventHandler<HTMLInputElement>;
   blurHandler: React.FocusEventHandler;
@@ -130,8 +131,14 @@ export interface IUpdatePersonalInfo {
     firstName: string,
     lastName: string,
     dateOfBirth: string,
-    version: number
+    version: number,
   ) => void;
-  loading: boolean;
   error: string | null;
+}
+
+export interface IChangePassword {
+  id: string;
+  currentPassword:string;
+  newPassword: string;
+  version: number;
 }

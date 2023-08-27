@@ -1,3 +1,20 @@
+.profile-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5px 20px;
+  font-family: var(--exa);
+}
+
+section {
+  width: 45%;
+  padding: 20px;
+}
+
+.profile-block {
+  display: flex;
+  justify-content: space-around;
+}
+
 .input-block {
   position: relative;
   z-index: 1;
@@ -28,20 +45,28 @@
   padding: 18px 16px 10px;
 }
 
-.address-list {
+.profile-input ~ .password-icon {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 11px;
+  width: 20px;
+  height: 20px;
+  content: "";
+  cursor: pointer;
 }
 
 .address-item {
-  height: 100px;
+  height: 100%;
   margin: 0;
-  background: #fff;
+  background: #f5f6fa;;
   box-shadow:
     0 1px 3px rgba(54, 74, 178, 0.16),
     0 2px 2px rgba(54, 74, 178, 0.04),
     0 0 2px rgba(54, 74, 179, 0.08);
   position: relative;
   z-index: 1;
-  padding: 16px 0px;
+  padding: 16px 20px;
 }
 
 .address-item span {
@@ -55,6 +80,10 @@
   border-radius: 12px;
   background: #3dbf00;
   margin: 0 0 8px 8px;
+}
+
+.param {
+  margin-top: 30px;
 }
 
 .param-title {

@@ -10,7 +10,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
 
   return (
     <div>
-      <h2>User Addresses</h2>
+      <h3>User Addresses</h3>
       <ul className="address-list">
         {addresses.map(address => (
           <li className="address-item"
@@ -29,10 +29,17 @@ const CUserAddresses: React.FC<IAdressProps> = ({
                   ? 'Dufault'
                   : ''}
             </span>
-            <div className="param-value">Street: {address.streetName}</div>
-            <div className="param-value">Postal Code: {address.postalCode}</div>
-            <div className="param-value">City: {address.city}</div>
-            <div className="param-value">Country: {address.country}</div>
+            <div className="param">
+              <div className="param-value">Street:</div>
+              <div className="param-title">{address.streetName}</div>
+              <div className="param-value">Postal Code:</div>
+              <div className="param-title">{address.postalCode}</div>
+              <div className="param-value">City:</div>
+              <div className="param-title">{address.city}</div>
+              <div className="param-value">Country:</div>
+              <div className="param-title">{address.country}</div>
+            </div>
+
           </li>
         ))}
       </ul>

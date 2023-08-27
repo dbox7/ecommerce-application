@@ -48,6 +48,7 @@ export function CLoginForm() {
           />
           <CPassword 
             {...password}
+            title="Password"
           />
         </div>
         <CButton
