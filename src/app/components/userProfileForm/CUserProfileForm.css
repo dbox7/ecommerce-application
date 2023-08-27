@@ -1,4 +1,4 @@
-.profile-wrap{
+.profile-wrap {
   max-width: 1200px;
   margin: 0 auto;
   padding: 5px 20px;
@@ -59,7 +59,7 @@ section {
 .address-item {
   height: 100%;
   margin: 0;
-  background: #f5f6fa;;
+  background: #f5f6fa;
   box-shadow:
     0 1px 3px rgba(54, 74, 178, 0.16),
     0 2px 2px rgba(54, 74, 178, 0.04),
