@@ -9,7 +9,7 @@ import CUserAddresses from '../userAdresses/CUserAdresses';
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useNavigate } from 'react-router';
 import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import UseFormBlock from '../../services/useFormBlock';
 import 'react-toastify/dist/ReactToastify.css';
 import UseChangePassword from '../../services/useChangePassword';
@@ -29,10 +29,6 @@ export default function CUserProfileForm(): JSX.Element {
   const email = useInput(`${globalStore.currentUser.email}`, 'email', undefined, setHasChanges);
   const currentPassword = useInput('', 'password', undefined, setHasChanges);
   const newPassword = useInput('', 'password', undefined, setHasChanges);
-  const notify = () => error ? toast.error('An error occurred while updating personal information.')
-    : toast.success('Your profile has been updated successfully!');
-  const notifyPassword = () => err ? toast.error('An error occurred while updating password.')
-    : toast.success('Your password has been updated successfully!');
   
   useEffect(() => {
 
@@ -153,7 +149,6 @@ export default function CUserProfileForm(): JSX.Element {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={notify}
                 type="submit"
                 disabled={!isFormBlockedByInfo && !hasChanges ?
                   !hasChanges : isFormBlockedByInfo}
@@ -190,7 +185,6 @@ export default function CUserProfileForm(): JSX.Element {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={notifyPassword}
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
               />

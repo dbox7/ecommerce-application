@@ -142,3 +142,8 @@ export interface IChangePassword {
   newPassword: string;
   version: number;
 }
+
+export interface IToastify {
+  error?: string;
+  success?: string;
+}

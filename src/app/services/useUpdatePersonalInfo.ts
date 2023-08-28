@@ -2,7 +2,8 @@ import { useState, useContext } from 'react';
 import { useApi } from './useApi';
 import { CustomerUpdate } from '@commercetools/platform-sdk';
 import { GlobalContext } from '../store/GlobalContext';
-import { IUpdatePersonalInfo } from '../utils/types';
+import { IToastify, IUpdatePersonalInfo } from '../utils/types';
+import useToastify from './useToastify';
 
 
 const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
@@ -10,6 +11,13 @@ const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [error, setError] = useState<string>('');
   const api = useApi();
+  const notify = useToastify();
+  const errorMessage: IToastify = {
+    error: 'An error occurred while updating personal information.',
+  };
+  const successMessage: IToastify = {
+    success: 'Your profile has been updated successfully!'
+  };
 
   const updatePersonalInfo = (
     customerID: string,
@@ -38,12 +46,13 @@ const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
       .then((data) => {
 
         setGlobalStore({ ...globalStore, currentUser: data.body });
-        
+        notify(successMessage);
+      
       })
       .catch((error) => {
 
         setError('An error occurred while updating personal information.');
-        console.error(error);
+        notify(errorMessage);
         
       });
     

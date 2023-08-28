@@ -1,15 +1,23 @@
 import { useState, useContext } from 'react';
 import { GlobalContext } from '../store/GlobalContext';
-import { IChangePassword } from '../utils/types';
+import { IChangePassword, IToastify } from '../utils/types';
 import { CustomerChangePassword, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { PROJECT_KEY, createUserApiClient } from '../ctp';
 import { useApi } from './useApi';
+import useToastify from './useToastify';
 
 const UseChangePassword = () => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [err, setErr] = useState<string>('');
   const api = useApi();
+  const notify = useToastify();
+  const errorMessage: IToastify = {
+    error: 'An error occurred while updating password.',
+  };
+  const successMessage: IToastify = {
+    success: 'Your password has been updated successfully!'
+  };
 
   const changePassword = (email: string, updateData: IChangePassword): void => {
 
@@ -33,6 +41,7 @@ const UseChangePassword = () => {
           .then(data => {
       
             setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+            notify(successMessage);
             
           });
         
@@ -40,7 +49,7 @@ const UseChangePassword = () => {
       .catch((err) => {
 
         setErr('An error occurred while updating password.');
-        console.error(err);
+        notify(errorMessage);
         
       });
   
