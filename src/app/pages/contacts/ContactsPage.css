@@ -1,0 +1,10 @@
+.contacts-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contacts-page-content {
+  flex: 1;
+  padding: 5vh;
+}
