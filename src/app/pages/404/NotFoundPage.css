@@ -5,3 +5,41 @@
 .text {
   margin-top: 10px;
 }
+
+.not-found-poster-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/not-found-min.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.not-found-title {
+  position: absolute;
+  top: 20%;
+  left: 60%;
+  text-align: left;
+  font-family: var(--exa);
+  font-size: var(--title);
+  color: var(--basic-color);
+}
+
+.not-found-sub-title {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  text-align: left;
+  font-family: var(--exa);
+  font-size: var(--title);
+  color: var(--basic-color);
+}
+
+.not-found-sub-title .link {
+  color: var(--basic-color);
+}
+
+.not-found-sub-title .link:hover {
+  color: var(--dark-extra-color);
+}
