@@ -1,0 +1,9 @@
+.contacts-poster-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/contacts-poster.png");
+  background-position: center;
+  background-size: cover;
+}
