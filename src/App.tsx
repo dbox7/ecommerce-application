@@ -8,6 +8,7 @@ import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
 import { Header } from './app/components/header/CHeader';
 import { CatalogPage } from './app/pages/catalog/CatalogPage';
+import { UserProfilePage } from './app/pages/UserProfilePage/UserProfilePage';
 import { ProductPage } from './app/pages/product/ProductPage';
 
 import './App.css';
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="catalog/:id" element={<ProductPage />} />
           <Route path="*" element={<NotFoundPage />}/>
+          <Route path="profile" element={<UserProfilePage />}/>
         </Routes>
       </BrowserRouter>
     </GlobalContext.Provider>

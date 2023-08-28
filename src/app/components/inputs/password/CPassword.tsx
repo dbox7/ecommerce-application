@@ -4,11 +4,13 @@ import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
 
 const CPassword: FC<IInputProps> = ({
+  title,
   value, 
   changeHandler, 
   blurHandler, 
   activeState, 
-  valid
+  valid,
+  className,
 }) => {
 
   const [error, setError] = useState<string>('');
@@ -37,9 +39,9 @@ const CPassword: FC<IInputProps> = ({
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">Password</label>
+      <label className="input-title">{title}</label>
       <input
-        className={'input ' + error}
+        className={`input ${error} ${className || ''}`}
         type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={changeHandler}

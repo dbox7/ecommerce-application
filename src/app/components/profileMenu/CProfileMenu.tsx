@@ -43,7 +43,7 @@ const CProfileMenu = () => {
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to="/signup" className="link">Profile</Link>
+                  <Link to="/profile" className="link">Profile</Link>
                 </li>
               </>
               :
