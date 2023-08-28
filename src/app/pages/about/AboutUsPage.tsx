@@ -5,7 +5,7 @@ export function AboutUsPage() {
   return (
 
     <div className="container">
-      <div className="content">
+      <div className="content about">
         <h1 className="about-page-title">About Us</h1>
         <div className="about-page-text">
           Hey there, username!<br/>
