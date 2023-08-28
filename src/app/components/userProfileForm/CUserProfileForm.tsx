@@ -20,13 +20,13 @@ export default function CUserProfileForm(): JSX.Element {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
-  const { updatePersonalInfo, error } = useUpdatePersonalInfo();
-  const { changePassword, err } = UseChangePassword();
+  const { updatePersonalInfo } = useUpdatePersonalInfo();
+  const { changePassword } = UseChangePassword();
   const navigate = useNavigate();
   const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
   const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
   const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', undefined, setHasChanges);
-  const email = useInput(`${globalStore.currentUser.email}`, 'email', undefined, setHasChanges);
+  const email = useInput(globalStore.currentUser.email, 'email', undefined, setHasChanges);
   const currentPassword = useInput('', 'password', undefined, setHasChanges);
   const newPassword = useInput('', 'password', undefined, setHasChanges);
   
@@ -87,6 +87,18 @@ export default function CUserProfileForm(): JSX.Element {
     );
 
   };
+
+  const isEmptyEvent = () => {
+
+    currentPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+    newPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+  
+  };
+
   
   if (!globalStore.currentUser.id) return <></>;
   
@@ -187,6 +199,7 @@ export default function CUserProfileForm(): JSX.Element {
                 value="Save changes"
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
+                clickHandler={isEmptyEvent}
               />
             </form>
           </div>
