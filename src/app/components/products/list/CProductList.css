@@ -11,4 +11,13 @@
 .product-list-title {
   text-align: left;
   font-size: 1rem;
+  margin-right: 2.5vw;
+}
+
+.sort-container {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }

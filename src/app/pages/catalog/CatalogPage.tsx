@@ -14,36 +14,14 @@ import './CatalogPage.css';
 export function CatalogPage() {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
-  const [filters, setFilters] = useState<IProductFilters>({});
+  const [filters, setFilters] = useState<IProductFilters>({
+    sort: 'name',
+    sortOrder: false,
+  });
   const [categories, setCategories] = useState<Category[]>([]);
   const [errors, setErrors] = useState<String[]>([]);
 
   const api = useApi();
-
-  const handleSearch = (query: string) => {
-  
-    setErrors([]);
-
-    api.productProjections().search().get({
-      queryArgs: {
-        'text.en': query, 
-        limit: 1
-      }
-    }).execute().then(data => {
-        
-      const products = data.body.results;
-  
-      setProducts(products);
-  
-    }).catch(() => {
-        
-      setErrors([...errors, 'Something went wrong. Please try again later.']);
-
-    }
-    );
-
-  };  
-
 
   useEffect(() => {
 
@@ -81,7 +59,7 @@ export function CatalogPage() {
     <div className="catalog">
       <CFilterProducts filters={filters} setFilters={setFilters}/>
       <CCategoriesList categories={categories} filters={filters} setFilters={setFilters}/>
-      <CProductList filters={filters}/>
+      <CProductList filters={filters} setFilters={setFilters}/>
     </div>
   );
 

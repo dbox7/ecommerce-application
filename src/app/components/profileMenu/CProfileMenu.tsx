@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useLogout } from '../../services/login/useLogout';
 
 import loginSVG from '../../assets/login.svg';
@@ -49,10 +49,10 @@ const CProfileMenu = () => {
               :
               <>
                 <li className="profile-nav-item">
-                  <Link to="/login" className="link">Log in</Link>
+                  <NavLink to="/login" className="link">Log in</NavLink>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to="/signup" className="link">Sign up</Link>
+                  <NavLink to="/signup" className="link">Sign up</NavLink>
                 </li>
               </>
           }
