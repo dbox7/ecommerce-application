@@ -14,7 +14,7 @@ import UseFormBlock from '../../services/useFormBlock';
 import 'react-toastify/dist/ReactToastify.css';
 import CPassword from '../inputs/password/CPassword';
 import useChangePassword from '../../services/useChangePassword';
-import useUpdateAddresses from '../../services/useUpdateAddresses';
+
 
 
 export default function CUserProfileForm(): JSX.Element {
@@ -23,7 +23,6 @@ export default function CUserProfileForm(): JSX.Element {
   const [hasChanges, setHasChanges] = useState(false);
   const { updatePersonalInfo } = useUpdatePersonalInfo();
   const { changePassword } = useChangePassword();
-  const { changeAddress } = useUpdateAddresses();
   const navigate = useNavigate();
   const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
   const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
