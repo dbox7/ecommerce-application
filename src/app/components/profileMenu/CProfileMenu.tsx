@@ -12,7 +12,6 @@ import logoutSVG from '../../assets/logout.svg';
 
 import './CProfileMenu.css';
 
-
 const CProfileMenu = () => {
   
   const [globalStore] = useContext(GlobalContext);  

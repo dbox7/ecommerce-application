@@ -1,5 +1,10 @@
 import { Link, NavLink } from 'react-router-dom';
-import { CiFacebook, CiInstagram, CiYoutube } from 'react-icons/ci';
+
+import { 
+  CiFacebook, 
+  CiInstagram, 
+  CiYoutube 
+} from 'react-icons/ci';
 
 import './CFooter.css';
 

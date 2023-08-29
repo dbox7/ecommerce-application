@@ -6,7 +6,6 @@ import { BiCross } from 'react-icons/bi';
 
 import './CFilterProducts.css';
 
-
 export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 
   const [search, setSearch] = useState(filters.search);

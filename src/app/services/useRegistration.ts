@@ -9,7 +9,7 @@ export function useRegistration() {
 
   const navigate = useNavigate();
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState('');
 
   const registrateCustomer = (payload: IPayload) => {
 

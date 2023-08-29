@@ -7,7 +7,7 @@ import { IUpdatePersonalInfo } from '../utils/types';
 const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const api = useApi();
 
   const updatePersonalInfo = (

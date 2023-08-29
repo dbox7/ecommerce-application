@@ -1,12 +1,18 @@
 import { useContext, useState } from 'react';
 import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
 import { GlobalContext } from '../store/GlobalContext';
-import { MyCustomerDraft, ProductProjection, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { IGlobalStoreType, IPayload } from '../utils/types';
+import { 
+  MyCustomerDraft, 
+  ProductProjection, 
+  createApiBuilderFromCtpClient,
+  CustomerChangePassword, 
+  CustomerUpdate,
+} from '@commercetools/platform-sdk';
+import { IChangePassword, IGlobalStoreType, IPayload } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
 
-function GetApi(globalStore: IGlobalStoreType) {
+const GetApi = (globalStore: IGlobalStoreType) => {
 
   let api;
 
@@ -22,9 +28,9 @@ function GetApi(globalStore: IGlobalStoreType) {
 
   return api;
   
-} 
+}; 
 
-export function useServerApi() {
+export const useServerApi = () => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [error, setError] = useState('');
@@ -106,6 +112,79 @@ export function useServerApi() {
 
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ ChangePassword
+  const ChangePassword = (email: string, updateData: IChangePassword): void => {
+
+    api
+      .me()
+      .password()
+      .post({ body: updateData as CustomerChangePassword })
+      .execute()
+      .then(() => {
+
+          
+        const password: string = updateData.newPassword;
+        const ctpMeClient = createUserApiClient(email, password);
+        const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
+
+        apiMeRoot.me().login().post({
+          body: {email, password}
+        })
+          .execute()
+          .then(data => {
+      
+            setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+            
+          });
+        
+      })
+      .catch((err) => {
+
+        setError('An error occurred while updating password.');
+        console.error(err);
+        
+      });
+
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ UpdatePersonalInfo
+  const UpdatePersonalInfo = (
+    customerID: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    dateOfBirth: string,
+    version: number
+  ): void => {
+
+    const updateData: CustomerUpdate = {
+      version,
+      actions: [
+        { action: 'changeEmail', email },
+        { action: 'setFirstName', firstName },
+        { action: 'setLastName', lastName },
+        { action: 'setDateOfBirth', dateOfBirth },
+      ],
+    };
+
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, currentUser: data.body });
+        
+      })
+      .catch((error) => {
+
+        setError('An error occurred while updating personal information.');
+        console.error(error);
+        
+      });
+    
+  };
+
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
   const GetAllProducts = () => {
 
@@ -151,8 +230,10 @@ export function useServerApi() {
     Registration,
     Login,
     Logout,
+    ChangePassword,
+    UpdatePersonalInfo,
     GetAllProducts,
     GetAllCategories
   };
 
-}
+};

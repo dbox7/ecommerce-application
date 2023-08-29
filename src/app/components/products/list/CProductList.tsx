@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { useApi } from '../../../services/useApi';
 import { IProductListProps, IQueryArgs } from '../../../utils/types';
+
 import { Link } from 'react-router-dom';
-
 import { CProductCard } from '../card/CProductCard';
-
-import './CProductList.css';
 import { CSortProducts } from '../sort/CSortProducts';
 
+import './CProductList.css';
 
 export function CProductList({ filters, setFilters }: IProductListProps) {
 

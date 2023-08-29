@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { ICountry, ITextDateInputProps } from '../../../utils/types';
+
 import { CInfo } from '../../info/CInfo';
 
 import '../input.css';

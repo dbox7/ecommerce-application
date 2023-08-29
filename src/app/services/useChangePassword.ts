@@ -8,7 +8,7 @@ import { useApi } from './useApi';
 const UseChangePassword = () => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [err, setErr] = useState<string>('');
+  const [err, setErr] = useState('');
   const api = useApi();
 
   const changePassword = (email: string, updateData: IChangePassword): void => {
@@ -19,7 +19,7 @@ const UseChangePassword = () => {
       .password()
       .post({ body: updateData as CustomerChangePassword })
       .execute()
-      .then((data) => {
+      .then(() => {
 
           
         const password: string = updateData.newPassword;

@@ -1,12 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
-import { useNavigate } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
+import { useServerApi } from '../../services/useServerApi';
+import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
-import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
-import UseChangePassword from '../../services/useChangePassword';
+// import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
+// import UseChangePassword from '../../services/useChangePassword';
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -19,21 +20,47 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const CUserProfileForm: React.FC = () => {
   
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const [globalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
-  const { updatePersonalInfo, error } = useUpdatePersonalInfo();
-  const { changePassword, err } = UseChangePassword();
+
+  // const { updatePersonalInfo, error } = useUpdatePersonalInfo();
+  // const { changePassword, err } = UseChangePassword();
+
+  const server = useServerApi();
   const navigate = useNavigate();
-  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', undefined, setHasChanges);
-  const email = useInput(`${globalStore.currentUser.email}`, 'email', undefined, setHasChanges);
-  const currentPassword = useInput('', 'password', undefined, setHasChanges);
-  const newPassword = useInput('', 'password', undefined, setHasChanges);
-  const notify = () => error ? toast.error('An error occurred while updating personal information.')
-    : toast.success('Your profile has been updated successfully!');
-  const notifyPassword = () => err ? toast.error('An error occurred while updating password.')
-    : toast.success('Your password has been updated successfully!');
+
+  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', setHasChanges);
+  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', setHasChanges);
+  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', setHasChanges);
+  const email = useInput(`${globalStore.currentUser.email}`, 'email', setHasChanges);
+  const currentPassword = useInput('', 'password', setHasChanges);
+  const newPassword = useInput('', 'password', setHasChanges);
+
+  // const notify = () => server.error.includes('personal') ? 
+  // toast.error('An error occurred while updating personal information.')
+  //   : 
+  // toast.success('Your profile has been updated successfully!');
+  // const notifyPassword = () => server.error.includes('password') ? 
+  // toast.error('An error occurred while updating password.')
+  //   : 
+  // toast.success('Your password has been updated successfully!');
+
+  const notify = (goodMsg: string) => {
+
+    if (server.error) {
+
+      server.error.includes('password') ? 
+        toast.error('An error occurred while updating password.')
+        :
+        toast.error('An error occurred while updating personal information.');
+
+    } else {
+
+      toast.success(goodMsg);
+    
+    };
+
+  };
   
   useEffect(() => {
 
@@ -43,16 +70,18 @@ const CUserProfileForm: React.FC = () => {
     
     }
 
-    globalStore.apiMeRoot?.me()
-      .get()
-      .execute()
-      .then(data => {
+  });
+
+  //   globalStore.apiMeRoot?.me()
+  //     .get()
+  //     .execute()
+  //     .then(data => {
         
-        setGlobalStore({...globalStore, currentUser: data.body});
+  //       setGlobalStore({...globalStore, currentUser: data.body});
       
-      });
+  //     });
         
-  }, [globalStore.currentUser.lastModifiedAt]);
+  // }, [globalStore.currentUser.lastModifiedAt]);
 
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -65,7 +94,8 @@ const CUserProfileForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    updatePersonalInfo(
+    
+    server.UpdatePersonalInfo(
       globalStore.currentUser.id,
       email.value,
       firstName.value,
@@ -86,7 +116,8 @@ const CUserProfileForm: React.FC = () => {
     };
 
     e.preventDefault();
-    changePassword(
+    
+    server.ChangePassword(
       email.value,
       updateData
     );
@@ -153,7 +184,7 @@ const CUserProfileForm: React.FC = () => {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={notify}
+                clickHandler={() => notify('An error occurred while updating personal information.')}
                 type="submit"
                 disabled={!isFormBlockedByInfo && !hasChanges ?
                   !hasChanges : isFormBlockedByInfo}
@@ -190,7 +221,7 @@ const CUserProfileForm: React.FC = () => {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={notifyPassword}
+                clickHandler={() => notify('Your password has been updated successfully!')}
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
               />

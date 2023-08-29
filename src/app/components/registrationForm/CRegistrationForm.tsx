@@ -24,7 +24,7 @@ const getCountryCode = (countryName: string): string => {
 
 };
 
-export function CRegistrationForm() {
+export const CRegistrationForm = () => {
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(true);
