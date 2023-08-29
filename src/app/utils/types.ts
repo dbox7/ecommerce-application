@@ -10,6 +10,7 @@ export interface IAddress {
   postalCode: string,
   country: string
 }
+
 export interface IButtonProps {
   value: string,
   type: 'button' | 'submit' | 'reset',
@@ -72,9 +73,11 @@ export interface ISortProductsProps {
   filters: IProductFilters,
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
+
 export interface ISearchBarProps {
   onSearch: (query: string) => void;
 }
+
 export interface IPayload {
   email: string,
   password: string, 

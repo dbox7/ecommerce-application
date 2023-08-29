@@ -15,6 +15,7 @@ import UseFormBlock from '../../services/useFormBlock';
 import useRegistration from '../../services/useRegistration';
 
 import './CRegistrationForm.css';
+import { useServerApi } from '../../services/useServerApi';
 
 
 const getCountryCode = (countryName: string): string => {
@@ -32,7 +33,8 @@ export function CRegistrationForm() {
 
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(true);
 
-  const registration = useRegistration();
+  // const registration = useRegistration();
+  const server = useServerApi();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 
@@ -75,7 +77,8 @@ export function CRegistrationForm() {
 
     }
 
-    registration.registrateCustomer(payload);
+    // registration.registrateCustomer(payload);
+    server.Registration(payload);
 
   };
 
@@ -135,7 +138,7 @@ export function CRegistrationForm() {
     <div className="substrate">
       <div className="sub-title">Registration</div>
 
-      <CAlert message={registration.error}></CAlert>
+      <CAlert message={server.error}></CAlert>
 
       <form 
         className="form"

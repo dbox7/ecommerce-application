@@ -9,13 +9,15 @@ import CAlert from '../alert/CAlert';
 import UseFormBlock from '../../services/useFormBlock';
 
 import './CLoginForm.css';
+import { useServerApi } from '../../services/useServerApi';
 
 export function CLoginForm() {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
   
-  const login = useLogin();
+  // const login = useLogin();
+  const server = useServerApi();
   
   const isFormBlocked = UseFormBlock([
     email.valid.isNotEmpty!,
@@ -28,7 +30,7 @@ export function CLoginForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    login.createClient(email.value, password.value);
+    server.Login(email.value, password.value);
   
   };
 
@@ -36,7 +38,7 @@ export function CLoginForm() {
     <div className="substrate">
       <div className="sub-title">Log in</div>
       
-      <CAlert message={login.error} />
+      <CAlert message={server.error} />
       
       <form 
         className="form"

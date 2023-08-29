@@ -6,6 +6,7 @@ import { useLogout } from '../../services/login/useLogout';
 import loginSVG from '../../assets/login.svg';
 import logoutSVG from '../../assets/logout.svg';
 import './CProfileMenu.css';
+import { useServerApi } from '../../services/useServerApi';
 
 
 const CProfileMenu = () => {
@@ -14,7 +15,8 @@ const CProfileMenu = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const user = globalStore.currentUser;
 
-  const logout = useLogout();
+  // const logout = useLogout();
+  const server = useServerApi();
   
   return ( 
     <div 
@@ -36,7 +38,7 @@ const CProfileMenu = () => {
                 <li className="profile-nav-item">
                   <Link 
                     to="/" 
-                    onClick={logout as React.MouseEventHandler} 
+                    onClick={server.Logout as React.MouseEventHandler} 
                     className="link"
                   >
                     Log out
