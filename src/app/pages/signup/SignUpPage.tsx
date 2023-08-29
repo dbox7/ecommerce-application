@@ -20,7 +20,7 @@ export const SignUpPage = () => {
   });
 
   return (
-    <div className="container">
+    <div>
       <div className="content">
         <div className="form-wrap">
           <CRegistrationForm />
