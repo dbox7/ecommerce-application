@@ -6,8 +6,8 @@
 
 .info-icon {
   position: absolute;
-  top: -.5rem;
-  right: -1rem;  
+  top: -0.5rem;
+  right: -1rem;
   width: 1rem;
   height: 1rem;
   color: var(--accent-color);
@@ -21,13 +21,18 @@
 
 .info-text {
   position: absolute;
+  z-index: 1;
   bottom: -5;
   right: 0;
+  min-height: 5vh;
+  min-width: 25vw;
   background-color: var(--bg-color);
-  padding: 10px;
-  border: 1px solid #ccc; 
+  padding: 1vh;
+  border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   opacity: 1;
   visibility: visible;
   font-size: calc(var(--main-text) * 0.6);
@@ -38,5 +43,3 @@
   opacity: 0;
   visibility: hidden;
 }
-
-

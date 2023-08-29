@@ -42,7 +42,6 @@ const CEmail: FC<IInputProps> = ({
           value={value}
           onChange={changeHandler}
           onBlur={blurHandler}
-          /* title="A properly formatted email address (e.g., example@email.com)" */
           children={children}
         />
 
