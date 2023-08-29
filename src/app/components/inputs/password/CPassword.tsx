@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
+
 import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
+
 import { CInfo } from '../../info/CInfo';
 
 const CPassword: FC<IInputProps> = ({
