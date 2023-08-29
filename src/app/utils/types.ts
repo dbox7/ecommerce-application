@@ -68,6 +68,10 @@ export interface IProductListProps {
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
+export interface IInfoProps {
+  text: string,
+}
+
 export interface IInputProps {
   title?: string;
   value: string;
@@ -76,6 +80,7 @@ export interface IInputProps {
   activeState: boolean;
   valid: Partial<IValidation>;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export interface ISortProductsProps {
@@ -165,3 +170,5 @@ export interface IChangePassword {
   newPassword: string;
   version: number;
 }
+
+
