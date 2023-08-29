@@ -61,6 +61,10 @@ export interface IProductListProps {
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
+export interface IInfoProps {
+  text: string,
+}
+
 export interface IInputProps {
   title?: string;
   value: string;
@@ -152,3 +156,5 @@ export interface IChangePassword {
   newPassword: string;
   version: number;
 }
+
+
