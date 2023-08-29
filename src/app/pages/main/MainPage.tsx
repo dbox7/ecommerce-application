@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
+
 import './MainPage.css';
 
-export function MainPage() {
+export const MainPage = () => {
 
   return (
     <>
@@ -17,4 +18,4 @@ export function MainPage() {
 
   );
 
-}
+};

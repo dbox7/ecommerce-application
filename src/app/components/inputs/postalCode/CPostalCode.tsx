@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { ICountry, IPostalCodeProps } from '../../../utils/types';
 import { COUNTRIES } from '../../../utils/constants';
 
+import { CInfo } from '../../info/CInfo';
+
 const CPostalCode: FC<IPostalCodeProps> = ({
   value, 
   changeHandler, 
@@ -11,7 +13,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
   country
 }) => {
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const selectedCountry: ICountry | undefined = COUNTRIES.find((item) => item.name === country);
 
   useEffect(() => {
@@ -33,13 +35,13 @@ const CPostalCode: FC<IPostalCodeProps> = ({
   return ( 
     <div className="input-wrap">
       <label className="input-title">Postal Code</label>
+      <CInfo text="Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)"/>
       <input
         className={'input ' + error}
         type="text"
         value={value}
         onChange={changeHandler}
         onBlur={blurHandler}
-        title="Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)"
       />
 
       {!valid.isNotEmpty && !activeState &&

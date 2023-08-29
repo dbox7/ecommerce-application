@@ -1,7 +1,7 @@
 header {
   display: flex;
   align-items: center;
-  height: 80px;
+  min-height: 80px;
   background-color: var(--basic-color);
   border-bottom: 1px solid var(--border-color);
 }
@@ -52,6 +52,16 @@ header {
 .menu-link {
   color: #cdcdcd;
   transition: color 0.2s linear;
+}
+
+.link.active {
+  border-bottom: 1px solid var(--dark-accent-color);
+  padding: 0 0.3vw;
+}
+
+.link.active:hover {
+  color: black;
+  cursor: default;
 }
 
 @media screen and (max-width: 790px) {

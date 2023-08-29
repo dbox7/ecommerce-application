@@ -6,7 +6,6 @@ import { IGlobalStoreType } from '../utils/types';
 export const defaultGlobalStore : IGlobalStoreType = {
   currentUser: anonUser,
   apiMeRoot: undefined,
-
-};   
+};
 
 export const GlobalContext = createContext<[IGlobalStoreType, Dispatch<SetStateAction<IGlobalStoreType>>]>([defaultGlobalStore, () => {}]);

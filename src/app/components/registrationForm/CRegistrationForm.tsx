@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { Link } from 'react-router-dom';
-
+import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
+import UseFormBlock from '../../services/useFormBlock';
+
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -11,11 +13,8 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
-import UseFormBlock from '../../services/useFormBlock';
-import useRegistration from '../../services/useRegistration';
 
 import './CRegistrationForm.css';
-
 
 const getCountryCode = (countryName: string): string => {
   
@@ -25,14 +24,15 @@ const getCountryCode = (countryName: string): string => {
 
 };
 
-export function CRegistrationForm() {
+export const CRegistrationForm = () => {
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(true);
 
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(true);
 
-  const registration = useRegistration();
+  // const registration = useRegistration();
+  const server = useServerApi();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
 
@@ -75,7 +75,8 @@ export function CRegistrationForm() {
 
     }
 
-    registration.registrateCustomer(payload);
+    // registration.registrateCustomer(payload);
+    server.Registration(payload);
 
   };
 
@@ -135,7 +136,7 @@ export function CRegistrationForm() {
     <div className="substrate">
       <div className="sub-title">Registration</div>
 
-      <CAlert message={registration.error}></CAlert>
+      <CAlert message={server.error}></CAlert>
 
       <form 
         className="form"
@@ -149,6 +150,7 @@ export function CRegistrationForm() {
             />
             <CPassword 
               {...password}
+              title="Password"
             />
             <CTextDateInput 
               {...firstName}

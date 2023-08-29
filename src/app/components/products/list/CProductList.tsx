@@ -1,32 +1,29 @@
 import { useState, useEffect } from 'react';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { useApi } from '../../../services/useApi';
 import { IProductListProps, IQueryArgs } from '../../../utils/types';
-import { Link } from 'react-router-dom';
+import { useServerApi } from '../../../services/useServerApi';
 
+import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
+import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
 
-
-export function CProductList({ filters }: IProductListProps) {
+export const CProductList = ({ filters, setFilters }: IProductListProps) => {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
-
-  const api = useApi();
+  const server = useServerApi();
 
   useEffect(() => {
 
     let queryArgs: IQueryArgs = {
       limit: 30,
-      filter: []
+      filter: [], 
     };
 
     if (filters.search) {
 
-      console.log('filters search:', filters.search);
       queryArgs['text.en'] = filters.search;
-      console.log('queryArgs:',  queryArgs);
 
     }
     
@@ -36,23 +33,32 @@ export function CProductList({ filters }: IProductListProps) {
     
     }
 
-    api.productProjections().search().get({
-      queryArgs: queryArgs
-    }).execute().then((data) => {
+    if ( filters.sort === 'price' ) {
+        
+      queryArgs.sort = (filters.sort) + (filters.sortOrder ? ' asc' : ' desc');
 
-      setProducts(data.body.results);
-      
-    });
-    
+    }
+
+    if ( filters.sort === 'name' ) {
+        
+      queryArgs.sort = (filters.sort) + '.en' + (filters.sortOrder ? ' asc' : ' desc');
+
+    }
+
+    server.FilterProducts(queryArgs, setProducts);
      
-
   }, [filters]);
 
 
 
   return (
     <>
-      <h3 className="product-list-title">Products ({products.length})</h3>
+      <div className="sort-container">
+        <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
+        <div className="product-list-title">products ({products.length})</div>
+        <CSortProducts type="price" filters={filters} setFilters={setFilters}/>
+        <></>
+      </div>
       <div className="product-list">
         { products.map((product) => 
           <Link key={ product.id } to={`/catalog/${product.id}`}> 
@@ -63,4 +69,4 @@ export function CProductList({ filters }: IProductListProps) {
     </>
   );
 
-}
+};

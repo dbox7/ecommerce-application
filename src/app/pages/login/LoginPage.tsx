@@ -1,10 +1,12 @@
 import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { useNavigate } from 'react-router-dom';
+
 import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
+import './LoginPage.css';
 
-export function LoginPage(): JSX.Element {
+export const LoginPage = () => {
 
   const [globalStore] = useContext(GlobalContext);
   const navigate = useNavigate();
@@ -20,9 +22,13 @@ export function LoginPage(): JSX.Element {
   });
 
   return (
-    <div className="form-wrap">
-      <CLoginForm />
-    </div>
+
+    <>
+      <div className="form-wrap">
+        <CLoginForm />
+      </div>
+    </>
+
   );
 
 };

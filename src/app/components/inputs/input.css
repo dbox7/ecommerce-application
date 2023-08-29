@@ -9,7 +9,7 @@
 }
 
 .input-title {
-  font-size: var(--sub-title);
+  font-size: calc(var(--sub-title) * 0.8);
 }
 
 .input {
@@ -43,11 +43,11 @@
 
 .password-icon {
   position: absolute;
-  z-index: 1;
-  top: 34px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
+  z-index: 0.9;
+  bottom: 5%;
+  right: 3%;
+  width: 1rem;
+  height: 1rem;
   content: "";
   cursor: pointer;
 }

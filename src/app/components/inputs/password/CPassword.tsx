@@ -1,18 +1,23 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
+
 import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
 
+import { CInfo } from '../../info/CInfo';
+
 const CPassword: FC<IInputProps> = ({
+  title,
   value, 
   changeHandler, 
   blurHandler, 
   activeState, 
-  valid
+  valid,
+  className,
 }) => {
 
-  const [error, setError] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
 
@@ -37,15 +42,15 @@ const CPassword: FC<IInputProps> = ({
 
   return ( 
     <div className="input-wrap">
-      <label className="input-title">Password</label>
+      <label className="input-title">{title}</label>
+      <CInfo text="Minimum 8 characters, at least 1 uppercase letter,
+         1 lowercase letter, 1 number and 1 special character. No whitespaces, please."/>
       <input
-        className={'input ' + error}
+        className={`input ${error} ${className || ''}`}
         type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={changeHandler}
         onBlur={blurHandler}
-        title="Minimum 8 characters, at least 1 uppercase letter,
-         1 lowercase letter, 1 number and 1 special character. No whitespaces, please."
       />
 
       {!valid.isMinLength && !activeState &&

@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { IValidation } from '../../utils/types';
-import { COUNTRIES, RULES } from '../../utils/constants';
+import { 
+  COUNTRIES, 
+  EmailREGEXP, 
+  MS_IN_YEAR, 
+  PasswordREGEXP, 
+  RULES, 
+  TextREGEXP
+} from '../../utils/constants';
 
 const useValidation = (value: string, type: string): Partial<IValidation> => {
 
@@ -20,17 +27,15 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
       
       case 'isNotEmpty': {
 
-        value ? setNotEmpty(true) : setNotEmpty(false);
+        setNotEmpty(Boolean(value));
         
         break;
       
       }
 
       case 'isEmailGood': {
-        
-        const REGEXP = /^\S+@\S+\.\S+$/;
 
-        REGEXP.test(value) ? setEmailGood(true) : setEmailGood(false);
+        setEmailGood(EmailREGEXP.test(value));
 
         break;
 
@@ -38,7 +43,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'minLength': {
 
-        value.length >= RULES[type].minLength! ? setMinLength(true) : setMinLength(false);
+        setMinLength(value.length >= RULES[type].minLength!);
 
         break;
 
@@ -46,10 +51,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isPasswordGood': {
         
-        const REGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
-
-
-        REGEXP.test(value) ? setPasswordGood(true) : setPasswordGood(false);
+        setPasswordGood(PasswordREGEXP.test(value));
 
         break;
 
@@ -57,10 +59,9 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isDateGood': {
 
-        const MS_IN_YEAR = 31536000000;
         const age = Math.floor((Date.now() - Date.parse(value)) / MS_IN_YEAR);
 
-        age >= 14 ? setDateGood(true) : setDateGood(false);
+        setDateGood(age >= 14);
         
         break;
       
@@ -68,9 +69,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isTextGood': {
 
-        const REGEXP = /^[a-zA-Z]+$/;
-
-        REGEXP.test(value) ? setTextGood(true) : setTextGood(false);
+        setTextGood(TextREGEXP.test(value));
 
         break;
 
@@ -78,9 +77,7 @@ const useValidation = (value: string, type: string): Partial<IValidation> => {
 
       case 'isPostalCodeGood': {
 
-        const temp = COUNTRIES.some((country) => country.postalCode.test(value));
-
-        temp ? setPostalCodeGood(true) : setPostalCodeGood(false);
+        setPostalCodeGood(COUNTRIES.some((country) => country.postalCode.test(value)));
 
         break;
 

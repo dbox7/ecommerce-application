@@ -1,5 +1,6 @@
 import { ICategoriesListProps } from '../../../utils/types';
 import { Category } from '@commercetools/platform-sdk';
+
 import './CCategoriesList.css';
 
 export function CCategoriesList({categories, filters, setFilters }: ICategoriesListProps) {
@@ -11,7 +12,7 @@ export function CCategoriesList({categories, filters, setFilters }: ICategoriesL
           <li 
             className={ undefined === filters.categoryId ? 'active': '' } 
             onClick={ (e) => {
-
+              
               setFilters({...filters, categoryId: undefined}); 
 
             } }>
