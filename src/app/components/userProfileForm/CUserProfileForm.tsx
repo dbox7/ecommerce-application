@@ -36,6 +36,33 @@ const CUserProfileForm: React.FC = () => {
   const currentPassword = useInput('', 'password', setHasChanges);
   const newPassword = useInput('', 'password', setHasChanges);
 
+  const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
+    id: address.id || '',
+    streetName: address.streetName || '',
+    postalCode: address.postalCode || '',
+    city: address.city || '',
+    country: address.country || '',
+  }));
+
+  const isFormBlockedByInfo = UseFormBlock([
+    email.valid.isNotEmpty!,
+    email.valid.isEmailGood!,
+    dateOfBirth.valid.isDateGood!,
+    firstName.valid.isNotEmpty!,
+    firstName.valid.isTextGood!,
+    lastName.valid.isNotEmpty!,
+    lastName.valid.isTextGood!,
+  ]);
+
+  const isPasswordBlockedByInfo = UseFormBlock([
+    newPassword.valid.isNotEmpty!,
+    newPassword.valid.isMinLength!,
+    newPassword.valid.isPasswordGood!,
+    currentPassword.valid.isNotEmpty!,
+    currentPassword.valid.isMinLength!,
+    currentPassword.valid.isPasswordGood!,
+  ]);
+
   // const notify = () => server.error.includes('personal') ? 
   // toast.error('An error occurred while updating personal information.')
   //   : 
@@ -72,25 +99,6 @@ const CUserProfileForm: React.FC = () => {
 
   });
 
-  //   globalStore.apiMeRoot?.me()
-  //     .get()
-  //     .execute()
-  //     .then(data => {
-        
-  //       setGlobalStore({...globalStore, currentUser: data.body});
-      
-  //     });
-        
-  // }, [globalStore.currentUser.lastModifiedAt]);
-
-  const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
-    id: address.id || '',
-    streetName: address.streetName || '',
-    postalCode: address.postalCode || '',
-    city: address.city || '',
-    country: address.country || '',
-  }));
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
@@ -123,27 +131,6 @@ const CUserProfileForm: React.FC = () => {
     );
 
   };
-  
-  if (!globalStore.currentUser.id) return <></>;
-  
-  const isFormBlockedByInfo = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    dateOfBirth.valid.isDateGood!,
-    firstName.valid.isNotEmpty!,
-    firstName.valid.isTextGood!,
-    lastName.valid.isNotEmpty!,
-    lastName.valid.isTextGood!,
-  ]);
-
-  const isPasswordBlockedByInfo = UseFormBlock([
-    newPassword.valid.isNotEmpty!,
-    newPassword.valid.isMinLength!,
-    newPassword.valid.isPasswordGood!,
-    currentPassword.valid.isNotEmpty!,
-    currentPassword.valid.isMinLength!,
-    currentPassword.valid.isPasswordGood!,
-  ]);
 
   return (
     <div className="profile-wrap">
