@@ -8,7 +8,12 @@ import {
   CustomerChangePassword, 
   CustomerUpdate,
 } from '@commercetools/platform-sdk';
-import { IChangePassword, IGlobalStoreType, IPayload } from '../utils/types';
+import { 
+  IChangePassword, 
+  IGlobalStoreType, 
+  IPayload, 
+  IQueryArgs 
+} from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
 
@@ -121,8 +126,7 @@ export const useServerApi = () => {
       .post({ body: updateData as CustomerChangePassword })
       .execute()
       .then(() => {
-
-          
+   
         const password: string = updateData.newPassword;
         const ctpMeClient = createUserApiClient(email, password);
         const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
@@ -138,10 +142,9 @@ export const useServerApi = () => {
           });
         
       })
-      .catch((err) => {
+      .catch(() => {
 
         setError('An error occurred while updating password.');
-        console.error(err);
         
       });
 
@@ -176,10 +179,9 @@ export const useServerApi = () => {
         setGlobalStore({ ...globalStore, currentUser: data.body });
         
       })
-      .catch((error) => {
+      .catch(() => {
 
         setError('An error occurred while updating personal information.');
-        console.error(error);
         
       });
     
@@ -225,6 +227,19 @@ export const useServerApi = () => {
 
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ FilterProducts
+  const FilterProducts = (queryArgs: IQueryArgs, setProducts: Function) => {
+
+    api.productProjections().search().get({
+      queryArgs: queryArgs
+    }).execute().then((data) => {
+  
+      setProducts(data.body.results);
+      
+    });
+
+  };
+  
   return { 
     error,
     Registration,
@@ -233,7 +248,8 @@ export const useServerApi = () => {
     ChangePassword,
     UpdatePersonalInfo,
     GetAllProducts,
-    GetAllCategories
+    GetAllCategories,
+    FilterProducts
   };
 
 };

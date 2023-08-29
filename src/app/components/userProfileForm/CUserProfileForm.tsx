@@ -6,8 +6,6 @@ import { useServerApi } from '../../services/useServerApi';
 import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
-// import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
-// import UseChangePassword from '../../services/useChangePassword';
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -22,9 +20,6 @@ const CUserProfileForm: React.FC = () => {
   
   const [globalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
-
-  // const { updatePersonalInfo, error } = useUpdatePersonalInfo();
-  // const { changePassword, err } = UseChangePassword();
 
   const server = useServerApi();
   const navigate = useNavigate();
@@ -62,15 +57,6 @@ const CUserProfileForm: React.FC = () => {
     currentPassword.valid.isMinLength!,
     currentPassword.valid.isPasswordGood!,
   ]);
-
-  // const notify = () => server.error.includes('personal') ? 
-  // toast.error('An error occurred while updating personal information.')
-  //   : 
-  // toast.success('Your profile has been updated successfully!');
-  // const notifyPassword = () => server.error.includes('password') ? 
-  // toast.error('An error occurred while updating password.')
-  //   : 
-  // toast.success('Your password has been updated successfully!');
 
   const notify = (goodMsg: string) => {
 
