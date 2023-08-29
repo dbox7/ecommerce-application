@@ -43,9 +43,7 @@ export function CLoginForm() {
         onSubmit={handleSubmit}
       >
         <div className="info-block">
-          <CEmail 
-            {...email}
-          />
+          <CEmail {...email}/>
           <CPassword 
             {...password}
             title="Password"
