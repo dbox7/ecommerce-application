@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+  flex: 1;
   gap: 50px;
   margin: auto;
   max-width: 1200px;
@@ -11,7 +12,8 @@
 .view_image-wrap {
   display: flex;
   flex: 1;
-  min-width: 550px;
+  min-width: 400px;
+  margin-bottom: 20px;
 }
 
 .product_info {
@@ -22,7 +24,7 @@
   gap: 40px;
   margin-top: 60px;
   padding-right: 50px;
-  min-width: 550px;
+  min-width: 400px;
 }
 
 .product_info-text {
@@ -48,4 +50,8 @@
 .product_button {
   height: 50px;
   font-size: var(--sub-title);
+}
+
+@media screen and (max-width: 900px) {
+
 }

@@ -6,7 +6,6 @@
 .viewImage_main {
   position: relative;
   margin: auto;
-  width: 100%;
 }
 
 .viewImage_main::after {
@@ -24,6 +23,8 @@
 
 .image_main {
   width: 100%;
+  max-width: 65vh;
+  max-height: 550px;
   object-fit: cover;
 }
 
@@ -74,4 +75,10 @@
 
 .pink::after {
   background-color: var(--pink);
+}
+
+@media screen and (max-width: 1350px) {
+  .image_main {
+    
+  }
 }
