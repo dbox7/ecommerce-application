@@ -1,0 +1,14 @@
+.content.about {
+  padding: 5vh;
+}
+
+.about-page-title {
+  font-family: var(--tera);
+  font-size: var(--title);
+  margin-bottom: 2vh;
+}
+
+.about-page-text {
+  font-family: var(--exa);
+  font-size: var(--main-text);
+}

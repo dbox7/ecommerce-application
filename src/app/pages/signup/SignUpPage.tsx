@@ -19,9 +19,14 @@ export function SignUpPage() {
   });
 
   return (
-    <div className="form-wrap">
-      <CRegistrationForm />
-    </div>
+    <div className="container">
+      <div className="content">
+        <div className="form-wrap">
+          <CRegistrationForm />
+        </div>
+      </div>
+    </div> 
+
   );
 
 };

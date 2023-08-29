@@ -4,13 +4,14 @@ import { ICountry, ITextDateInputProps } from '../../../utils/types';
 
 const CTextDateInput: FC<ITextDateInputProps> = ({
   value, 
-  changeHandler, 
-  blurHandler, 
-  activeState, 
-  valid, 
-  title, 
-  data, 
-  isDate
+  changeHandler,
+  blurHandler,
+  activeState,
+  valid,
+  title,
+  data,
+  isDate,
+  className,
 }) => {
 
   const type = isDate ? 'date' : 'text';
@@ -35,7 +36,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
     <div className="input-wrap">
       <label className="input-title">{title}</label>
       <input
-        className={'input ' + error}
+        className={`input ${error} ${className || ''}`}
         type={type}
         value={value}
         onChange={changeHandler}

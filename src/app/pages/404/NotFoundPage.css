@@ -1,7 +1,111 @@
-.notFound {
+.not-found {
   text-align: center;
 }
 
 .text {
   margin-top: 10px;
+}
+
+.not-found-poster-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../../assets/not-found-min.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.not-found-title {
+  position: absolute;
+  top: 20%;
+  left: 60%;
+  text-align: left;
+  font-family: var(--exa);
+  font-size: var(--title);
+  color: var(--basic-color);
+}
+
+.not-found-sub-title {
+  position: absolute;
+  top: 30%;
+  left: 60%;
+  text-align: left;
+  font-family: var(--exa);
+  font-size: var(--title);
+  color: var(--basic-color);
+}
+
+@media screen and (max-width: 1920px) {
+  .not-found-title {
+    left: 50%;
+  }
+
+  .not-found-sub-title {
+    left: 50%;
+    top: 30%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .not-found-title {
+    left: 40%;
+    font-size: var(--sub-title);
+  }
+
+  .not-found-sub-title {
+    left: 40%;
+    top: 27%;
+    font-size: var(--sub-title);
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .not-found-title {
+    left: 30%;
+  }
+
+  .not-found-sub-title {
+    left: 30%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .not-found-title {
+    left: 20%;
+  }
+
+  .not-found-sub-title {
+    left: 20%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .not-found-title {
+    left: 10%;
+  }
+
+  .not-found-sub-title {
+    left: 10%;
+    top: 27%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .not-found-title {
+    left: 10%;
+  }
+
+  .not-found-sub-title {
+    left: 10%;
+    top: 30%;
+  }
+}
+
+.not-found-sub-title .link {
+  color: var(--basic-color);
+}
+
+.not-found-sub-title .link:hover {
+  color: var(--dark-extra-color);
 }

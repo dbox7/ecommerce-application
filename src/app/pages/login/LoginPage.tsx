@@ -3,6 +3,7 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { useNavigate } from 'react-router-dom';
 import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
+import './LoginPage.css';
 
 export function LoginPage(): JSX.Element {
 
@@ -20,9 +21,15 @@ export function LoginPage(): JSX.Element {
   });
 
   return (
-    <div className="form-wrap">
-      <CLoginForm />
+
+    <div className="container">
+      <div className="content">
+        <div className="form-wrap">
+          <CLoginForm />
+        </div>
+      </div>
     </div>
+
   );
 
 };

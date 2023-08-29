@@ -1,10 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Category } from '@commercetools/platform-sdk';
 import { Customer } from '@commercetools/platform-sdk';
-import { ByProjectKeyRequestBuilder } from 
+import { ChangeEventHandler } from 'react';
+import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 export interface IAddress {
+  id?: string;
   streetName: string,
   city: string,
   postalCode: string,
@@ -42,8 +44,8 @@ export interface IFiltersProps {
 }
 
 export interface IGlobalStoreType {
-  currentUser: Customer,
-  apiMeRoot?: ByProjectKeyRequestBuilder,
+  currentUser: Customer;
+  apiMeRoot?: ByProjectKeyRequestBuilder;
 }
 
 export interface IProductFilters {
@@ -61,11 +63,13 @@ export interface IProductListProps {
 }
 
 export interface IInputProps {
+  title?: string;
   value: string;
-  changeHandler: React.ChangeEventHandler;
+  changeHandler: ChangeEventHandler<HTMLInputElement>;
   blurHandler: React.FocusEventHandler;
   activeState: boolean;
   valid: Partial<IValidation>;
+  className?: string;
 }
 
 export interface ISortProductsProps {
@@ -116,6 +120,13 @@ export interface IValidationRules {
   [index: string]: IValidation
 }
 
+export interface IAdressProps {
+  addresses: IAddress[];
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
+  defaultBillingAddressIds: string | undefined;
+  defaultShippingAddressIds: string | undefined;
+}
 export interface IQueryArgs {
   limit?: number,
   filter?: string | [],
@@ -125,4 +136,21 @@ export interface IQueryArgs {
   [key: string]: string | number | string[] | undefined | boolean
 }
 
+export interface IUpdatePersonalInfo {
+  updatePersonalInfo: (
+    customerID: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    dateOfBirth: string,
+    version: number,
+  ) => void;
+  error: string | null;
+}
 
+export interface IChangePassword {
+  id: string;
+  currentPassword:string;
+  newPassword: string;
+  version: number;
+}

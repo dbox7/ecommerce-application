@@ -152,6 +152,7 @@ export function CRegistrationForm() {
             />
             <CPassword 
               {...password}
+              title="Password"
             />
             <CTextDateInput 
               {...firstName}
