@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { useApi } from '../../../services/useApi';
 import { IProductListProps, IQueryArgs } from '../../../utils/types';
+import { useServerApi } from '../../../services/useServerApi';
+
 import { Link } from 'react-router-dom';
-
 import { CProductCard } from '../card/CProductCard';
-
-import './CProductList.css';
 import { CSortProducts } from '../sort/CSortProducts';
 
+import './CProductList.css';
 
-export function CProductList({ filters, setFilters }: IProductListProps) {
+export const CProductList = ({ filters, setFilters }: IProductListProps) => {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
-  const api = useApi();
+  const server = useServerApi();
 
   useEffect(() => {
 
@@ -46,16 +45,8 @@ export function CProductList({ filters, setFilters }: IProductListProps) {
 
     }
 
-    api.productProjections().search().get({
-      queryArgs: queryArgs
-    }).execute().then((data) => {
-
-      setProducts(data.body.results);
-      
-    });
-    
+    server.FilterProducts(queryArgs, setProducts);
      
-
   }, [filters]);
 
 
@@ -78,4 +69,4 @@ export function CProductList({ filters, setFilters }: IProductListProps) {
     </>
   );
 
-}
+};

@@ -1,5 +1,6 @@
 import { ICategoriesListProps } from '../../../utils/types';
 import { Category } from '@commercetools/platform-sdk';
+
 import './CCategoriesList.css';
 
 export function CCategoriesList({categories, filters, setFilters }: ICategoriesListProps) {

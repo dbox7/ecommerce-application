@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import '../input.css';
 import { ICountry, ITextDateInputProps } from '../../../utils/types';
+
 import { CInfo } from '../../info/CInfo';
+
+import '../input.css';
 
 const CTextDateInput: FC<ITextDateInputProps> = ({
   value, 
@@ -17,7 +19,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   const type = isDate ? 'date' : 'text';
   
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
 

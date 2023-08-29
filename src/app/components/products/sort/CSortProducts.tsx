@@ -1,8 +1,8 @@
 import { ISortProductsProps } from '../../../utils/types';
+
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import './CSortProducts.css';
-
 
 export function CSortProducts({filters, setFilters, type} : ISortProductsProps) {
 

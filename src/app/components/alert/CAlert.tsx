@@ -1,6 +1,6 @@
 import './CAlert.css';
 
-export default function Alert({ message }: { message: String}) {
+const Alert = ({ message }: { message: String }) => {
 
   if (!message) return <></>;
 
@@ -14,4 +14,6 @@ export default function Alert({ message }: { message: String}) {
 
   );
 
-}
+};
+
+export default Alert;

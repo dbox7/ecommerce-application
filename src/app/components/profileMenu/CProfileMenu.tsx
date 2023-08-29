@@ -1,20 +1,25 @@
-import React, { useContext, useState } from 'react';
+import { 
+  MouseEventHandler, 
+  useContext, 
+  useState 
+} from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { Link, NavLink } from 'react-router-dom';
-import { useLogout } from '../../services/login/useLogout';
+import { useServerApi } from '../../services/useServerApi';
 
 import loginSVG from '../../assets/login.svg';
 import logoutSVG from '../../assets/logout.svg';
-import './CProfileMenu.css';
 
+import './CProfileMenu.css';
 
 const CProfileMenu = () => {
   
   const [globalStore] = useContext(GlobalContext);  
-  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState(false);
   const user = globalStore.currentUser;
 
-  const logout = useLogout();
+  // const logout = useLogout();
+  const server = useServerApi();
   
   return ( 
     <div 
@@ -36,7 +41,7 @@ const CProfileMenu = () => {
                 <li className="profile-nav-item">
                   <Link 
                     to="/" 
-                    onClick={logout as React.MouseEventHandler} 
+                    onClick={server.Logout as MouseEventHandler} 
                     className="link"
                   >
                     Log out

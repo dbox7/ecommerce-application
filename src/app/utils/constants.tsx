@@ -63,3 +63,8 @@ export const RULES: IValidationRules = {
     isPostalCodeGood: false,
   }
 };
+
+export const MS_IN_YEAR = 31536000000;
+export const EmailREGEXP = /^\S+@\S+\.\S+$/;
+export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
+export const TextREGEXP = /^[a-zA-Z ]+$/;

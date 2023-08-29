@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { IInfoProps } from '../../utils/types';
+import { useEffect, useState } from 'react';
+
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 import './CInfo.css'; 
 
-
-export function CInfo({ text }: IInfoProps): JSX.Element {
+export const CInfo = ({ text }: IInfoProps) => {
 
   const [showInfo, setShowInfo] = useState(false);
-
 
   useEffect(() => {
 
@@ -44,4 +43,4 @@ export function CInfo({ text }: IInfoProps): JSX.Element {
     
   );
 
-}
+};

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { IInputProps } from '../../../utils/types';
+
 import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
+
 import { CInfo } from '../../info/CInfo';
 
 const CPassword: FC<IInputProps> = ({
@@ -14,8 +16,8 @@ const CPassword: FC<IInputProps> = ({
   className,
 }) => {
 
-  const [error, setError] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
 

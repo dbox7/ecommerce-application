@@ -1,4 +1,8 @@
-import { FC, useEffect, useState } from 'react';
+import { 
+  FC, 
+  useEffect, 
+  useState 
+} from 'react';
 import { IInputProps } from '../../../utils/types';
 
 import { CInfo } from '../../info/CInfo';
@@ -14,7 +18,7 @@ const CEmail: FC<IInputProps> = ({
   children
 }) => {
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
 

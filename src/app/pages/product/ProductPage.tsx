@@ -1,21 +1,25 @@
-import { useContext, useEffect, useState } from 'react';
+import { 
+  useContext, 
+  useEffect, 
+  useState 
+} from 'react';
 import { apiAnonRoot } from '../../ctp';
 import { GlobalContext } from '../../store/GlobalContext';
 import { useParams } from 'react-router-dom';
 import { ProductProjection } from '@commercetools/platform-sdk';
+
+import CPrice from '../../components/price/CPrice';
+import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 
 import './ProductPage.css';
-import CPrice from '../../components/price/CPrice';
-import CSizeOption from '../../components/sizeOption/CSizeOption';
 
-
-function GetProduct(id: string) {
+const GetProduct = (id: string) => {
 
   const [globalStore] = useContext(GlobalContext);
   const [product, setProduct] = useState<ProductProjection>();
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
 
@@ -48,9 +52,9 @@ function GetProduct(id: string) {
 
   return { product, error };
   
-}
+};
 
-export function ProductPage() {
+export const ProductPage = () => {
  
   const props = useParams();
   

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IButtonProps } from '../../utils/types';
+
 import './CButton.css';
 
 const CButton: FC<IButtonProps> = ({ value, type, clickHandler, disabled, extraClass }) => {

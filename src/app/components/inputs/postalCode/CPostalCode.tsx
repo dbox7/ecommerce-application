@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { ICountry, IPostalCodeProps } from '../../../utils/types';
 import { COUNTRIES } from '../../../utils/constants';
+
 import { CInfo } from '../../info/CInfo';
 
 const CPostalCode: FC<IPostalCodeProps> = ({
@@ -12,7 +13,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
   country
 }) => {
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const selectedCountry: ICountry | undefined = COUNTRIES.find((item) => item.name === country);
 
   useEffect(() => {

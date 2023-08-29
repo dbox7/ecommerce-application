@@ -1,6 +1,6 @@
 import './AboutUsPage.css';
 
-export function AboutUsPage() {
+export const AboutUsPage = () => {
 
   return (
 
@@ -33,4 +33,4 @@ export function AboutUsPage() {
 
   );
 
-}
+};

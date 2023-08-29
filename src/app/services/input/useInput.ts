@@ -2,10 +2,10 @@ import { useState } from 'react';
 import useValidation from './useValidation';
 import { IInputProps } from '../../utils/types';
 
-const useInput = (initialValue: string, type: string, setFormBlocked?: Function, setHasChanges?: Function): IInputProps => {
+const useInput = (initialValue: string, type: string, setHasChanges?: Function): IInputProps => {
 
-  const [value, setValue] = useState<string>(initialValue);
-  const [activeState, setActiveState] = useState<boolean>(true);
+  const [value, setValue] = useState(initialValue);
+  const [activeState, setActiveState] = useState(true);
   
   const valid = useValidation(value, type);
 
@@ -21,7 +21,7 @@ const useInput = (initialValue: string, type: string, setFormBlocked?: Function,
   
   };
 
-  const blurHandler = (event: React.ChangeEvent) => {
+  const blurHandler = () => {
 
     setActiveState(false); 
     
