@@ -6,9 +6,10 @@ export const NotFoundPage = () => {
 
   return (
     <>
-      <div className="not-found-poster-wrap"></div>
-      <div className="not-found-title">Interplanetary Oops:<br/> sneakers on a another planet...</div>
-      <p className="not-found-sub-title">back to <Link to="/" className="link"><b>Home</b></Link></p>
+      <div className="poster-wrap not-found">
+        <div className="not-found-title">Interplanetary Oops:<br/> sneakers on an another planet...</div>
+        <p className="not-found-sub-title">back to <Link to="/" className="link"><b>Home</b></Link></p>
+      </div>
     </>
   );
 
