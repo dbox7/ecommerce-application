@@ -212,6 +212,23 @@ export const useServerApi = () => {
 
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ GetProductById
+  const GetProductById = (id: string, setProduct: Function) => {
+
+    api?.productProjections()
+      .withId({ID: id as string})
+      .get().execute().then(res => {
+        
+        setProduct(res.body);
+        
+      }).catch(err => {
+        
+        setError(err);        
+        
+      });
+
+  };
+
   // ------------------------------------------------------------------------------------------------------------------ GetAllCategories
   const GetAllCategories = (setCategories: Function) => {
 
@@ -248,6 +265,7 @@ export const useServerApi = () => {
     ChangePassword,
     UpdatePersonalInfo,
     GetAllProducts,
+    GetProductById,
     GetAllCategories,
     FilterProducts
   };
