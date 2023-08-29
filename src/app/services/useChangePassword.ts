@@ -6,7 +6,7 @@ import { PROJECT_KEY, createUserApiClient } from '../ctp';
 import { useApi } from './useApi';
 import useToastify from './useToastify';
 
-const UseChangePassword = () => {
+const useChangePassword = () => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [err, setErr] = useState<string>('');
@@ -59,4 +59,4 @@ const UseChangePassword = () => {
 
 };
 
-export default UseChangePassword;
+export default useChangePassword;

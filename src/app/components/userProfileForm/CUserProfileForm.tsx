@@ -12,8 +12,9 @@ import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
 import { ToastContainer } from 'react-toastify';
 import UseFormBlock from '../../services/useFormBlock';
 import 'react-toastify/dist/ReactToastify.css';
-import UseChangePassword from '../../services/useChangePassword';
 import CPassword from '../inputs/password/CPassword';
+import useChangePassword from '../../services/useChangePassword';
+import useUpdateAddresses from '../../services/useUpdateAddresses';
 
 
 export default function CUserProfileForm(): JSX.Element {
@@ -21,7 +22,8 @@ export default function CUserProfileForm(): JSX.Element {
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
   const { updatePersonalInfo } = useUpdatePersonalInfo();
-  const { changePassword } = UseChangePassword();
+  const { changePassword } = useChangePassword();
+  const { changeAddress } = useUpdateAddresses();
   const navigate = useNavigate();
   const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
   const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
@@ -57,7 +59,7 @@ export default function CUserProfileForm(): JSX.Element {
     country: address.country || '',
   }));
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
     updatePersonalInfo(
@@ -68,7 +70,7 @@ export default function CUserProfileForm(): JSX.Element {
       dateOfBirth.value,
       globalStore.currentUser.version
     );
-
+  
   };
 
   const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -215,11 +217,6 @@ export default function CUserProfileForm(): JSX.Element {
               defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
             />
           )}
-          <CButton
-            value="Edit"
-            type="submit"
-            disabled={false}
-          />
         </section>
       </div>
       

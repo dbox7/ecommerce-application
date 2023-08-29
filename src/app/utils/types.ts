@@ -156,3 +156,39 @@ export interface IToastify {
   error?: string;
   success?: string;
 }
+
+export interface IUpdateUserAddresses {
+  addAddresses: (
+    customerID: string,
+    version: number,
+    address: IAddress,
+    actionType: string,
+  ) => void;
+  changeAddress: (
+    customerID: string,
+    version: number,
+    address: IAddress,
+    addressId: string,
+    actionTypes: string[],
+  ) => void;
+  removeAddress: (
+    customerID: string,
+    version: number,
+    addressId: string,
+  ) => void;
+  setDefaultAddress:(
+    customerID: string,
+    version: number,
+    addressId: string,
+    actionType: string,
+  ) => void;
+  error: string | null;
+}
+
+export type IAction = 'setDefaultShippingAddress'
+| 'changeAddress'
+| 'addShippingAddressId'
+| 'removeShippingAddressId'
+| 'setDefaultBillingAddress'
+| 'addBillingAddressId'
+| 'removeBillingAddressId';
