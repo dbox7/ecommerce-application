@@ -1,9 +1,7 @@
 .poster-wrap {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: calc(100vh - 80px);
-  background-image: url("../../assets/poster.png");
+  display: flex;
+  flex: 1;
+  background-image: url('../../assets/poster.png');
   background-position: center;
   background-size: cover;
 }
