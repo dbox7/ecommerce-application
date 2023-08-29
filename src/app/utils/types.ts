@@ -69,6 +69,7 @@ export interface IInputProps {
   activeState: boolean;
   valid: Partial<IValidation>;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export interface ISortProductsProps {
