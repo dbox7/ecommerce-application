@@ -1,6 +1,6 @@
 import './ContactsPage.css';
 
-export function ContactsPage() {
+export const ContactsPage = () => {
 
   return (
 
@@ -13,4 +13,4 @@ export function ContactsPage() {
 
   );
   
-}
+};

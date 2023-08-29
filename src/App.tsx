@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalContext, defaultGlobalStore } from './app/store/GlobalContext';
 import { IGlobalStoreType } from '../src/app/utils/types';
+
 import { LoginPage} from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
@@ -13,9 +14,9 @@ import { UserProfilePage } from './app/pages/UserProfilePage/UserProfilePage';
 import { ProductPage } from './app/pages/product/ProductPage';
 import { CartPage } from './app/pages/cart/CartPage';
 import { AboutUsPage } from './app/pages/about/AboutUsPage';
+import { ContactsPage } from './app/pages/contacts/ContactsPage';
 
 import './App.css';
-import { ContactsPage } from './app/pages/contacts/ContactsPage';
 
 export default function App() {
 

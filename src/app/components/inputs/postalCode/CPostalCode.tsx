@@ -11,7 +11,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
   country
 }) => {
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
   const selectedCountry: ICountry | undefined = COUNTRIES.find((item) => item.name === country);
 
   useEffect(() => {

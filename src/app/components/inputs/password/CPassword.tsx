@@ -13,8 +13,8 @@ const CPassword: FC<IInputProps> = ({
   className,
 }) => {
 
-  const [error, setError] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
 

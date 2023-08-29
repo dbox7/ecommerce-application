@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { Link } from 'react-router-dom';
-
+import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
+import UseFormBlock from '../../services/useFormBlock';
+
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -11,12 +13,8 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
-import UseFormBlock from '../../services/useFormBlock';
-import useRegistration from '../../services/useRegistration';
 
 import './CRegistrationForm.css';
-import { useServerApi } from '../../services/useServerApi';
-
 
 const getCountryCode = (countryName: string): string => {
   

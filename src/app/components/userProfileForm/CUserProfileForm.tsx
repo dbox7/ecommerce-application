@@ -1,22 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
-import CButton from '../button/CButton';
-import './CUserProfileForm.css';
 import { GlobalContext } from '../../store/GlobalContext';
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
-import useInput from '../../services/input/useInput';
-import CEmail from '../inputs/email/CEmail';
-import CUserAddresses from '../userAdresses/CUserAdresses';
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useNavigate } from 'react-router';
-import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
 import { ToastContainer, toast } from 'react-toastify';
 import UseFormBlock from '../../services/useFormBlock';
-import 'react-toastify/dist/ReactToastify.css';
+import useInput from '../../services/input/useInput';
+import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
 import UseChangePassword from '../../services/useChangePassword';
+
+import CButton from '../button/CButton';
+import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
+import CEmail from '../inputs/email/CEmail';
+import CUserAddresses from '../userAdresses/CUserAdresses';
 import CPassword from '../inputs/password/CPassword';
 
+import './CUserProfileForm.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function CUserProfileForm(): JSX.Element {
+const CUserProfileForm: React.FC = () => {
   
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
@@ -113,7 +114,6 @@ export default function CUserProfileForm(): JSX.Element {
     currentPassword.valid.isPasswordGood!,
   ]);
 
- 
   return (
     <div className="profile-wrap">
       <h1 className="sub-title">User profile</h1>
@@ -220,3 +220,5 @@ export default function CUserProfileForm(): JSX.Element {
   );
 
 };
+
+export default CUserProfileForm;

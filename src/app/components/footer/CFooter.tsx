@@ -1,10 +1,9 @@
 import { Link, NavLink } from 'react-router-dom';
-import { CiFacebook, CiInstagram, CiYoutube} from 'react-icons/ci';
+import { CiFacebook, CiInstagram, CiYoutube } from 'react-icons/ci';
 
 import './CFooter.css';
 
-
-export function Footer() {
+export const Footer = () => {
 
   return (
 
@@ -29,4 +28,4 @@ export function Footer() {
 
   );
 
-}
+};

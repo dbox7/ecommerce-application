@@ -1,6 +1,6 @@
 import './CartPage.css';
 
-export function CartPage() {
+export const CartPage = () => {
 
   return (
     
@@ -12,4 +12,4 @@ export function CartPage() {
 
   );
 
-}
+};

@@ -4,7 +4,6 @@ import { CustomerUpdate } from '@commercetools/platform-sdk';
 import { GlobalContext } from '../store/GlobalContext';
 import { IUpdatePersonalInfo } from '../utils/types';
 
-
 const useUpdatePersonalInfo = (): IUpdatePersonalInfo => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);

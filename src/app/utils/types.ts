@@ -1,7 +1,13 @@
-import { Dispatch, SetStateAction } from 'react';
-import { Category } from '@commercetools/platform-sdk';
-import { Customer } from '@commercetools/platform-sdk';
-import { ChangeEventHandler } from 'react';
+import { 
+  Dispatch, 
+  SetStateAction, 
+  ChangeEventHandler
+} from 'react';
+import { 
+  Customer, 
+  Price, 
+  Category 
+} from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
@@ -97,6 +103,11 @@ export interface IPayload {
 
 export type IPostalCodeProps = IInputProps & {
   country: string
+}
+
+export interface IPriceProps {
+  price: Price,
+  isMini?: boolean
 }
 
 export type ITextDateInputProps = IInputProps & {

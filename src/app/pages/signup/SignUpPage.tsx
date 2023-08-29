@@ -1,11 +1,12 @@
 import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { useNavigate } from 'react-router-dom';
+
 import CRegistrationForm from '../../components/registrationForm/CRegistrationForm';
 
-export function SignUpPage() {
+export const SignUpPage = () => {
 
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const [globalStore] = useContext(GlobalContext);
   const navigate = useNavigate();
 
   useEffect(() => {

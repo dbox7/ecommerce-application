@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import cat from '../../assets/cat.png';
 
 import './NotFoundPage.css';
 
-export function NotFoundPage() {
+export const NotFoundPage = () => {
 
   return (
     <div className="container">
@@ -16,4 +15,4 @@ export function NotFoundPage() {
 
   );
 
-}
+};

@@ -1,9 +1,10 @@
 import { Link, NavLink } from 'react-router-dom';
+
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
 import './CHeader.css';
 
-export function Header() {
+export const Header = () => {
 
   return (
     <header className="header">
@@ -29,4 +30,4 @@ export function Header() {
     </header>
   );
 
-}
+};

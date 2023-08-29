@@ -1,11 +1,10 @@
 import { useContext, useState } from 'react';
 import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
 import { GlobalContext } from '../store/GlobalContext';
-import { Category, MyCustomerDraft, ProductProjection, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { MyCustomerDraft, ProductProjection, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { IGlobalStoreType, IPayload } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
-
 
 function GetApi(globalStore: IGlobalStoreType) {
 
@@ -28,7 +27,7 @@ function GetApi(globalStore: IGlobalStoreType) {
 export function useServerApi() {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState('');
   
   const navigate = useNavigate();
   const api = GetApi(globalStore);

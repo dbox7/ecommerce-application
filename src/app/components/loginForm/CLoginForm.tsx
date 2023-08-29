@@ -1,22 +1,20 @@
 import { Link } from 'react-router-dom';
-import { useLogin } from '../../services/login/useLogin';
-
+import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
+import UseFormBlock from '../../services/useFormBlock';
+
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 import CAlert from '../alert/CAlert';
-import UseFormBlock from '../../services/useFormBlock';
 
 import './CLoginForm.css';
-import { useServerApi } from '../../services/useServerApi';
 
-export function CLoginForm() {
+export const CLoginForm = () => {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');
   
-  // const login = useLogin();
   const server = useServerApi();
   
   const isFormBlocked = UseFormBlock([
@@ -68,6 +66,6 @@ export function CLoginForm() {
     </div>
   );
 
-}
+};
 
   

@@ -5,7 +5,7 @@ import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
 import './LoginPage.css';
 
-export function LoginPage(): JSX.Element {
+export const LoginPage = () => {
 
   const [globalStore] = useContext(GlobalContext);
   const navigate = useNavigate();
