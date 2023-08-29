@@ -1,10 +1,6 @@
-import {  
-  useEffect, 
-  useState 
-} from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductProjection } from '@commercetools/platform-sdk';
-
 import { useServerApi } from '../../services/useServerApi';
 
 import CPrice from '../../components/price/CPrice';
@@ -21,13 +17,14 @@ export const ProductPage = () => {
   const server = useServerApi();
   const [product, setProduct] = useState<ProductProjection>();
 
-  const productData = product?.masterVariant;  
+  const productData = product?.masterVariant;
+  const name = product?.name.en.split('-');   
 
   useEffect(() => {
 
     server.GetProductById(props.id!, setProduct);  
 
-  }, []);
+  }, []);  
 
   return (
     product ? 
@@ -41,7 +38,9 @@ export const ProductPage = () => {
         <div className="product_info">
           <div className="product_info-text">
             <div className="product_title">
-              {product?.name.en}
+              {name![0].trim()}
+              <br/>
+              {name![1].trim()}
             </div>
             <div className="product_description">
               {product?.description!.en}
