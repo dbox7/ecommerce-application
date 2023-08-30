@@ -1,54 +1,39 @@
-import { useContext, useEffect, useState } from 'react';
-import CButton from '../button/CButton';
-import './CUserProfileForm.css';
+import { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
+import { IAddress, IChangePassword } from '../../utils/types';
+import { ToastContainer, toast } from 'react-toastify';
+import { useServerApi } from '../../services/useServerApi';
+import { useNavigate } from 'react-router-dom';
+import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
+
+import CButton from '../button/CButton';
+import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CEmail from '../inputs/email/CEmail';
 import CUserAddresses from '../userAdresses/CUserAdresses';
-import { IAddress, IChangePassword } from '../../utils/types';
-import { useNavigate } from 'react-router';
-import useUpdatePersonalInfo from '../../services/useUpdatePersonalInfo';
-import { ToastContainer } from 'react-toastify';
-import UseFormBlock from '../../services/useFormBlock';
-import 'react-toastify/dist/ReactToastify.css';
 import CPassword from '../inputs/password/CPassword';
 import useChangePassword from '../../services/useChangePassword';
 
+import './CUserProfileForm.css';
+import 'react-toastify/dist/ReactToastify.css';
 
+import './CUserProfileForm.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function CUserProfileForm(): JSX.Element {
+const CUserProfileForm: React.FC = () => {
   
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const [globalStore] = useContext(GlobalContext);
   const [hasChanges, setHasChanges] = useState(false);
-  const { updatePersonalInfo } = useUpdatePersonalInfo();
-  const { changePassword } = useChangePassword();
+
+  const server = useServerApi();
   const navigate = useNavigate();
-  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', undefined, setHasChanges);
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', undefined, setHasChanges);
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', undefined, setHasChanges);
-  const email = useInput(globalStore.currentUser.email, 'email', undefined, setHasChanges);
-  const currentPassword = useInput('', 'password', undefined, setHasChanges);
-  const newPassword = useInput('', 'password', undefined, setHasChanges);
-  
-  useEffect(() => {
 
-    if (!globalStore.currentUser.id) {
-
-      navigate('/login');
-    
-    }
-
-    globalStore.apiMeRoot?.me()
-      .get()
-      .execute()
-      .then(data => {
-        
-        setGlobalStore({...globalStore, currentUser: data.body});
-      
-      });
-        
-  }, [globalStore.currentUser.lastModifiedAt]);
+  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', setHasChanges);
+  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', setHasChanges);
+  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', setHasChanges);
+  const email = useInput(`${globalStore.currentUser.email}`, 'email', setHasChanges);
+  const currentPassword = useInput('', 'password', setHasChanges);
+  const newPassword = useInput('', 'password', setHasChanges);
 
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -58,10 +43,57 @@ export default function CUserProfileForm(): JSX.Element {
     country: address.country || '',
   }));
 
+  const isFormBlockedByInfo = UseFormBlock([
+    email.valid.isNotEmpty!,
+    email.valid.isEmailGood!,
+    dateOfBirth.valid.isDateGood!,
+    firstName.valid.isNotEmpty!,
+    firstName.valid.isTextGood!,
+    lastName.valid.isNotEmpty!,
+    lastName.valid.isTextGood!,
+  ]);
+
+  const isPasswordBlockedByInfo = UseFormBlock([
+    newPassword.valid.isNotEmpty!,
+    newPassword.valid.isMinLength!,
+    newPassword.valid.isPasswordGood!,
+    currentPassword.valid.isNotEmpty!,
+    currentPassword.valid.isMinLength!,
+    currentPassword.valid.isPasswordGood!,
+  ]);
+
+  const notify = (goodMsg: string) => {
+
+    if (server.error) {
+
+      server.error.includes('password') ? 
+        toast.error('An error occurred while updating password.')
+        :
+        toast.error('An error occurred while updating personal information.');
+
+    } else {
+
+      toast.success(goodMsg);
+    
+    };
+
+  };
+  
+  useEffect(() => {
+
+    if (!globalStore.currentUser.id) {
+
+      navigate('/login');
+    
+    }
+
+  });
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    updatePersonalInfo(
+    
+    server.UpdatePersonalInfo(
       globalStore.currentUser.id,
       email.value,
       firstName.value,
@@ -82,7 +114,8 @@ export default function CUserProfileForm(): JSX.Element {
     };
 
     e.preventDefault();
-    changePassword(
+    
+    server.ChangePassword(
       email.value,
       updateData
     );
@@ -100,29 +133,7 @@ export default function CUserProfileForm(): JSX.Element {
   
   };
 
-  
-  if (!globalStore.currentUser.id) return <></>;
-  
-  const isFormBlockedByInfo = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    dateOfBirth.valid.isDateGood!,
-    firstName.valid.isNotEmpty!,
-    firstName.valid.isTextGood!,
-    lastName.valid.isNotEmpty!,
-    lastName.valid.isTextGood!,
-  ]);
 
-  const isPasswordBlockedByInfo = UseFormBlock([
-    newPassword.valid.isNotEmpty!,
-    newPassword.valid.isMinLength!,
-    newPassword.valid.isPasswordGood!,
-    currentPassword.valid.isNotEmpty!,
-    currentPassword.valid.isMinLength!,
-    currentPassword.valid.isPasswordGood!,
-  ]);
-
- 
   return (
     <div className="profile-wrap">
       <h1 className="sub-title">User profile</h1>
@@ -223,3 +234,5 @@ export default function CUserProfileForm(): JSX.Element {
   );
 
 };
+
+export default CUserProfileForm;

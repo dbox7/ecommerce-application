@@ -1,5 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { 
+  FC, 
+  useEffect, 
+  useState 
+} from 'react';
 import { IInputProps } from '../../../utils/types';
+
+import { CInfo } from '../../info/CInfo';
+
 
 const CEmail: FC<IInputProps> = ({
   value, 
@@ -7,10 +14,11 @@ const CEmail: FC<IInputProps> = ({
   blurHandler, 
   activeState, 
   valid,
-  className
+  className,
+  children
 }) => {
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
 
@@ -28,24 +36,27 @@ const CEmail: FC<IInputProps> = ({
   ]);
 
   return ( 
-    <div className="input-wrap">
-      <label className="input-title">Email</label>
-      <input
-        className={`input ${error} ${className || ''}`}
-        type="email"
-        value={value}
-        onChange={changeHandler}
-        onBlur={blurHandler}
-        title="A properly formatted email address (e.g., example@email.com)"
-      />
+    <>
+      <div className="input-wrap">
+        <label className="input-title">Email</label>
+        <CInfo text="A properly formatted email address (e.g., example@email.com)"/>
+        <input
+          className={`input ${error} ${className || ''}`}
+          type="email"
+          value={value}
+          onChange={changeHandler}
+          onBlur={blurHandler}
+          children={children}
+        />
 
-      {!valid.isNotEmpty && !activeState &&
-      <div className="out-error">Not be an empty</div>}
+        {!valid.isNotEmpty && !activeState &&
+        <div className="out-error">Not be an empty</div>}
 
-      {!valid.isEmailGood && !activeState && 
-      <div className="out-error">Enter right email</div>}
-
-    </div>
+        {!valid.isEmailGood && !activeState && 
+        <div className="out-error">Enter right email</div>}
+      </div>
+    </>
+    
   );
 
 };

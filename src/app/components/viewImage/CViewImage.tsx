@@ -1,11 +1,11 @@
 import { Image } from '@commercetools/platform-sdk';
-import {useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import './CViewImage.css';
 
 const CViewImage = ({images, color}: {images: Image[], color: string}) => {
 
-  const [selectedImage, setSelectedImage] = useState<Image>(images[0]);
+  const [selectedImage, setSelectedImage] = useState(images[0]);
   const imgElement = useRef(null);
 
   function changeImage(event: React.MouseEvent) {

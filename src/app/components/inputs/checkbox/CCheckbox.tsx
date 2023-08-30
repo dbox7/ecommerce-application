@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import './CCheckbox.css';
 import { ICheckboxProps } from '../../../utils/types';
+
+import './CCheckbox.css';
 
 const CCheckbox: FC<ICheckboxProps> = (props) => {
 

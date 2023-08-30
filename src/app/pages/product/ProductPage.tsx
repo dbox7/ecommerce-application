@@ -1,61 +1,30 @@
-import { useContext, useEffect, useState } from 'react';
-import { apiAnonRoot } from '../../ctp';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { useServerApi } from '../../services/useServerApi';
+
+import CPrice from '../../components/price/CPrice';
+import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 
 import './ProductPage.css';
-import CPrice from '../../components/price/CPrice';
-import CSizeOption from '../../components/sizeOption/CSizeOption';
 
-
-function GetProduct(id: string) {
-
-  const [globalStore] = useContext(GlobalContext);
-  const [product, setProduct] = useState<ProductProjection>();
-  const [error, setError] = useState<string>('');
-
-  useEffect(() => {
-
-    let api;
-
-    if (globalStore.currentUser.id) {
-  
-      api = globalStore.apiMeRoot;
-  
-    } else {
-  
-      api = apiAnonRoot;
-  
-    }
-  
-    api?.productProjections()
-      .withId({ID: id as string})
-      .get().execute().then(res => {
-        
-        setProduct(res.body);
-        
-      }).catch(err => {
-        
-        setError(err);        
-        
-      });
-
-  }, []);
-  
-
-  return { product, error };
-  
-}
-
-export function ProductPage() {
+export const ProductPage = () => {
  
   const props = useParams();
   
-  const product = GetProduct(props.id!).product;
-  const productData = product?.masterVariant;  
+  const server = useServerApi();
+  const [product, setProduct] = useState<ProductProjection>();
+
+  const productData = product?.masterVariant;
+  const name = product?.name.en.split('-');   
+
+  useEffect(() => {
+
+    server.GetProductById(props.id!, setProduct);  
+
+  }, []);  
 
   return (
     product ? 
@@ -69,7 +38,9 @@ export function ProductPage() {
         <div className="product_info">
           <div className="product_info-text">
             <div className="product_title">
-              {product?.name.en}
+              {name![0].trim()}
+              <br/>
+              {name![1].trim()}
             </div>
             <div className="product_description">
               {product?.description!.en}

@@ -1,11 +1,10 @@
+import { useState, FormEvent } from 'react';
+
 import { RiSearch2Line } from 'react-icons/ri';
 import { IFiltersProps } from '../../../utils/types';
-import { useState, FormEvent} from 'react';
-
 import { BiCross } from 'react-icons/bi';
 
 import './CFilterProducts.css';
-
 
 export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
 

@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import '../input.css';
 import { ICountry, ITextDateInputProps } from '../../../utils/types';
+
+import { CInfo } from '../../info/CInfo';
+
+import '../input.css';
 
 const CTextDateInput: FC<ITextDateInputProps> = ({
   value, 
@@ -16,7 +19,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   const type = isDate ? 'date' : 'text';
   
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
 
@@ -35,6 +38,9 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
   return ( 
     <div className="input-wrap">
       <label className="input-title">{title}</label>
+      <CInfo text={(isDate ? 'A valid date input ensuring the user is above a certain age (e.g., 14 years old or older)' : '') ||
+          (!title.toLowerCase().includes('street') 
+            ? 'Must contain at least one character and no special characters or numbers' : 'Must contain at least one character')}/>
       <input
         className={`input ${error} ${className || ''}`}
         type={type}
@@ -42,11 +48,6 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         onChange={changeHandler}
         onBlur={blurHandler}
         list={data ? 'list' : undefined}
-        title={
-          (isDate ? 'A valid date input ensuring the user is above a certain age (e.g., 14 years old or older)' : '') ||
-          (!title.toLowerCase().includes('street') 
-            ? 'Must contain at least one character and no special characters or numbers' : 'Must contain at least one character')
-        }
       />
 
       {data ? (
