@@ -18,7 +18,8 @@ export const ProductPage = () => {
   const [product, setProduct] = useState<ProductProjection>();
 
   const productData = product?.masterVariant;
-  const name = product?.name.en.split('-');   
+  const name = product?.name.en.split('-');
+  const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
 
   useEffect(() => {
 
@@ -32,7 +33,7 @@ export const ProductPage = () => {
         <div className="view_image-wrap">
           <CViewImage 
             images={productData?.images!}
-            color={productData?.attributes![0].value.key}
+            color={color}
           />
         </div>
         <div className="product_info">
