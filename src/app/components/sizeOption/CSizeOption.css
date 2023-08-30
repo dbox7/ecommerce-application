@@ -1,9 +1,14 @@
 .size-option {
   display: flex;
-  gap: 30px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 15px;
 }
 
 .size {
+  min-width: 65px;
+
   font-family: var(--exa);
   font-size: var(--sub-title);
   font-weight: 700;
@@ -12,6 +17,10 @@
   cursor: pointer;
 }
 
-.size:hover {
+.size.disabled {
+  color: var(--disabled);
+}
+
+.size:not(.disabled):hover {
   color: var(--dark-extra-color);
 }

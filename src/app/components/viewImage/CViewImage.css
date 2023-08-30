@@ -6,7 +6,6 @@
 .viewImage_main {
   position: relative;
   margin: auto;
-  width: 100%;
 }
 
 .viewImage_main::after {
@@ -24,11 +23,9 @@
 
 .image_main {
   width: 100%;
+  max-width: 65vh;
+  max-height: 550px;
   object-fit: cover;
-}
-
-.purple::after {
-  background-color: var(--purple);
 }
 
 .viewImage_variants {
@@ -57,6 +54,25 @@
   width: 5px;
   height: 5px;
 
-  background-color: var(--accent-color);
   border-radius: 50%;
+}
+
+.purple::after {
+  background-color: var(--purple);
+}
+
+.blue::after {
+  background-color: var(--blue);
+}
+
+.yellow::after {
+  background-color: var(--yellow);
+}
+
+.orange::after {
+  background-color: var(--orange);
+}
+
+.pink::after {
+  background-color: var(--pink);
 }
