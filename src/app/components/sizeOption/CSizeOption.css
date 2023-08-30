@@ -17,8 +17,10 @@
   cursor: pointer;
 }
 
-.size:hover {
-  color: var(--dark-extra-color);
+.size.disabled {
+  color: var(--disabled);
 }
 
-
+.size:not(.disabled):hover {
+  color: var(--dark-extra-color);
+}

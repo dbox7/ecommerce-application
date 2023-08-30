@@ -1,16 +1,17 @@
-import { FC } from 'react';
+import { ALL_SIZES } from '../../utils/constants';
 
 import './CSizeOption.css';
 
-const CSizeOption:FC<number[]> = (sizes) => {
-
-  sizes = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12];
+const CSizeOption = ({ sizes }: { sizes: number[] }) => {
 
   return ( 
     <div className="size-option">
       {
-        sizes.map(size => (
-          <div className="size">US {size}</div>
+        ALL_SIZES.map(size => (
+          sizes.includes(size) ?
+            <div className="size">US {size}</div>
+            :
+            <div className="size disabled">US {size}</div>
         ))
       }
     </div>

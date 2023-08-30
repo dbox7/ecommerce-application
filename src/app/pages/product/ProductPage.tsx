@@ -10,16 +10,37 @@ import CButton from '../../components/button/CButton';
 
 import './ProductPage.css';
 
+const getSizeArray = (product: ProductProjection) => {
+  
+  return [
+    product.masterVariant.attributes!.find(attr => attr.name === 'socks-sizes')?.value,
+    ...product.variants.map(variant => 
+      variant.attributes!.find(attr => 
+        attr.name === 'socks-sizes')?.value)
+  ];
+
+};
+
 export const ProductPage = () => {
  
   const props = useParams();
   
   const server = useServerApi();
-  const [product, setProduct] = useState<ProductProjection>();
+  const [product, setProduct] = useState<ProductProjection>();  
 
   const productData = product?.masterVariant;
+  
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
+  
+  let sizes: number[] = [];
+
+  if (product) {
+
+    sizes = getSizeArray(product);    
+  
+  }
+  
 
   useEffect(() => {
 
@@ -48,7 +69,7 @@ export const ProductPage = () => {
             </div>
           </div>
           <CPrice price={productData?.prices![0]!} />
-          <CSizeOption {...[]}/>
+          <CSizeOption sizes={sizes}/>
           <CButton 
             value="Add to cart +"
             type="button"

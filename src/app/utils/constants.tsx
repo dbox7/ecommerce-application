@@ -68,3 +68,5 @@ export const MS_IN_YEAR = 31536000000;
 export const EmailREGEXP = /^\S+@\S+\.\S+$/;
 export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
 export const TextREGEXP = /^[a-zA-Z ]+$/;
+
+export const ALL_SIZES = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12];

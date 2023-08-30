@@ -60,11 +60,11 @@
   .view_image-wrap {
     min-width: 430px;
   }
-  
+
   .product_info {
     gap: 30px;
   }
-  
+
   .product_title {
     font-size: var(--title);
   }

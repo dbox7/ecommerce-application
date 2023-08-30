@@ -76,9 +76,3 @@
 .pink::after {
   background-color: var(--pink);
 }
-
-@media screen and (max-width: 1350px) {
-  .image_main {
-    
-  }
-}
