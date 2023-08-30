@@ -64,6 +64,18 @@ header {
   cursor: default;
 }
 
+.cart-icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.cart-icon:hover {
+  color: var(--dark-accent-color);
+  opacity: 1;
+}
+
 @media screen and (max-width: 790px) {
   .logo {
     max-width: 200px;

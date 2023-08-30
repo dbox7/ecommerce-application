@@ -2,6 +2,8 @@ import { Link, NavLink } from 'react-router-dom';
 
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
+import { BsCart2 } from 'react-icons/bs';
+
 import './CHeader.css';
 
 export const Header = () => {
@@ -23,6 +25,7 @@ export const Header = () => {
             <Link to="/" className="link">SNEAKERS STORE</Link>
           </div>
           <ul className="menu right">
+            <Link to="/cart"><BsCart2 className="cart-icon"/></Link>
             <CProfileMenu/>
           </ul>
         </nav>
