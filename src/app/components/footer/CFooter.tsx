@@ -16,9 +16,21 @@ export const Footer = () => {
       <div className="footer-container">
         <div className="footer-outer-links">
           <div className="footer-icons">
-            <Link to="https://facebook.com/" className="link" target="_blank"><CiFacebook className="footer-icon"/></Link>
-            <Link to="https://www.instagram.com/" className="link" target="_blank"><CiInstagram className="footer-icon"/></Link>
-            <Link to="https://www.youtube.com/" className="link" target="_blank"><CiYoutube className="footer-icon"/></Link>
+            <Link to="https://www.facebook.com/rickroll548?mibextid=LQQJ4d" 
+              className="link" 
+              target="_blank">
+              <CiFacebook className="footer-icon"/>
+            </Link>
+            <Link to="https://www.instagram.com/p/BgSlRglAKBn/?igshid=MWZjMTM2ODFkZg%3D%3D" 
+              className="link" 
+              target="_blank">
+              <CiInstagram className="footer-icon"/>
+            </Link>
+            <Link to="https://youtu.be/dQw4w9WgXcQ?si=EVR4Pmst23-IHIwy" 
+              className="link" 
+              target="_blank">
+              <CiYoutube className="footer-icon"/>
+            </Link>
           </div>
         </div>
         <div className="footer-logo">
