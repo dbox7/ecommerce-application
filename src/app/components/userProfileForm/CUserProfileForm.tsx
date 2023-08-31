@@ -18,17 +18,17 @@ import 'react-toastify/dist/ReactToastify.css';
 const CUserProfileForm: React.FC = () => {
   
   const [globalStore] = useContext(GlobalContext);
-  const [hasChanges, setHasChanges] = useState(false);
+
 
   const server = useServerApi();
   const navigate = useNavigate();
 
-  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', setHasChanges);
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', setHasChanges);
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', setHasChanges);
-  const email = useInput(`${globalStore.currentUser.email}`, 'email', setHasChanges);
-  const currentPassword = useInput('', 'password', setHasChanges);
-  const newPassword = useInput('', 'password', setHasChanges);
+  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date');
+  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text');
+  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text');
+  const email = useInput(`${globalStore.currentUser.email}`, 'email');
+  const currentPassword = useInput('', 'password');
+  const newPassword = useInput('', 'password');
 
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -67,6 +67,17 @@ const CUserProfileForm: React.FC = () => {
 
   });
 
+  const isEmptyEvent = () => {
+
+    currentPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+    newPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+  
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
@@ -82,7 +93,7 @@ const CUserProfileForm: React.FC = () => {
   
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
       id: globalStore.currentUser.id,
@@ -97,18 +108,9 @@ const CUserProfileForm: React.FC = () => {
       email.value,
       updateData
     );
+    
+    isEmptyEvent();
 
-  };
-
-  const isEmptyEvent = () => {
-
-    currentPassword.changeHandler({
-      target: { value: '' }
-    } as React.ChangeEvent<HTMLInputElement>);
-    newPassword.changeHandler({
-      target: { value: '' }
-    } as React.ChangeEvent<HTMLInputElement>);
-  
   };
 
 
@@ -152,8 +154,7 @@ const CUserProfileForm: React.FC = () => {
               <CButton
                 value="Save changes"
                 type="submit"
-                disabled={!isFormBlockedByInfo && !hasChanges ?
-                  !hasChanges : isFormBlockedByInfo}
+                disabled={isFormBlockedByInfo}
               />
               <ToastContainer
                 position="top-center"
@@ -189,7 +190,6 @@ const CUserProfileForm: React.FC = () => {
                 value="Save changes"
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
-                clickHandler={isEmptyEvent}
               />
             </form>
           </div>

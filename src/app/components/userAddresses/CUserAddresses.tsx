@@ -18,6 +18,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
 
   const [modalAddAddress, setModalAddAddress] = useState(false);
   const [modalRemoveAddress, setModalRemoveAddress] = useState<Record<string, boolean>>({});
+  const [modalSetDefault, setModalSetDefault] = useState<Record<string, boolean>>({});
   const server = useServerApi();
   const [globalStore] = useContext(GlobalContext);
 
@@ -33,7 +34,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
           const isDefaultBilling = address.id && defaultBillingAddressIds && defaultBillingAddressIds.includes(address.id);
 
           const modalKey = `remove_${address.id}`;
-          const modalState: boolean = modalRemoveAddress[modalKey] || false;
+          const modalState: boolean = modalRemoveAddress[modalKey] || modalSetDefault[modalKey] || false;
 
           const setModalState = (isActive: boolean) => {
 

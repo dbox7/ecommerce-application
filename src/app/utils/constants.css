@@ -67,7 +67,7 @@
 /* Белая подложка с обрамлением */
 .substrate {
   width: fit-content;
-  margin: 0 20px;
+  margin: 0 auto;
   padding: 0 60px 40px;
 
   background-color: var(--basic-color);

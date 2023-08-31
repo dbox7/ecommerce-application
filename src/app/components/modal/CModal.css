@@ -15,9 +15,27 @@
 }
 
 .modal-content {
-  padding: 20px;
+  position: relative;
+  padding: 5vh;
   background: white;
   border-radius: 8px;
   width: 500px;
   min-width: 250px;
+}
+
+.modal-close {
+  position: absolute;
+  top: -1.5rem;
+  right: -2rem;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  rotate: 45deg;
+  opacity: 1;
+  color: var(--basic-color);
+}
+
+.modal-close:hover {
+  opacity: 1;
+  color: var(--accent-color);
 }

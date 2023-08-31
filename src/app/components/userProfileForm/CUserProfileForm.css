@@ -6,14 +6,17 @@
 }
 
 section {
-  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   padding: 20px;
 }
 
 .profile-block {
   display: flex;
   justify-content: space-around;
-  min-width: 800px;
+  width: 100%;
+  flex-direction: column;
 }
 
 .input-block {
@@ -59,5 +62,6 @@ section {
 
 .password-change,
 .personal-info {
+  width: 45%;
   margin-bottom: 15px;
 }
