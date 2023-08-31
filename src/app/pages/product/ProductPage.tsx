@@ -13,10 +13,10 @@ import './ProductPage.css';
 const getSizeArray = (product: ProductProjection) => {
   
   return [
-    product.masterVariant.attributes!.find(attr => attr.name === 'socks-sizes' || attr.name === 'shoes-sizes')?.value,
+    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value,
     ...product.variants.map(variant => 
       variant.attributes!.find(attr => 
-        attr.name === 'socks-sizes' || attr.name === 'shoes-sizes')?.value)
+        attr.name === 'size')?.value)
   ];
 
 };
