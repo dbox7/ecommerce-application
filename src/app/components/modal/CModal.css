@@ -8,17 +8,16 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 100;
 }
- .modal.active {
+.modal.active {
   display: flex;
   justify-content: center;
   align-items: center;
- }
+}
 
-
- .modal-content {
+.modal-content {
   padding: 20px;
   background: white;
   border-radius: 8px;
   width: 500px;
   min-width: 250px;
- }
+}

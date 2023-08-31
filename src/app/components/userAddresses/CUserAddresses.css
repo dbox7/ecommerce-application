@@ -53,7 +53,7 @@
 }
 
 .action-list li:hover {
-color: var(--dark-accent-color);
+  color: var(--dark-accent-color);
 }
 
 .title {
