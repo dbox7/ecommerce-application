@@ -25,43 +25,6 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
   const [globalStore] = useContext(GlobalContext);
   
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-
-    e.preventDefault();
-
-
-    const address: IAddress = {
-      streetName: street.value,
-      city: city.value,
-      postalCode: postalCode.value,
-      country: getCountryCode(country.value),
-    };
-
-    let actionTypes: string[] = [];
-
-    if (useShippingAddress && useBillingAddress) {
-
-      actionTypes = ['addShippingAddressId', 'addBillingAddressId'];
-    
-    } else if (useShippingAddress) {
-
-      actionTypes = ['addShippingAddressId'];
-    
-    } else if (useBillingAddress) {
-
-      actionTypes = ['addBillingAddressId'];
-    
-    }
-
-    server.addAddresses(
-      globalStore.currentUser.id,
-      globalStore.currentUser.version,
-      address,
-      actionTypes,
-    );
-
-  };
-
   const street = useInput('', 'text');
   const city = useInput('', 'text');
   const postalCode = useInput('', 'postalCode');
@@ -89,6 +52,46 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
     postalCode.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     country.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
   
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+
+    e.preventDefault();
+
+
+    const address: IAddress = {
+      streetName: street.value,
+      city: city.value,
+      postalCode: postalCode.value,
+      country: getCountryCode(country.value),
+    };
+    
+
+    let actionTypes: string[] = [];
+
+    if (useShippingAddress && useBillingAddress) {
+
+      actionTypes = ['addShippingAddressId', 'addBillingAddressId'];
+    
+    } else if (useShippingAddress) {
+
+      actionTypes = ['addShippingAddressId'];
+    
+    } else if (useBillingAddress) {
+
+      actionTypes = ['addBillingAddressId'];
+    
+    }
+
+    server.addAddresses(
+      globalStore.currentUser.id,
+      globalStore.currentUser.version,
+      address,
+      actionTypes,
+    );
+
+    handleSaveClick();
+
   };
 
   
@@ -135,12 +138,15 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
         <CButton
           type="submit"
           value="Save"
-          disabled={isFormBlockedByMainInfo}
-          clickHandler={handleSaveClick}
+          disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
+            ? isFormBlockedByMainInfo
+            : !useShippingAddress
+              ? !useBillingAddress
+              : false}
         />
         <CButton
           type="button"
-          value="Cansel"
+          value="Cancel"
           disabled={false}
           clickHandler={handleSaveClick}
         />

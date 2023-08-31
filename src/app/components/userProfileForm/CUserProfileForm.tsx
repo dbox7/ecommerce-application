@@ -67,6 +67,17 @@ const CUserProfileForm: React.FC = () => {
 
   });
 
+  const isEmptyEvent = () => {
+
+    currentPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+    newPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+  
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
@@ -82,7 +93,7 @@ const CUserProfileForm: React.FC = () => {
   
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
       id: globalStore.currentUser.id,
@@ -97,18 +108,9 @@ const CUserProfileForm: React.FC = () => {
       email.value,
       updateData
     );
+    
+    isEmptyEvent();
 
-  };
-
-  const isEmptyEvent = () => {
-
-    currentPassword.changeHandler({
-      target: { value: '' }
-    } as React.ChangeEvent<HTMLInputElement>);
-    newPassword.changeHandler({
-      target: { value: '' }
-    } as React.ChangeEvent<HTMLInputElement>);
-  
   };
 
 
@@ -189,7 +191,6 @@ const CUserProfileForm: React.FC = () => {
                 value="Save changes"
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
-                clickHandler={isEmptyEvent}
               />
             </form>
           </div>
