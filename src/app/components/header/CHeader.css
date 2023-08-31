@@ -39,8 +39,10 @@ header {
   min-width: 145px;
 }
 
-.right {
-  justify-content: flex-end;
+.menu.right {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -70,6 +72,7 @@ header {
   height: 1.3rem;
   cursor: pointer;
   opacity: 0.8;
+  margin-right: 2vw;
 }
 
 .cart-icon:hover {

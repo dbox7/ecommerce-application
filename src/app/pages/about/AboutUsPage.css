@@ -3,9 +3,11 @@
 }
 
 .about-page-title {
+  margin-bottom: 2vh;
   font-family: var(--tera);
   font-size: var(--title);
-  margin-bottom: 2vh;
+  border-bottom: 2px solid var(--accent-color);
+  width: fit-content;
 }
 
 .about-page-text {
