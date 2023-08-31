@@ -25,7 +25,7 @@ export const Header = () => {
             <Link to="/" className="link">SNEAKERS STORE</Link>
           </div>
           <ul className="menu right">
-            <Link to="/cart"><BsCart2 className="cart-icon"/></Link>
+            <Link to="/cart" className="link"><BsCart2 className="cart-icon"/></Link>
             <CProfileMenu/>
           </ul>
         </nav>
