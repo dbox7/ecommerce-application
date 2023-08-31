@@ -18,17 +18,17 @@ import 'react-toastify/dist/ReactToastify.css';
 const CUserProfileForm: React.FC = () => {
   
   const [globalStore] = useContext(GlobalContext);
-  const [hasChanges, setHasChanges] = useState(false);
+
 
   const server = useServerApi();
   const navigate = useNavigate();
 
-  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date', setHasChanges);
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text', setHasChanges);
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text', setHasChanges);
-  const email = useInput(`${globalStore.currentUser.email}`, 'email', setHasChanges);
-  const currentPassword = useInput('', 'password', setHasChanges);
-  const newPassword = useInput('', 'password', setHasChanges);
+  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date');
+  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text');
+  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text');
+  const email = useInput(`${globalStore.currentUser.email}`, 'email');
+  const currentPassword = useInput('', 'password');
+  const newPassword = useInput('', 'password');
 
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -154,8 +154,7 @@ const CUserProfileForm: React.FC = () => {
               <CButton
                 value="Save changes"
                 type="submit"
-                disabled={!isFormBlockedByInfo && !hasChanges ?
-                  !hasChanges : isFormBlockedByInfo}
+                disabled={isFormBlockedByInfo}
               />
               <ToastContainer
                 position="top-center"

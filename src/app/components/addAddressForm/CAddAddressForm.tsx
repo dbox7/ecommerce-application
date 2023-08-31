@@ -51,6 +51,8 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
     city.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     postalCode.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     country.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    setUseBillingAddress(false);
+    setUseShippingAddress(false);
   
   };
 
@@ -142,7 +144,7 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
             ? isFormBlockedByMainInfo
             : !useShippingAddress
               ? !useBillingAddress
-              : false}
+              : isFormBlockedByMainInfo}
         />
         <CButton
           type="button"

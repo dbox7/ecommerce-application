@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useValidation from './useValidation';
 import { IInputProps } from '../../utils/types';
 
-const useInput = (initialValue: string, type: string, setHasChanges?: Function): IInputProps => {
+const useInput = (initialValue: string, type: string): IInputProps => {
 
   const [value, setValue] = useState(initialValue);
   const [activeState, setActiveState] = useState(true);
@@ -13,11 +13,6 @@ const useInput = (initialValue: string, type: string, setHasChanges?: Function):
     
     setValue((event.target as HTMLInputElement).value);
     setActiveState(true);
-    if (setHasChanges) {
-
-      setHasChanges(true);
-    
-    }
   
   };
 
