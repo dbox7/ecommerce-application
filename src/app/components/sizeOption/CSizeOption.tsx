@@ -7,11 +7,11 @@ const CSizeOption = ({ sizes }: { sizes: number[] }) => {
   return ( 
     <div className="size-option">
       {
-        ALL_SIZES.map(size => (
+        ALL_SIZES.map((size, idx) => (
           sizes.includes(size) ?
-            <div className="size">US {size}</div>
+            <div className="size" key={`size-${idx}`}>US {size}</div>
             :
-            <div className="size disabled">US {size}</div>
+            <div className="size disabled" key={`size-${idx}`}  >US {size}</div>
         ))
       }
     </div>
