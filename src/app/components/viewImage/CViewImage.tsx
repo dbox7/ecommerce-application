@@ -5,7 +5,7 @@ import './CViewImage.css';
 
 const CViewImage = ({images, color}: {images: Image[], color: string}) => {
 
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [selectedImage, setSelectedImage] = useState(images[1]);
   const imgElement = useRef(null);
 
   function changeImage(event: React.MouseEvent) {
@@ -38,7 +38,7 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
         ref={imgElement}  
       >
         {
-          images.map(image => (
+          images.slice(1).map(image => (
             <div 
               id={image.label} 
               className={'image_variant_wrap ' + color} 
