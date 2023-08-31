@@ -8,6 +8,8 @@ import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 
+import { CLoading } from '../../components/loading/CLoading';
+
 import './ProductPage.css';
 
 const getSizeArray = (product: ProductProjection) => {
@@ -78,7 +80,7 @@ export const ProductPage = () => {
         </div>
       </div>
       :
-      <div>Loading...</div>
+      <CLoading/>
   );
 
 };
