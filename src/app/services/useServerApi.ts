@@ -9,13 +9,17 @@ import {
   CustomerUpdate,
 } from '@commercetools/platform-sdk';
 import { 
+  IAction,
+  IAddress,
   IChangePassword, 
   IGlobalStoreType, 
   IPayload, 
-  IQueryArgs 
+  IQueryArgs, 
+  IToastify
 } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
+import useToastify from './useToastify';
 
 const GetApi = (globalStore: IGlobalStoreType) => {
 
@@ -39,6 +43,7 @@ export const useServerApi = () => {
 
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [error, setError] = useState('');
+  const notify = useToastify();
   
   const navigate = useNavigate();
   const api = GetApi(globalStore);
@@ -120,6 +125,13 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ ChangePassword
   const ChangePassword = (email: string, updateData: IChangePassword): void => {
 
+    const errorMessage: IToastify = {
+      error: 'An error occurred while updating password.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your password has been updated successfully!'
+    };
+
     api
       .me()
       .password()
@@ -138,14 +150,16 @@ export const useServerApi = () => {
           .then(data => {
       
             setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-            
+            notify(successMessage);
+          
           });
         
       })
       .catch(() => {
 
         setError('An error occurred while updating password.');
-        
+        notify(errorMessage);
+      
       });
 
   };
@@ -159,6 +173,13 @@ export const useServerApi = () => {
     dateOfBirth: string,
     version: number
   ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while updating personal information.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your personal information has been updated successfully!'
+    };
 
     const updateData: CustomerUpdate = {
       version,
@@ -177,12 +198,14 @@ export const useServerApi = () => {
       .then((data) => {
 
         setGlobalStore({ ...globalStore, currentUser: data.body });
-        
+        notify(successMessage);
+      
       })
       .catch(() => {
 
         setError('An error occurred while updating personal information.');
-        
+        notify(errorMessage);
+      
       });
     
   };
@@ -256,6 +279,271 @@ export const useServerApi = () => {
     });
 
   };
+
+  const addAddresses = (
+    customerID: string,
+    version: number,
+    address: IAddress,
+    actionTypes: string[],
+  ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while adding address.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your addresses has been added successfully!'
+    };
+ 
+    const updateData: CustomerUpdate = {
+      version,
+      actions: [
+        { action: 'addAddress', address }
+      ]
+    };
+
+
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, currentUser: data.body });
+
+        const addresses = data.body.addresses;
+        const lastAddress = addresses[addresses.length - 1];
+        const addressId = lastAddress.id;
+        const version = data.body.version;
+
+        const actions: { action: IAction; [key: string]: string }[] = [];
+
+        if (addressId) {
+
+          for (let i = 0; i < actionTypes.length; i+=1) {
+
+            const actionType = actionTypes[i];
+        
+            switch (actionType) {
+      
+            case 'addShippingAddressId':
+              actions.push({ action: actionType, addressId });
+              break;
+            case 'addBillingAddressId':
+              actions.push({ action: actionType, addressId });
+              break;
+            default:
+              break;
+            
+            }
+          
+          }
+        
+        }
+
+        const updateData = {
+          version,
+          actions,
+        };
+
+        api.customers()
+          .withId({ ID: customerID })
+          .post({ body: updateData as CustomerUpdate})
+          .execute()
+          .then((data) => {
+
+            setGlobalStore({ ...globalStore, currentUser: data.body });
+      
+          })
+          .catch(() => {
+
+            setError('An error occurred while updating address.');
+        
+          });
+        notify(successMessage);
+      
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating address.');
+        notify(errorMessage);
+
+      });
+    
+  
+  };
+
+  const changeAddress = (
+    customerID: string,
+    version: number,
+    address: IAddress,
+    addressId: string,
+    actionTypes: string[],
+  ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while updating address.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your addresses has been updated successfully!'
+    };
+
+    const actions: { action: IAction; [key: string]: string | IAddress }[] = [];
+
+    for (let i = 0; i < actionTypes.length; i+=1) {
+
+      const actionType = actionTypes[i];
+  
+      switch (actionType) {
+
+      case 'changeAddress':
+        actions.push({ action: actionType, addressId, address });
+        break;
+      case 'addShippingAddressId':
+        actions.push({ action: actionType, addressId });
+        break;
+      case 'addBillingAddressId':
+        actions.push({ action: actionType, addressId });
+        break;
+      case 'setDefaultBillingAddress':
+        actions.push({ action: actionType, addressId });
+        break;
+      case 'setDefaultShippingAddress':
+        actions.push({ action: actionType, addressId });
+        break;
+      default:
+        break;
+      
+      }
+    
+    }
+  
+    const updateData = {
+      version,
+      actions,
+    };
+  
+
+
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData as CustomerUpdate })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, currentUser: data.body });
+        notify(successMessage);
+      
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating address.');
+        notify(errorMessage);
+        
+      });
+    
+  
+  };
+
+  const removeAddress = (
+    customerID: string,
+    version: number,
+    addressId: string,
+  ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while removing address.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your addresses has been removed successfully!'
+    };
+ 
+    const updateData: CustomerUpdate = {
+      version,
+      actions: [
+        { action: 'removeAddress', addressId }
+      ]
+    };
+
+
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, currentUser: data.body });
+        notify(successMessage);
+      
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating address.');
+        notify(errorMessage);
+        
+      });
+    
+  
+  };
+
+  const setDefaultAddress = (
+    customerID: string,
+    version: number,
+    addressId: string,
+    actionType: string,
+  ): void => {
+    
+    const errorMessage: IToastify = {
+      error: 'An error occurred while updating address.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your addresses has been updated successfully!'
+    };
+    const actions: { action: IAction; [key: string]: string }[] = [];
+
+    const createAction = (action: IAction, params: Record<string, string>): void => {
+
+      actions.push({ action, ...params });
+    
+    };
+
+    switch (actionType) {
+
+    case 'setDefaultShippingAddress':
+      createAction('setDefaultShippingAddress', { addressId });
+      break;
+    case 'setDefaultBillingAddress':
+      createAction('setDefaultBillingAddress', { addressId });
+      break;
+    default:
+      break;
+    
+    }
+ 
+    const updateData = {
+      version,
+      actions,
+    };
+
+
+    api.customers()
+      .withId({ ID: customerID })
+      .post({ body: updateData as CustomerUpdate })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, currentUser: data.body });
+        notify(successMessage);
+      
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating address.');
+        notify(errorMessage);
+        
+      });
+    
+  
+  };
   
   return { 
     error,
@@ -267,7 +555,11 @@ export const useServerApi = () => {
     GetAllProducts,
     GetProductById,
     GetAllCategories,
-    FilterProducts
+    FilterProducts,
+    addAddresses,
+    changeAddress,
+    removeAddress,
+    setDefaultAddress
   };
 
 };

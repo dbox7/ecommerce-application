@@ -1,0 +1,74 @@
+.address-list {
+  margin-bottom: 15px;
+}
+
+.address-item {
+  height: 100%;
+  margin: 0;
+  background: #f5f6fa;
+  box-shadow:
+    0 1px 3px rgba(54, 74, 178, 0.16),
+    0 2px 2px rgba(54, 74, 178, 0.04),
+    0 0 2px rgba(54, 74, 179, 0.08);
+  position: relative;
+  z-index: 1;
+  padding: 16px 20px;
+}
+
+.address-item span {
+  display: block;
+  float: right;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
+  color: #fff;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: #3dbf00;
+  margin: 0 0 8px 8px;
+}
+
+.param {
+  margin-top: 65px;
+  margin-bottom: 30px;
+}
+
+.param-title {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.param-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.action-list {
+  display: flex;
+  justify-content: space-around;
+}
+
+.action-list li {
+  cursor: pointer;
+}
+
+.action-list li:hover {
+color: var(--dark-accent-color);
+}
+
+.title {
+  font-size: 1.5rem;
+  color: black;
+}
+
+.title p {
+  font-size: 1rem;
+  color: black;
+  margin-top: 15px;
+}
+
+.btn-block {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 15px;
+}
