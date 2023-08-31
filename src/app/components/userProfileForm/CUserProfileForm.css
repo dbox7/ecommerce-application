@@ -6,13 +6,14 @@
 }
 
 section {
-  width: 45%;
+  width: 50%;
   padding: 20px;
 }
 
 .profile-block {
   display: flex;
   justify-content: space-around;
+  min-width: 800px;
 }
 
 .input-block {
@@ -26,7 +27,7 @@ section {
   line-height: 16px;
   position: absolute;
   z-index: 1;
-  top: 2px;
+  top: 10px;
   left: 16px;
   color: #71797e;
 }
@@ -48,7 +49,7 @@ section {
 .profile-input ~ .password-icon {
   position: absolute;
   z-index: 1;
-  top: 12px;
+  top: 23px;
   right: 11px;
   width: 20px;
   height: 20px;
@@ -56,42 +57,7 @@ section {
   cursor: pointer;
 }
 
-.address-item {
-  height: 100%;
-  margin: 0;
-  background: #f5f6fa;
-  box-shadow:
-    0 1px 3px rgba(54, 74, 178, 0.16),
-    0 2px 2px rgba(54, 74, 178, 0.04),
-    0 0 2px rgba(54, 74, 179, 0.08);
-  position: relative;
-  z-index: 1;
-  padding: 16px 20px;
-}
-
-.address-item span {
-  display: block;
-  float: right;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 24px;
-  color: #fff;
-  padding: 0 8px;
-  border-radius: 12px;
-  background: #3dbf00;
-  margin: 0 0 8px 8px;
-}
-
-.param {
-  margin-top: 30px;
-}
-
-.param-title {
-  font-size: 13px;
-  line-height: 20px;
-}
-
-.param-value {
-  font-size: 14px;
-  font-weight: 600;
+.password-change,
+.personal-info {
+  margin-bottom: 15px;
 }

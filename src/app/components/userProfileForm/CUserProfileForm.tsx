@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useServerApi } from '../../services/useServerApi';
 import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
@@ -10,9 +10,8 @@ import useInput from '../../services/input/useInput';
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CEmail from '../inputs/email/CEmail';
-import CUserAddresses from '../userAdresses/CUserAdresses';
+import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
-
 import './CUserProfileForm.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -57,23 +56,6 @@ const CUserProfileForm: React.FC = () => {
     currentPassword.valid.isMinLength!,
     currentPassword.valid.isPasswordGood!,
   ]);
-
-  const notify = (goodMsg: string) => {
-
-    if (server.error) {
-
-      server.error.includes('password') ? 
-        toast.error('An error occurred while updating password.')
-        :
-        toast.error('An error occurred while updating personal information.');
-
-    } else {
-
-      toast.success(goodMsg);
-    
-    };
-
-  };
   
   useEffect(() => {
 
@@ -85,7 +67,7 @@ const CUserProfileForm: React.FC = () => {
 
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
     
@@ -97,7 +79,7 @@ const CUserProfileForm: React.FC = () => {
       dateOfBirth.value,
       globalStore.currentUser.version
     );
-
+  
   };
 
   const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -118,12 +100,24 @@ const CUserProfileForm: React.FC = () => {
 
   };
 
+  const isEmptyEvent = () => {
+
+    currentPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+    newPassword.changeHandler({
+      target: { value: '' }
+    } as React.ChangeEvent<HTMLInputElement>);
+  
+  };
+
+
   return (
     <div className="profile-wrap">
       <h1 className="sub-title">User profile</h1>
       <div className="profile-block">
         <section>
-          <div>
+          <div className="personal-info">
             <h3>Personal information</h3>
             <form onSubmit={handleSubmit}>
               <div className="input-block">
@@ -157,7 +151,6 @@ const CUserProfileForm: React.FC = () => {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={() => notify('An error occurred while updating personal information.')}
                 type="submit"
                 disabled={!isFormBlockedByInfo && !hasChanges ?
                   !hasChanges : isFormBlockedByInfo}
@@ -175,7 +168,7 @@ const CUserProfileForm: React.FC = () => {
                 theme="light"/>
             </form>
           </div>
-          <div>
+          <div className="password-change">
             <h3>Change password</h3>
             <form onSubmit={handlePasswordSubmit}>
               <div className="input-block">
@@ -194,9 +187,9 @@ const CUserProfileForm: React.FC = () => {
               </div>
               <CButton
                 value="Save changes"
-                clickHandler={() => notify('Your password has been updated successfully!')}
                 type="submit"
                 disabled={isPasswordBlockedByInfo}
+                clickHandler={isEmptyEvent}
               />
             </form>
           </div>
@@ -212,11 +205,6 @@ const CUserProfileForm: React.FC = () => {
               defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
             />
           )}
-          <CButton
-            value="Edit"
-            type="submit"
-            disabled={false}
-          />
         </section>
       </div>
       

@@ -171,4 +171,25 @@ export interface IChangePassword {
   version: number
 }
 
+export interface IToastify {
+  error?: string;
+  success?: string;
+}
 
+export type IAction = 'setDefaultShippingAddress'
+| 'changeAddress'
+| 'addShippingAddressId'
+| 'removeShippingAddressId'
+| 'setDefaultBillingAddress'
+| 'addBillingAddressId'
+| 'removeBillingAddressId';
+
+export interface IModalProps {
+  children: React.ReactNode;
+  isActive: boolean;
+  setIsActive: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
+}
+
+export interface IAddAdrdressProps {
+  setModal: Dispatch<SetStateAction<boolean>>;
+}
