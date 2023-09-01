@@ -1,0 +1,41 @@
+.poster-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background-image: url("../../assets/poster.png");
+  background-position: center;
+  background-size: cover;
+}
+
+.link-main-wrap {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.link-main {
+  margin-bottom: 1vh;
+  font-size: 1.5rem;
+  font-family: var(--exa);
+  color: var(--basic-color);
+  text-decoration: none;
+}
+
+.link-main:hover {
+  color: var(--dark-extra-color);
+}
+
+@media screen and (max-width: 590px) {
+  .link-main {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .link-main {
+    font-size: 0.8rem;
+  }
+}

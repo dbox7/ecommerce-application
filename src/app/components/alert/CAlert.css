@@ -1,0 +1,12 @@
+.alert {
+  margin: 1vh auto 2vh auto;
+  padding: 2vh;
+  width: 90%;
+  text-align: center;
+  font-size: 1rem;
+  font-family: var(--exa);
+  background-color: var(--error-color);
+  color: black;
+  border-radius: 5px;
+  border: 1px solid var(--error-color);
+}
