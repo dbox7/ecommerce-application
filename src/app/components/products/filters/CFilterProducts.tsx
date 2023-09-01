@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, memo } from 'react';
 
 import { RiSearch2Line } from 'react-icons/ri';
 import { IFiltersProps } from '../../../utils/types';
@@ -6,23 +6,25 @@ import { BiCross } from 'react-icons/bi';
 
 import './CFilterProducts.css';
 
-export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
+const CFilterProducts = memo(({ callback }: { callback: Function }) => {
 
-  const [search, setSearch] = useState(filters.search);
+  const [search, setSearch] = useState('');
 
   const handleSearch = (e: FormEvent) => {
 
     e.preventDefault();
-    setFilters({...filters, search: search, categoryId: undefined});
+    callback({search: search, categoryId: undefined});
     
   };
 
   const closeSearchHandler = () => {
 
     setSearch('');
-    setFilters({...filters, search: '', categoryId: undefined});
+    callback({search: '', categoryId: undefined});
 
   };
+
+  console.log(`render ${CFilterProducts.name}`);
 
   return (
     <div className="filter-container">
@@ -53,4 +55,6 @@ export function CFilterProducts({ filters, setFilters }: IFiltersProps) {
     </div>
   );
 
-}
+});
+
+export default CFilterProducts;

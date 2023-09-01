@@ -211,9 +211,9 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
-  const GetAllProducts = () => {
+  const GetAllProducts = (setProducts: Function) => {
 
-    const [products, setProducts] = useState<ProductProjection[]>([]);
+    // const [products, setProducts] = useState<ProductProjection[]>([]);
 
     api?.productProjections().get({
       queryArgs: {
@@ -230,8 +230,6 @@ export const useServerApi = () => {
       setError('Something went wrong. Please try again later.');
 
     });
-
-    return products;
 
   };
 

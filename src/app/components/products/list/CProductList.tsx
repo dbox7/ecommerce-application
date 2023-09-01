@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { IProductListProps, IQueryArgs } from '../../../utils/types';
 import { useServerApi } from '../../../services/useServerApi';
@@ -9,7 +9,7 @@ import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
 
-export const CProductList = ({ filters, setFilters }: IProductListProps) => {
+export const CProductList = memo(({ filters, setFilters }: IProductListProps) => {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const server = useServerApi();
@@ -49,16 +49,16 @@ export const CProductList = ({ filters, setFilters }: IProductListProps) => {
      
   }, [filters]);
 
-
+  console.log(`render ${CProductList.name}`);
+  
 
   return (
     <>
-      <div className="sort-container">
+      {/* <div className="sort-container">
         <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
         <div className="product-list-title">products ({products.length})</div>
         <CSortProducts type="price" filters={filters} setFilters={setFilters}/>
-        <></>
-      </div>
+      </div> */}
       <div className="product-list">
         { products.map((product) => 
           <Link key={ product.id } to={`/catalog/${product.id}`}> 
@@ -69,4 +69,4 @@ export const CProductList = ({ filters, setFilters }: IProductListProps) => {
     </>
   );
 
-};
+});

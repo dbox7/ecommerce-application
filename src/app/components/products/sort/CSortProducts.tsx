@@ -20,6 +20,8 @@ export function CSortProducts({filters, setFilters, type} : ISortProductsProps) 
 
   };
 
+  console.log(`render ${CSortProducts.name}`);
+
   return (
 
     <>

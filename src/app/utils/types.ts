@@ -28,7 +28,6 @@ export interface IButtonProps {
 }
 
 export interface ICategoriesListProps { 
-  categories: Category[]
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
