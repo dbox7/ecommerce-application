@@ -1,6 +1,7 @@
 # eCommerce-Application
-Final task in RS-School 2023Q1
----
+
+## Final task in RS-School 2023Q1
+
 This platform replicates real-world shopping experiences in a digital environment. It's a comprehensive online shopping portal that provides an interactive and seamless experience to users. From product discovery to checkout, the application ensures a smooth journey for the user, enhancing their engagement and boosting their purchasing confidence.
 
 Users can browse through a vast range of products, view detailed descriptions, add their favorite items to the basket, and proceed to checkout. It includes features such as user registration and login, product search, product categorization, and sorting to make the shopping experience more streamlined and convenient.
@@ -10,19 +11,21 @@ An important aspect of our application is that it's responsive, ensuring it look
 The application is powered by CommerceTools 🌐, a leading provider of commerce solutions for B2C and B2B enterprises. CommerceTools offers a cloud-native, microservices-based commerce platform that enables brands to create unique and engaging digital commerce experiences.
 
 ## Technologies stack:
-* TypeScript
-* React
-* Sass
-* Webpack
-* Prettier
-* ESlint
-* Husky
-* Jest
+
+- TypeScript
+- React
+- Sass
+- Webpack
+- Prettier
+- ESlint
+- Husky
+- Jest
 
 ## Available scripts:
+
 This project was bootstrapped with Create React App.
 
-In the project directory, you can run:  
+In the project directory, you can run:
 
 `npm start`  
 Runs the app in the development mode.
@@ -33,6 +36,12 @@ You will also see any lint errors in the console.
 `npm test`  
 Launches the test runner in the interactive watch mode.
 See the section about running tests for more information.
+
+`npm run lint`
+Runs a code style and syntax check on your code using a linter. A linter is a tool that helps identify and fix potential issues and stylistic inconsistencies in your code. The results of the check will be displayed in the console. This is useful for maintaining clean and consistent code in your project.
+
+`npm run pre`
+Formats your code using Prettier, an opinionated code formatter. Prettier helps maintain a consistent and clean code style throughout your project. The results of the formatting will be displayed in the console.
 
 `npm run build`  
 Builds the app for production to the build folder.
@@ -48,10 +57,12 @@ Instead, it will copy all the configuration files and the transitive dependencie
 You don’t have to ever use eject. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Prerequisites
-1.	Access to a commercetools Project and the Merchant Center. If you do not have a commercetools Project, follow our Getting started guide.
-2.	Node.js (version 10 or later) must be installed on your computer.
+
+1. Access to a commercetools Project and the Merchant Center. If you do not have a commercetools Project, follow our Getting started guide.
+2. Node.js (version 10 or later) must be installed on your computer.
 
 ## Setting up and running the project locally:
+
 Clone repo  
 `$ git clone https://github.com/dbox7/ecommerce-application.git`
 
@@ -67,8 +78,8 @@ Install all dependencies
 Run  
 `$ npm run start`
 
-
 ## Our team:
+
 1. Kseniya (spiridonova.kseniya@gmail.com)
 2. Artem (artem@mikolyuk.com)
 3. Dmitry (dbox.insight@gmail.com)
