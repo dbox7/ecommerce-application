@@ -506,7 +506,7 @@ export const useServerApi = () => {
     customerID: string,
     version: number,
     addressId: string,
-    actionType: string,
+    actionTypes: string[],
   ): void => {
     
     const errorMessage: IToastify = {
@@ -517,22 +517,22 @@ export const useServerApi = () => {
     };
     const actions: { action: IAction; [key: string]: string }[] = [];
 
-    const createAction = (action: IAction, params: Record<string, string>): void => {
+    for (let i = 0; i < actionTypes.length; i+=1) {
 
-      actions.push({ action, ...params });
+      const actionType = actionTypes[i];
+
+      switch (actionType) {
+
+      case 'setDefaultShippingAddress':
+        actions.push({ action: actionType, addressId });
+        break;
+      case 'setDefaultBillingAddress':
+        actions.push({ action: actionType, addressId });
+        break;
+      default:
+        break;
     
-    };
-
-    switch (actionType) {
-
-    case 'setDefaultShippingAddress':
-      createAction('setDefaultShippingAddress', { addressId });
-      break;
-    case 'setDefaultBillingAddress':
-      createAction('setDefaultBillingAddress', { addressId });
-      break;
-    default:
-      break;
+      }
     
     }
  
