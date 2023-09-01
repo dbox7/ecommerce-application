@@ -33,6 +33,12 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
     
     }
 
+    if ( filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+
+      queryArgs.filter = `variants.price.centAmount:range (${filters.minPrice! * 100} to ${filters.maxPrice! * 100})`;
+    
+    } 
+
     if ( filters.sort === 'price' ) {
         
       queryArgs.sort = (filters.sort) + (filters.sortOrder ? ' asc' : ' desc');

@@ -8,6 +8,7 @@ import CFilterProducts from '../../components/products/filters/CFilterProducts';
 import { CProductList } from '../../components/products/list/CProductList';
 
 import './CatalogPage.css';
+import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 export const CatalogPage = () => {
 
@@ -21,9 +22,11 @@ export const CatalogPage = () => {
   });
 
   const setFilters_cb = useCallback(
+
     (fields: SetStateAction<IProductFilters>) => 
       setFilters({...filters, ...fields}),
     [filters]
+
   );
 
   useEffect(() => { 
@@ -33,11 +36,13 @@ export const CatalogPage = () => {
 
   }, []);
 
-  // console.log(prods);
+  // console.log(prods.map(item => item.));
   console.log(`render ${CatalogPage.name}`);
+  console.log(filters);
 
   return (
     <div className="catalog">
+      <CFilterMenu callback={setFilters_cb}/>
       <CFilterProducts callback={setFilters_cb}/>
       <CCategoriesList categories={categories} callback={setFilters_cb}/>
       <CProductList filters={filters} setFilters={setFilters}/>
