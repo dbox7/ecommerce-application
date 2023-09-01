@@ -51,6 +51,14 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
 
+    const errorMessage: IToastify = {
+      error: 'An account with this email already exists.',
+    };
+
+    const errorServerMessage: IToastify = {
+      error: 'Something went wrong. Please try again later.',
+    };
+
     apiAnonRoot.me().signup()
       .post({body: payload as MyCustomerDraft})
       .execute()
@@ -67,11 +75,11 @@ export const useServerApi = () => {
         
         if (err.body.message === 'There is already an existing customer with the provided email.') {
 
-          setError('An account with this email already exists.');
+          notify(errorMessage);
 
         } else {
             
-          setError('Something went wrong. Please try again later.');
+          notify(errorServerMessage);
 
         }
 
@@ -82,9 +90,18 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Login
   const Login = (email: string, password: string): void => {
 
+    const errorMessage: IToastify = {
+      error: 'The user does not exist or the email/password is incorrect.',
+    };
+
+    const errorServerMessage: IToastify = {
+      error: 'Something went wrong. Please try again later.',
+    };
+
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
-  
+    
+    
     apiMeRoot.me().login().post({
       body: {email, password}
     })
@@ -98,11 +115,11 @@ export const useServerApi = () => {
         
         if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          setError('The user does not exist or the email/password is incorrect.');
+          notify(errorMessage);
 
         } else {
               
-          setError('Something went wrong. Please try again later.');
+          notify(errorServerMessage);
 
         }
       

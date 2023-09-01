@@ -3,11 +3,13 @@ import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
 
+import { ToastContainer } from 'react-toastify';
+
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
-import CAlert from '../alert/CAlert';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './CLoginForm.css';
 
 export const CLoginForm = () => {
@@ -34,10 +36,7 @@ export const CLoginForm = () => {
 
   return (
     <div className="substrate">
-      <div className="sub-title">Log in</div>
-      
-      <CAlert message={server.error} />
-      
+      <div className="sub-title">Log in</div>      
       <form 
         className="form"
         onSubmit={handleSubmit}
@@ -60,6 +59,17 @@ export const CLoginForm = () => {
             <Link to="/signup" className="link"><b>Sign up</b></Link>
           </p>
         </div>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="light"/>
       </form>
     </div>
   );
