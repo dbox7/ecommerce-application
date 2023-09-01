@@ -6,6 +6,7 @@ import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 import { useServerApi } from '../../services/useServerApi';
 import { GlobalContext } from '../../store/GlobalContext';
 import './CUserAddresses.css';
+import CCheckbox from '../inputs/checkbox/CCheckbox';
 
 
 const CUserAddresses: React.FC<IAdressProps> = ({ 
@@ -21,6 +22,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   const [modalSetDefault, setModalSetDefault] = useState<Record<string, boolean>>({});
   const server = useServerApi();
   const [globalStore] = useContext(GlobalContext);
+  const [useDefaultShippingAddress, setUseDefaultShippingAddress] = useState<Record<string, boolean>>({});
+  const [useDefaultBillingAddress, setUseDefaultBillingAddress] = useState<Record<string, boolean>>({});
 
   return (
     <div>
@@ -34,13 +37,47 @@ const CUserAddresses: React.FC<IAdressProps> = ({
           const isDefaultBilling = address.id && defaultBillingAddressIds && defaultBillingAddressIds.includes(address.id);
 
           const modalKey = `remove_${address.id}`;
-          const modalState: boolean = modalRemoveAddress[modalKey] || modalSetDefault[modalKey] || false;
+          const modalState: boolean = modalRemoveAddress[modalKey] || false;
+          const modalKeySetDefault = `setDafault_${address.id}`;
+          const modalStateDefault: boolean = modalSetDefault[modalKeySetDefault] || false;
+          const modalStateUseDefaultShipping: boolean = useDefaultShippingAddress[modalKeySetDefault] || false;
+          const modalStateUseDefaultBilling: boolean = useDefaultBillingAddress[modalKeySetDefault] || false;
+
 
           const setModalState = (isActive: boolean) => {
 
             setModalRemoveAddress(prevStates => ({
               ...prevStates,
               [modalKey]: isActive,
+            }));
+          
+          };
+
+          const setModalStateDefault = (isActive: boolean) => {
+
+            setModalSetDefault(prevStates => ({
+              ...prevStates,
+              [modalKeySetDefault]: isActive,
+            }));
+          
+          };
+
+          
+          const setModalStateDefaultUseShipping = (isActive: boolean) => {
+
+            setUseDefaultShippingAddress(prevStates => ({
+              ...prevStates,
+              [modalKeySetDefault]: isActive,
+            }));
+          
+          };
+
+                    
+          const setModalStateDefaultUseBilling = (isActive: boolean) => {
+
+            setUseDefaultBillingAddress(prevStates => ({
+              ...prevStates,
+              [modalKeySetDefault]: isActive,
             }));
           
           };
@@ -60,26 +97,73 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   
           };
 
+
+          const handleSetDefaultClick = () => {
+
+            let actionTypes: string[] = [];
+
+            if (modalStateUseDefaultShipping && modalStateUseDefaultBilling) {
+        
+              actionTypes = ['setDefaultShippingAddress', 'setDefaultBillingAddress'];
+            
+            } else if (modalStateUseDefaultShipping) {
+        
+              actionTypes = ['setDefaultShippingAddress'];
+            
+            } else if (modalStateUseDefaultBilling) {
+        
+              actionTypes = ['setDefaultBillingAddress'];
+            
+            }
+
+
+            if(address.id) {
+
+              server.setDefaultAddress(
+                globalStore.currentUser.id,
+                globalStore.currentUser.version,
+                address.id,
+                actionTypes
+              );
+
+            }
+            setModalStateDefault(false);
+            setModalStateDefaultUseBilling(false);
+            setModalStateDefaultUseShipping(false);
+  
+          };
+
           return (
             <li className="address-item" key={address.id}>
-              <span>
-                {isShippingAddress ? 'Shipping' : isBillingAddress ? 'Billing' : 'Unknown'} Address
-              </span>
-              <span>
-                {isBillingAddress && isShippingAddress ? 'Billing  Address' : ''}
-              </span>
-              <span>
-                {isDefaultShipping
-                  ? 'Default'
-                  : isDefaultBilling
-                    ? 'Default'
-                    : ''}
-              </span>
+              <div className="span-container">
+                <div className="left-side">
+                  <span>
+                    {isShippingAddress ? 'Shipping Address' : isBillingAddress ? 'Billing Address' : ' '} 
+                  </span>
+                  <span>
+                    {isBillingAddress && isShippingAddress ? 'Billing  Address' : ''}
+                  </span>
+                </div>
+                <div className="right-side">
+                  <span>
+                    {isDefaultShipping
+                      ? 'Default'
+                      : isDefaultBilling
+                        ? 'Default'
+                        : ''}
+                  </span>
+                  <span>
+                    {isDefaultShipping && isDefaultBilling
+                      ? 'Default'
+                      : ''}
+                  </span>
+                </div>
+              </div>
               <div className="param">
                 <div className="param-value">Street:</div>
                 <div className="param-title">{address.streetName}</div>
                 <div className="param-value">Postal Code:</div>
-                <div className="param-title">{address.streetName}</div>
+                <div className="param-title">{address.postalCode}</div>
                 <div className="param-value">City:</div>
                 <div className="param-title">{address.city}</div>
                 <div className="param-value">Country:</div>
@@ -115,7 +199,100 @@ const CUserAddresses: React.FC<IAdressProps> = ({
                     </div>
                   </CModal>
                 </li>
-                <li>Set as</li>
+                <li onClick={() => setModalStateDefault(!modalStateDefault)}>
+                  Set as
+                  <CModal
+                    isActive={modalStateDefault}
+                    setIsActive={setModalStateDefault}>
+                    <div className="title">Confirm the action
+                      <p>Select the address
+                        <b>{' ' + address.streetName + ', ' + address.streetName + ', ' + address.city + ', ' + address.country + ' '}</b>
+                        ?
+                      </p>
+                      <div>
+                        {isDefaultShipping && isShippingAddress && !isBillingAddress && (
+                          <div className="sorry-message">
+                            <p>Sorry, but this address is already selected by default</p>
+                            <CButton
+                              value="Ok"
+                              type="button"
+                              disabled={false}
+                              clickHandler={() => setModalStateDefault(false)}
+                            />
+                          </div>
+                        )}
+                        {isDefaultBilling && isBillingAddress && !isShippingAddress && (
+                          <div className="sorry-message">
+                            <p>Sorry, but this address is already selected by default</p>
+                            <CButton
+                              value="Ok"
+                              type="button"
+                              disabled={false}
+                              clickHandler={() => setModalStateDefault(false)}
+                            />
+                          </div>
+                        )}
+                        {isDefaultBilling && isBillingAddress && isDefaultShipping && isShippingAddress && (
+                          <div className="sorry-message">
+                            <p>Sorry, but this address is already selected by default</p>
+                            <CButton
+                              value="Ok"
+                              type="button"
+                              disabled={false}
+                              clickHandler={() => setModalStateDefault(false)}
+                            />
+                          </div>
+                        )}
+                        {isBillingAddress && !isDefaultBilling && (
+                          <div>
+                            <CCheckbox
+                              title="Default billing address"
+                              checked={modalStateUseDefaultBilling}
+                              changeHandler={(e) => setModalStateDefaultUseBilling((e.target as HTMLInputElement).checked)}
+                            />
+                            <div className="btn-block">
+                              <CButton
+                                value="Confirm"
+                                type="button"
+                                disabled={false}
+                                clickHandler={handleSetDefaultClick}
+                              />
+                              <CButton
+                                value="Cancel"
+                                type="button"
+                                disabled={false}
+                                clickHandler={() => setModalStateDefault(false)}
+                              />
+                            </div>
+                          </div>
+                        )}
+                        {isShippingAddress && !isDefaultShipping && (
+                          <div>
+                            <CCheckbox
+                              title="Default shipping address"
+                              checked={modalStateUseDefaultShipping}
+                              changeHandler={(e) => setModalStateDefaultUseShipping((e.target as HTMLInputElement).checked)}
+                            />
+                            <div className="btn-block">
+                              <CButton
+                                value="Confirm"
+                                type="button"
+                                disabled={false}
+                                clickHandler={handleSetDefaultClick}
+                              />
+                              <CButton
+                                value="Cancel"
+                                type="button"
+                                disabled={false}
+                                clickHandler={() => setModalStateDefault(false)}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CModal>
+                </li>
               </ul>
             </li>
           );
@@ -125,7 +302,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
       <CModal
         isActive={modalAddAddress}
         setIsActive={setModalAddAddress}>
-        <CAddAddressForm 
+        <CAddAddressForm
           setModal={setModalAddAddress}/>
       </CModal>
       <CButton
