@@ -1,27 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import useInput from '../../../services/input/useInput';
+import { FC, useCallback, useEffect, useRef } from 'react';
+import { IMultiRangeProps } from '../../../utils/types';
 
 import './CRange.css';
 
-const CRange = ({min, max}:{min: number, max: number}) => {
+const CRange:FC<IMultiRangeProps> = (multiRange) => {
 
   const range = useRef<HTMLDivElement>(null);
 
-  const minRange = useInput('20', 'range', undefined);
-  const maxRange = useInput('100', 'range', undefined);
-  const [minimal, setMinimal] = useState(String(min));
-  const [maximum, setMaximum] = useState(String(max));
-
   const getPercent = useCallback(
-    (value: number) => Math.round(((value - min) / (max - min)) * 100), [min, max]
-  );
+    (value: number) => Math.round(((value - +multiRange.min) / (+multiRange.max - +multiRange.min)) * 100), 
+    [multiRange.min, multiRange.max]);
 
   useEffect(() => {
 
-    console.log(minRange.value, maxRange.value);
-    
-    const minPercent = getPercent(+minRange.value);
-    const maxPercent = getPercent(+maxRange.value); 
+    const minPercent = getPercent(+multiRange.minRange);
+    const maxPercent = getPercent(+multiRange.maxRange); 
 
     if (range.current) {
 
@@ -30,57 +23,29 @@ const CRange = ({min, max}:{min: number, max: number}) => {
     
     }
 
-    minimal >= maxRange.value ? setMinimal(maximum) : setMinimal(minRange.value);
-    maximum <= minRange.value ? setMaximum(minimal) : setMaximum(maxRange.value);
-    // setMinimal(minRange.value);
-
-  }, [maxRange.value, minRange.value]);
-
-  const checkBorderValue = (isMin: boolean): string =>  {
-
-    let res = '';
-    
-    if (isMin) {
-
-      res = Math.min(+minRange.value, +maxRange.value).toString();
-      minRange.value = Math.min(+minRange.value, +maxRange.value).toString();
-      
-      console.log('min: ' + res);
-      return res;
-      
-
-    } else {
-
-      res = Math.max(+minRange.value, +maxRange.value).toString();
-      maxRange.value = res;
-      console.log('max: ' + res);
-      return res;
-
-    }
-
-  };
+  }, [multiRange.minRange, multiRange.maxRange]);
   
   return ( 
     <div className="range-wrap">
-      <label htmlFor="minRange" className="label_min">${10}</label>
+      <label htmlFor="minRange" className="label_min">${multiRange.minRange}</label>
       <input 
         name="minRange"
         type="range" 
-        min={min}
-        max={max}
-        value={minimal}
-        className={'thumb thumb_z-idx-' + (+minRange.value > +maxRange.value - 5 ? '5' : '3')}
-        onChange={minRange.changeHandler}
+        min={+multiRange.min}
+        max={+multiRange.max}
+        value={multiRange.minRange}
+        className={'thumb thumb_z-idx-' + (+multiRange.minRange > +multiRange.maxRange - 5 ? '5' : '3')}
+        onChange={multiRange.changeMinRangeHandler}
       />
-      <label htmlFor="maxRange" className="label_max">${10}</label>
+      <label htmlFor="maxRange" className="label_max">${multiRange.maxRange}</label>
       <input 
         name="maxRange"
         type="range"
-        min={min}
-        max={max}
-        value={maximum} 
+        min={+multiRange.min}
+        max={+multiRange.max}
+        value={multiRange.maxRange} 
         className="thumb thumb_z-idx-4"
-        onChange={maxRange.changeHandler}
+        onChange={multiRange.changeMaxRangeHandler}
       />
 
       <div className="slider__track" />

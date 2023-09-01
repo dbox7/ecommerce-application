@@ -54,6 +54,15 @@ export interface IGlobalStoreType {
   apiMeRoot?: ByProjectKeyRequestBuilder
 }
 
+export interface IMultiRangeProps {
+  min: string
+  max: string
+  minRange: string
+  maxRange: string
+  changeMinRangeHandler: ChangeEventHandler<HTMLInputElement>
+  changeMaxRangeHandler: ChangeEventHandler<HTMLInputElement>
+}
+
 export interface IProductFilters {
   search?: string
   minPrice?: number
