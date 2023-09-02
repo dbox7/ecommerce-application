@@ -52,6 +52,7 @@
 .action-list {
   display: flex;
   justify-content: space-around;
+  color: black;
 }
 
 .action-list li {

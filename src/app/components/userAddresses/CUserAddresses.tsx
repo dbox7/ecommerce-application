@@ -7,6 +7,7 @@ import { useServerApi } from '../../services/useServerApi';
 import { GlobalContext } from '../../store/GlobalContext';
 import './CUserAddresses.css';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
+import CEditAddressForm from '../changeAddressForm/CEditAddressForm';
 
 
 const CUserAddresses: React.FC<IAdressProps> = ({ 
@@ -24,6 +25,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   const [globalStore] = useContext(GlobalContext);
   const [useDefaultShippingAddress, setUseDefaultShippingAddress] = useState<Record<string, boolean>>({});
   const [useDefaultBillingAddress, setUseDefaultBillingAddress] = useState<Record<string, boolean>>({});
+  const [modalEditAddress, setModalEditAddress] = useState<Record<string, boolean>>({});
 
   return (
     <div>
@@ -42,6 +44,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
           const modalStateDefault: boolean = modalSetDefault[modalKeySetDefault] || false;
           const modalStateUseDefaultShipping: boolean = useDefaultShippingAddress[modalKeySetDefault] || false;
           const modalStateUseDefaultBilling: boolean = useDefaultBillingAddress[modalKeySetDefault] || false;
+          const modalKeyEditAddress = `edit_${address.id}`;
+          const modalStateEditAddress: boolean = modalEditAddress[modalKeyEditAddress] || false;
 
 
           const setModalState = (isActive: boolean) => {
@@ -78,6 +82,15 @@ const CUserAddresses: React.FC<IAdressProps> = ({
             setUseDefaultBillingAddress(prevStates => ({
               ...prevStates,
               [modalKeySetDefault]: isActive,
+            }));
+          
+          };
+
+          const setModalStateEditAddress = (isActive: boolean) => {
+
+            setModalEditAddress(prevStates => ({
+              ...prevStates,
+              [modalKeyEditAddress]: isActive,
             }));
           
           };
@@ -170,7 +183,19 @@ const CUserAddresses: React.FC<IAdressProps> = ({
                 <div className="param-title">{address.country}</div>
               </div>
               <ul className="action-list">
-                <li>Edit</li>
+                <li
+                  onClick={() => setModalStateEditAddress(!modalStateEditAddress)}
+                >Edit
+                  <CModal
+                    isActive={modalStateEditAddress}
+                    setIsActive={setModalStateEditAddress}
+                  >
+                    <CEditAddressForm
+                      setModal={setModalStateEditAddress}
+                      addressId={address.id}
+                    ></CEditAddressForm>
+                  </CModal>
+                </li>
                 <li
                   onClick={() => setModalState(!modalState)}>
                   Delete

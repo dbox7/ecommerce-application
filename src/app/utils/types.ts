@@ -193,3 +193,8 @@ export interface IModalProps {
 export interface IAddAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface IEditAdrdressProps {
+  setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
+  addressId: string | undefined;
+}
