@@ -1,7 +1,7 @@
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
-import { Category } from '@commercetools/platform-sdk';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/products/filters/CFilterProducts';
@@ -25,7 +25,7 @@ export const CatalogPage = () => {
 
     (fields: SetStateAction<IProductFilters>) => 
       setFilters({...filters, ...fields}),
-    [filters]
+    [filters]    
 
   );
 
@@ -36,13 +36,13 @@ export const CatalogPage = () => {
 
   }, []);
 
-  // console.log(prods.map(item => item.));
-  console.log(`render ${CatalogPage.name}`);
-  console.log(filters);
+  // console.log(prods.map((item: ProductProjection) => item.variants));
+  // console.log(`render ${CatalogPage.name}`);
+  // console.log(filters);
 
   return (
     <div className="catalog">
-      <CFilterMenu callback={setFilters_cb}/>
+      <CFilterMenu callback={setFilters_cb} prods={prods} />
       <CFilterProducts callback={setFilters_cb}/>
       <CCategoriesList categories={categories} callback={setFilters_cb}/>
       <CProductList filters={filters} setFilters={setFilters}/>

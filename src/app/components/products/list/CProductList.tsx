@@ -29,15 +29,29 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
     
     if ( filters.categoryId !== undefined ) {
 
-      queryArgs.filter = `categories.id:"${filters.categoryId}"`;
+      queryArgs.filter!.push(`categories.id:"${filters.categoryId}"`);
     
     }
 
     if ( filters.minPrice !== undefined || filters.maxPrice !== undefined) {
 
-      queryArgs.filter = `variants.price.centAmount:range (${filters.minPrice! * 100} to ${filters.maxPrice! * 100})`;
+      queryArgs.filter!.push(`variants.price.centAmount:range (${filters.minPrice! * 100} to ${filters.maxPrice! * 100})`);
     
-    } 
+    }
+    
+    if ( filters.sizes && filters.sizes.length !== 0 ) {
+      
+      let res = 'variants.attributes.size:';
+
+      filters.sizes?.forEach(size => {
+        
+        res += `"${size}",`;
+      
+      });
+
+      queryArgs.filter!.push(res.slice(0, -1));
+
+    }
 
     if ( filters.sort === 'price' ) {
         
@@ -55,16 +69,16 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
      
   }, [filters]);
 
-  console.log(`render ${CProductList.name}`);
+  // console.log(`render ${CProductList.name}`);
   
 
   return (
     <>
-      {/* <div className="sort-container">
+      <div className="sort-container">
         <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
         <div className="product-list-title">products ({products.length})</div>
         <CSortProducts type="price" filters={filters} setFilters={setFilters}/>
-      </div> */}
+      </div>
       <div className="product-list">
         { products.map((product) => 
           <Link key={ product.id } to={`/catalog/${product.id}`}> 

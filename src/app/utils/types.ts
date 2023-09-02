@@ -31,6 +31,7 @@ export interface ICategoriesListProps {
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
+
 export interface ICheckboxProps {
   title: string
   checked: boolean
@@ -67,6 +68,7 @@ export interface IProductFilters {
   minPrice?: number
   maxPrice?: number
   categoryId?: string
+  sizes?: number[]
   sort: 'name' | 'price'
   sortOrder: boolean  // true = asc, false = desc
 }
@@ -153,7 +155,7 @@ export interface IAdressProps {
 }
 export interface IQueryArgs {
   limit?: number
-  filter?: string | []
+  filter?: string[]
   offset?: number
   sort?: string
   where?: string

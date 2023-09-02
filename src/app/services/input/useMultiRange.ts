@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IMultiRangeProps } from '../../utils/types';
 
 const useMultiRange = (min: string, max: string): IMultiRangeProps => {
 
   const [minRange, setMinRange] = useState(min);
   const [maxRange, setMaxRange] = useState(max);
+
+  useEffect(() => {
+
+    setMinRange(min);
+    setMaxRange(max);
+
+  }, [min, max]);
 
   const changeMinRangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
       
