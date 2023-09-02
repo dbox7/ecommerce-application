@@ -9,6 +9,20 @@ import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
 
+const concatQueryString = (attr: string, attrArray: string[]) => {
+
+  let res = `variants.attributes.${attr}:`;
+
+  attrArray.forEach((attr: string) => {
+    
+    res += `"${attr}",`;
+  
+  });
+
+  return res.slice(0, -1);
+
+};
+
 export const CProductList = memo(({ filters, setFilters }: IProductListProps) => {
 
   const [products, setProducts] = useState<ProductProjection[]>([]);
@@ -40,17 +54,19 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
     }
     
     if ( filters.sizes && filters.sizes.length !== 0 ) {
-      
-      let res = 'variants.attributes.size:';
 
-      filters.sizes?.forEach(size => {
-        
-        res += `"${size}",`;
-      
-      });
+      const res = concatQueryString('size', filters.sizes);
 
-      queryArgs.filter!.push(res.slice(0, -1));
+      queryArgs.filter!.push(res);
 
+    }
+
+    if (filters.brands && filters.brands.length !== 0) {
+
+      const res = concatQueryString('Brand.key', filters.brands);
+
+      queryArgs.filter!.push(res);
+    
     }
 
     if ( filters.sort === 'price' ) {
@@ -67,10 +83,7 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
 
     server.FilterProducts(queryArgs, setProducts);
      
-  }, [filters]);
-
-  // console.log(`render ${CProductList.name}`);
-  
+  }, [filters]);  
 
   return (
     <>

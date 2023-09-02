@@ -1,7 +1,6 @@
 import { useState, FormEvent, memo } from 'react';
 
 import { RiSearch2Line } from 'react-icons/ri';
-import { IFiltersProps } from '../../../utils/types';
 import { BiCross } from 'react-icons/bi';
 
 import './CFilterProducts.css';
@@ -23,8 +22,6 @@ const CFilterProducts = memo(({ callback }: { callback: Function }) => {
     callback({search: '', categoryId: undefined});
 
   };
-
-  console.log(`render ${CFilterProducts.name}`);
 
   return (
     <div className="filter-container">

@@ -38,32 +38,56 @@ const getPriceRange = (prods: ProductProjection[]) => {
 
 };
 
-const getSizes = (prods: ProductProjection[]): number[] => {
+const getSizes = (prods: ProductProjection[]): string[] => {
 
-  let sizes: number[] = [];
+  let sizes: string[] = [];
   
   prods.forEach(prod => sizes.push(...getSizeArray(prod)));
 
   sizes = sizes
     .filter((item, index) => sizes.indexOf(item) === index)
-    .sort((a, b) => a - b);
+    .sort((a, b) => Number(a) - Number(b));
   
   return sizes;
+
+};
+
+const getBrands = (prods: ProductProjection[]) => {
+  
+  const res: Set<string> = new Set();
+
+  prods.forEach((prod) => {
+
+    res.add(prod
+      .masterVariant
+      .attributes!
+      .find(attr => attr.name === 'Brand')
+      ?.value
+      .key
+    );
+  
+  });
+
+  return Array.from(res);
 
 };
 
 const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductProjection[] } ) => {
 
   const {min, max} = getPriceRange(prods);
-  const sizes: number[] = getSizes(prods);
+  const sizes: string[] = getSizes(prods);
+  const brands: string[] = getBrands(prods);
+  
   
   const [chosenSizes, setChosenSizes] = useState([]);
-  const multiRange = useMultiRange(`${min}`, `${max}`);  
+  const [chosenBrands, setChosenBrands] = useState([]);
+  const multiRange = useMultiRange(`${min}`, `${max}`); 
 
   return (
     <div className="filter_menu">
       <CRange {...multiRange}/>
       <CCheckboxArray array={sizes} setResult={setChosenSizes}/>
+      <CCheckboxArray array={brands} setResult={setChosenBrands}/>
       <CButton 
         type="submit" 
         value="Submit" 
@@ -71,7 +95,8 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
 
           minPrice: multiRange.minRange,
           maxPrice: multiRange.maxRange,
-          sizes: chosenSizes
+          sizes: chosenSizes,
+          brands: chosenBrands
       
         })}
       />

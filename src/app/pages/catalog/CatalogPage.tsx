@@ -1,14 +1,14 @@
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
-import { Category, ProductProjection } from '@commercetools/platform-sdk';
+import { Category } from '@commercetools/platform-sdk';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/products/filters/CFilterProducts';
 import { CProductList } from '../../components/products/list/CProductList';
+import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 import './CatalogPage.css';
-import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 export const CatalogPage = () => {
 
@@ -36,7 +36,7 @@ export const CatalogPage = () => {
 
   }, []);
 
-  // console.log(prods.map((item: ProductProjection) => item.variants));
+  // console.log(prods.map((item: ProductProjection) => item.masterVariant.attributes));
   // console.log(`render ${CatalogPage.name}`);
   // console.log(filters);
 

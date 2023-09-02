@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+
 import CCheckbox from '../../inputs/checkbox/CCheckbox';
 
-const CCheckboxArray = ({ array, setResult }:{ array: (number[]), setResult: Function }) => {
+const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Function }) => {
 
-  const [checked, setChecked] = useState<number[]>([]);
+  const [checked, setChecked] = useState<string[]>([]);
 
   useEffect(() => {
-
+    
     setResult(checked);
     
   }, [checked]);
@@ -14,18 +15,18 @@ const CCheckboxArray = ({ array, setResult }:{ array: (number[]), setResult: Fun
   const h = (e:ChangeEvent<HTMLInputElement>) => {
       
     let isSelected = e.target.checked;
-    let value = Number((e.target.nextSibling as Text).data);
+    let value = (e.target.nextSibling as Text).data;  
 
     if( isSelected ){
 
-      setChecked( [...checked, value ] );
+      setChecked( [...checked, value] );
 
     }else{
 
-      setChecked((prevData)=>{
+      setChecked((prevData) => {
 
         return prevData.filter((id)=>{
-
+          
           return id !== value;
           
         });
@@ -42,7 +43,7 @@ const CCheckboxArray = ({ array, setResult }:{ array: (number[]), setResult: Fun
         array.map((item) => (
           <CCheckbox 
             key={`cb-${item}`}
-            title={String(item)}
+            title={item}
             checked={checked.includes(item)}
             changeHandler={h}
           />

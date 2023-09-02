@@ -14,8 +14,6 @@ export const CCategoriesList = memo(({categories, callback}: {categories: Catego
 
   };
 
-  console.log(`render ${CCategoriesList.displayName}`);
-
   return (
     <div className="categories-container">
       <div className="categories">

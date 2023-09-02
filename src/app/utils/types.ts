@@ -6,7 +6,6 @@ import {
 import { 
   Customer, 
   Price, 
-  Category 
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -68,9 +67,11 @@ export interface IProductFilters {
   minPrice?: number
   maxPrice?: number
   categoryId?: string
-  sizes?: number[]
+  sizes?: string[]
+  brands?: string[]
   sort: 'name' | 'price'
   sortOrder: boolean  // true = asc, false = desc
+  [key: string]: any
 }
 
 export interface IProductListProps {
