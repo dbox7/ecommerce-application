@@ -1,29 +1,50 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import CCheckbox from '../../inputs/checkbox/CCheckbox';
 
 const CCheckboxArray = ({ array, setResult }:{ array: (number[]), setResult: Function }) => {
 
-  const [checked, setChecked] = useState(
-    new Array(array.length).fill(false)
-  );
+  const [checked, setChecked] = useState<number[]>([]);
 
   useEffect(() => {
 
-    setResult(array.filter((item: (number), idx: number) => checked[idx] === true ? true : false));
+    setResult(checked);
     
   }, [checked]);
+
+  const h = (e:ChangeEvent<HTMLInputElement>) => {
+      
+    let isSelected = e.target.checked;
+    let value = Number((e.target.nextSibling as Text).data);
+
+    if( isSelected ){
+
+      setChecked( [...checked, value ] );
+
+    }else{
+
+      setChecked((prevData)=>{
+
+        return prevData.filter((id)=>{
+
+          return id !== value;
+          
+        });
+
+      });
+      
+    }
+    
+  };  
   
   return ( 
     <div className="wrap">
       {
-        array.map((item, idx) => (
+        array.map((item) => (
           <CCheckbox 
             key={`cb-${item}`}
             title={String(item)}
-            checked={checked[idx]}
-            changeHandler={() => setChecked(checked.map((item, index) =>
-              index === idx ? !item : item
-            ))}
+            checked={checked.includes(item)}
+            changeHandler={h}
           />
         ))
       }

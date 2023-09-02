@@ -1,13 +1,13 @@
 import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { getSizeArray } from '../../utils/useFullFuncs';
+import { useState } from 'react';
+
+import CCheckboxArray from './checkboxArray/CCheckboxArray';
 import CButton from '../button/CButton';
 import CRange from '../inputs/range/CRange';
 
 import './CFiltersMenu.css';
-import { getSizeArray } from '../../utils/useFullFuncs';
-import CSizeOption from '../sizeOption/CSizeOption';
-import CCheckboxArray from './checkboxArray/CCheckboxArray';
-import { useState } from 'react';
 
 const getPriceRange = (prods: ProductProjection[]) => {
   
@@ -42,7 +42,7 @@ const getSizes = (prods: ProductProjection[]): number[] => {
 
   let sizes: number[] = [];
   
-  prods.map(prod => sizes.push(...getSizeArray(prod)));
+  prods.forEach(prod => sizes.push(...getSizeArray(prod)));
 
   sizes = sizes
     .filter((item, index) => sizes.indexOf(item) === index)
@@ -55,10 +55,10 @@ const getSizes = (prods: ProductProjection[]): number[] => {
 const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductProjection[] } ) => {
 
   const {min, max} = getPriceRange(prods);
-  const sizes = getSizes(prods);
-
+  const sizes: number[] = getSizes(prods);
+  
   const [chosenSizes, setChosenSizes] = useState([]);
-  const multiRange = useMultiRange(`${min}`, `${max}`);   
+  const multiRange = useMultiRange(`${min}`, `${max}`);  
 
   return (
     <div className="filter_menu">
