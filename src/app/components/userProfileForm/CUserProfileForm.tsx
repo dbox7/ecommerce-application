@@ -14,6 +14,7 @@ import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
 import './CUserProfileForm.css';
 import 'react-toastify/dist/ReactToastify.css';
+import useInputChanges from '../../services/input/useInputChange';
 
 const CUserProfileForm: React.FC = () => {
   
@@ -22,13 +23,20 @@ const CUserProfileForm: React.FC = () => {
 
   const server = useServerApi();
   const navigate = useNavigate();
-
-  const dateOfBirth = useInput(`${globalStore.currentUser.dateOfBirth}`, 'date');
-  const lastName = useInput(`${globalStore.currentUser.lastName}`, 'text');
-  const firstName = useInput(`${globalStore.currentUser.firstName}`, 'text');
-  const email = useInput(`${globalStore.currentUser.email}`, 'email');
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
+
+
+  const initFirstName = useInputChanges(`${globalStore.currentUser.firstName}`);
+  const initEmail = useInputChanges(`${globalStore.currentUser.email}`);
+  const initLastName = useInputChanges(`${globalStore.currentUser.lastName}`);
+  const initDateOfBirth = useInputChanges(`${globalStore.currentUser.dateOfBirth}`);
+  
+  const dateOfBirth = useInput(initDateOfBirth.inputValue, 'date');
+  const lastName = useInput(initLastName.inputValue, 'text');
+  const firstName = useInput(initFirstName.inputValue, 'text');
+  const email = useInput(initEmail.inputValue, 'email');
+
 
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -38,15 +46,6 @@ const CUserProfileForm: React.FC = () => {
     country: address.country || '',
   }));
 
-  const isFormBlockedByInfo = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    dateOfBirth.valid.isDateGood!,
-    firstName.valid.isNotEmpty!,
-    firstName.valid.isTextGood!,
-    lastName.valid.isNotEmpty!,
-    lastName.valid.isTextGood!,
-  ]);
 
   const isPasswordBlockedByInfo = UseFormBlock([
     newPassword.valid.isNotEmpty!,
@@ -113,6 +112,22 @@ const CUserProfileForm: React.FC = () => {
 
   };
 
+  const isFormBlockedByInfo = UseFormBlock([
+    email.valid.isNotEmpty!,
+    email.valid.isEmailGood!,
+    dateOfBirth.valid.isDateGood!,
+    firstName.valid.isNotEmpty!,
+    firstName.valid.isTextGood!,
+    lastName.valid.isNotEmpty!,
+    lastName.valid.isTextGood!,
+  ]);
+
+  const anyInputChanged =
+  initFirstName.hasChanged ||
+  initLastName.hasChanged ||
+  initEmail.hasChanged ||
+  initDateOfBirth.hasChanged;
+
 
   return (
     <div className="profile-wrap">
@@ -124,8 +139,14 @@ const CUserProfileForm: React.FC = () => {
             <form onSubmit={handleSubmit}>
               <div className="input-block">
                 <CEmail
-                  className="profile-input"
                   {...email}
+                  className="profile-input"
+                  changeHandler={(e) => {
+
+                    email.changeHandler(e);
+                    initEmail.handleInputChange(e);
+                  
+                  }}
                 />
               </div>
               <div className="input-block">
@@ -133,6 +154,12 @@ const CUserProfileForm: React.FC = () => {
                   {...firstName}
                   className="profile-input"
                   title="First name"
+                  changeHandler={(e) => {
+
+                    firstName.changeHandler(e);
+                    initFirstName.handleInputChange(e);
+                  
+                  }}
                 />
               </div>
               <div className="input-block">
@@ -140,6 +167,12 @@ const CUserProfileForm: React.FC = () => {
                   {...lastName}
                   className="profile-input"
                   title="Last name"
+                  changeHandler={(e) => {
+
+                    lastName.changeHandler(e);
+                    initLastName.handleInputChange(e);
+                  
+                  }}
                 />
               </div>
               <div className="input-block">
@@ -149,12 +182,19 @@ const CUserProfileForm: React.FC = () => {
                   title="Date of birth"
                   data={null}
                   isDate={true}
+                  changeHandler={(e) => {
+
+                    dateOfBirth.changeHandler(e);
+                    initDateOfBirth.handleInputChange(e);
+                  
+                  }}
                 />
               </div>
               <CButton
                 value="Save changes"
                 type="submit"
-                disabled={isFormBlockedByInfo}
+                disabled={!isFormBlockedByInfo && !anyInputChanged ?
+                  !anyInputChanged: isFormBlockedByInfo}
               />
               <ToastContainer
                 position="top-center"
