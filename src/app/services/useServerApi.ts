@@ -297,6 +297,7 @@ export const useServerApi = () => {
 
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ AddAddresses
   const addAddresses = (
     customerID: string,
     version: number,
@@ -389,6 +390,7 @@ export const useServerApi = () => {
   
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ ChangeAddress
   const changeAddress = (
     customerID: string,
     version: number,
@@ -421,10 +423,10 @@ export const useServerApi = () => {
       case 'addBillingAddressId':
         actions.push({ action: actionType, addressId });
         break;
-      case 'setDefaultBillingAddress':
+      case 'removeShippingAddressId':
         actions.push({ action: actionType, addressId });
         break;
-      case 'setDefaultShippingAddress':
+      case 'removeBillingAddressId':
         actions.push({ action: actionType, addressId });
         break;
       default:
@@ -438,8 +440,6 @@ export const useServerApi = () => {
       version,
       actions,
     };
-  
-
 
     api.customers()
       .withId({ ID: customerID })
@@ -461,6 +461,7 @@ export const useServerApi = () => {
   
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ RemoveAddress
   const removeAddress = (
     customerID: string,
     version: number,
@@ -502,6 +503,7 @@ export const useServerApi = () => {
   
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ SetDefaultAddress
   const setDefaultAddress = (
     customerID: string,
     version: number,

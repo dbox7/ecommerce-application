@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
-import { IAddAdrdressProps, IAddress } from '../../utils/types';
+import { IAddress, IEditAdrdressProps } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -18,42 +18,60 @@ const getCountryCode = (countryName: string): string => {
   return res?.code as string;
 
 };
+const getCountryName = (countryCode: string | undefined): string => {
 
-export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
+  const res = COUNTRIES.find((item) => item.code === countryCode);
+
+  return res?.name as string;
+
+};
+
+export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addressId}) => {
 
   const [useShippingAddress, setUseShippingAddress] = useState<boolean>(false);
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
+  const [removeShippingAddress, setRemoveShippingAddress] = useState<boolean>(false);
+  const [removeBillingAddress, setRemoveBillingAddress] = useState<boolean>(false);
   const [globalStore] = useContext(GlobalContext);
 
+
+  const targetAddressId = addressId;
+  const addresses = globalStore.currentUser.addresses;
+
+  const targetAddress = addresses.find(address => address.id === targetAddressId);
+
   
-  const street = useInput('', 'text');
-  const city = useInput('', 'text');
-  const postalCode = useInput('', 'postalCode');
-  const country = useInput('', 'text');
+  const targetStreetName = targetAddress?.streetName;
+  const targetCity = targetAddress?.city;
+  const targetCountry = getCountryName(targetAddress?.country);
+  const targetPostalCode = targetAddress?.postalCode;
+
+  
+  const street = useInput(`${targetStreetName}`, 'text');
+  const city = useInput(`${targetCity}`, 'text');
+  const postalCode = useInput(`${targetPostalCode}`, 'postalCode');
+  const country = useInput(`${targetCountry}`, 'text');
 
 
   const server = useServerApi();
-  const isFormBlockedByMainInfo = UseFormBlock([
+  // const isFormBlockedByMainInfo = UseFormBlock([
 
-    street.valid.isNotEmpty!,
-    city.valid.isNotEmpty!,
-    city.valid.isTextGood!,
-    postalCode.valid.isNotEmpty!,
-    postalCode.valid.isPostalCodeGood!,
-    country.valid.isNotEmpty!,
-    country.valid.isTextGood!,
-  ]);
+  //   street.valid.isNotEmpty!,
+  //   city.valid.isNotEmpty!,
+  //   city.valid.isTextGood!,
+  //   postalCode.valid.isNotEmpty!,
+  //   postalCode.valid.isPostalCodeGood!,
+  //   country.valid.isNotEmpty!,
+  //   country.valid.isTextGood!,
+  // ]);
 
   const handleSaveClick = () => {
 
     setModal(false);
-
-    street.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    city.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    postalCode.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    country.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     setUseBillingAddress(false);
     setUseShippingAddress(false);
+    setRemoveBillingAddress(false);
+    setRemoveShippingAddress(false);
   
   };
 
@@ -70,26 +88,31 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
     };
     
 
-    let actionTypes: string[] = [];
+    let actionTypes: string[] = ['changeAddress'];
 
-    if (useShippingAddress && useBillingAddress) {
+    if (useShippingAddress) {
 
-      actionTypes = ['addShippingAddressId', 'addBillingAddressId'];
-    
-    } else if (useShippingAddress) {
-
-      actionTypes = ['addShippingAddressId'];
+      actionTypes = ['changeAddress', 'addShippingAddressId'];
     
     } else if (useBillingAddress) {
 
-      actionTypes = ['addBillingAddressId'];
+      actionTypes = ['changeAddress','addBillingAddressId'];
+    
+    } else if (removeShippingAddress) {
+
+      actionTypes = ['changeAddress','removeShippingAddressId'];
+    
+    } else if (removeBillingAddress) {
+
+      actionTypes = ['changeAddress','removeBillingAddressId'];
     
     }
 
-    server.addAddresses(
+    if (targetAddressId) server.changeAddress(
       globalStore.currentUser.id,
       globalStore.currentUser.version,
       address,
+      targetAddressId,
       actionTypes,
     );
 
@@ -100,7 +123,7 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
   
   return (
     <div className="substrate">
-      <div className="sub-title">Add address</div>
+      <div className="sub-title">Edit address</div>
 
       <form 
         className="form"
@@ -136,16 +159,22 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
               checked={useBillingAddress}
               changeHandler={(e) => setUseBillingAddress((e.target as HTMLInputElement).checked)}
             />
+            <CCheckbox
+              title="Remove as shipping address"
+              checked={removeShippingAddress}
+              changeHandler={(e) => setRemoveShippingAddress((e.target as HTMLInputElement).checked)}
+            />
+            <CCheckbox
+              title="Remove as billing address"
+              checked={removeBillingAddress}
+              changeHandler={(e) => setRemoveBillingAddress((e.target as HTMLInputElement).checked)}
+            />
           </div>
         </div>
         <CButton
           type="submit"
           value="Save"
-          disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
-            ? isFormBlockedByMainInfo
-            : !useShippingAddress
-              ? !useBillingAddress
-              : isFormBlockedByMainInfo}
+          disabled={false}
         />
         <CButton
           type="button"
@@ -159,6 +188,6 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
 
 };
 
-export default CAddAddressForm;
+export default CEditAddressForm;
 
   
