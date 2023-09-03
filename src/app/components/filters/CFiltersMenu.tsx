@@ -78,7 +78,6 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
   const sizes: string[] = getSizes(prods);
   const brands: string[] = getBrands(prods);
   
-  
   const [chosenSizes, setChosenSizes] = useState([]);
   const [chosenBrands, setChosenBrands] = useState([]);
   const multiRange = useMultiRange(`${min}`, `${max}`); 

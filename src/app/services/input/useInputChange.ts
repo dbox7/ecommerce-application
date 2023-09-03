@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IUseInputChangesResult } from '../../utils/types';
 
-
 const useInputChanges = (initialValue: string): IUseInputChangesResult => {
 
   const [inputValue, setInputValue] = useState<string>(initialValue);
@@ -36,7 +35,6 @@ const useInputChanges = (initialValue: string): IUseInputChangesResult => {
   
   };
   
-
   return {
     inputValue, 
     hasChanged, 

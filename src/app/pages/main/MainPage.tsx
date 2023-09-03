@@ -17,8 +17,7 @@ export const MainPage = () => {
         <>
           <div className="poster-wrap"></div>
           <CPromo/>
-        </>
-            
+        </> 
         :
         <div className="poster-wrap"></div>
       }

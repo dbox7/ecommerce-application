@@ -2,13 +2,14 @@ import { useContext, useState } from 'react';
 import { IAdressProps } from '../../utils/types';
 import CButton from '../button/CButton';
 import CModal from '../modal/CModal';
-import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 import { useServerApi } from '../../services/useServerApi';
 import { GlobalContext } from '../../store/GlobalContext';
-import './CUserAddresses.css';
+
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CEditAddressForm from '../changeAddressForm/CEditAddressForm';
+import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 
+import './CUserAddresses.css';
 
 const CUserAddresses: React.FC<IAdressProps> = ({ 
   addresses,
@@ -128,7 +129,6 @@ const CUserAddresses: React.FC<IAdressProps> = ({
               actionTypes = ['setDefaultBillingAddress'];
             
             }
-
 
             if(address.id) {
 

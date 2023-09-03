@@ -1,4 +1,9 @@
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { 
+  SetStateAction, 
+  useCallback, 
+  useEffect, 
+  useState 
+} from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
 import { Category } from '@commercetools/platform-sdk';

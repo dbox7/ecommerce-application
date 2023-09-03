@@ -1,4 +1,9 @@
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { 
+  FC, 
+  useCallback, 
+  useEffect, 
+  useRef 
+} from 'react';
 import { IMultiRangeProps } from '../../../utils/types';
 
 import './CRange.css';

@@ -27,7 +27,6 @@ export const SignUpPage = () => {
         </div>
       </div>
     </div> 
-
   );
 
 };
