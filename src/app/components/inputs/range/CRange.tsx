@@ -26,32 +26,34 @@ const CRange:FC<IMultiRangeProps> = (multiRange) => {
   }, [multiRange.minRange, multiRange.maxRange]);
   
   return ( 
-    <div className="range-wrap">
-      <label htmlFor="minRange" className="label_min">${multiRange.minRange}</label>
-      <input 
-        name="minRange"
-        type="range" 
-        min={+multiRange.min}
-        max={+multiRange.max}
-        value={multiRange.minRange}
-        className={'thumb thumb_z-idx-' + (+multiRange.minRange > +multiRange.maxRange - 5 ? '5' : '3')}
-        onChange={multiRange.changeMinRangeHandler}
-      />
-      <label htmlFor="maxRange" className="label_max">${multiRange.maxRange}</label>
-      <input 
-        name="maxRange"
-        type="range"
-        min={+multiRange.min}
-        max={+multiRange.max}
-        value={multiRange.maxRange} 
-        className="thumb thumb_z-idx-4"
-        onChange={multiRange.changeMaxRangeHandler}
-      />
+    <div className="range">
+      <div className="range-wrap">
+        <label htmlFor="minRange" className="label_min">${multiRange.minRange}</label>
+        <input 
+          name="minRange"
+          type="range" 
+          min={+multiRange.min}
+          max={+multiRange.max}
+          value={multiRange.minRange}
+          className={'thumb thumb_z-idx-' + (+multiRange.minRange > +multiRange.maxRange - 5 ? '5' : '3')}
+          onChange={multiRange.changeMinRangeHandler}
+        />
+        <label htmlFor="maxRange" className="label_max">${multiRange.maxRange}</label>
+        <input 
+          name="maxRange"
+          type="range"
+          min={+multiRange.min}
+          max={+multiRange.max}
+          value={multiRange.maxRange} 
+          className="thumb thumb_z-idx-4"
+          onChange={multiRange.changeMaxRangeHandler}
+        />
 
-      <div className="slider__track" />
-      <div className="slider__range" ref={range} />
-      
-    </div>  
+        <div className="slider__track" />
+        <div className="slider__range" ref={range} />
+        
+      </div>
+    </div>
   );
 
 };

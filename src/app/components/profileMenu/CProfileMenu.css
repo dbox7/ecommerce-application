@@ -16,6 +16,19 @@
   gap: 10px;
 
   cursor: pointer;
+  transition: color 0.2s linear;
+}
+
+.profile-menu:hover {
+  color: var(--dark-accent-color);
+}
+
+.profile-menu__icon {
+  font-size: 23px;
+}
+
+.profile-menu__icon.login {
+  color: var(--accent-color);
 }
 
 .profile-menu .profile-nav {

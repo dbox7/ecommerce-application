@@ -1,7 +1,13 @@
+.range {
+  display: flex;
+  align-items: center;
+  height: 37px;
+  padding-top: 20px;
+}
+
 .range-wrap {
   position: relative;
   width: 100%;
-  top: 30px;
 }
 
 .thumb {

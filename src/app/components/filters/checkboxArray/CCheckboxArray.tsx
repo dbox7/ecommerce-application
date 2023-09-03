@@ -2,6 +2,8 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import CCheckbox from '../../inputs/checkbox/CCheckbox';
 
+import './CCheckboxArray.css';
+
 const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Function }) => {
 
   const [checked, setChecked] = useState<string[]>([]);
@@ -38,7 +40,7 @@ const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Fun
   };  
   
   return ( 
-    <div className="wrap">
+    <div className="checkbox-array__wrap">
       {
         array.map((item) => (
           <CCheckbox 

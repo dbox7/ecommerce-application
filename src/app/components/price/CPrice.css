@@ -1,5 +1,7 @@
 .price {
   display: flex;
+  align-items: center;
+  height: 20px;
 
   font-family: var(--tera);
   font-size: var(--price);
@@ -9,9 +11,11 @@
 .crossed {
   position: relative;
   text-decoration: none;
+  margin: 0;
+  padding: 0;
 }
 
-.crossed:before {
+.crossed::before {
   content: "";
   border-bottom: 5px solid red;
   position: absolute;
@@ -37,9 +41,9 @@
 .new_price:before {
   content: "\25CF";
   position: absolute;
-  top: 0.5px;
+  top: 0.85px;
   left: -69px;
-  width: 49px;
+  width: 49.5px;
   height: 49px;
 
   color: white;
@@ -55,6 +59,35 @@
   z-index: -1;
 }
 
+.price.isMini {
+  font-size: var(--mini-price);
+}
+
+.crossed.isMini:before {
+  border-width: 3px;
+}
+
+.new_price.isMini {
+  top: 10px;
+  left: 16px;
+  padding: 5px 10px;
+}
+
+.new_price.isMini:before {
+  top: -14.35px;
+  left: -45px;
+  width: 17px;
+  height: 48px;
+
+  font-size: 20px;
+  line-height: 115px;
+  text-indent: 3px;
+
+  border-width: 12px;
+  border-left-width: 7px;
+  border-right-width: 7px;
+}
+
 @media screen and (max-width: 995px) {
   .price {
     font-size: var(--product-title);
@@ -66,8 +99,8 @@
 
   .new_price:before {
     top: -9.5px;
-    left: -60px;
-    width: 30px;
+    left: -59.5px;
+    width: 28.5px;
 
     font-size: 35px;
     text-indent: 5px;

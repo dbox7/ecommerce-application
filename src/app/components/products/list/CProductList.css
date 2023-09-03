@@ -24,12 +24,21 @@
 .product-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 30px;
+  justify-content: flex-start;
+  gap: 25px;
   width: 100%;
   margin-top: 40px;
 }
 
 .product__link {
+  display: flex;
   width: 48%;
+  min-width: 250px;
+}
+
+@media screen and (max-width: 1095px){
+  .product__link {
+    width: 100%;
+  }
+
 }

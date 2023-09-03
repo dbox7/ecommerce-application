@@ -84,13 +84,18 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
   const multiRange = useMultiRange(`${min}`, `${max}`); 
 
   return (
-    <div className="filter_menu">
+    <div className="filter-menu substrate">
+      <div className="filter-menu__title">Filters</div>
+      <div className="filter-menu__sub-title">Price</div>
       <CRange {...multiRange}/>
+      <div className="filter-menu__sub-title">Sizes</div>
       <CCheckboxArray array={sizes} setResult={setChosenSizes}/>
+      <div className="filter-menu__sub-title">Brands</div>
       <CCheckboxArray array={brands} setResult={setChosenBrands}/>
       <CButton 
         type="submit" 
         value="Submit" 
+        extraClass="filter-menu__btn"
         clickHandler={() => callback({
 
           minPrice: multiRange.minRange,

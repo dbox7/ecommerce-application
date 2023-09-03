@@ -9,6 +9,7 @@
 }
 
 .input-title {
+  font-family: var(--exa);
   font-size: calc(var(--sub-title) * 0.8);
 }
 
