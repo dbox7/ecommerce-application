@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
-import { ToastContainer } from 'react-toastify';
 
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
@@ -14,7 +13,6 @@ import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
-import 'react-toastify/dist/ReactToastify.css';
 import './CRegistrationForm.css';
 
 const getCountryCode = (countryName: string): string => {
@@ -240,17 +238,6 @@ export const CRegistrationForm = () => {
             <Link to="/login" className="link"><b>Log in</b></Link>
           </p>
         </div>
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover={false}
-          theme="light"/>
       </form>
     </div>
   );

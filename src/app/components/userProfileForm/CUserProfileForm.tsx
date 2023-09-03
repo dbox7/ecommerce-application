@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
-import { ToastContainer } from 'react-toastify';
 import { useServerApi } from '../../services/useServerApi';
 import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
@@ -13,7 +12,6 @@ import CEmail from '../inputs/email/CEmail';
 import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
 import './CUserProfileForm.css';
-import 'react-toastify/dist/ReactToastify.css';
 import useInputChanges from '../../services/input/useInputChange';
 
 const CUserProfileForm: React.FC = () => {
@@ -196,17 +194,6 @@ const CUserProfileForm: React.FC = () => {
                 disabled={!isFormBlockedByInfo && !anyInputChanged ?
                   !anyInputChanged: isFormBlockedByInfo}
               />
-              <ToastContainer
-                position="top-center"
-                autoClose={1000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"/>
             </form>
           </div>
           <div className="password-change">
