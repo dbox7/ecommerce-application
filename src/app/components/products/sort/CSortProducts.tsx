@@ -26,9 +26,10 @@ export function CSortProducts({filters, setFilters, type} : ISortProductsProps) 
       <div className={ 'sort-by ' + (filters.sort === type ? 'active' : '') } onClick={handleClick}>
         {type}
         { filters.sort === type && filters.sortOrder ? 
-          <IoIosArrowDown 
-            className="arrow-down-icon"/> : 
           <IoIosArrowUp 
+            className="arrow-down-icon"/> 
+          : 
+          <IoIosArrowDown 
             className="arrow-up-icon"/> }
       </div>
     </>

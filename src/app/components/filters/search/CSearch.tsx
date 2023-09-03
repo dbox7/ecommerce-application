@@ -1,11 +1,11 @@
 import { useState, FormEvent, memo } from 'react';
 
-import { RiSearch2Line } from 'react-icons/ri';
-import { BiCross } from 'react-icons/bi';
+import { BiSearch } from 'react-icons/bi';
+import { RxCross2 } from 'react-icons/rx';
 
-import './CFilterProducts.css';
+import './CSearch.css';
 
-const CFilterProducts = memo(({ callback }: { callback: Function }) => {
+const CSearch = memo(({ callback }: { callback: Function }) => {
 
   const [search, setSearch] = useState('');
 
@@ -25,7 +25,7 @@ const CFilterProducts = memo(({ callback }: { callback: Function }) => {
 
   return (
     <div className="filter-container">
-      <BiCross 
+      <RxCross2 
         className="close-icon"
         onClick={closeSearchHandler}
       />
@@ -44,14 +44,13 @@ const CFilterProducts = memo(({ callback }: { callback: Function }) => {
             type="submit"
             className="search-btn"
           >
-            <RiSearch2Line className="search-icon"/>
+            <BiSearch className="search-icon"/>
           </button>
         </form>
       </div>
-
     </div>
   );
 
 });
 
-export default CFilterProducts;
+export default CSearch;

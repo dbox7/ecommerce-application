@@ -4,7 +4,7 @@ import { IProductFilters } from '../../utils/types';
 import { Category } from '@commercetools/platform-sdk';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
-import CFilterProducts from '../../components/products/filters/CFilterProducts';
+import CFilterProducts from '../../components/filters/search/CSearch';
 import { CProductList } from '../../components/products/list/CProductList';
 import CFilterMenu from '../../components/filters/CFiltersMenu';
 
@@ -42,10 +42,15 @@ export const CatalogPage = () => {
 
   return (
     <div className="catalog">
-      <CFilterMenu callback={setFilters_cb} prods={prods} />
-      <CFilterProducts callback={setFilters_cb}/>
-      <CCategoriesList categories={categories} callback={setFilters_cb}/>
-      <CProductList filters={filters} setFilters={setFilters}/>
+      <div className="sub-title">Catalog</div>
+      <div className="catalog__search">
+        <CFilterProducts callback={setFilters_cb}/>
+        <CCategoriesList categories={categories} callback={setFilters_cb}/>
+      </div>
+      <div className="catalog__filters-and-prods">
+        <CFilterMenu callback={setFilters_cb} prods={prods} />
+        <CProductList filters={filters} setFilters={setFilters}/>
+      </div>
     </div>
   );
 

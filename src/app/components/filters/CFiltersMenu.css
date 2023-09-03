@@ -1,6 +1,6 @@
 .filter_menu {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 30px;
-  width: 400px;
 }

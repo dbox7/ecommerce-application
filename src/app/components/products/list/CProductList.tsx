@@ -86,7 +86,7 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
   }, [filters]);  
 
   return (
-    <>
+    <div className="product__wrap">
       <div className="sort-container">
         <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
         <div className="product-list-title">products ({products.length})</div>
@@ -94,12 +94,12 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
       </div>
       <div className="product-list">
         { products.map((product) => 
-          <Link key={ product.id } to={`/catalog/${product.id}`}> 
+          <Link key={ product.id } to={`/catalog/${product.id}`} className="product__link"> 
             <CProductCard product={ product }/> 
           </Link>
         )}
       </div>
-    </>
+    </div>
   );
 
 });
