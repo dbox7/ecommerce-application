@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import CProfileMenu from '../profileMenu/CProfileMenu';
 
@@ -14,19 +14,24 @@ export const Header = () => {
         <nav className="nav">
           <ul className="menu">
             <li className="menu-item">
-
-              <NavLink to="/" className="link">Home</NavLink>
+              <Link to="/catalog" className="link">Catalog</Link>
             </li>
             <li className="menu-item">
-              <NavLink to="/catalog" className="link">Catalog</NavLink>
+              <Link to="/about" className="link">About us</Link>
             </li>
           </ul>
           <div className="logo">
             <Link to="/" className="link">SNEAKERS STORE</Link>
           </div>
           <ul className="menu right">
-            <Link to="/cart" className="link"><BsCart2 className="cart-icon"/></Link>
-            <CProfileMenu/>
+            <li className="menu-item">
+              <CProfileMenu/>
+            </li>
+            <li className="menu-item">
+              <Link to="/cart" className="link header__cart">
+                Cart <BsCart2 className="cart-icon menu-cart-icon"/>
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

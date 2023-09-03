@@ -1,9 +1,12 @@
 header {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   min-height: 80px;
   background-color: var(--basic-color);
   border-bottom: 1px solid var(--border-color);
+  z-index: 10;
 }
 
 .header-container {
@@ -41,7 +44,7 @@ header {
 
 .menu.right {
   display: flex;
-  flex-direction: row;
+  justify-content: flex-end;
   flex-wrap: nowrap;
   align-items: center;
 }
@@ -67,17 +70,20 @@ header {
   cursor: default;
 }
 
-.cart-icon {
-  width: 1.3rem;
-  height: 1.3rem;
-  cursor: pointer;
-  opacity: 0.8;
-  margin-right: 2vw;
+.header__cart {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.cart-icon:hover {
-  color: var(--dark-accent-color);
-  opacity: 1;
+.menu-cart-icon {
+  font-size: 20px;
+  transform: translateY(-2px);
+}
+
+.menu-profile-icon {
+  font-size: 23px;
+  transform: translateY(-2px);
 }
 
 @media screen and (max-width: 790px) {

@@ -1,0 +1,30 @@
+.filter-menu {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 15px;
+  margin: 0;
+  padding: 25px 20px;
+  height: max-content;
+}
+
+.filter-menu__title {
+  font-family: var(--tera);
+  font-size: var(--sub-title);
+  letter-spacing: 2px;
+}
+
+.filter-menu__sub-title {
+  margin-top: 10px;
+  font-family: var(--exa);
+  font-weight: 300;
+  font-size: var(--sub-title);
+  letter-spacing: 2px;
+}
+
+.filter-menu__btn {
+  width: 50%;
+  margin-top: 30px;
+}

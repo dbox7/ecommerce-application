@@ -4,11 +4,10 @@ import {
   useState 
 } from 'react';
 import { GlobalContext } from '../../store/GlobalContext';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 
-import loginSVG from '../../assets/login.svg';
-import logoutSVG from '../../assets/logout.svg';
+import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
 import './CProfileMenu.css';
 
@@ -18,7 +17,6 @@ const CProfileMenu = () => {
   const [showPopup, setShowPopup] = useState(false);
   const user = globalStore.currentUser;
 
-  // const logout = useLogout();
   const server = useServerApi();
   
   return ( 
@@ -29,7 +27,11 @@ const CProfileMenu = () => {
     >
       <div className="info-block">
         <span className="name">{user.id ? user.firstName : 'User'}</span>
-        <img src={user.id ? loginSVG : logoutSVG} alt="Profile icon" className="profile-icon" />
+        {user.id ? 
+          <BsPersonFill className="cart-icon profile-menu__icon login" /> 
+          : 
+          <BsPerson className="cart-icon profile-menu__icon"/>
+        }
       </div>
       
       {
@@ -54,10 +56,10 @@ const CProfileMenu = () => {
               :
               <>
                 <li className="profile-nav-item">
-                  <NavLink to="/login" className="link">Log in</NavLink>
+                  <Link to="/login" className="link">Log in</Link>
                 </li>
                 <li className="profile-nav-item">
-                  <NavLink to="/signup" className="link">Sign up</NavLink>
+                  <Link to="/signup" className="link">Sign up</Link>
                 </li>
               </>
           }

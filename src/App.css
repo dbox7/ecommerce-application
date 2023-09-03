@@ -6,6 +6,11 @@
   padding-inline-start: 0;
 }
 
+button {
+  padding-block: 0;
+  padding-inline: 0;
+}
+
 html,
 body {
   height: 100%;

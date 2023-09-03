@@ -1,12 +1,10 @@
+
 import './CartPage.css';
 
 export const CartPage = () => {
 
   return (
-    
-    <div className="cart-poster-wrap">
-      
-    </div>
+    <div className="cart-poster-wrap" />
   );
 
 };

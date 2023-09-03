@@ -6,7 +6,6 @@ import {
 import { 
   Customer, 
   Price, 
-  Category 
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -28,10 +27,10 @@ export interface IButtonProps {
 }
 
 export interface ICategoriesListProps { 
-  categories: Category[]
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
+
 export interface ICheckboxProps {
   title: string
   checked: boolean
@@ -54,13 +53,25 @@ export interface IGlobalStoreType {
   apiMeRoot?: ByProjectKeyRequestBuilder
 }
 
+export interface IMultiRangeProps {
+  min: string
+  max: string
+  minRange: string
+  maxRange: string
+  changeMinRangeHandler: ChangeEventHandler<HTMLInputElement>
+  changeMaxRangeHandler: ChangeEventHandler<HTMLInputElement>
+}
+
 export interface IProductFilters {
   search?: string
   minPrice?: number
   maxPrice?: number
   categoryId?: string
+  sizes?: string[]
+  brands?: string[]
   sort: 'name' | 'price'
   sortOrder: boolean  // true = asc, false = desc
+  [key: string]: any
 }
 
 export interface IProductListProps {
@@ -145,7 +156,7 @@ export interface IAdressProps {
 }
 export interface IQueryArgs {
   limit?: number
-  filter?: string | []
+  filter?: string[]
   offset?: number
   sort?: string
   where?: string

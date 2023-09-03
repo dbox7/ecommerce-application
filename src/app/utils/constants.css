@@ -18,6 +18,7 @@
 
   /* Font sizes */
   --main-text: 14px;
+  --mini-price: 16px;
   --sub-title: 18px;
   --title: 24px;
   --product-title: 32px;
@@ -35,8 +36,20 @@
   left: 10px;
 }
 
+.cart-icon {
+  cursor: pointer;
+}
+
+.cart-icon:hover {
+  color: var(--dark-accent-color);
+  opacity: 1;
+  transition: color 0.2s ease-in;
+}
+
 .clarification {
   text-align: center;
+  font-family: var(--exa);
+  font-weight: 700;
 }
 
 .form {
