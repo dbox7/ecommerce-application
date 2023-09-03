@@ -2,6 +2,7 @@ import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/useFullFuncs';
 import { useEffect, useState } from 'react';
+import { useResize } from '../../services/useResize';
 
 import CCheckboxArray from './checkboxArray/CCheckboxArray';
 import CButton from '../button/CButton';
@@ -11,7 +12,6 @@ import { LuSettings2 } from 'react-icons/lu';
 import { RxCross2 } from 'react-icons/rx';
 
 import './CFiltersMenu.css';
-import { useResize } from '../../services/useResize';
 
 const getPriceRange = (prods: ProductProjection[]) => {
   
@@ -148,7 +148,7 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
         />
       </div>
 
-      <div className={'filter-menu__popup' + (hideFilterMenu ? 'hide' : '')} onClick={handleSettingClick}>
+      <div className={'filter-menu__popup ' + (hideFilterMenu ? 'hide' : '')} onClick={handleSettingClick}>
         <LuSettings2 className="filter-menu__icon" />
       </div>
     </>

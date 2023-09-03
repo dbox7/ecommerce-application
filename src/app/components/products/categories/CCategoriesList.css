@@ -1,19 +1,16 @@
 .categories-container {
-  width: 80%;
+  width: 60%;
 }
 
 .categories ul {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 auto 2vh;
-  list-style: none;
+  justify-content: center;
+  gap: 50px;
   width: 100%;
+  list-style: none;
 }
 
 .categories li {
-  margin: 0 5vw;
   cursor: pointer;
 }
 
@@ -29,4 +26,10 @@
 
 .categories li.active:hover {
   color: black;
+}
+
+@media screen and (max-width: 700px) {
+  .categories ul {
+    gap: 30px;
+  }
 }
