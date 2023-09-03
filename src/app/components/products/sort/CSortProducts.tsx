@@ -14,23 +14,21 @@ export function CSortProducts({filters, setFilters, type} : ISortProductsProps) 
     
     } else {
 
-      setFilters({...filters, sort: type, sortOrder: false});
+      setFilters({...filters, sort: type, sortOrder: true});
     
     }
 
   };
-
+  
   return (
 
     <>
       <div className={ 'sort-by ' + (filters.sort === type ? 'active' : '') } onClick={handleClick}>
         {type}
-        { filters.sort === type && filters.sortOrder ? 
-          <IoIosArrowUp 
-            className="arrow-down-icon"/> 
-          : 
-          <IoIosArrowDown 
-            className="arrow-up-icon"/> }
+        
+        { filters.sort === type ? (
+          filters.sortOrder ? <IoIosArrowDown className="arrow-down-icon"/>
+            : <IoIosArrowUp className="arrow-up-icon"/> ) : '' }
       </div>
     </>
 
