@@ -36,9 +36,8 @@
   min-width: 250px;
 }
 
-@media screen and (max-width: 1095px){
+@media screen and (max-width: 1095px) {
   .product__link {
     width: 100%;
   }
-
 }

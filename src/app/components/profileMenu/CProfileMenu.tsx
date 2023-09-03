@@ -7,8 +7,6 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 
-import loginSVG from '../../assets/login.svg';
-import logoutSVG from '../../assets/logout.svg';
 import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
 import './CProfileMenu.css';
@@ -19,7 +17,6 @@ const CProfileMenu = () => {
   const [showPopup, setShowPopup] = useState(false);
   const user = globalStore.currentUser;
 
-  // const logout = useLogout();
   const server = useServerApi();
   
   return ( 
