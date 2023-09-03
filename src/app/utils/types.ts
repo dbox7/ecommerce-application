@@ -1,7 +1,8 @@
 import { 
   Dispatch, 
   SetStateAction, 
-  ChangeEventHandler
+  ChangeEventHandler,
+  ChangeEvent
 } from 'react';
 import { 
   Customer, 
@@ -198,3 +199,10 @@ export interface IEditAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
   addressId: string | undefined;
 }
+
+export type IUseInputChangesResult = {
+  inputValue: string;
+  hasChanged: boolean;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  saveChanges: () => void;
+};

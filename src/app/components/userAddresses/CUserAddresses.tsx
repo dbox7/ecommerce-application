@@ -235,85 +235,32 @@ const CUserAddresses: React.FC<IAdressProps> = ({
                         ?
                       </p>
                       <div>
-                        {isDefaultShipping && isShippingAddress && !isBillingAddress && (
-                          <div className="sorry-message">
-                            <p>Sorry, but this address is already selected by default</p>
+                        <div>
+                          <CCheckbox
+                            title="Default billing address"
+                            checked={modalStateUseDefaultBilling}
+                            changeHandler={(e) => setModalStateDefaultUseBilling((e.target as HTMLInputElement).checked)}
+                          />
+                          <CCheckbox
+                            title="Default shipping address"
+                            checked={modalStateUseDefaultShipping}
+                            changeHandler={(e) => setModalStateDefaultUseShipping((e.target as HTMLInputElement).checked)}
+                          />
+                          <div className="btn-block">
                             <CButton
-                              value="Ok"
+                              value="Confirm"
+                              type="button"
+                              disabled={false}
+                              clickHandler={handleSetDefaultClick}
+                            />
+                            <CButton
+                              value="Cancel"
                               type="button"
                               disabled={false}
                               clickHandler={() => setModalStateDefault(false)}
                             />
                           </div>
-                        )}
-                        {isDefaultBilling && isBillingAddress && !isShippingAddress && (
-                          <div className="sorry-message">
-                            <p>Sorry, but this address is already selected by default</p>
-                            <CButton
-                              value="Ok"
-                              type="button"
-                              disabled={false}
-                              clickHandler={() => setModalStateDefault(false)}
-                            />
-                          </div>
-                        )}
-                        {isDefaultBilling && isBillingAddress && isDefaultShipping && isShippingAddress && (
-                          <div className="sorry-message">
-                            <p>Sorry, but this address is already selected by default</p>
-                            <CButton
-                              value="Ok"
-                              type="button"
-                              disabled={false}
-                              clickHandler={() => setModalStateDefault(false)}
-                            />
-                          </div>
-                        )}
-                        {isBillingAddress && !isDefaultBilling && (
-                          <div>
-                            <CCheckbox
-                              title="Default billing address"
-                              checked={modalStateUseDefaultBilling}
-                              changeHandler={(e) => setModalStateDefaultUseBilling((e.target as HTMLInputElement).checked)}
-                            />
-                            <div className="btn-block">
-                              <CButton
-                                value="Confirm"
-                                type="button"
-                                disabled={false}
-                                clickHandler={handleSetDefaultClick}
-                              />
-                              <CButton
-                                value="Cancel"
-                                type="button"
-                                disabled={false}
-                                clickHandler={() => setModalStateDefault(false)}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {isShippingAddress && !isDefaultShipping && (
-                          <div>
-                            <CCheckbox
-                              title="Default shipping address"
-                              checked={modalStateUseDefaultShipping}
-                              changeHandler={(e) => setModalStateDefaultUseShipping((e.target as HTMLInputElement).checked)}
-                            />
-                            <div className="btn-block">
-                              <CButton
-                                value="Confirm"
-                                type="button"
-                                disabled={false}
-                                clickHandler={handleSetDefaultClick}
-                              />
-                              <CButton
-                                value="Cancel"
-                                type="button"
-                                disabled={false}
-                                clickHandler={() => setModalStateDefault(false)}
-                              />
-                            </div>
-                          </div>
-                        )}
+                        </div>
                       </div>
                     </div>
                   </CModal>

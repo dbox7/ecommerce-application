@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddress, IEditAdrdressProps } from '../../utils/types';
 import useInput from '../../services/input/useInput';
-import UseFormBlock from '../../services/useFormBlock';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
@@ -10,6 +9,7 @@ import CButton from '../button/CButton';
 import { useServerApi } from '../../services/useServerApi';
 import { GlobalContext } from '../../store/GlobalContext';
 import '../registrationForm/CRegistrationForm.css';
+
 
 const getCountryCode = (countryName: string): string => {
   
@@ -54,16 +54,6 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
 
 
   const server = useServerApi();
-  // const isFormBlockedByMainInfo = UseFormBlock([
-
-  //   street.valid.isNotEmpty!,
-  //   city.valid.isNotEmpty!,
-  //   city.valid.isTextGood!,
-  //   postalCode.valid.isNotEmpty!,
-  //   postalCode.valid.isPostalCodeGood!,
-  //   country.valid.isNotEmpty!,
-  //   country.valid.isTextGood!,
-  // ]);
 
   const handleSaveClick = () => {
 
@@ -88,23 +78,36 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
     };
     
 
+    const actionMap: Record<string, string[]> = {
+      useShippingAddress: ['addShippingAddressId'],
+      useBillingAddress: ['addBillingAddressId'],
+      removeShippingAddress: ['removeShippingAddressId'],
+      removeBillingAddress: ['removeBillingAddressId'],
+    };
+    
     let actionTypes: string[] = ['changeAddress'];
 
     if (useShippingAddress) {
 
-      actionTypes = ['changeAddress', 'addShippingAddressId'];
+      actionTypes = actionTypes.concat(actionMap.useShippingAddress);
     
-    } else if (useBillingAddress) {
-
-      actionTypes = ['changeAddress','addBillingAddressId'];
+    }
     
-    } else if (removeShippingAddress) {
+    if (useBillingAddress) {
 
-      actionTypes = ['changeAddress','removeShippingAddressId'];
+      actionTypes = actionTypes.concat(actionMap.useBillingAddress);
     
-    } else if (removeBillingAddress) {
+    }
+    
+    if (removeShippingAddress) {
 
-      actionTypes = ['changeAddress','removeBillingAddressId'];
+      actionTypes = actionTypes.concat(actionMap.removeShippingAddress);
+    
+    }
+    
+    if (removeBillingAddress) {
+
+      actionTypes = actionTypes.concat(actionMap.removeBillingAddress);
     
     }
 

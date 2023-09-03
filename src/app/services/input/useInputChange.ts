@@ -1,17 +1,8 @@
-import { useState, useEffect, ChangeEvent, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { IUseInputChangesResult } from '../../utils/types';
 
-type InputValues = {
-  [key: string]: string;
-};
 
-type UseInputChangesResult = {
-  inputValue: string;
-  hasChanged: boolean;
-  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  saveChanges: () => void;
-};
-
-const useInputChanges = (initialValue: string): UseInputChangesResult => {
+const useInputChanges = (initialValue: string): IUseInputChangesResult => {
 
   const [inputValue, setInputValue] = useState<string>(initialValue);
   const [previousValue, setPreviousValue] = useState<string>(initialValue);
