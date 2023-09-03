@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react';
 import { IAdressProps } from '../../utils/types';
-import CButton from '../button/CButton';
-import CModal from '../modal/CModal';
 import { useServerApi } from '../../services/useServerApi';
 import { GlobalContext } from '../../store/GlobalContext';
 
+import CButton from '../button/CButton';
+import CModal from '../modal/CModal';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CEditAddressForm from '../changeAddressForm/CEditAddressForm';
 import CAddAddressForm from '../addAddressForm/CAddAddressForm';

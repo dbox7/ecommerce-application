@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 2;
+  flex: 3;
 }
 
 .sort-container {
@@ -16,9 +16,6 @@
   font-family: var(--exa);
   font-size: var(--main-text);
   font-weight: 700;
-}
-
-.product-list-container {
 }
 
 .product-list {
@@ -36,7 +33,7 @@
   min-width: 250px;
 }
 
-@media screen and (max-width: 1095px) {
+@media screen and (max-width: 1000px) {
   .product__link {
     width: 100%;
   }
