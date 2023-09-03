@@ -9,6 +9,7 @@ import { CProductList } from '../../components/products/list/CProductList';
 import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 import './CatalogPage.css';
+import { CLoading } from '../../components/loading/CLoading';
 
 export const CatalogPage = () => {
 
@@ -37,17 +38,20 @@ export const CatalogPage = () => {
   }, []);
 
   return (
-    <div className="catalog">
-      <div className="sub-title">Catalog</div>
-      <div className="catalog__search">
-        <CFilterProducts callback={setFilters_cb}/>
-        <CCategoriesList categories={categories} callback={setFilters_cb}/>
+    prods.length === 0 ? 
+      <CLoading /> 
+      :
+      <div className="catalog">
+        <div className="sub-title">Catalog</div>
+        <div className="catalog__search">
+          <CFilterProducts callback={setFilters_cb}/>
+          <CCategoriesList categories={categories} callback={setFilters_cb}/>
+        </div>
+        <div className="catalog__filters-and-prods">
+          <CFilterMenu callback={setFilters_cb} prods={prods} />
+          <CProductList filters={filters} setFilters={setFilters}/>
+        </div>
       </div>
-      <div className="catalog__filters-and-prods">
-        <CFilterMenu callback={setFilters_cb} prods={prods} />
-        <CProductList filters={filters} setFilters={setFilters}/>
-      </div>
-    </div>
   );
 
 };
