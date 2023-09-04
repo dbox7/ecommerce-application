@@ -24,21 +24,74 @@
   gap: 1vw;
   margin-top: 2vh;
   margin-right: auto;
+  width: 25rem;
+}
+
+.select-wrapper {
+  position: relative;
+  width: fit-content;
+}
+
+.select-wrapper::after {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+  content: "▼";
+  color: var(--accent-color);
 }
 
 .sort-by-select {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 15vw;
   cursor: pointer;
   background-color: var(--bg-color);
   font-family: var(--exa);
+  width: 15rem;
 }
 
 .sort-by-select:focus {
   outline: none;
+}
+
+@media screen and (max-width: 1250px) {
+  .sort-by-container {
+    flex-direction: column;
+    width: 17rem;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .sort-by-container {
+    flex-direction: column;
+    width: 15rem;
+  }
+}
+
+@media screen and (max-width: 910px) {
+  .sort-by-container {
+    flex-direction: column;
+    width: 13rem;
+  }
+
+  .sort-by-select {
+    width: 12rem;
+  }
+}
+
+@media screen and (max-width: 699px) {
+  .sort-by-container {
+    flex-direction: row;
+    margin: 3vh auto 0;
+    width: fit-content;
+  }
+
+  .sort-by-select {
+    width: 15rem;
+  }
+
+  .sort-by-label {
+    min-width: 5rem;
+  }
 }
