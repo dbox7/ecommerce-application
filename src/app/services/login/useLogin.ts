@@ -15,7 +15,7 @@ export function useLogin() {
 
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
-  
+    
     apiMeRoot.me().login().post({
       body: {email, password}
     })

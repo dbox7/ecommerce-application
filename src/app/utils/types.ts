@@ -11,6 +11,7 @@ import {
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
+import { TokenCache } from '@commercetools/sdk-client-v2';  
 export interface IAddress {
   id?: string
   streetName: string
@@ -217,3 +218,4 @@ export type IUseInputChangesResult = {
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   saveChanges: () => void;
 };
+

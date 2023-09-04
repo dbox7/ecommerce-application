@@ -19,6 +19,7 @@ import {
 } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
+import { createAnonApiClient } from '../ctp';
 import useToastify from './useToastify';
 
 const GetApi = (globalStore: IGlobalStoreType) => {
@@ -132,6 +133,7 @@ export const useServerApi = () => {
 
     if (globalStore.currentUser.id) {
 
+      createAnonApiClient();
       setGlobalStore({...globalStore, currentUser: anonUser});
 
     }

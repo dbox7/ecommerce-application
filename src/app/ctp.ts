@@ -4,6 +4,8 @@ import { ClientBuilder,
   AnonymousAuthMiddlewareOptions, 
   PasswordAuthMiddlewareOptions } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { Client } from '@commercetools/sdk-client-v2';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 
 export const AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
@@ -18,23 +20,32 @@ export const httpMiddlewareOptions: HttpMiddlewareOptions = {
   fetch,
 };
 
-export const ctpAnonClient = new ClientBuilder()
-  .withProjectKey(PROJECT_KEY)
-  .withAnonymousSessionFlow({
-    host: AUTH_URL,
-    projectKey: PROJECT_KEY,
-    credentials: {
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-    },
-    scopes: SCOPES,
-    fetch,
-  } as AnonymousAuthMiddlewareOptions)
-  .withHttpMiddleware(httpMiddlewareOptions)
-  .withLoggerMiddleware() 
-  .build();
+export let ctpAnonClient: Client;
+export let apiAnonRoot: ByProjectKeyRequestBuilder;
 
-export const apiAnonRoot = createApiBuilderFromCtpClient(ctpAnonClient).withProjectKey({ projectKey: PROJECT_KEY });
+
+export function createAnonApiClient() {
+
+  ctpAnonClient = new ClientBuilder()
+    .withProjectKey(PROJECT_KEY)
+    .withAnonymousSessionFlow({
+      host: AUTH_URL,
+      projectKey: PROJECT_KEY,
+      credentials: {
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+      },
+      scopes: SCOPES,
+      fetch,
+    } as AnonymousAuthMiddlewareOptions)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .build();
+
+  apiAnonRoot = createApiBuilderFromCtpClient(ctpAnonClient).withProjectKey({ projectKey: 'rss-final-task' });
+
+}
+
+createAnonApiClient();
 
 
 export function createUserApiClient(username: string, password: string) {
@@ -54,7 +65,6 @@ export function createUserApiClient(username: string, password: string) {
       }
     } as PasswordAuthMiddlewareOptions)
     .withHttpMiddleware(httpMiddlewareOptions)
-    .withLoggerMiddleware()
     .build();
     
   return ctpMeClient;
