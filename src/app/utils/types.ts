@@ -140,8 +140,7 @@ export interface IProductFilters {
   categoryId?: string
   sizes?: string[]
   brands?: string[]
-  sort: 'name' | 'price'
-  sortOrder: boolean  // true = asc, false = desc
+  sort: string
   [key: string]: any
 }
 
@@ -178,7 +177,6 @@ export interface IPriceProps {
 
 // ------------------------------------------------------------------------------------------------------------------ ISortProductsProps
 export interface ISortProductsProps {
-  type: 'name' | 'price'
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
