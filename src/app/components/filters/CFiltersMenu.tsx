@@ -134,7 +134,7 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
           extraClass="filter-menu__btn"
           clickHandler={() => {
             
-            handleSettingClick();
+            if (absolutePosition) handleSettingClick();
             callback({
 
               minPrice: multiRange.minRange,

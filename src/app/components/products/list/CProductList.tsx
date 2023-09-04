@@ -79,22 +79,17 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
   return (
     <div className="product__wrap">
       <div className="product-list-title">Products ({products.length})</div>
-      {
-        products.length !== 0 ?
-          <div className="product-list">
-            { products.map((product) => 
-              <Link 
-                key={ product.id } 
-                to={`/catalog/${product.id}`} 
-                className="product__link"
-              > 
-                <CProductCard product={ product }/> 
-              </Link>
-            )}
-          </div>
-          :
-          <CLoading />
-      }
+      <div className="product-list">
+        { products.map((product) => 
+          <Link 
+            key={ product.id } 
+            to={`/catalog/${product.id}`} 
+            className="product__link"
+          > 
+            <CProductCard product={ product }/> 
+          </Link>
+        )}
+      </div>
     </div>
   );
 
