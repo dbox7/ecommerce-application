@@ -24,7 +24,7 @@ export const CatalogPage = () => {
 
   const [filters, setFilters] = useState<IProductFilters>({
     sort: 'name',
-    sortOrder: false,
+    sortOrder: true,  // true: asc, false: desc
   });
 
   const setFilters_cb = useCallback(
@@ -42,10 +42,6 @@ export const CatalogPage = () => {
 
   }, []);
 
-  // console.log(prods.map((item: ProductProjection) => item.masterVariant.attributes));
-  // console.log(`render ${CatalogPage.name}`);
-  // console.log(filters);
-
   return (
     (prods.length !== 0 && categories.length !== 0) ? 
       <div className="catalog">
@@ -61,7 +57,6 @@ export const CatalogPage = () => {
       </div>
       :
       <CLoading />
-
   );
 
 };

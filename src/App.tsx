@@ -15,8 +15,11 @@ import { ProductPage } from './app/pages/product/ProductPage';
 import { CartPage } from './app/pages/cart/CartPage';
 import { AboutUsPage } from './app/pages/about/AboutUsPage';
 import { ContactsPage } from './app/pages/contacts/ContactsPage';
+import { ToastContainer } from 'react-toastify';
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const App = () => {
 
@@ -41,6 +44,17 @@ const App = () => {
             <Route path="contacts" element={<ContactsPage />}/>
           </Routes>
           <Footer/>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+            theme="light"/>
         </div>
       </BrowserRouter>
     </GlobalContext.Provider>
