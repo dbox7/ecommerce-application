@@ -9,7 +9,7 @@ import { CProductCard } from '../card/CProductCard';
 import './CProductList.css';
 
 const concatQueryString = (attr: string, attrArray: string[]) => {
-
+  
   let res = `variants.attributes.${attr}:`;
 
   attrArray.forEach((attr: string) => {
