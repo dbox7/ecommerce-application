@@ -15,8 +15,6 @@ import CPassword from '../inputs/password/CPassword';
 
 import './CUserProfileForm.css';
 
-import useInputChanges from '../../services/input/useInputChange';
-
 const CUserProfileForm: React.FC = () => {
   
   const [globalStore] = useContext(GlobalContext);
