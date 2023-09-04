@@ -15,6 +15,7 @@ import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 import './CatalogPage.css';
 import { CLoading } from '../../components/loading/CLoading';
+import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 export const CatalogPage = () => {
 
@@ -45,6 +46,7 @@ export const CatalogPage = () => {
   return (
     (prods.length !== 0 && categories.length !== 0) ? 
       <div className="catalog">
+        <CBreadcrumbs/>
         <div className="sub-title">Catalog</div>
         <div className="catalog__search">
           <CFilterProducts callback={setFilters_cb}/>

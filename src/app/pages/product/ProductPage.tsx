@@ -10,6 +10,7 @@ import CButton from '../../components/button/CButton';
 import { CLoading } from '../../components/loading/CLoading';
 
 import './ProductPage.css';
+import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 const getSizeArray = (product: ProductProjection) => {
   
@@ -51,6 +52,7 @@ export const ProductPage = () => {
   return (
     product ? 
       <div className="product_page">
+        <CBreadcrumbs/>
         <div className="view_image-wrap">
           <CViewImage 
             images={productData?.images!}
