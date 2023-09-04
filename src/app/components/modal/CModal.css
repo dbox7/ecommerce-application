@@ -19,7 +19,6 @@
   padding: 5vh;
   background: white;
   border-radius: 8px;
-  width: 500px;
   min-width: 250px;
   color: black;
 }
@@ -31,7 +30,6 @@
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  rotate: 45deg;
   opacity: 1;
   color: var(--basic-color);
 }
