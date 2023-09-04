@@ -54,6 +54,15 @@
   opacity: 0.4;
   cursor: pointer;
   z-index: 10;
+
+  animation: blinker 2s 3 ease-in-out 0s;
+}
+
+@keyframes blinker {
+  50% {
+    background-color: var(--extra-color);
+    opacity: 1;
+  }
 }
 
 .filter-menu__popup:hover {
