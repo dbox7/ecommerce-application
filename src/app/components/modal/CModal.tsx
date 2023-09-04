@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IModalProps } from '../../utils/types';
 
-import { BiCross } from 'react-icons/bi';
+import { RxCross2 } from 'react-icons/rx';
 
 import './CModal.css';
 
@@ -20,7 +20,7 @@ const CModal: FC<IModalProps> = ({
         className="modal-content" 
         onClick={(e) => e.stopPropagation()}
       >
-        <BiCross 
+        <RxCross2 
           className="modal-close" 
           onClick={() => setIsActive(false)}
         />

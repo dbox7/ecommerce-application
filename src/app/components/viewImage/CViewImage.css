@@ -6,6 +6,7 @@
 .viewImage_main {
   position: relative;
   margin: auto;
+  cursor: pointer;
 }
 
 .viewImage_main::after {
