@@ -55,7 +55,7 @@
   cursor: pointer;
   z-index: 10;
 
-  animation: blinker 2s 3 ease-in-out 0s;
+  animation: blinker 2s 2 ease-in-out 0s;
 }
 
 @keyframes blinker {
@@ -65,7 +65,12 @@
   }
 }
 
-.filter-menu__popup:hover {
+.filter-menu__popup.hide {
+  display: flex !important;
+  opacity: 0;
+}
+
+.filter-menu__popup:not(.hide):hover {
   background-color: var(--basic-color);
   border: 1px solid var(--border-color);
   opacity: 1;
