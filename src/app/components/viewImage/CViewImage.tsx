@@ -2,11 +2,14 @@ import { Image } from '@commercetools/platform-sdk';
 import { useRef, useState } from 'react';
 
 import './CViewImage.css';
+import CModal from '../modal/CModal';
 
 const CViewImage = ({images, color}: {images: Image[], color: string}) => {
 
   const [selectedImage, setSelectedImage] = useState(images[1]);
   const imgElement = useRef(null);
+
+  const [isActiveModal, setIsActiveModal] = useState(false);
 
   function changeImage(event: React.MouseEvent) {
 
@@ -30,7 +33,23 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
   return ( 
     <div className="viewImage">
       <div className={'viewImage_main ' + color}>
-        <img src={selectedImage.url} alt="Product" className="image_main" />
+        <img 
+          src={selectedImage.url} 
+          alt="Product" 
+          className="image_main"
+          onClick={() => setIsActiveModal(true)}
+        />
+        <CModal 
+          children={(
+            <img 
+              src={selectedImage.url} 
+              alt="Product" 
+              className="image_modal" 
+            />
+          )}
+          isActive={isActiveModal}
+          setIsActive={setIsActiveModal}
+        />
       </div>
       <div 
         className="viewImage_variants" 

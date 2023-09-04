@@ -9,7 +9,6 @@ const CModal: FC<IModalProps> = ({
   children,
   isActive,
   setIsActive
-
 }) => {
 
   return (

@@ -28,6 +28,11 @@
   object-fit: cover;
 }
 
+.image_modal {
+  width: 100%;
+  max-height: 80vh;
+}
+
 .viewImage_variants {
   display: flex;
   justify-content: center;
