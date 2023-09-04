@@ -125,23 +125,31 @@ header {
   transform: translateY(-2px);
 }
 
-@media screen and (max-width: 790px) {
+@media screen and (max-width: 810px) {
   .logo {
     max-width: 200px;
     text-align: center;
-    font-size: calc(var(--title) * 0.8);
+    font-size: var(--sub-title);
   }
 }
 
 @media screen and (max-width: 700px) {
   .logo {
-    max-width: 200px;
+    max-width: 100%;
     text-align: center;
-    font-size: calc(var(--title) * 0.8);
+    font-size: var(--mini-price);
   }
 }
 
 @media screen and (max-width: 590px) {
+  .header {
+    min-height: 60px;
+  }
+
+  .burger-menu__sidebar.open {
+    top: 60px;
+  }
+  
   .logo {
     font-size: calc(var(--title) * 0.6);
   }
@@ -153,7 +161,7 @@ header {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 470px) {
   .logo {
     font-size: calc(var(--title) * 0.4);
   }
