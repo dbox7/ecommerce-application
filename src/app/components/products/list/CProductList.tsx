@@ -8,6 +8,7 @@ import { CProductCard } from '../card/CProductCard';
 import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
+import { CLoading } from '../../loading/CLoading';
 
 const concatQueryString = (attr: string, attrArray: string[]) => {
 
@@ -88,17 +89,34 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
   return (
     <div className="product__wrap">
       <div className="sort-container">
-        <CSortProducts type="name" filters={filters} setFilters={setFilters}/>
+        <CSortProducts 
+          type="name" 
+          filters={filters} 
+          setFilters={setFilters}
+        />
         <div className="product-list-title">products ({products.length})</div>
-        <CSortProducts type="price" filters={filters} setFilters={setFilters}/>
+        <CSortProducts 
+          type="price" 
+          filters={filters} 
+          setFilters={setFilters}
+        />
       </div>
-      <div className="product-list">
-        { products.map((product) => 
-          <Link key={ product.id } to={`/catalog/${product.id}`} className="product__link"> 
-            <CProductCard product={ product }/> 
-          </Link>
-        )}
-      </div>
+      {
+        products.length !== 0 ?
+          <div className="product-list">
+            { products.map((product) => 
+              <Link 
+                key={ product.id } 
+                to={`/catalog/${product.id}`} 
+                className="product__link"
+              > 
+                <CProductCard product={ product }/> 
+              </Link>
+            )}
+          </div>
+          :
+          <CLoading />
+      }
     </div>
   );
 

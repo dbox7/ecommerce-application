@@ -3,12 +3,14 @@ import { COUNTRIES } from '../../utils/constants';
 import { IAddAdrdressProps, IAddress } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
+import { useServerApi } from '../../services/useServerApi';
+import { GlobalContext } from '../../store/GlobalContext';
+
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
-import { useServerApi } from '../../services/useServerApi';
-import { GlobalContext } from '../../store/GlobalContext';
+
 import '../registrationForm/CRegistrationForm.css';
 
 const getCountryCode = (countryName: string): string => {
@@ -61,14 +63,12 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
 
     e.preventDefault();
 
-
     const address: IAddress = {
       streetName: street.value,
       city: city.value,
       postalCode: postalCode.value,
       country: getCountryCode(country.value),
     };
-    
 
     let actionTypes: string[] = [];
 

@@ -5,25 +5,24 @@ import { useServerApi } from '../../services/useServerApi';
 import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
+import useInputChanges from '../../services/input/useInputChange';
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CEmail from '../inputs/email/CEmail';
 import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
+
 import './CUserProfileForm.css';
-import useInputChanges from '../../services/input/useInputChange';
 
 const CUserProfileForm: React.FC = () => {
   
   const [globalStore] = useContext(GlobalContext);
 
-
   const server = useServerApi();
   const navigate = useNavigate();
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
-
 
   const initFirstName = useInputChanges(`${globalStore.currentUser.firstName}`);
   const initEmail = useInputChanges(`${globalStore.currentUser.email}`);
@@ -35,7 +34,6 @@ const CUserProfileForm: React.FC = () => {
   const firstName = useInput(initFirstName.inputValue, 'text');
   const email = useInput(initEmail.inputValue, 'email');
 
-
   const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
     id: address.id || '',
     streetName: address.streetName || '',
@@ -43,7 +41,6 @@ const CUserProfileForm: React.FC = () => {
     city: address.city || '',
     country: address.country || '',
   }));
-
 
   const isPasswordBlockedByInfo = UseFormBlock([
     newPassword.valid.isNotEmpty!,

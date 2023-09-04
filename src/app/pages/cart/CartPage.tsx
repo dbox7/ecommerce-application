@@ -1,4 +1,3 @@
-
 import './CartPage.css';
 
 export const CartPage = () => {

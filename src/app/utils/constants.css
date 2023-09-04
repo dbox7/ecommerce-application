@@ -9,6 +9,7 @@
   --extra-color: #ffcb65;
   --dark-extra-color: #ffaa00;
   --disabled: rgb(176, 176, 176);
+  --backplate: rgba(28, 28, 28, 0.8);
 
   --blue: rgba(133, 205, 218, 0.7);
   --purple: rgba(138, 116, 202, 0.7);
@@ -62,6 +63,10 @@
 .form-wrap {
   width: fit-content;
   margin: 30px auto;
+}
+
+.hide {
+  display: none !important;
 }
 
 .link {

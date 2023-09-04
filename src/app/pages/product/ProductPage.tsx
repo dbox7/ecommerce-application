@@ -7,7 +7,6 @@ import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
-
 import { CLoading } from '../../components/loading/CLoading';
 
 import './ProductPage.css';
@@ -43,7 +42,6 @@ export const ProductPage = () => {
   
   }
   
-
   useEffect(() => {
 
     server.GetProductById(props.id!, setProduct);  

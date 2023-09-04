@@ -2,12 +2,14 @@ import { useContext, useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddress, IEditAdrdressProps } from '../../utils/types';
 import useInput from '../../services/input/useInput';
+import { useServerApi } from '../../services/useServerApi';
+import { GlobalContext } from '../../store/GlobalContext';
+
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
-import { useServerApi } from '../../services/useServerApi';
-import { GlobalContext } from '../../store/GlobalContext';
+
 import '../registrationForm/CRegistrationForm.css';
 
 
@@ -18,6 +20,7 @@ const getCountryCode = (countryName: string): string => {
   return res?.code as string;
 
 };
+
 const getCountryName = (countryCode: string | undefined): string => {
 
   const res = COUNTRIES.find((item) => item.code === countryCode);
@@ -34,24 +37,20 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   const [removeBillingAddress, setRemoveBillingAddress] = useState<boolean>(false);
   const [globalStore] = useContext(GlobalContext);
 
-
   const targetAddressId = addressId;
   const addresses = globalStore.currentUser.addresses;
 
   const targetAddress = addresses.find(address => address.id === targetAddressId);
 
-  
   const targetStreetName = targetAddress?.streetName;
   const targetCity = targetAddress?.city;
   const targetCountry = getCountryName(targetAddress?.country);
   const targetPostalCode = targetAddress?.postalCode;
-
   
   const street = useInput(`${targetStreetName}`, 'text');
   const city = useInput(`${targetCity}`, 'text');
   const postalCode = useInput(`${targetPostalCode}`, 'postalCode');
   const country = useInput(`${targetCountry}`, 'text');
-
 
   const server = useServerApi();
 
@@ -69,7 +68,6 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
 
     e.preventDefault();
 
-
     const address: IAddress = {
       streetName: street.value,
       city: city.value,
@@ -77,7 +75,6 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
       country: getCountryCode(country.value),
     };
     
-
     const actionMap: Record<string, string[]> = {
       useShippingAddress: ['addShippingAddressId'],
       useBillingAddress: ['addBillingAddressId'],

@@ -30,7 +30,6 @@ export const CRegistrationForm = () => {
 
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(true);
 
-  // const registration = useRegistration();
   const server = useServerApi();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -74,7 +73,6 @@ export const CRegistrationForm = () => {
 
     }
 
-    // registration.registrateCustomer(payload);
     server.Registration(payload);
 
   };
