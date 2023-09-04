@@ -88,7 +88,7 @@
   border-right-width: 7px;
 }
 
-@media screen and (max-width: 995px) {
+@media screen and (max-width: 1030px) {
   .price {
     font-size: var(--product-title);
   }

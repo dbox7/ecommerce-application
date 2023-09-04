@@ -22,7 +22,7 @@
   flex-direction: row;
   align-items: center;
   gap: 1vw;
-  margin-top: 2vh;
+  margin-top: 5vh;
   margin-right: auto;
   width: 25rem;
 }
@@ -45,6 +45,9 @@
   border: 1px solid var(--border-color);
   border-radius: 5px;
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 200px;
   cursor: pointer;
   background-color: var(--bg-color);
   font-family: var(--exa);

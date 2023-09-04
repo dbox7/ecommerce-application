@@ -246,3 +246,8 @@ export interface IValidation {
 export interface IValidationRules {
   [index: string]: IValidation
 }
+
+export interface ICrumbs {
+  url: string;
+  name: string;
+} 

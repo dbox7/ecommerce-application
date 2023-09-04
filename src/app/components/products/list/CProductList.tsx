@@ -7,10 +7,9 @@ import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
 
 import './CProductList.css';
-import { CLoading } from '../../loading/CLoading';
 
 const concatQueryString = (attr: string, attrArray: string[]) => {
-
+  
   let res = `variants.attributes.${attr}:`;
 
   attrArray.forEach((attr: string) => {
