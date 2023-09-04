@@ -56,10 +56,12 @@ export const ProductPage = () => {
 
     let c: ICrumbs[] = [];
 
-    c = [{'url': '/catalog', name: 'Catalog'}];
+    c = [{url: '/', name: 'Home'}];
+
+    c[1] = {'url': '/catalog', name: 'Catalog'};
     if (product) {
 
-      c[1] = {url: '', name: product?.name.en};
+      c[2] = {url: '', name: product?.name.en};
     
     }
     setCrumbs(c); 
@@ -68,33 +70,37 @@ export const ProductPage = () => {
   
   return (
     product ? 
-      <div className="product_page">
-        <CBreadcrumbs crumbs={crumbs}/>
-        <div className="view_image-wrap">
-          <CViewImage 
-            images={productData?.images!}
-            color={color}
-          />
+      <div className="product-page">
+        <div className="breadcrums__wrap">
+          <CBreadcrumbs crumbs={crumbs}/>
         </div>
-        <div className="product_info">
-          <div className="product_info-text">
-            <div className="product_title">
-              {name![0].trim()}
-              <br/>
-              {name![1].trim()}
-            </div>
-            <div className="product_description">
-              {product?.description!.en}
-            </div>
+        <div className="product-page__wrap">
+          <div className="view_image-wrap">
+            <CViewImage 
+              images={productData?.images!}
+              color={color}
+            />
           </div>
-          <CPrice price={productData?.prices![0]!} />
-          <CSizeOption sizes={sizes}/>
-          <CButton 
-            value="Add to cart +"
-            type="button"
-            extraClass="product_button"
-          />
-        </div>
+          <div className="product_info">
+            <div className="product_info-text">
+              <div className="product_title">
+                {name![0].trim()}
+                <br/>
+                {name![1].trim()}
+              </div>
+              <div className="product_description">
+                {product?.description!.en}
+              </div>
+            </div>
+            <CPrice price={productData?.prices![0]!} />
+            <CSizeOption sizes={sizes}/>
+            <CButton 
+              value="Add to cart +"
+              type="button"
+              extraClass="product_button"
+            />
+          </div>
+        </div>  
       </div>
       :
       <CLoading/>

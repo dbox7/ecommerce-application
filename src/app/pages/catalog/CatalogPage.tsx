@@ -7,17 +7,17 @@ import {
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
 import { Category } from '@commercetools/platform-sdk';
+import { ICrumbs } from '../../utils/types';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/filters/search/CSearch';
 import { CProductList } from '../../components/products/list/CProductList';
 import CFilterMenu from '../../components/filters/CFiltersMenu';
-
-import './CatalogPage.css';
 import { CLoading } from '../../components/loading/CLoading';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import { CSortProducts } from '../../components/products/sort/CSortProducts';
-import { ICrumbs } from '../../utils/types';
+
+import './CatalogPage.css';
 
 export const CatalogPage = () => {
 
