@@ -139,9 +139,7 @@ header {
     text-align: center;
     font-size: var(--mini-price);
   }
-}
 
-@media screen and (max-width: 590px) {
   .header {
     min-height: 60px;
   }
@@ -149,20 +147,16 @@ header {
   .burger-menu__sidebar.open {
     top: 60px;
   }
+}
 
+@media screen and (max-width: 590px) {
   .logo {
-    font-size: calc(var(--title) * 0.6);
+    font-size: var(--main-text);
   }
 
   .menu {
     flex-direction: column;
     gap: 10px;
     min-width: 65px;
-  }
-}
-
-@media screen and (max-width: 470px) {
-  .logo {
-    font-size: calc(var(--title) * 0.4);
   }
 }
