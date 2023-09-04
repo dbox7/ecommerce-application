@@ -5,7 +5,6 @@ import { useServerApi } from '../../../services/useServerApi';
 
 import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
-import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
 import { CLoading } from '../../loading/CLoading';
@@ -70,37 +69,16 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
     
     }
 
-    if ( filters.sort === 'price' ) {
-        
-      queryArgs.sort = (filters.sort) + (filters.sortOrder ? ' asc' : ' desc');
-
-    }
-
-    if ( filters.sort === 'name' ) {
-        
-      queryArgs.sort = (filters.sort) + '.en' + (filters.sortOrder ? ' asc' : ' desc');
-
-    }
+    queryArgs.sort = filters.sort;
 
     server.FilterProducts(queryArgs, setProducts);
      
   }, [filters]);  
 
+
   return (
     <div className="product__wrap">
-      <div className="sort-container">
-        <CSortProducts 
-          type="name" 
-          filters={filters} 
-          setFilters={setFilters}
-        />
-        <div className="product-list-title">products ({products.length})</div>
-        <CSortProducts 
-          type="price" 
-          filters={filters} 
-          setFilters={setFilters}
-        />
-      </div>
+      <div className="product-list-title">Products ({products.length})</div>
       {
         products.length !== 0 ?
           <div className="product-list">

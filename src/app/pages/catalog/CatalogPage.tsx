@@ -15,6 +15,7 @@ import CFilterMenu from '../../components/filters/CFiltersMenu';
 
 import './CatalogPage.css';
 import { CLoading } from '../../components/loading/CLoading';
+import { CSortProducts } from '../../components/products/sort/CSortProducts';
 
 export const CatalogPage = () => {
 
@@ -23,8 +24,7 @@ export const CatalogPage = () => {
   const [prods, setProds] = useState([]);
 
   const [filters, setFilters] = useState<IProductFilters>({
-    sort: 'name',
-    sortOrder: true,  // true: asc, false: desc
+    sort: 'name.en asc',
   });
 
   const setFilters_cb = useCallback(
@@ -42,6 +42,7 @@ export const CatalogPage = () => {
 
   }, []);
 
+  
   return (
     (prods.length !== 0 && categories.length !== 0) ? 
       <div className="catalog">
@@ -50,6 +51,7 @@ export const CatalogPage = () => {
           <CFilterProducts callback={setFilters_cb}/>
           <CCategoriesList categories={categories} callback={setFilters_cb}/>
         </div>
+        <CSortProducts filters={filters} setFilters={setFilters}/>
         <div className="catalog__filters-and-prods">
           <CFilterMenu callback={setFilters_cb} prods={prods} />
           <CProductList filters={filters} setFilters={setFilters}/>

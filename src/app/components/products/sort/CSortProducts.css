@@ -16,3 +16,29 @@
 .sort-by.active {
   border-bottom: 1px solid var(--dark-accent-color);
 }
+
+.sort-by-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1vw;
+  margin-top: 2vh;
+  margin-right: auto;
+}
+
+.sort-by-select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 15vw;
+  cursor: pointer;
+  background-color: var(--bg-color);
+  font-family: var(--exa);
+}
+
+.sort-by-select:focus {
+  outline: none;
+}
