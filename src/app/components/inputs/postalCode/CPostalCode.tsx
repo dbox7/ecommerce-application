@@ -44,7 +44,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
         onBlur={blurHandler}
       />
 
-      {!valid.isNotEmpty && !activeState &&
+      {!valid.isNotEmpty && !activeState && selectedCountry &&
       <div className="out-error">Not be an empty</div>}
 
       {valid.isNotEmpty && selectedCountry && !selectedCountry?.postalCode.test(value) && !activeState &&

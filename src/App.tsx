@@ -20,7 +20,6 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const App = () => {
 
   // Значение стейта по-умолчанию - анонимный юзер (потом будем брать значение из localStorage)
@@ -46,6 +45,7 @@ const App = () => {
           <Footer/>
           <ToastContainer
             position="top-center"
+            className="toastify"
             autoClose={2000}
             hideProgressBar={false}
             newestOnTop={false}

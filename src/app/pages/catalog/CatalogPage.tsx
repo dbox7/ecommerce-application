@@ -1,4 +1,9 @@
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { 
+  SetStateAction, 
+  useCallback, 
+  useEffect, 
+  useState 
+} from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
 import { Category } from '@commercetools/platform-sdk';
@@ -38,9 +43,7 @@ export const CatalogPage = () => {
   }, []);
 
   return (
-    prods.length === 0 ? 
-      <CLoading /> 
-      :
+    (prods.length !== 0 && categories.length !== 0) ? 
       <div className="catalog">
         <div className="sub-title">Catalog</div>
         <div className="catalog__search">
@@ -52,6 +55,8 @@ export const CatalogPage = () => {
           <CProductList filters={filters} setFilters={setFilters}/>
         </div>
       </div>
+      :
+      <CLoading />
   );
 
 };

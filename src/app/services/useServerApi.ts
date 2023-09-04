@@ -3,7 +3,6 @@ import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
 import { GlobalContext } from '../store/GlobalContext';
 import { 
   MyCustomerDraft, 
-  ProductProjection, 
   createApiBuilderFromCtpClient,
   CustomerChangePassword, 
   CustomerUpdate,

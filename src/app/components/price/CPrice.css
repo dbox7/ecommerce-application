@@ -1,7 +1,6 @@
 .price {
   display: flex;
   align-items: center;
-  height: 20px;
 
   font-family: var(--tera);
   font-size: var(--price);
@@ -60,6 +59,7 @@
 }
 
 .price.isMini {
+  height: 20px;
   font-size: var(--mini-price);
 }
 

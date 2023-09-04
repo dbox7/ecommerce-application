@@ -1,11 +1,15 @@
 import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/useFullFuncs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useResize } from '../../services/useResize';
 
 import CCheckboxArray from './checkboxArray/CCheckboxArray';
 import CButton from '../button/CButton';
 import CRange from '../inputs/range/CRange';
+
+import { LuSettings2 } from 'react-icons/lu';
+import { RxCross2 } from 'react-icons/rx';
 
 import './CFiltersMenu.css';
 
@@ -78,34 +82,76 @@ const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductPr
   const sizes: string[] = getSizes(prods);
   const brands: string[] = getBrands(prods);
   
-  
   const [chosenSizes, setChosenSizes] = useState([]);
   const [chosenBrands, setChosenBrands] = useState([]);
-  const multiRange = useMultiRange(`${min}`, `${max}`); 
+  const multiRange = useMultiRange(`${min}`, `${max}`);
+
+  const [hideFilterMenu, setHideFilterMenu] = useState(false);
+  const [absolutePosition, setAbsolutePosition] = useState(false);
+  const width = useResize();
+
+  const handleSettingClick = () => {
+
+    setHideFilterMenu(!hideFilterMenu);
+    setAbsolutePosition(!absolutePosition);
+
+    document.body.style.overflow = !hideFilterMenu ? 'hidden' : '';
+    
+  };
+
+  useEffect(() => {
+
+    if (width >= 700) {
+
+      setHideFilterMenu(true);
+
+    } else {
+
+      setHideFilterMenu(false);
+      setAbsolutePosition(false);
+      
+    }
+      
+  }, [width]);
 
   return (
-    <div className="filter-menu substrate">
-      <div className="filter-menu__title">Filters</div>
-      <div className="filter-menu__sub-title">Price</div>
-      <CRange {...multiRange}/>
-      <div className="filter-menu__sub-title">Sizes</div>
-      <CCheckboxArray array={sizes} setResult={setChosenSizes}/>
-      <div className="filter-menu__sub-title">Brands</div>
-      <CCheckboxArray array={brands} setResult={setChosenBrands}/>
-      <CButton 
-        type="submit" 
-        value="Submit" 
-        extraClass="filter-menu__btn"
-        clickHandler={() => callback({
+    <>
+      <div className={absolutePosition ? 'backplate' : 'hide'} onClick={handleSettingClick}>
+        <RxCross2 className="backplate__cross"/>
+      </div>
 
-          minPrice: multiRange.minRange,
-          maxPrice: multiRange.maxRange,
-          sizes: chosenSizes,
-          brands: chosenBrands
-      
-        })}
-      />
-    </div>
+      <div className={'filter-menu substrate ' + (absolutePosition ? 'absolute ' : '') + (!hideFilterMenu ? 'hide' : '')}>
+        <div className="filter-menu__title">Filters</div>
+        <div className="filter-menu__sub-title">Price</div>
+        <CRange {...multiRange}/>
+        <div className="filter-menu__sub-title">Sizes</div>
+        <CCheckboxArray array={sizes} setResult={setChosenSizes}/>
+        <div className="filter-menu__sub-title">Brands</div>
+        <CCheckboxArray array={brands} setResult={setChosenBrands}/>
+        <CButton 
+          type="submit" 
+          value="Submit" 
+          extraClass="filter-menu__btn"
+          clickHandler={() => {
+            
+            handleSettingClick();
+            callback({
+
+              minPrice: multiRange.minRange,
+              maxPrice: multiRange.maxRange,
+              sizes: chosenSizes,
+              brands: chosenBrands
+            
+            });
+
+          }}
+        />
+      </div>
+
+      <div className={'filter-menu__popup ' + (hideFilterMenu ? 'hide' : '')} onClick={handleSettingClick}>
+        <LuSettings2 className="filter-menu__icon" />
+      </div>
+    </>
   );
 
 };

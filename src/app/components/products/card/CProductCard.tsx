@@ -1,9 +1,10 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 
+import CPrice from '../../price/CPrice';
+
 import { BsCart2 } from 'react-icons/bs';
 
 import './CProductCard.css';
-import CPrice from '../../price/CPrice';
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
@@ -15,12 +16,13 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   return (
     <div className="product-card">
       <img src={ product.masterVariant.images![0].url } alt={ product.name.toString() } />
-      
-      {/* <div className="product-card-description">{ product.description?.en }</div> */}
       <div className="product-card__container">
         <div className="product-card__name-and-price">
           <div className="product-card__name">{ name[0] } { name[1] }</div>
-          <CPrice price={product.masterVariant.prices![0]} isMini={true} />
+          <CPrice 
+            price={product.masterVariant.prices![0]} 
+            isMini={true} 
+          />
         </div>
         <BsCart2 className="product-card__icon cart-icon"/>
       </div>
