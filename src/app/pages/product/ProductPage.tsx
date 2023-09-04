@@ -9,6 +9,8 @@ import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 import { CLoading } from '../../components/loading/CLoading';
 
+import { ICrumbs } from '../../utils/types';
+
 import './ProductPage.css';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
@@ -24,9 +26,10 @@ const getSizeArray = (product: ProductProjection) => {
 };
 
 export const ProductPage = () => {
- 
-  const props = useParams();
   
+  const props = useParams();
+  const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
+
   const server = useServerApi();
   const [product, setProduct] = useState<ProductProjection>();  
 
@@ -46,13 +49,27 @@ export const ProductPage = () => {
   useEffect(() => {
 
     server.GetProductById(props.id!, setProduct);  
-
+  
   }, []);  
 
+  useEffect(() => {
+
+    let c: ICrumbs[] = [];
+
+    c = [{'url': '/catalog', name: 'Catalog'}];
+    if (product) {
+
+      c[1] = {url: '', name: product?.name.en};
+    
+    }
+    setCrumbs(c); 
+  
+  }, [product]);
+  
   return (
     product ? 
       <div className="product_page">
-        <CBreadcrumbs/>
+        <CBreadcrumbs crumbs={crumbs}/>
         <div className="view_image-wrap">
           <CViewImage 
             images={productData?.images!}

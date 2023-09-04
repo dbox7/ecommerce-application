@@ -17,12 +17,14 @@ import './CatalogPage.css';
 import { CLoading } from '../../components/loading/CLoading';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import { CSortProducts } from '../../components/products/sort/CSortProducts';
+import { ICrumbs } from '../../utils/types';
 
 export const CatalogPage = () => {
 
   const server = useServerApi();
   const [categories, setCategories] = useState<Category[]>([]);
-  const [prods, setProds] = useState([]);
+  const [prods, setProds] = useState([]) as any;
+  const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [filters, setFilters] = useState<IProductFilters>({
     sort: 'name.en asc',
@@ -43,11 +45,24 @@ export const CatalogPage = () => {
 
   }, []);
 
+  useEffect(() => {
+
+    let c: ICrumbs[] = [];
+
+    c = [{url: '/', name: 'Home'}];
+    if (prods) {
+
+      c[1] = {url: '', name: 'Catalog'};
+    
+    }
+    setCrumbs(c);
+  
+  }, [prods]);
   
   return (
     (prods.length !== 0 && categories.length !== 0) ? 
       <div className="catalog">
-        <CBreadcrumbs/>
+        {<CBreadcrumbs crumbs={crumbs}/>}
         <div className="sub-title">Catalog</div>
         <div className="catalog__search">
           <CFilterProducts callback={setFilters_cb}/>

@@ -1,4 +1,6 @@
 .breadcrumbs {
+  display: flex;
+  width: 50vw;
   max-width: 1200px;
   margin: 20px auto;
   position: fixed;
