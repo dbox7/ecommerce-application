@@ -54,6 +54,7 @@ footer {
   font-family: var(--tera);
   font-size: var(--main-text);
   letter-spacing: 4px;
+  text-align: center;
 }
 
 .footer-logo .link:hover {
@@ -66,21 +67,16 @@ footer {
   }
 
   .footer-logo {
-    font-size: calc(var(--main-text) * 0.9);
-    max-width: 30vw;
-  }
-
-  .footer-inner-links {
-    font-size: calc(var(--main-text) * 0.9);
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .footer-logo {
     font-size: calc(var(--main-text) * 0.6);
   }
 
   .footer-inner-links {
     font-size: calc(var(--main-text) * 0.7);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .footer-logo {
+    max-width: 30vw;
   }
 }

@@ -20,7 +20,6 @@
 }
 
 .categories li.active {
-  padding: 0 0.3vw;
   border-bottom: 1px solid var(--dark-accent-color);
 }
 

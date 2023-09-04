@@ -25,6 +25,8 @@
   align-items: center;
   height: 40px;
 
+  font-family: var(--exa);
+  font-size: var(--main-text);
   background-color: var(--basic-color);
 }
 

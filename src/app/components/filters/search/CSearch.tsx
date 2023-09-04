@@ -40,14 +40,14 @@ const CSearch = memo(({ callback }: { callback: Function }) => {
             placeholder="Search..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}/>
-          <button 
-            type="submit"
-            className="search-btn"
-          >
-            <BiSearch className="search-icon"/>
-          </button>
         </form>
       </div>
+      <button 
+        type="submit"
+        className="search-btn"
+      >
+        <BiSearch className="search-icon"/>
+      </button>
     </div>
   );
 

@@ -8,7 +8,6 @@ import { CProductCard } from '../card/CProductCard';
 import { CSortProducts } from '../sort/CSortProducts';
 
 import './CProductList.css';
-import { CLoading } from '../../loading/CLoading';
 
 const concatQueryString = (attr: string, attrArray: string[]) => {
 
