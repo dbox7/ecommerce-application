@@ -24,7 +24,7 @@ export const CatalogPage = () => {
 
   const [filters, setFilters] = useState<IProductFilters>({
     sort: 'name',
-    sortOrder: false,
+    sortOrder: true,  // true: asc, false: desc
   });
 
   const setFilters_cb = useCallback(
@@ -42,29 +42,21 @@ export const CatalogPage = () => {
 
   }, []);
 
-  // console.log(prods.map((item: ProductProjection) => item.masterVariant.attributes));
-  // console.log(`render ${CatalogPage.name}`);
-  // console.log(filters);
-
   return (
-    <>
-      {
-        (prods.length !== 0 && categories.length !== 0) ? 
-          <div className="catalog">
-            <div className="sub-title">Catalog</div>
-            <div className="catalog__search">
-              <CFilterProducts callback={setFilters_cb}/>
-              <CCategoriesList categories={categories} callback={setFilters_cb}/>
-            </div>
-            <div className="catalog__filters-and-prods">
-              <CFilterMenu callback={setFilters_cb} prods={prods} />
-              <CProductList filters={filters} setFilters={setFilters}/>
-            </div>
-          </div>
-          :
-          <CLoading />
-      }
-    </>
+  (prods.length !== 0 && categories.length !== 0) ? 
+    <div className="catalog">
+      <div className="sub-title">Catalog</div>
+      <div className="catalog__search">
+        <CFilterProducts callback={setFilters_cb}/>
+        <CCategoriesList categories={categories} callback={setFilters_cb}/>
+      </div>
+      <div className="catalog__filters-and-prods">
+        <CFilterMenu callback={setFilters_cb} prods={prods} />
+        <CProductList filters={filters} setFilters={setFilters}/>
+      </div>
+    </div>
+    :
+    <CLoading />
   );
 
 };
