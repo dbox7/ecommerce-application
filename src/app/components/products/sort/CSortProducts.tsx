@@ -1,36 +1,27 @@
 import { ISortProductsProps } from '../../../utils/types';
 
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-
 import './CSortProducts.css';
 
-export function CSortProducts({filters, setFilters, type} : ISortProductsProps) {
+export function CSortProducts({filters, setFilters} : ISortProductsProps) {
 
-  const handleClick = () => {
+  
+  function sortItems(e: React.ChangeEvent<HTMLSelectElement>) {
 
-    if (filters.sort === type) {
+    setFilters({...filters, sort: e.target.value});
 
-      setFilters({...filters, sortOrder: !filters.sortOrder});
-    
-    } else {
-
-      setFilters({...filters, sort: type, sortOrder: true});
-    
-    }
-
-  };
+  }
   
   return (
 
-    <>
-      <div className={ 'sort-by ' + (filters.sort === type ? 'active' : '') } onClick={handleClick}>
-        {type}
-        
-        { filters.sort === type ? (
-          filters.sortOrder ? <IoIosArrowDown className="arrow-down-icon"/>
-            : <IoIosArrowUp className="arrow-up-icon"/> ) : '' }
-      </div>
-    </>
+    <div className="sort-by-container">
+      <label className="sort-by-label">Sort by:</label>
+      <select className="sort-by-select" onChange={sortItems}>
+        <option value="name.en asc">Name Ascending Sort</option>
+        <option value="name.en desc">Name Descending Sort</option>
+        <option value="price asc">Price Ascending Sort</option>
+        <option value="price desc">Price Descending Sort</option>
+      </select>
+    </div>
 
   );
 
