@@ -16,7 +16,9 @@ export const Header = () => {
 
   return (
     <>
-      <aside className={'burger-menu__sidebar' + (openMenu ? ' open' : '')}>
+      <aside 
+        className={'burger-menu__sidebar' + (openMenu ? ' open' : '')} 
+        onClick={() => setOpenMenu(false)}>
         <ul className="burger-menu__list">
           <Link to="/catalog" className="link burger-menu__list-item">Catalog</Link>
           <Link to="/about" className="link burger-menu__list-item">About us</Link>
