@@ -149,7 +149,7 @@ header {
   .burger-menu__sidebar.open {
     top: 60px;
   }
-  
+
   .logo {
     font-size: calc(var(--title) * 0.6);
   }
