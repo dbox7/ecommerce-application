@@ -66,7 +66,7 @@
 }
 
 .filter-menu__popup.hide {
-  display: flex !important;
+  /* display: flex !important; */
   opacity: 0;
 }
 
