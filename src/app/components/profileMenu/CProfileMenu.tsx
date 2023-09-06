@@ -50,7 +50,7 @@ const CProfileMenu = () => {
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to="/profile" className="link">Profile</Link>
+                  <Link to={`/profile-${user.firstName}`} className="link">Profile</Link>
                 </li>
               </>
               :
