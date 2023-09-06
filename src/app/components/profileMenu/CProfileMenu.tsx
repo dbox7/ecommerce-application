@@ -18,6 +18,8 @@ const CProfileMenu = () => {
   const user = globalStore.currentUser;
 
   const server = useServerApi();
+
+  const userName = user.firstName;
   
   return ( 
     <div 
@@ -50,7 +52,7 @@ const CProfileMenu = () => {
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to={`/profile-${user.firstName}`} className="link">Profile</Link>
+                  <Link to={`/profile/${userName}`} className="link">Profile</Link>
                 </li>
               </>
               :
