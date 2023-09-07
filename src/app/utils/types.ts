@@ -6,7 +6,8 @@ import {
 } from 'react';
 import { 
   Customer, 
-  Price, 
+  Price,
+  Image
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -79,6 +80,12 @@ export interface ICountry {
   code: string
   postalCode: RegExp
 }
+
+// ------------------------------------------------------------------------------------------------------------------ ICrumbs
+export interface ICrumbs {
+  url: string;
+  name: string;
+} 
 
 // ------------------------------------------------------------------------------------------------------------------ IEditAdrdressProps
 export interface IEditAdrdressProps {
@@ -175,15 +182,23 @@ export interface IPriceProps {
   isMini?: boolean
 }
 
+// ------------------------------------------------------------------------------------------------------------------ ISearchBarProps
+export interface ISearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+// ------------------------------------------------------------------------------------------------------------------ ISliderContext
+export interface ISliderContext {
+  slides: Image[]
+  slideNumber: number
+  changeSlide: Function
+  transitionDuration: number
+}
+
 // ------------------------------------------------------------------------------------------------------------------ ISortProductsProps
 export interface ISortProductsProps {
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
-}
-
-// ------------------------------------------------------------------------------------------------------------------ ISearchBarProps
-export interface ISearchBarProps {
-  onSearch: (query: string) => void;
 }
 
 // ------------------------------------------------------------------------------------------------------------------ ITextDateInputProps
@@ -246,8 +261,3 @@ export interface IValidation {
 export interface IValidationRules {
   [index: string]: IValidation
 }
-
-export interface ICrumbs {
-  url: string;
-  name: string;
-} 

@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
+import { CLoading } from '../../components/loading/CLoading';
+import { ICrumbs } from '../../utils/types';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
-import { CLoading } from '../../components/loading/CLoading';
-
-import { ICrumbs } from '../../utils/types';
+import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
-import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 const getSizeArray = (product: ProductProjection) => {
   
@@ -37,6 +36,7 @@ export const ProductPage = () => {
   
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
+  const images = productData?.images!.slice(1)!;
   
   let sizes: number[] = [];
 
@@ -77,7 +77,7 @@ export const ProductPage = () => {
         <div className="product-page__wrap">
           <div className="view_image-wrap">
             <CViewImage 
-              images={productData?.images!}
+              images={images}
               color={color}
             />
           </div>
@@ -100,7 +100,7 @@ export const ProductPage = () => {
               extraClass="product_button"
             />
           </div>
-        </div>  
+        </div> 
       </div>
       :
       <CLoading/>
