@@ -1,15 +1,18 @@
 import { Image } from '@commercetools/platform-sdk';
 import { useRef, useState } from 'react';
 
+import CSlider from '../slider/CSlider';
+
 import './CViewImage.css';
-import CModal from '../modal/CModal';
 
 const CViewImage = ({images, color}: {images: Image[], color: string}) => {
 
   const [selectedImage, setSelectedImage] = useState(images[1]);
   const imgElement = useRef(null);
 
-  const [isActiveModal, setIsActiveModal] = useState(false);
+  const [isActiveSlider, setIsActiveSlider] = useState(false);
+  
+  document.body.style.overflow = isActiveSlider ? 'hidden' : '';
 
   function changeImage(event: React.MouseEvent) {
 
@@ -32,23 +35,18 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
   
   return ( 
     <div className="viewImage">
+      { isActiveSlider && 
+        <>
+          <CSlider images={images} />
+          <div className="backplate" onClick={() => setIsActiveSlider(false)}></div>
+        </>
+      }
       <div className={'viewImage_main ' + color}>
         <img 
           src={selectedImage.url} 
           alt="Product" 
           className="image_main"
-          onClick={() => setIsActiveModal(true)}
-        />
-        <CModal 
-          children={(
-            <img 
-              src={selectedImage.url} 
-              alt="Product" 
-              className="image_modal" 
-            />
-          )}
-          isActive={isActiveModal}
-          setIsActive={setIsActiveModal}
+          onClick={() => setIsActiveSlider(true)}
         />
       </div>
       <div 
@@ -57,7 +55,7 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
         ref={imgElement}  
       >
         {
-          images.slice(1).map(image => (
+          images.map(image => (
             <div 
               id={image.label} 
               className={'image_variant_wrap ' + color} 
