@@ -7,7 +7,7 @@ import './CViewImage.css';
 
 const CViewImage = ({images, color}: {images: Image[], color: string}) => {
 
-  const [selectedImage, setSelectedImage] = useState(images[1]);
+  const [selectedImage, setSelectedImage] = useState(images[0]);
   const imgElement = useRef(null);
 
   const [isActiveSlider, setIsActiveSlider] = useState(false);
