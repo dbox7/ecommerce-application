@@ -45,6 +45,7 @@ const CSearch = memo(({ callback }: { callback: Function }) => {
       <button 
         type="submit"
         className="search-btn"
+        onClick={handleSearch}
       >
         <BiSearch className="search-icon"/>
       </button>

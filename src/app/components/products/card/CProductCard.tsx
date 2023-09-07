@@ -8,17 +8,17 @@ import './CProductCard.css';
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
-  const name = product.name.en.split(/.-./);
+  /*   const name = product.name.en.split(/.-./);
 
   name[0] = name[0].replace(' ', ' ');
-  name[1] = name[1].replace(' ', ' ');
+  name[1] = name[1].replace(' ', ' '); */
 
   return (
     <div className="product-card">
       <img src={ product.masterVariant.images![0].url } alt={ product.name.toString() } />
       <div className="product-card__container">
         <div className="product-card__name-and-price">
-          <div className="product-card__name">{ name[0] } { name[1] }</div>
+          <div className="product-card__name">{ product.name.en }</div>
           <CPrice 
             price={product.masterVariant.prices![0]} 
             isMini={true} 
