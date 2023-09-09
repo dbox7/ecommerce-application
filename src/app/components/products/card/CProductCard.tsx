@@ -1,4 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { useState } from 'react';
 
 import CPrice from '../../price/CPrice';
 
@@ -8,10 +9,16 @@ import './CProductCard.css';
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
-  /*   const name = product.name.en.split(/.-./);
+  const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
-  name[0] = name[0].replace(' ', ' ');
-  name[1] = name[1].replace(' ', ' '); */
+  const handleClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    
+    e.preventDefault();
+    setAddInCart(!addInCart);
+
+  };
+
+  const cartIconDisabled = addInCart ? 'disabled' : '';
 
   return (
     <div className="product-card">
@@ -24,7 +31,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className="product-card__icon cart-icon"/>
+        <BsCart2 className={`product-card__icon cart-icon ${cartIconDisabled}`} onClick={handleClick}/>
       </div>
     </div>
   );

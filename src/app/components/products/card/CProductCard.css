@@ -46,3 +46,7 @@
 .product-card__icon {
   font-size: 30px;
 }
+
+.product-card__icon.disabled {
+  opacity: .3;
+}
