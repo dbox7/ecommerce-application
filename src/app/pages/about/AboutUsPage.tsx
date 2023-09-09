@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './AboutUsPage.css';
 
 export const AboutUsPage = () => {
@@ -27,6 +28,7 @@ export const AboutUsPage = () => {
         <p>Best regards,</p>
         <p>The <b>"JS do IT"</b> Team</p>
       </div>
+      <Link to="https://rs.school/" target="_blank"><div className="school-logo"></div></Link>
     </div>
 
   );

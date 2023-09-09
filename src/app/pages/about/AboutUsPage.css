@@ -14,3 +14,13 @@
   font-family: var(--exa);
   font-size: var(--main-text);
 }
+
+.school-logo {
+  background-image: url("../../assets/rs_school_js_alpha.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 10vw;
+  height: 5vh;
+  margin-top: 5vh;
+}
