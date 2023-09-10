@@ -8,6 +8,7 @@ import {
   Cart,
   Customer, 
   Price, 
+  Image
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -82,6 +83,12 @@ export interface ICountry {
   code: string
   postalCode: RegExp
 }
+
+// ------------------------------------------------------------------------------------------------------------------ ICrumbs
+export interface ICrumbs {
+  url: string;
+  name: string;
+} 
 
 // ------------------------------------------------------------------------------------------------------------------ IEditAdrdressProps
 export interface IEditAdrdressProps {
@@ -190,6 +197,14 @@ export interface ISearchBarProps {
   onSearch: (query: string) => void;
 }
 
+// ------------------------------------------------------------------------------------------------------------------ ISliderContext
+export interface ISliderContext {
+  slides: Image[]
+  slideNumber: number
+  changeSlide: Function
+  transitionDuration: number
+}
+
 // ------------------------------------------------------------------------------------------------------------------ ITextDateInputProps
 export type ITextDateInputProps = IInputProps & {
   title: string
@@ -250,8 +265,3 @@ export interface IValidation {
 export interface IValidationRules {
   [index: string]: IValidation
 }
-
-export interface ICrumbs {
-  url: string;
-  name: string;
-} 

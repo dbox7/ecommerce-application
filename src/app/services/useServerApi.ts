@@ -9,6 +9,8 @@ import {
   MyCartDraft,
   MyCartUpdate,
   MyCartUpdateAction,
+  Cart,
+  CartAddCustomLineItemAction,
 } from '@commercetools/platform-sdk';
 import { 
   IAction,
@@ -105,13 +107,13 @@ export const useServerApi = () => {
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
     
     
-    apiMeRoot.me().login().post({
-      body: {email, password}
-    })
+    api.me().login().post({
+      body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'} })
       .execute()
       .then(data => {
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+
+        setGlobalStore({...globalStore, currentUser: data.body.customer, cart: data.body.cart || globalStore.cart, apiMeRoot: apiMeRoot});
         navigate('/');
       
       }).catch(err => {
@@ -581,29 +583,38 @@ export const useServerApi = () => {
 
   // ------------------------------------------------------------------------------------------------------------------ createCart
 
-  const createCart = (draft: MyCartDraft) => {
+  const createCart = (draft: MyCartDraft): Promise<Cart> => {
 
 
     const errorServerMessage: IToastify = {
       error: 'Something went wrong. Please try again later.',
     };
 
-    api.me().carts()
-      .post({body: draft})
-      .execute()
-      .then((data) => {
+    return new Promise<Cart>((resolve, reject) => {
 
-        setGlobalStore({...globalStore, cart: data.body});
-        
-      })
-      .catch(() => {
-        
-        notify(errorServerMessage);
+      api
+        .me()
+        .carts()
+        .post({ body: draft })
+        .execute()
+        .then((data) => {
 
-      });
+          setGlobalStore({ ...globalStore, cart: data.body });
+          resolve(data.body);
+        
+        })
+        .catch((error) => {
+
+          notify(errorServerMessage);
+          reject(error);
+        
+        });
+    
+    });
       
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ getCart
   const getCart = (cartID: string,) => {
 
 
@@ -629,6 +640,7 @@ export const useServerApi = () => {
       
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ deleeCart
   const deleteCart = (cartID: string, version: number) => {
 
 
@@ -656,14 +668,57 @@ export const useServerApi = () => {
       
   };
 
-  const updateCart = (
+  // ------------------------------------------------------------------------------------------------------------------ addCatrtItem
+  const addCartItem = (
     cartID: string,
     version: number,
-    actionTypes: string[],
     quantity: number,
-    variantId?: number,
-    productId?: string,
-    lineItemId?: string
+    variantId: number,
+    productId: string,
+  ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while adding item to cart.',
+    };
+    const successMessage: IToastify = {
+      success: 'Pruduct has been added to cart  successfully!'
+    };
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'addLineItem', productId, variantId, quantity }
+      ],
+    };
+
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, cart: data.body });
+        notify(successMessage);
+
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating cart.');
+        notify(errorMessage);
+
+      });
+    
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ removeCatrtItem
+  const removeCartItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
   ): void => {
 
     const errorMessage: IToastify = {
@@ -673,38 +728,11 @@ export const useServerApi = () => {
       success: 'Your cart has been updated successfully!'
     };
 
-    const actions: MyCartUpdateAction[] = [];
-
-    for (let i = 0; i < actionTypes.length; i+=1) {
-
-      const actionType = actionTypes[i];
-  
-      switch (actionType) {
-
-      case 'addLineItem':
-        if (productId !== undefined && variantId !== undefined) {
-
-          actions.push({ action: actionType, productId, variantId, quantity });
-        
-        }
-        break;
-      case 'removeLineItem':
-        if (lineItemId !== undefined) {
-
-          actions.push({ action: actionType, lineItemId, quantity });
-        
-        }
-        break;
-      default:
-        break;
-      
-      }
-    
-    }
-
     const updateData: MyCartUpdate = {
       version,
-      actions,
+      actions: [
+        { action: 'removeLineItem', lineItemId, quantity }
+      ],
     };
 
 
@@ -749,7 +777,8 @@ export const useServerApi = () => {
     createCart,
     getCart,
     deleteCart,
-    updateCart
+    addCartItem,
+    removeCartItem
   };
 
 };

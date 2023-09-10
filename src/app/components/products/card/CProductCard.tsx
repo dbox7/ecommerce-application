@@ -1,12 +1,62 @@
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 
 import CPrice from '../../price/CPrice';
 
 import { BsCart2 } from 'react-icons/bs';
 
 import './CProductCard.css';
+import { useContext } from 'react';
+import { GlobalContext } from '../../../store/GlobalContext';
+import { useServerApi } from '../../../services/useServerApi';
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
+
+  const [globalStore] = useContext(GlobalContext);
+
+  const server = useServerApi();
+
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+
+  const handleCart = async (e: React.MouseEvent<SVGSVGElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!globalStore.cart.id) {
+
+      try {
+
+        const newCart = await server.createCart(draft);
+
+        server.addCartItem(
+          newCart.id,
+          newCart.version,
+          1,
+          1,
+          product.id
+        );
+      
+      } catch (error) {
+
+        console.error('Ошибка при создании корзины:', error);
+      
+      }
+    
+    } else {
+
+      server.addCartItem(
+        globalStore.cart.id,
+        globalStore.cart.version,
+        1,
+        1,
+        product.id
+      );
+    
+    }
+  
+  };
 
   /*   const name = product.name.en.split(/.-./);
 
@@ -24,7 +74,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className="product-card__icon cart-icon"/>
+        <BsCart2 className="product-card__icon cart-icon" onClick={handleCart}/>
       </div>
     </div>
   );
