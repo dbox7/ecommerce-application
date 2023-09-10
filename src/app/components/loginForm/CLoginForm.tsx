@@ -8,6 +8,9 @@ import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 
 import './CLoginForm.css';
+import { login } from '../../store/actions/userActions';
+import useToastify from '../../services/useToastify';
+import { useDispatch } from 'react-redux';
 
 export const CLoginForm = () => {
 
@@ -15,6 +18,8 @@ export const CLoginForm = () => {
   const password = useInput('', 'password');
   
   const server = useServerApi();
+  const notify = useToastify();
+  const dispatch = useDispatch();
   
   const isFormBlocked = UseFormBlock([
     email.valid.isNotEmpty!,
@@ -27,7 +32,8 @@ export const CLoginForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    server.Login(email.value, password.value);
+    dispatch(login(email.value, password.value));
+    // server.Login(email.value, password.value);
   
   };
 

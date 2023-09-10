@@ -88,7 +88,7 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ Login
-  const Login = (email: string, password: string): void => {
+  const Login = (email: string, password: string) => {
 
     const errorMessage: IToastify = {
       error: 'The user does not exist or the email/password is incorrect.',
@@ -102,28 +102,28 @@ export const useServerApi = () => {
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
     
     
-    apiMeRoot.me().login().post({
+    return apiMeRoot.me().login().post({
       body: {email, password}
     })
-      .execute()
-      .then(data => {
+      .execute();
+    // .then(data => {
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-        navigate('/');
+    //   setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+    //   navigate('/');
       
-      }).catch(err => {
+    // }).catch(err => {
         
-        if (err.body.message === 'Customer account with the given credentials not found.') {
+    //   if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          notify(errorMessage);
+    //     notify(errorMessage);
 
-        } else {
+    //   } else {
               
-          notify(errorServerMessage);
+    //     notify(errorServerMessage);
 
-        }
+    //   }
       
-      });
+    // });
 
   };
 

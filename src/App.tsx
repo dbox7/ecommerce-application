@@ -19,6 +19,8 @@ import { ToastContainer } from 'react-toastify';
 
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux';
+import { store } from './app/store/store';
 
 const App = () => {
 
@@ -26,37 +28,39 @@ const App = () => {
   const [globalStore, setGlobalStore] = useState<IGlobalStoreType>(defaultGlobalStore);
 
   return (
-    <GlobalContext.Provider value={[globalStore, setGlobalStore]}>
-      <BrowserRouter>
-        <div className="main_container">
-          <Header/>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignUpPage />} />
-            <Route path="catalog" element={<CatalogPage />} />
-            <Route path="catalog/:id" element={<ProductPage />} />
-            <Route path="*" element={<NotFoundPage />}/>
-            <Route path="profile/:user" element={<UserProfilePage />}/>
-            <Route path="cart" element={<CartPage />}/>
-            <Route path="about" element={<AboutUsPage />}/>
-            <Route path="contacts" element={<ContactsPage />}/>
-          </Routes>
-          <Footer/>
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover={false}
-            theme="light"/>
-        </div>
-      </BrowserRouter>
-    </GlobalContext.Provider>
+    <Provider store={store}>
+      <GlobalContext.Provider value={[globalStore, setGlobalStore]}>
+        <BrowserRouter>
+          <div className="main_container">
+            <Header/>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignUpPage />} />
+              <Route path="catalog" element={<CatalogPage />} />
+              <Route path="catalog/:id" element={<ProductPage />} />
+              <Route path="*" element={<NotFoundPage />}/>
+              <Route path="profile/:user" element={<UserProfilePage />}/>
+              <Route path="cart" element={<CartPage />}/>
+              <Route path="about" element={<AboutUsPage />}/>
+              <Route path="contacts" element={<ContactsPage />}/>
+            </Routes>
+            <Footer/>
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover={false}
+              theme="light"/>
+          </div>
+        </BrowserRouter>
+      </GlobalContext.Provider>
+    </Provider>
   );
 
 };

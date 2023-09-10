@@ -4,15 +4,18 @@ import { GlobalContext } from '../../store/GlobalContext';
 import { CPromo } from '../../components/promo/CPromo';
 
 import './MainPage.css';
+import { useTypedSelector } from '../../services/useTypedSelector';
 
 export const MainPage = () => {
 
   const [globalStore] = useContext(GlobalContext);
 
+  const { currentUser } = useTypedSelector(state => state.user);
+
   return (
 
     <>
-      { globalStore.currentUser.id ? 
+      { currentUser.id ? 
 
         <>
           <div className="poster-wrap"></div>

@@ -23,11 +23,9 @@ export const LoginPage = () => {
 
   return (
 
-    <>
-      <div className="form-wrap">
-        <CLoginForm />
-      </div>
-    </>
+    <div className="form-wrap">
+      <CLoginForm />
+    </div>
 
   );
 
