@@ -18,6 +18,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const draft: MyCartDraft = {
     currency: 'USD',
   };
+  const productQuantity = 1;
+  const productVariant = 1;
 
   const handleCart = async (e: React.MouseEvent<SVGSVGElement>) => {
 
@@ -33,8 +35,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
         server.addCartItem(
           newCart.id,
           newCart.version,
-          1,
-          1,
+          productVariant,
+          productQuantity,
           product.id
         );
       
