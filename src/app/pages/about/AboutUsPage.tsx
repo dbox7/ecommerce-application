@@ -20,8 +20,9 @@ export const AboutUsPage = () => {
         <p>Hey there, <b>username!</b></p>
         <br/>
         <p>We're a team of young web developers, united by a common goal: to create 
-          an educational project for <b><Link to="https://rs.school/" target="_blank">RS-School</Link></b>. This project is not only our 
-          first experience of collaboration but also our first foray into React development.</p>
+          an educational project for <b><Link to="https://rs.school/" target="_blank" className="text-link">RS-School</Link></b>. 
+          This project is not only our first experience of collaboration but also our first foray into React development.
+        </p>
         <br/>
         <p>Inspired by cutting-edge technologies, we also decided to utilize 
           artificial intelligence tools. With the help of ChatGPT, 
@@ -32,7 +33,7 @@ export const AboutUsPage = () => {
         <p>We're open to feedback and value diverse perspectives. 
           If you have suggestions or observations, let us know. 
           Additionally, if you share our drive and propose collaboration, 
-          drop us a line through the <b><Link to="/contacts">"Contact Us"</Link></b> page.</p>
+          drop us a line through the <b><Link to="/contacts" className="text-link">"Contact Us"</Link></b> page.</p>
         <br/>
         <p>Best regards,</p>
         <p>The <b>"JS do IT"</b> Team</p>
@@ -94,9 +95,9 @@ export const AboutUsPage = () => {
             <img src={GEKKOPhoto} alt="avatar" />
           </div>
           <div className="developer-info">
-            <h2>Artyom Mykoliuk</h2>
+            <h2>Artem Mykoliuk</h2>
             <p>Back-end Engineer and developer</p>
-            <p>Hi, I'm Artyom. I'm a web developer with a background in
+            <p>Hi, I'm Artem. I'm a web developer with a background in
               JavaScript and React. I'm also a UI/UX enthusiast.
               My hobbies include music, cinema, and video games.
             </p>

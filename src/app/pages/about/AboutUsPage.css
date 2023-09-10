@@ -1,4 +1,4 @@
-a:hover {
+.text-link:hover {
   color: var(--dark-accent-color);
   transition: all 0.3s ease-in-out;
 }
