@@ -1,0 +1,34 @@
+.categories-container {
+  width: 60%;
+}
+
+.categories ul {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
+  list-style: none;
+}
+
+.categories li {
+  cursor: pointer;
+}
+
+.categories li:hover {
+  transition: color 0.2s ease-in;
+  color: var(--dark-accent-color);
+}
+
+.categories li.active {
+  border-bottom: 1px solid var(--dark-accent-color);
+}
+
+.categories li.active:hover {
+  color: black;
+}
+
+@media screen and (max-width: 700px) {
+  .categories ul {
+    gap: 30px;
+  }
+}

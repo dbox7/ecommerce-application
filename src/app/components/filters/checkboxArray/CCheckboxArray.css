@@ -1,0 +1,7 @@
+.checkbox-array__wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 300px;
+  overflow: auto;
+}
