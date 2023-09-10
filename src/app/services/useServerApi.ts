@@ -6,6 +6,9 @@ import {
   createApiBuilderFromCtpClient,
   CustomerChangePassword, 
   CustomerUpdate,
+  MyCartDraft,
+  MyCartUpdate,
+  MyCartUpdateAction,
 } from '@commercetools/platform-sdk';
 import { 
   IAction,
@@ -180,6 +183,20 @@ export const useServerApi = () => {
       
       });
 
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ getCustomer
+  const getCustomer = () => {
+
+    api.me()
+      .get()
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({...globalStore, currentUser: data.body});
+        
+      });
+      
   };
 
   // ------------------------------------------------------------------------------------------------------------------ UpdatePersonalInfo
@@ -559,9 +576,159 @@ export const useServerApi = () => {
         notify(errorMessage);
         
       });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ createCart
+
+  const createCart = (draft: MyCartDraft) => {
+
+
+    const errorServerMessage: IToastify = {
+      error: 'Something went wrong. Please try again later.',
+    };
+
+    api.me().carts()
+      .post({body: draft})
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({...globalStore, cart: data.body});
+        
+      })
+      .catch(() => {
+        
+        notify(errorServerMessage);
+
+      });
+      
+  };
+
+  const getCart = (cartID: string,) => {
+
+
+    const errorServerMessage: IToastify = {
+      error: 'Something went wrong. Please try again later.',
+    };
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .get()
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({...globalStore, cart: data.body});
+        
+      })
+      .catch(() => {
+        
+        notify(errorServerMessage);
+
+      });
+      
+  };
+
+  const deleteCart = (cartID: string, version: number) => {
+
+
+    const errorServerMessage: IToastify = {
+      error: 'Something went wrong. Please try again later.',
+    };
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .delete({
+        queryArgs: { version },
+      })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({...globalStore, cart: data.body});
+        
+      })
+      .catch(() => {
+        
+        notify(errorServerMessage);
+
+      });
+      
+  };
+
+  const updateCart = (
+    cartID: string,
+    version: number,
+    actionTypes: string[],
+    quantity: number,
+    variantId?: number,
+    productId?: string,
+    lineItemId?: string
+  ): void => {
+
+    const errorMessage: IToastify = {
+      error: 'An error occurred while updating cart.',
+    };
+    const successMessage: IToastify = {
+      success: 'Your cart has been updated successfully!'
+    };
+
+    const actions: MyCartUpdateAction[] = [];
+
+    for (let i = 0; i < actionTypes.length; i+=1) {
+
+      const actionType = actionTypes[i];
+  
+      switch (actionType) {
+
+      case 'addLineItem':
+        if (productId !== undefined && variantId !== undefined) {
+
+          actions.push({ action: actionType, productId, variantId, quantity });
+        
+        }
+        break;
+      case 'removeLineItem':
+        if (lineItemId !== undefined) {
+
+          actions.push({ action: actionType, lineItemId, quantity });
+        
+        }
+        break;
+      default:
+        break;
+      
+      }
+    
+    }
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions,
+    };
+
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        setGlobalStore({ ...globalStore, cart: data.body });
+        notify(successMessage);
+
+      })
+      .catch(() => {
+
+        setError('An error occurred while updating cart.');
+        notify(errorMessage);
+
+      });
     
   
   };
+
   
   return { 
     error,
@@ -569,6 +736,7 @@ export const useServerApi = () => {
     Login,
     Logout,
     ChangePassword,
+    getCustomer,
     UpdatePersonalInfo,
     GetAllProducts,
     GetProductById,
@@ -577,7 +745,11 @@ export const useServerApi = () => {
     addAddresses,
     changeAddress,
     removeAddress,
-    setDefaultAddress
+    setDefaultAddress,
+    createCart,
+    getCart,
+    deleteCart,
+    updateCart
   };
 
 };

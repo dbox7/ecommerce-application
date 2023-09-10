@@ -59,7 +59,9 @@ const CUserProfileForm: React.FC = () => {
     
     }
 
-  });
+    server.getCustomer();
+
+  }, [globalStore.currentUser.lastModifiedAt]);
 
   const isEmptyEvent = () => {
 
@@ -72,7 +74,7 @@ const CUserProfileForm: React.FC = () => {
   
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
     
@@ -87,7 +89,7 @@ const CUserProfileForm: React.FC = () => {
   
   };
 
-  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
       id: globalStore.currentUser.id,

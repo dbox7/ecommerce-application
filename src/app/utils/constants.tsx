@@ -1,4 +1,4 @@
-import { Customer } from '@commercetools/platform-sdk';
+import { Cart, Customer } from '@commercetools/platform-sdk';
 import { ICountry, IValidationRules } from './types';
 
 export const anonUser: Customer = {
@@ -10,6 +10,33 @@ export const anonUser: Customer = {
   addresses: [],
   isEmailVerified: false,
   authenticationMode: ''
+};
+
+export const cart: Cart = {
+  id: '',
+  version: 0,
+  lineItems: [],
+  customLineItems: [],
+  totalPrice: {
+    type: 'centPrecision',
+    currencyCode: '',
+    centAmount: 0,
+    fractionDigits: 0
+  },
+  taxMode: '',
+  taxRoundingMode: '',
+  taxCalculationMode: '',
+  inventoryMode: '',
+  cartState: '',
+  shippingMode: '',
+  shipping: [],
+  itemShippingAddresses: [],
+  discountCodes: [],
+  directDiscounts: [],
+  refusedGifts: [],
+  origin: '',
+  createdAt: '',
+  lastModifiedAt: ''
 };
 
 export const COUNTRIES: ICountry[] = [
@@ -70,5 +97,3 @@ export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?
 export const TextREGEXP = /^[a-zA-Z ]+$/;
 
 export const ALL_SIZES = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12];
-
-export const TRANSITION_DURATION = 300;

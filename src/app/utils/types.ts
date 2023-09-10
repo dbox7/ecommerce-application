@@ -5,9 +5,9 @@ import {
   ChangeEvent
 } from 'react';
 import { 
+  Cart,
   Customer, 
-  Price,
-  Image
+  Price, 
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
   '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -19,7 +19,9 @@ export type IAction = 'setDefaultShippingAddress'
 | 'removeShippingAddressId'
 | 'setDefaultBillingAddress'
 | 'addBillingAddressId'
-| 'removeBillingAddressId';
+| 'removeBillingAddressId'
+| 'addLineItem'
+| 'removeLineItem';
 
 // ------------------------------------------------------------------------------------------------------------------ IAddress
 export interface IAddress {
@@ -81,12 +83,6 @@ export interface ICountry {
   postalCode: RegExp
 }
 
-// ------------------------------------------------------------------------------------------------------------------ ICrumbs
-export interface ICrumbs {
-  url: string;
-  name: string;
-} 
-
 // ------------------------------------------------------------------------------------------------------------------ IEditAdrdressProps
 export interface IEditAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
@@ -103,6 +99,7 @@ export interface IFiltersProps {
 export interface IGlobalStoreType {
   currentUser: Customer
   apiMeRoot?: ByProjectKeyRequestBuilder
+  cart: Cart;
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IInfoProps
@@ -182,23 +179,15 @@ export interface IPriceProps {
   isMini?: boolean
 }
 
-// ------------------------------------------------------------------------------------------------------------------ ISearchBarProps
-export interface ISearchBarProps {
-  onSearch: (query: string) => void;
-}
-
-// ------------------------------------------------------------------------------------------------------------------ ISliderContext
-export interface ISliderContext {
-  slides: Image[]
-  slideNumber: number
-  changeSlide: Function
-  transitionDuration: number
-}
-
 // ------------------------------------------------------------------------------------------------------------------ ISortProductsProps
 export interface ISortProductsProps {
   filters: IProductFilters
   setFilters: Dispatch<SetStateAction<IProductFilters>>
+}
+
+// ------------------------------------------------------------------------------------------------------------------ ISearchBarProps
+export interface ISearchBarProps {
+  onSearch: (query: string) => void;
 }
 
 // ------------------------------------------------------------------------------------------------------------------ ITextDateInputProps
@@ -261,3 +250,8 @@ export interface IValidation {
 export interface IValidationRules {
   [index: string]: IValidation
 }
+
+export interface ICrumbs {
+  url: string;
+  name: string;
+} 
