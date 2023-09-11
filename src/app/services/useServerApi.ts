@@ -8,9 +8,7 @@ import {
   CustomerUpdate,
   MyCartDraft,
   MyCartUpdate,
-  MyCartUpdateAction,
   Cart,
-  CartAddCustomLineItemAction,
 } from '@commercetools/platform-sdk';
 import { 
   IAction,
@@ -615,29 +613,35 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ getCart
-  const getCart = (cartID: string,) => {
+  const getCart = (cartID: string): Promise<Cart> => {
 
 
     const errorServerMessage: IToastify = {
       error: 'Something went wrong. Please try again later.',
     };
 
-    api.me()
-      .carts()
-      .withId({ ID: cartID })
-      .get()
-      .execute()
-      .then((data) => {
+    return new Promise<Cart>((resolve, reject) => {
 
-        setGlobalStore({...globalStore, cart: data.body});
-        
-      })
-      .catch(() => {
-        
-        notify(errorServerMessage);
+      api.me()
+        .carts()
+        .withId({ ID: cartID })
+        .get()
+        .execute()
+        .then((data) => {
 
-      });
-      
+          setGlobalStore({...globalStore, cart: data.body});
+          resolve(data.body);
+        
+        })
+        .catch(() => {
+        
+          notify(errorServerMessage);
+          reject(error);
+
+        });
+    
+    });
+  
   };
 
   // ------------------------------------------------------------------------------------------------------------------ deleeCart

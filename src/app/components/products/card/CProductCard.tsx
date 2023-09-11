@@ -51,8 +51,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
       server.addCartItem(
         globalStore.cart.id,
         globalStore.cart.version,
-        1,
-        1,
+        productVariant,
+        productQuantity,
         product.id
       );
     

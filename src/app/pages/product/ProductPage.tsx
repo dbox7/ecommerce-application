@@ -12,6 +12,7 @@ import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
+import useIsItemInCart from '../../services/useIsItemInCart';
 
 const getSizeArray = (product: ProductProjection) => {
   
@@ -37,6 +38,8 @@ export const ProductPage = () => {
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
+
+  const isDuplicatedProduct = useIsItemInCart(product?.id);
   
   let sizes: number[] = [];
 
@@ -98,6 +101,7 @@ export const ProductPage = () => {
               value="Add to cart +"
               type="button"
               extraClass="product_button"
+              disabled={isDuplicatedProduct}
             />
           </div>
         </div> 
