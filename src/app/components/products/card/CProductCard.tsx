@@ -1,13 +1,12 @@
+
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
-
-import CPrice from '../../price/CPrice';
-
-import { BsCart2 } from 'react-icons/bs';
-
-import './CProductCard.css';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../store/GlobalContext';
 import { useServerApi } from '../../../services/useServerApi';
+import CPrice from '../../price/CPrice';
+import { BsCart2 } from 'react-icons/bs';
+import './CProductCard.css';
+
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
@@ -21,9 +20,16 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productQuantity = 1;
   const productVariant = 1;
 
-  const handleCart = async (e: React.MouseEvent<SVGSVGElement>) => {
 
+  /*   const name = product.name.en.split(/.-./);
+
+  const [ addInCart, setAddInCart ] = useState<boolean>(false);
+
+
+  const handleClick = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    
     e.preventDefault();
+    setAddInCart(!addInCart);
     e.stopPropagation();
 
     if (!globalStore.cart.id) {
@@ -60,10 +66,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   
   };
 
-  /*   const name = product.name.en.split(/.-./);
 
-  name[0] = name[0].replace(' ', ' ');
-  name[1] = name[1].replace(' ', ' '); */
+  const cartIconDisabled = addInCart ? 'disabled' : '';
 
   return (
     <div className="product-card">
@@ -76,7 +80,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className="product-card__icon cart-icon" onClick={handleCart}/>
+        <BsCart2 className={`product-card__icon cart-icon ${cartIconDisabled}`} onClick={handleClick}/>
       </div>
     </div>
   );

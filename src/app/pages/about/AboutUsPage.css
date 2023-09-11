@@ -1,3 +1,8 @@
+.text-link:hover {
+  color: var(--dark-accent-color);
+  transition: all 0.3s ease-in-out;
+}
+
 .content.about {
   padding: 5vh;
 }
@@ -11,6 +16,33 @@
 }
 
 .about-page-text {
+  position: relative;
   font-family: var(--exa);
   font-size: var(--main-text);
+}
+
+.school-logo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-image: url("../../assets/rs_school_js_alpha.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  width: 5rem;
+  height: 5rem;
+}
+
+.about-page-team {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5vh;
+}
+
+@media screen and (max-width: 900px) {
+  .about-page-team {
+    flex-direction: column;
+  }
 }

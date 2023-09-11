@@ -90,6 +90,17 @@ export interface ICrumbs {
   name: string;
 } 
 
+// ------------------------------------------------------------------------------------------------------------------ IDeveloperCard
+export interface IDeveloper {
+  name: string;
+  role: string;
+  bio: string;
+  photo: string;
+  email: string;
+  telegram: string;
+  github: string;
+}
+
 // ------------------------------------------------------------------------------------------------------------------ IEditAdrdressProps
 export interface IEditAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
