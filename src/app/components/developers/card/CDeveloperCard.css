@@ -1,6 +1,6 @@
 .developer-card {
   width: 30%;
-  height: 45vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +18,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.developer-image img {
+.developer-card__image img {
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
@@ -26,36 +26,39 @@
   object-fit: cover;
 }
 
-.developer-info h2 {
-  font-size: var(--sub-title);
-}
-
-.developer-info p {
+.developer-card__info{
   font-size: var(--main-text);
   margin-top: 0.5vh;
 }
 
-.social-icons {
-  margin-top: 2vh;
+.developer-card__name {
+  font-size: var(--sub-title);
+  margin-bottom: 1vh;
 }
 
-.social-icons a {
-  margin-right: 2vw;
-  text-decoration: none;
+.developer-card__role {
+  margin-bottom: 1vh;
 }
 
-.icon-telegram,
-.icon-git,
-.icon-mail {
+.developer-card__social-icons {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1vh auto 0;
+}
+
+.developer-card__social-icons.telegram,
+.developer-card__social-icons.github,
+.developer-card__social-icons.mail {
   width: 1.5rem;
   height: 1.5rem;
-  border-radius: 50%;
   transition: all 0.3s ease-in-out;
 }
 
-.icon-telegram:hover,
-.icon-git:hover,
-.icon-mail:hover {
+.developer-card__social-icons.telegram:hover,
+.developer-card__social-icons.github:hover,
+.developer-card__social-icons.mail:hover {
   transform: scale(1.2);
   color: var(--accent-color);
 }

@@ -7,28 +7,27 @@ import { PiTelegramLogoThin } from 'react-icons/pi';
 import './CDeveloperCard.css';
 
 
-
 export const CDeveloperCard = ({developer}: {developer: IDeveloper}) => {
 
   return (
 
     <div className="developer-card">
-      <div className="developer-image">
+      <div className="developer-card__image">
         <img src={developer.photo} alt="avatar" />
       </div>
-      <div className="developer-info">
-        <h2>{developer.name}</h2>
-        <p>{developer.role}</p>
-        <p>{developer.bio}</p>
-        <div className="social-icons">
+      <div className="developer-card__info">
+        <h2 className="developer-card__name">{developer.name}</h2>
+        <p className="developer-card__role">{developer.role}</p>
+        <p className="developer-card__bio">{developer.bio}</p>
+        <div className="developer-card__social-icons">
           <a href={developer.telegram}>
-            <PiTelegramLogoThin className="icon-telegram"/>
+            <PiTelegramLogoThin className="developer-card__social-icons telegram"/>
           </a>
           <a href={developer.github}>
-            <PiGithubLogoLight className="icon-git"/>
+            <PiGithubLogoLight className="developer-card__social-icons github"/>
           </a>
           <a href={developer.email}>
-            <CiMail className="icon-mail"/>
+            <CiMail className="developer-card__social-icons mail"/>
           </a>
         </div>
       </div>
