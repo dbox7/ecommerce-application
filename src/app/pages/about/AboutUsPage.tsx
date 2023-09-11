@@ -1,14 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { PiGithubLogoLight } from 'react-icons/pi';
-import { CiMail } from 'react-icons/ci';
-import { PiTelegramLogoThin } from 'react-icons/pi';
-
-import dbox7Photo from '../../assets/team/dbox7.jpeg';
-import xu69uxPhoto from '../../assets/team/xu69ux.jpeg';
-import GEKKOPhoto from '../../assets/team/GEKKO-ops.jpeg';
+import { CDeveloperCard } from '../../components/developers/card/CDeveloperCard';
+import { developers } from '../../utils/constants';
 
 import './AboutUsPage.css';
+
+
 
 export const AboutUsPage = () => {
 
@@ -40,80 +37,7 @@ export const AboutUsPage = () => {
         <Link to="https://rs.school/" target="_blank"><div className="school-logo"></div></Link>
       </div>
       <div className="about-page-team">
-        <div className="developer-card">
-          <div className="developer-image">
-            <img src={dbox7Photo} alt="avatar" />
-          </div>
-          <div className="developer-info">
-            <h2>Dmitry Korobka</h2>
-            <p>Team Lead and Design</p>
-            <p>Hi, I'm Dmitry. I'm a web developer with a background in
-              JavaScript and React. I'm also a UI/UX enthusiast.
-              My hobbies include music, cinema, and video games.
-            </p>
-            <div className="social-icons">
-              <a href="https://t.me/dbox7">
-                <PiTelegramLogoThin className="icon-telegram"/>
-              </a>
-              <a href="https://github.com/dbox7">
-                <PiGithubLogoLight className="icon-git"/>
-              </a>
-              <a href="mailto:dbox.insight@gmail.com">
-                <CiMail className="icon-mail"/>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="developer-card">
-          <div className="developer-image">
-            <img src={xu69uxPhoto} alt="avatar" />
-          </div>
-          <div className="developer-info">
-            <h2>Kseniya Spiridonova</h2>
-            <p>Prompt Engineer and developer</p>
-            <p>Hi, I'm Xu. I'm a web developer with a background in
-              JavaScript and React. I'm also a UI/UX enthusiast.
-              My hobbies include music, cinema, and video games.
-            </p>
-            <div className="social-icons">
-              <a href="https://t.me/xu69ux">
-                <PiTelegramLogoThin className="icon-telegram"/>
-              </a>
-              <a href="https://github.com/xu69ux">
-                <PiGithubLogoLight className="icon-git"/>
-              </a>
-              <a href="mailto:spiridonova.kseniya@gmail.com">
-                <CiMail className="icon-mail"/>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="developer-card">
-          <div className="developer-image">
-            <img src={GEKKOPhoto} alt="avatar" />
-          </div>
-          <div className="developer-info">
-            <h2>Artem Mykoliuk</h2>
-            <p>Back-end Engineer and developer</p>
-            <p>Hi, I'm Artem. I'm a web developer with a background in
-              JavaScript and React. I'm also a UI/UX enthusiast.
-              My hobbies include music, cinema, and video games.
-            </p>
-            <div className="social-icons">
-              <a href="https://t.me/GEKKO33">
-                <PiTelegramLogoThin className="icon-telegram"/>
-              </a>
-              <a href="https://github.com/GEKKO-ops">
-                <PiGithubLogoLight className="icon-git"/>
-              </a>
-              <a href="mailto:dbox.insight@gmail.com">
-                <CiMail className="icon-mail"/>
-              </a>
-            </div>
-          </div>
-        </div>
+        {developers.map((developer, index) => <CDeveloperCard key={index} developer={developer} />)}
       </div>
     </div>
 
