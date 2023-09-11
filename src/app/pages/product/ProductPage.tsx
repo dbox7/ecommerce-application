@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
@@ -13,24 +13,15 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
 import useIsItemInCart from '../../services/useIsItemInCart';
+import { getSizeArray } from '../../utils/useFullFuncs';
+import { GlobalContext } from '../../store/GlobalContext';
 
-const getSizeArray = (product: ProductProjection) => {
-  
-  return [
-    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value,
-    ...product.variants.map(variant => 
-      variant.attributes!.find(attr => 
-        attr.name === 'size')?.value)
-  ];
-
-};
 
 export const ProductPage = () => {
   
   const props = useParams();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
-  const server = useServerApi();
   const [product, setProduct] = useState<ProductProjection>();  
 
   const productData = product?.masterVariant;
@@ -70,6 +61,64 @@ export const ProductPage = () => {
     setCrumbs(c); 
   
   }, [product]);
+
+
+  const [globalStore] = useContext(GlobalContext);
+
+  const server = useServerApi();
+
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+  const productQuantity = 1;
+  const productVariant = 1;
+
+  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!globalStore.cart.id) {
+
+      try {
+
+        const newCart = await server.createCart(draft);
+
+        if (product) {
+
+          server.addCartItem(
+            newCart.id,
+            newCart.version,
+            productVariant,
+            productQuantity,
+            product.id
+          );
+        
+        }
+      
+      } catch (error) {
+
+        console.error('Ошибка при создании корзины:', error);
+      
+      }
+    
+    } else {
+
+      if (product) {
+
+        server.addCartItem(
+          globalStore.cart.id,
+          globalStore.cart.version,
+          productVariant,
+          productQuantity,
+          product.id
+        );
+      
+      }
+    
+    }
+  
+  };
   
   return (
     product ? 
@@ -102,6 +151,7 @@ export const ProductPage = () => {
               type="button"
               extraClass="product_button"
               disabled={isDuplicatedProduct}
+              clickHandler={handleCart}
             />
           </div>
         </div> 
