@@ -113,7 +113,9 @@ export interface IFiltersProps {
 // ------------------------------------------------------------------------------------------------------------------ IGlobalStoreType
 export interface IGlobalStoreType {
   currentUser: Customer
-  apiMeRoot?: ByProjectKeyRequestBuilder
+  apiMeRoot?: ByProjectKeyRequestBuilder,
+  loading: boolean,
+  msg: { body: string, error: boolean }
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IInfoProps

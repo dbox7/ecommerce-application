@@ -1,6 +1,4 @@
-import { useContext, useState } from 'react';
 import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
-import { GlobalContext } from '../store/GlobalContext';
 import { 
   MyCustomerDraft, 
   createApiBuilderFromCtpClient,
@@ -13,21 +11,22 @@ import {
   IChangePassword, 
   IGlobalStoreType, 
   IPayload, 
-  IQueryArgs, 
-  IToastify
+  IQueryArgs
 } from '../utils/types';
-import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
-import useToastify from './useToastify';
+import { useDispatch } from 'react-redux';
+import { UserActionsType } from '../store/types';
+import { ProductActionsType } from '../store/types';
+import { useTypedSelector } from '../store/hooks/useTypedSelector';
 
-const GetApi = (globalStore: IGlobalStoreType) => {
+const GetApi = (userState: IGlobalStoreType) => {
 
   let api;
 
-  if (globalStore.currentUser.id && globalStore.apiMeRoot) {
+  if (userState.currentUser.id && userState.apiMeRoot) {
 
-    api = globalStore.apiMeRoot;
+    api = userState.apiMeRoot;
   
   } else {
   
@@ -41,23 +40,13 @@ const GetApi = (globalStore: IGlobalStoreType) => {
 
 export const useServerApi = () => {
 
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [error, setError] = useState('');
-  const notify = useToastify();
-  
-  const navigate = useNavigate();
-  const api = GetApi(globalStore);
+  const dispatch: any = useDispatch();
+
+  const userState = useTypedSelector(state => state.user);
+  const api = GetApi(userState);
 
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
-
-    const errorMessage: IToastify = {
-      error: 'An account with this email already exists.',
-    };
-
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
 
     apiAnonRoot.me().signup()
       .post({body: payload as MyCustomerDraft})
@@ -67,62 +56,46 @@ export const useServerApi = () => {
         const ctpMeClient = createUserApiClient(payload.email, payload.password);
         const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-        navigate('/');
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
       
       })
       .catch((err) => {
         
-        if (err.body.message === 'There is already an existing customer with the provided email.') {
+        const error = (err.body.message === 'There is already an existing customer with the provided email.') ?
+          'An account with this email already exists.'
+          :
+          'Something went wrong. Please try again later.';
 
-          notify(errorMessage);
-
-        } else {
-            
-          notify(errorServerMessage);
-
-        }
+        dispatch({type: UserActionsType.ERROR, payload: { body: error, error: true }});
 
       });
       
   };
 
   // ------------------------------------------------------------------------------------------------------------------ Login
-  const Login = (email: string, password: string): void => {
-
-    const errorMessage: IToastify = {
-      error: 'The user does not exist or the email/password is incorrect.',
-    };
-
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
+  const Login = (email: string, password: string) => {
 
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
     
     
-    apiMeRoot.me().login().post({
+    return apiMeRoot.me().login().post({
       body: {email, password}
     })
       .execute()
       .then(data => {
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-        navigate('/');
-      
-      }).catch(err => {
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
         
-        if (err.body.message === 'Customer account with the given credentials not found.') {
+      }).catch(err => {
+          
+        const error = (err.body.message === 'Customer account with the given credentials not found.') ? 
+          'The user does not exist or the email/password is incorrect.'
+          :
+          'Something went wrong. Please try again later.';
 
-          notify(errorMessage);
-
-        } else {
-              
-          notify(errorServerMessage);
-
-        }
-      
+        dispatch({type: UserActionsType.ERROR, payload: error});
+        
       });
 
   };
@@ -130,25 +103,13 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Logout
   const Logout = () => {
 
-    if (globalStore.currentUser.id) {
-
-      createAnonApiClient();
-      setGlobalStore({...globalStore, currentUser: anonUser});
-
-    }
-    navigate('/');
+    createAnonApiClient();
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot }});
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ ChangePassword
   const ChangePassword = (email: string, updateData: IChangePassword): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating password.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your password has been updated successfully!'
-    };
 
     api
       .me()
@@ -167,16 +128,22 @@ export const useServerApi = () => {
           .execute()
           .then(data => {
       
-            setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-            notify(successMessage);
-          
+            const successMessage = 'Your password has been updated successfully!';
+
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { 
+              user: data.body.customer, 
+              api: apiMeRoot, 
+              msg: successMessage
+            }});
+
           });
         
       })
       .catch(() => {
 
-        setError('An error occurred while updating password.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating password.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
       
       });
 
@@ -191,13 +158,6 @@ export const useServerApi = () => {
     dateOfBirth: string,
     version: number
   ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating personal information.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your personal information has been updated successfully!'
-    };
 
     const updateData: CustomerUpdate = {
       version,
@@ -215,23 +175,23 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        const successMessage = 'Your personal information has been updated successfully!';
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body, msg: successMessage }});
       
       })
       .catch(() => {
 
-        setError('An error occurred while updating personal information.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating personal information.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
       
       });
     
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
-  const GetAllProducts = (setProducts: Function) => {
-
-    // const [products, setProducts] = useState<ProductProjection[]>([]);
+  const GetAllProducts = () => {
 
     api?.productProjections().get({
       queryArgs: {
@@ -239,13 +199,13 @@ export const useServerApi = () => {
       }
     }).execute().then(data => {
 
-      const products = data.body.results;
-
-      setProducts(products);
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
 
     }).catch(() => {
         
-      setError('Something went wrong. Please try again later.');
+      const error = 'Something went wrong. Please try again later.';
+
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});
 
     });
 
@@ -260,37 +220,41 @@ export const useServerApi = () => {
         
         setProduct(res.body);
         
-      }).catch(err => {
+      }).catch(() => {
         
-        setError(err);        
+        const error = 'Something went wrong. Please try again later.';
+
+        dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});       
         
       });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllCategories
-  const GetAllCategories = (setCategories: Function) => {
+  const GetAllCategories = () => {
 
     api?.categories().get().execute().then((data) => {
 
-      setCategories(data.body.results);
+      dispatch({type: ProductActionsType.UPDATE_CATS, payload: data.body.results });
 
     }).catch(() => {
         
-      setError('Something went wrong. Please try again later.');
+      const error = 'Something went wrong. Please try again later.';
+
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});
 
     });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ FilterProducts
-  const FilterProducts = (queryArgs: IQueryArgs, setProducts: Function) => {
+  const FilterProducts = (queryArgs: IQueryArgs) => {
 
     api.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then((data) => {
   
-      setProducts(data.body.results);
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
       
     });
 
@@ -303,13 +267,6 @@ export const useServerApi = () => {
     address: IAddress,
     actionTypes: string[],
   ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while adding address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been added successfully!'
-    };
  
     const updateData: CustomerUpdate = {
       version,
@@ -325,7 +282,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
 
         const addresses = data.body.addresses;
         const lastAddress = addresses[addresses.length - 1];
@@ -368,21 +325,25 @@ export const useServerApi = () => {
           .execute()
           .then((data) => {
 
-            setGlobalStore({ ...globalStore, currentUser: data.body });
+            const successMessage = 'Your addresses has been added successfully!';
+
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body, msg: successMessage }});
       
           })
           .catch(() => {
 
-            setError('An error occurred while updating address.');
+            const error = 'An error occurred while updating address.';
+
+            dispatch({type: UserActionsType.ERROR, payload: error});
         
           });
-        notify(successMessage);
       
       })
       .catch(() => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating address.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
 
       });
     
@@ -397,13 +358,6 @@ export const useServerApi = () => {
     addressId: string,
     actionTypes: string[],
   ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been updated successfully!'
-    };
 
     const actions: { action: IAction; [key: string]: string | IAddress }[] = [];
 
@@ -446,18 +400,19 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
-      
+        const successMessage = 'Your addresses has been updated successfully!';
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body, msg: successMessage }});
+
       })
       .catch(() => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating address.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
         
       });
     
-  
   };
 
   // ------------------------------------------------------------------------------------------------------------------ RemoveAddress
@@ -467,13 +422,6 @@ export const useServerApi = () => {
     addressId: string,
   ): void => {
 
-    const errorMessage: IToastify = {
-      error: 'An error occurred while removing address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been removed successfully!'
-    };
- 
     const updateData: CustomerUpdate = {
       version,
       actions: [
@@ -488,14 +436,16 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        const successMessage = 'Your addresses has been updated successfully!';
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body, msg: successMessage }});
       
       })
       .catch(() => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating address.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
         
       });
     
@@ -510,12 +460,6 @@ export const useServerApi = () => {
     actionTypes: string[],
   ): void => {
     
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been updated successfully!'
-    };
     const actions: { action: IAction; [key: string]: string }[] = [];
 
     for (let i = 0; i < actionTypes.length; i+=1) {
@@ -549,14 +493,16 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        const successMessage = 'Your addresses has been updated successfully!';
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body, msg: successMessage }});
       
       })
       .catch(() => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        const error = 'An error occurred while updating address.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
         
       });
     
@@ -564,7 +510,6 @@ export const useServerApi = () => {
   };
   
   return { 
-    error,
     Registration,
     Login,
     Logout,

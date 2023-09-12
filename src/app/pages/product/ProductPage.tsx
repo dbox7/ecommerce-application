@@ -4,6 +4,8 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
+import useToastify from '../../services/useToastify';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
@@ -12,6 +14,7 @@ import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
+
 
 const getSizeArray = (product: ProductProjection) => {
   
@@ -26,11 +29,13 @@ const getSizeArray = (product: ProductProjection) => {
 
 export const ProductPage = () => {
   
+  const notify = useToastify();
   const props = useParams();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const server = useServerApi();
   const [product, setProduct] = useState<ProductProjection>();  
+  const { msg } = useTypedSelector(state => state.products);
 
   const productData = product?.masterVariant;
   
@@ -67,6 +72,19 @@ export const ProductPage = () => {
     setCrumbs(c); 
   
   }, [product]);
+
+  useEffect(() => {
+
+    if (msg.body !== '') {
+
+      msg.error ? 
+        notify({ error: msg.body })
+        :
+        notify({ success: msg.body });
+
+    }
+
+  }, [msg]);
   
   return (
     product ? 

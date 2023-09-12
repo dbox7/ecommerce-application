@@ -1,12 +1,13 @@
-import { useState, useEffect, memo } from 'react';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { useEffect, memo } from 'react';
 import { IProductListProps, IQueryArgs } from '../../../utils/types';
 import { useServerApi } from '../../../services/useServerApi';
+import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 
 import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
 
 import './CProductList.css';
+
 
 const concatQueryString = (attr: string, attrArray: string[]) => {
   
@@ -22,10 +23,10 @@ const concatQueryString = (attr: string, attrArray: string[]) => {
 
 };
 
-export const CProductList = memo(({ filters, setFilters }: IProductListProps) => {
+export const CProductList = memo(({ filters }: IProductListProps) => {
 
-  const [products, setProducts] = useState<ProductProjection[]>([]);
   const server = useServerApi();
+  const { products } = useTypedSelector(state => state.products);
 
   useEffect(() => {
 
@@ -70,7 +71,7 @@ export const CProductList = memo(({ filters, setFilters }: IProductListProps) =>
 
     queryArgs.sort = filters.sort;
 
-    server.FilterProducts(queryArgs, setProducts);
+    server.FilterProducts(queryArgs);
      
   }, [filters]);  
 
