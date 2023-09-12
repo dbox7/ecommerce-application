@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddAdrdressProps, IAddress } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
 import { useServerApi } from '../../services/useServerApi';
-// import { GlobalContext } from '../../store/GlobalContext';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
@@ -12,7 +12,6 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
-import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 const getCountryCode = (countryName: string): string => {
   
@@ -26,7 +25,6 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
 
   const [useShippingAddress, setUseShippingAddress] = useState<boolean>(false);
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
-  // const [globalStore] = useContext(GlobalContext);
   const {currentUser} = useTypedSelector(state => state.user);
 
   

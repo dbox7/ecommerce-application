@@ -1,11 +1,9 @@
-import { useContext, useEffect } from 'react';
-// import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
 import useInputChanges from '../../services/input/useInputChange';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -14,15 +12,13 @@ import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
 
 import './CUserProfileForm.css';
-import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+
 
 const CUserProfileForm: React.FC = () => {
   
-  // const [globalStore] = useContext(GlobalContext);
+  const server = useServerApi();
   const {currentUser} = useTypedSelector(state => state.user);
 
-  const server = useServerApi();
-  const navigate = useNavigate();
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
 
@@ -52,16 +48,6 @@ const CUserProfileForm: React.FC = () => {
     currentPassword.valid.isMinLength!,
     currentPassword.valid.isPasswordGood!,
   ]);
-  
-  useEffect(() => {
-
-    if (!currentUser.id) {
-
-      navigate('/login');
-    
-    }
-
-  });
 
   const isEmptyEvent = () => {
 

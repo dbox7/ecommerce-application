@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
@@ -8,12 +8,7 @@ import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 
 import './CLoginForm.css';
-// import { login } from '../../store/actions/userActions';
-import useToastify from '../../services/useToastify';
-import { useDispatch } from 'react-redux';
-// import { useTypedDispatch } from '../../store/hooks/useTypedDispatch';
-import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { useEffect } from 'react';
+
 
 export const CLoginForm = () => {
 
@@ -21,13 +16,6 @@ export const CLoginForm = () => {
   const password = useInput('', 'password');
   
   const server = useServerApi();
-  const notify = useToastify();
-  // const dispatch: any = useDispatch();
-  const {currentUser} = useTypedSelector(state => state.user);
-  const navigate = useNavigate();
-
-  console.log(currentUser);
-  
   
   const isFormBlocked = UseFormBlock([
     email.valid.isNotEmpty!,
@@ -37,20 +25,9 @@ export const CLoginForm = () => {
     password.valid.isPasswordGood!,
   ]);
 
-  // useEffect(() => {
-
-  //   if (!currentUser.id) {
-
-  //     navigate('/');
-    
-  //   }
-
-  // }, [currentUser]);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    // dispatch(login(email.value, password.value));
     server.Login(email.value, password.value);
   
   };
