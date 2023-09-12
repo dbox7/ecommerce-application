@@ -74,3 +74,7 @@
 .cart__content__order-container__total {
   margin-left: auto;
 }
+
+.cart__content__products-container__product__image img {
+  width: 100px;
+}

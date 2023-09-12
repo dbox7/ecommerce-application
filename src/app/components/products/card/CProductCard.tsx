@@ -21,15 +21,15 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productVariant = 1;
 
 
-  /*   const name = product.name.en.split(/.-./);
+  // const name = product.name.en.split(/.-./);
 
-  const [ addInCart, setAddInCart ] = useState<boolean>(false);
+  //const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
 
   const handleClick = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     
     e.preventDefault();
-    setAddInCart(!addInCart);
+    //setAddInCart(!addInCart);
     e.stopPropagation();
 
     if (!globalStore.cart.id) {
@@ -67,7 +67,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   };
 
 
-  const cartIconDisabled = addInCart ? 'disabled' : '';
+  // const cartIconDisabled = addInCart ? 'disabled' : '';
 
   return (
     <div className="product-card">
@@ -80,7 +80,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className={`product-card__icon cart-icon ${cartIconDisabled}`} onClick={handleClick}/>
+        <BsCart2 className="product-card__icon cart-icon" onClick={handleClick}/>
       </div>
     </div>
   );

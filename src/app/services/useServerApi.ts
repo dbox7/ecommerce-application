@@ -20,7 +20,7 @@ import {
   IToastify
 } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
-import { anonUser } from '../utils/constants';
+import { anonUser, initialCart } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import useToastify from './useToastify';
 
@@ -136,7 +136,7 @@ export const useServerApi = () => {
     if (globalStore.currentUser.id) {
 
       createAnonApiClient();
-      setGlobalStore({...globalStore, currentUser: anonUser});
+      setGlobalStore({...globalStore, currentUser: anonUser, cart: initialCart});
 
     }
     navigate('/');
@@ -617,7 +617,7 @@ export const useServerApi = () => {
 
 
     const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
+      error: 'You do not have a shopping cart yet, please add the product',
     };
 
     return new Promise<Cart>((resolve, reject) => {
@@ -645,31 +645,37 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ deleeCart
-  const deleteCart = (cartID: string, version: number) => {
+  const deleteCart = (cartID: string, version: number): Promise<Cart> => {
 
 
     const errorServerMessage: IToastify = {
       error: 'Something went wrong. Please try again later.',
     };
+    
+    return new Promise((resolve, reject) => {
 
-    api.me()
-      .carts()
-      .withId({ ID: cartID })
-      .delete({
-        queryArgs: { version },
-      })
-      .execute()
-      .then((data) => {
+      api.me()
+        .carts()
+        .withId({ ID: cartID })
+        .delete({
+          queryArgs: { version },
+        })
+        .execute()
+        .then((data) => {
 
-        setGlobalStore({...globalStore, cart: data.body});
+          setGlobalStore({...globalStore, cart: initialCart});
+          resolve(data.body);
         
-      })
-      .catch(() => {
+        })
+        .catch(() => {
         
-        notify(errorServerMessage);
+          notify(errorServerMessage);
+          reject(error);
 
-      });
-      
+        });
+    
+    }); 
+  
   };
 
   // ------------------------------------------------------------------------------------------------------------------ addCatrtItem
@@ -723,7 +729,7 @@ export const useServerApi = () => {
     version: number,
     quantity: number,
     lineItemId: string
-  ): void => {
+  ): Promise<Cart> => {
 
     const errorMessage: IToastify = {
       error: 'An error occurred while updating cart.',
@@ -738,26 +744,30 @@ export const useServerApi = () => {
         { action: 'removeLineItem', lineItemId, quantity }
       ],
     };
+ 
+    return new Promise<Cart> ((resolve, reject) => {
 
+      api.me()
+        .carts()
+        .withId({ ID: cartID })
+        .post({ body: updateData })
+        .execute()
+        .then((data) => {
 
-    api.me()
-      .carts()
-      .withId({ ID: cartID })
-      .post({ body: updateData })
-      .execute()
-      .then((data) => {
+          setGlobalStore({ ...globalStore, cart: data.body });
+          notify(successMessage);
+          resolve(data.body);
 
-        setGlobalStore({ ...globalStore, cart: data.body });
-        notify(successMessage);
+        })
+        .catch(() => {
 
-      })
-      .catch(() => {
+          setError('An error occurred while updating cart.');
+          notify(errorMessage);
+          reject(error);
 
-        setError('An error occurred while updating cart.');
-        notify(errorMessage);
-
-      });
+        });
     
+    });
   
   };
 
