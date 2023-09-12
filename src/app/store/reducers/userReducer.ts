@@ -11,8 +11,7 @@ const InitialState : IGlobalStoreType = {
 export enum UserActionsType {
   PENDING = 'PENDING',
   UPDATE_SUCCESS = 'UPDATE_SUCCESS',
-  ERROR = 'ERROR',
-  LOGOUT = 'LOGOUT'
+  ERROR = 'ERROR'
 }
 
 interface IPendingAction {

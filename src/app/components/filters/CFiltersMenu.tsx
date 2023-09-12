@@ -3,6 +3,7 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/useFullFuncs';
 import { useEffect, useState } from 'react';
 import { useResize } from '../../services/useResize';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CCheckboxArray from './checkboxArray/CCheckboxArray';
 import CButton from '../button/CButton';
@@ -13,17 +14,18 @@ import { RxCross2 } from 'react-icons/rx';
 
 import './CFiltersMenu.css';
 
+
 const getPriceRange = (prods: ProductProjection[]) => {
   
-  let min = 1000;
-  let max = 0;
+  let minR = 1000;
+  let maxR = 0;
 
   const checkPrice = (price: number) => {
     
     price = price / 100;
     
-    min = price < min ? price : min;
-    max = price > max ? price : max;
+    minR = price < minR ? price : minR;
+    maxR = price > maxR ? price : maxR;
 
   };
 
@@ -38,7 +40,7 @@ const getPriceRange = (prods: ProductProjection[]) => {
 
   });
 
-  return {min, max};
+  return {minR, maxR};
 
 };
 
@@ -76,11 +78,24 @@ const getBrands = (prods: ProductProjection[]) => {
 
 };
 
-const CFilterMenu = ({ callback, prods }: { callback: Function, prods: ProductProjection[] } ) => {
+const CFilterMenu = ({ callback }: { callback: Function } ) => {
 
-  const {min, max} = getPriceRange(prods);
-  const sizes: string[] = getSizes(prods);
-  const brands: string[] = getBrands(prods);
+  const { products } = useTypedSelector(state => state.products);
+
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+
+  let sizes: string[] = getSizes(products);
+  const brands: string[] = getBrands(products);
+
+  useEffect(() => {
+
+    const {minR, maxR} = getPriceRange(products);
+
+    setMin(minR);
+    setMax(maxR);
+
+  }, []);
   
   const [chosenSizes, setChosenSizes] = useState([]);
   const [chosenBrands, setChosenBrands] = useState([]);

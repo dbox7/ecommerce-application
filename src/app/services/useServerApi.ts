@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
-import { GlobalContext } from '../store/GlobalContext';
 import { 
   MyCustomerDraft, 
   createApiBuilderFromCtpClient,
@@ -19,14 +18,16 @@ import { anonUser } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/reducers/userReducer';
+import { ProductActionsType } from '../store/reducers/productsReducer';
+import { useTypedSelector } from '../store/hooks/useTypedSelector';
 
-const GetApi = (globalStore: IGlobalStoreType) => {
+const GetApi = (userState: IGlobalStoreType) => {
 
   let api;
 
-  if (globalStore.currentUser.id && globalStore.apiMeRoot) {
+  if (userState.currentUser.id && userState.apiMeRoot) {
 
-    api = globalStore.apiMeRoot;
+    api = userState.apiMeRoot;
   
   } else {
   
@@ -40,11 +41,11 @@ const GetApi = (globalStore: IGlobalStoreType) => {
 
 export const useServerApi = () => {
 
-  const [globalStore] = useContext(GlobalContext);
   const [error, setError] = useState('');
   const dispatch: any = useDispatch();
-  
-  const api = GetApi(globalStore);
+
+  const userState = useTypedSelector(state => state.user);
+  const api = GetApi(userState);
 
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
@@ -192,7 +193,7 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
-  const GetAllProducts = (setProducts: Function) => {
+  const GetAllProducts = () => {
 
     api?.productProjections().get({
       queryArgs: {
@@ -200,9 +201,7 @@ export const useServerApi = () => {
       }
     }).execute().then(data => {
 
-      const products = data.body.results;
-
-      setProducts(products);
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
 
     }).catch(() => {
         
@@ -230,11 +229,11 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllCategories
-  const GetAllCategories = (setCategories: Function) => {
+  const GetAllCategories = () => {
 
     api?.categories().get().execute().then((data) => {
 
-      setCategories(data.body.results);
+      dispatch({type: ProductActionsType.UPDATE_CATS, payload: data.body.results });
 
     }).catch(() => {
         
@@ -245,13 +244,14 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ FilterProducts
-  const FilterProducts = (queryArgs: IQueryArgs, setProducts: Function) => {
+  const FilterProducts = (queryArgs: IQueryArgs) => {
 
     api.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then((data) => {
   
-      setProducts(data.body.results);
+      // setProducts(data.body.results);
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
       
     });
 

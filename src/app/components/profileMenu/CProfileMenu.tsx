@@ -18,9 +18,8 @@ const CProfileMenu = () => {
   const [showPopup, setShowPopup] = useState(false);
   const server = useServerApi();
 
-  const {currentUser} = useTypedSelector(state => state.user);
+  const { currentUser } = useTypedSelector(state => state.user);
   const user = currentUser;
-  const userName = user.firstName;
   
   return ( 
     <div 
@@ -53,7 +52,7 @@ const CProfileMenu = () => {
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to={`/profile/${userName}`} className="link">Profile</Link>
+                  <Link to={`/profile/${user.firstName}`} className="link">Profile</Link>
                 </li>
               </>
               :
