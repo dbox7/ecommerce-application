@@ -5,7 +5,7 @@ const InitialState : IGlobalStoreType = {
   currentUser: anonUser,
   apiMeRoot: undefined,
   loading: false,
-  error: ''
+  msg: { body: '', error: false }
 };
 
 export enum UserActionsType {
@@ -40,7 +40,7 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: state.currentUser, 
       apiMeRoot: state.apiMeRoot,
       loading: true, 
-      error: ''
+      msg: { body: '', error: false }
     };
 
   case UserActionsType.UPDATE_SUCCESS: 
@@ -50,7 +50,7 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: action.payload.user, 
       apiMeRoot: api, 
       loading: false, 
-      error: ''
+      msg: { body: action.payload.msg || '', error: false }
     };
 
   case UserActionsType.ERROR: 
@@ -58,7 +58,7 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: state.currentUser, 
       apiMeRoot: state.apiMeRoot, 
       loading: false, 
-      error: action.payload
+      msg: { body: action.payload, error: true }
     };
 
   default:
@@ -67,5 +67,3 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
   }
 
 };
-
-// export const userActionCreator = (payload: any) => {}

@@ -104,7 +104,7 @@ export interface IGlobalStoreType {
   currentUser: Customer
   apiMeRoot?: ByProjectKeyRequestBuilder,
   loading: boolean,
-  error: string
+  msg: { body: string, error: boolean }
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IInfoProps

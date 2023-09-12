@@ -7,7 +7,7 @@ export const defaultGlobalStore : IGlobalStoreType = {
   currentUser: anonUser,
   apiMeRoot: undefined,
   loading: false,
-  error: ''
+  msg: { body: '', error: false}
 };
 
 export const GlobalContext = createContext<[IGlobalStoreType, Dispatch<SetStateAction<IGlobalStoreType>>]>([defaultGlobalStore, () => {}]);
