@@ -16,9 +16,9 @@ export const AboutUsPage = () => {
 
   return (
 
-    <div className="content about">
-      <h1 className="about-page-title">About Us</h1>
-      <div className="about-page-text">
+    <div className="about__content">
+      <h1 className="about__content__title">About Us</h1>
+      <div className="about__content__text">
         {user.firstName ? 
           <p>Hey there, <b>{user.firstName}!</b></p> :
           <p>Hey there, <b>username!</b></p>
@@ -38,13 +38,13 @@ export const AboutUsPage = () => {
         <p>We're open to feedback and value diverse perspectives. 
           If you have suggestions or observations, let us know. 
           Additionally, if you share our drive and propose collaboration, 
-          drop us a line through the <b><Link to="/contacts" className="text-link">"Contact Us"</Link></b> page.</p>
+          drop us a line through the <b><Link to="/contacts" className="about__content__text__text-link">"Contact Us"</Link></b> page.</p>
         <br/>
         <p>Best regards,</p>
         <p>The <b>"JS do IT"</b> Team</p>
-        <Link to="https://rs.school/" target="_blank"><div className="school-logo"></div></Link>
+        <Link to="https://rs.school/" target="_blank"><div className="about__content__text__school-logo"></div></Link>
       </div>
-      <div className="about-page-team">
+      <div className="about__content__team">
         {developers.map((developer, index) => <CDeveloperCard key={index} developer={developer} />)}
       </div>
     </div>
