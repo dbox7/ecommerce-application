@@ -1,40 +1,52 @@
+import { Dispatch } from 'redux';
 import { useServerApi } from '../../services/useServerApi';
-import { UserActionsType } from '../reducers/userReducer';
+import { IUserAction, UserActionsType } from '../reducers/userReducer';
 import { store } from '../store';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { createUserApiClient, PROJECT_KEY } from '../../ctp';
 
 export const login = (email: string, password: string) => {
 
-  return async () => {
+  // return async (dispatch: Dispatch<IUserAction>) => {
+    
+  //   dispatch({type: UserActionsType.LOGIN});
 
-    const server = useServerApi();
-
-    try {
-
-      store.dispatch({type: UserActionsType.LOGIN});
+  //   try {
       
-      const res = await server.Login(email, password);
+  //     // const res = await server.Login(email, password);
 
-      store.dispatch({type: UserActionsType.LOGIN_SUCCESS, payload: res.body});
+  //     const ctpMeClient = createUserApiClient(email, password);
+  //     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
+      
+      
+  //     const res = await apiMeRoot.me().login().post({
+  //       body: {email, password}
+  //     })
+  //       .execute();
 
-    } catch (e) {
+  //     console.log(res);
+      
+  //     // dispatch({type: UserActionsType.LOGIN_SUCCESS, payload: { user: res.body.customer, api: apiMeRoot }});
 
-      let error;
+  //   } catch (e) {
 
-      if (e === 'Customer account with the given credentials not found.') {
+  //     let error;
 
-        error = 'The user does not exist or the email/password is incorrect.';
+  //     if (e === 'Customer account with the given credentials not found.') {
 
-      } else {
+  //       error = 'The user does not exist or the email/password is incorrect.';
+
+  //     } else {
             
-        error = 'Something went wrong. Please try again later.';
+  //       error = 'Something went wrong. Please try again later.';
 
-      }
+  //     }
 
-      store.dispatch({type: UserActionsType.LOGIN_ERROR, payload: error});
+  //     dispatch({type: UserActionsType.LOGIN_ERROR, payload: error});
       
-    }
+  //   }
 
-  };
+  // };
 
   
 

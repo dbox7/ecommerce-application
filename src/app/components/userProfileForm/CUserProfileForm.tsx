@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+// import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import { useNavigate } from 'react-router-dom';
@@ -14,27 +14,29 @@ import CUserAddresses from '../userAddresses/CUserAddresses';
 import CPassword from '../inputs/password/CPassword';
 
 import './CUserProfileForm.css';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 const CUserProfileForm: React.FC = () => {
   
-  const [globalStore] = useContext(GlobalContext);
+  // const [globalStore] = useContext(GlobalContext);
+  const {currentUser} = useTypedSelector(state => state.user);
 
   const server = useServerApi();
   const navigate = useNavigate();
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
 
-  const initFirstName = useInputChanges(`${globalStore.currentUser.firstName}`);
-  const initEmail = useInputChanges(`${globalStore.currentUser.email}`);
-  const initLastName = useInputChanges(`${globalStore.currentUser.lastName}`);
-  const initDateOfBirth = useInputChanges(`${globalStore.currentUser.dateOfBirth}`);
+  const initFirstName = useInputChanges(`${currentUser.firstName}`);
+  const initEmail = useInputChanges(`${currentUser.email}`);
+  const initLastName = useInputChanges(`${currentUser.lastName}`);
+  const initDateOfBirth = useInputChanges(`${currentUser.dateOfBirth}`);
   
   const dateOfBirth = useInput(initDateOfBirth.inputValue, 'date');
   const lastName = useInput(initLastName.inputValue, 'text');
   const firstName = useInput(initFirstName.inputValue, 'text');
   const email = useInput(initEmail.inputValue, 'email');
 
-  const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
+  const convertedAddresses: IAddress[] = currentUser.addresses.map(address => ({
     id: address.id || '',
     streetName: address.streetName || '',
     postalCode: address.postalCode || '',
@@ -53,7 +55,7 @@ const CUserProfileForm: React.FC = () => {
   
   useEffect(() => {
 
-    if (!globalStore.currentUser.id) {
+    if (!currentUser.id) {
 
       navigate('/login');
     
@@ -77,12 +79,12 @@ const CUserProfileForm: React.FC = () => {
     e.preventDefault();
     
     server.UpdatePersonalInfo(
-      globalStore.currentUser.id,
+      currentUser.id,
       email.value,
       firstName.value,
       lastName.value,
       dateOfBirth.value,
-      globalStore.currentUser.version
+      currentUser.version
     );
   
   };
@@ -90,10 +92,10 @@ const CUserProfileForm: React.FC = () => {
   const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
-      id: globalStore.currentUser.id,
+      id: currentUser.id,
       currentPassword: currentPassword.value,
       newPassword: newPassword.value,
-      version: globalStore.currentUser.version
+      version: currentUser.version
     };
 
     e.preventDefault();
@@ -219,14 +221,14 @@ const CUserProfileForm: React.FC = () => {
           </div>
         </section>
         <section>
-          {globalStore.currentUser.shippingAddressIds &&
-          globalStore.currentUser.billingAddressIds && (
+          {currentUser.shippingAddressIds &&
+          currentUser.billingAddressIds && (
             <CUserAddresses
               addresses={convertedAddresses}
-              shippingAddressIds={globalStore.currentUser.shippingAddressIds}
-              billingAddressIds={globalStore.currentUser.billingAddressIds}
-              defaultShippingAddressIds={globalStore.currentUser.defaultShippingAddressId}
-              defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
+              shippingAddressIds={currentUser.shippingAddressIds}
+              billingAddressIds={currentUser.billingAddressIds}
+              defaultShippingAddressIds={currentUser.defaultShippingAddressId}
+              defaultBillingAddressIds={currentUser.defaultBillingAddressId}
             />
           )}
         </section>

@@ -1,17 +1,19 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+// import { GlobalContext } from '../../store/GlobalContext';
 import { useNavigate } from 'react-router-dom';
 
 import CRegistrationForm from '../../components/registrationForm/CRegistrationForm';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 export const SignUpPage = () => {
 
-  const [globalStore] = useContext(GlobalContext);
+  // const [globalStore] = useContext(GlobalContext);
+  const {currentUser} = useTypedSelector(state => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
     
-    if (globalStore.currentUser.id) {
+    if (currentUser.id) {
 
       navigate('/');
   

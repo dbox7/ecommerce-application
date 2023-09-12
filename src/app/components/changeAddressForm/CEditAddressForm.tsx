@@ -11,6 +11,7 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 
 const getCountryCode = (countryName: string): string => {
@@ -35,10 +36,11 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
   const [removeShippingAddress, setRemoveShippingAddress] = useState<boolean>(false);
   const [removeBillingAddress, setRemoveBillingAddress] = useState<boolean>(false);
-  const [globalStore] = useContext(GlobalContext);
+  // const [globalStore] = useContext(GlobalContext);
+  const {currentUser} = useTypedSelector(state => state.user);
 
   const targetAddressId = addressId;
-  const addresses = globalStore.currentUser.addresses;
+  const addresses = currentUser.addresses;
 
   const targetAddress = addresses.find(address => address.id === targetAddressId);
 
@@ -109,8 +111,8 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
     }
 
     if (targetAddressId) server.changeAddress(
-      globalStore.currentUser.id,
-      globalStore.currentUser.version,
+      currentUser.id,
+      currentUser.version,
       address,
       targetAddressId,
       actionTypes,

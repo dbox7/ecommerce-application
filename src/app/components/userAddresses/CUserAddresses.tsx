@@ -10,6 +10,7 @@ import CEditAddressForm from '../changeAddressForm/CEditAddressForm';
 import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 
 import './CUserAddresses.css';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 const CUserAddresses: React.FC<IAdressProps> = ({ 
   addresses,
@@ -23,7 +24,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   const [modalRemoveAddress, setModalRemoveAddress] = useState<Record<string, boolean>>({});
   const [modalSetDefault, setModalSetDefault] = useState<Record<string, boolean>>({});
   const server = useServerApi();
-  const [globalStore] = useContext(GlobalContext);
+  // const [globalStore] = useContext(GlobalContext);
+  const {currentUser} = useTypedSelector(state => state.user);
   const [useDefaultShippingAddress, setUseDefaultShippingAddress] = useState<Record<string, boolean>>({});
   const [useDefaultBillingAddress, setUseDefaultBillingAddress] = useState<Record<string, boolean>>({});
   const [modalEditAddress, setModalEditAddress] = useState<Record<string, boolean>>({});
@@ -101,8 +103,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
             if(address.id) {
 
               server.removeAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+                currentUser.id,
+                currentUser.version,
                 address.id
               );
 
@@ -133,8 +135,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
             if(address.id) {
 
               server.setDefaultAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+                currentUser.id,
+                currentUser.version,
                 address.id,
                 actionTypes
               );

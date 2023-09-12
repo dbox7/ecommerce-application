@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 import { anonUser } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import useToastify from './useToastify';
+import { useDispatch } from 'react-redux';
+import { UserActionsType } from '../store/reducers/userReducer';
 
 const GetApi = (globalStore: IGlobalStoreType) => {
 
@@ -44,6 +46,7 @@ export const useServerApi = () => {
   const [globalStore, setGlobalStore] = useContext(GlobalContext);
   const [error, setError] = useState('');
   const notify = useToastify();
+  const dispatch: any = useDispatch();
   
   const navigate = useNavigate();
   const api = GetApi(globalStore);
@@ -67,21 +70,28 @@ export const useServerApi = () => {
         const ctpMeClient = createUserApiClient(payload.email, payload.password);
         const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+        // setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
         navigate('/');
       
       })
       .catch((err) => {
         
+        let error;
+
         if (err.body.message === 'There is already an existing customer with the provided email.') {
 
           notify(errorMessage);
+          error = 'An account with this email already exists.';
 
         } else {
             
           notify(errorServerMessage);
+          error = 'Something went wrong. Please try again later.';
 
         }
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
 
       });
       
@@ -90,13 +100,13 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Login
   const Login = (email: string, password: string) => {
 
-    const errorMessage: IToastify = {
-      error: 'The user does not exist or the email/password is incorrect.',
-    };
+    // const errorMessage: IToastify = {
+    //   error: 'The user does not exist or the email/password is incorrect.',
+    // };
 
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
+    // const errorServerMessage: IToastify = {
+    //   error: 'Something went wrong. Please try again later.',
+    // };
 
     const ctpMeClient = createUserApiClient(email, password);
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
@@ -105,37 +115,42 @@ export const useServerApi = () => {
     return apiMeRoot.me().login().post({
       body: {email, password}
     })
-      .execute();
-    // .then(data => {
+      .execute()
+      .then(data => {
 
-    //   setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-    //   navigate('/');
-      
-    // }).catch(err => {
+        // setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
+        navigate('/');
         
-    //   if (err.body.message === 'Customer account with the given credentials not found.') {
+      }).catch(err => {
 
-    //     notify(errorMessage);
+        let error;
+          
+        if (err.body.message === 'Customer account with the given credentials not found.') {
 
-    //   } else {
-              
-    //     notify(errorServerMessage);
+          // notify(errorMessage);
+          error = 'The user does not exist or the email/password is incorrect.';
 
-    //   }
-      
-    // });
+        } else {
+                
+          // notify(errorServerMessage);
+          error = 'Something went wrong. Please try again later.';
+
+        }
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
+        
+      });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ Logout
   const Logout = () => {
 
-    if (globalStore.currentUser.id) {
+    createAnonApiClient();
+    // setGlobalStore({...globalStore, currentUser: anonUser});
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot }});
 
-      createAnonApiClient();
-      setGlobalStore({...globalStore, currentUser: anonUser});
-
-    }
     navigate('/');
 
   };
@@ -167,7 +182,9 @@ export const useServerApi = () => {
           .execute()
           .then(data => {
       
-            setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+            // setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
+
             notify(successMessage);
           
           });
@@ -215,7 +232,8 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        // setGlobalStore({ ...globalStore, currentUser: data.body });
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
         notify(successMessage);
       
       })
@@ -368,7 +386,8 @@ export const useServerApi = () => {
           .execute()
           .then((data) => {
 
-            setGlobalStore({ ...globalStore, currentUser: data.body });
+            // setGlobalStore({ ...globalStore, currentUser: data.body });
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
       
           })
           .catch(() => {
@@ -446,7 +465,8 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        // setGlobalStore({ ...globalStore, currentUser: data.body });
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
         notify(successMessage);
       
       })
@@ -488,7 +508,8 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        // setGlobalStore({ ...globalStore, currentUser: data.body });
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
         notify(successMessage);
       
       })
@@ -549,7 +570,8 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        // setGlobalStore({ ...globalStore, currentUser: data.body });
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
         notify(successMessage);
       
       })

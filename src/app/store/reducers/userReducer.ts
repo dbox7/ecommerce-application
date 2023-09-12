@@ -9,49 +9,57 @@ const InitialState : IGlobalStoreType = {
 };
 
 export enum UserActionsType {
-  LOGIN = 'LOGIN',
-  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
-  LOGIN_ERROR = 'LOGIN_ERROR'
+  PENDING = 'PENDING',
+  UPDATE_SUCCESS = 'UPDATE_SUCCESS',
+  ERROR = 'ERROR',
+  LOGOUT = 'LOGOUT'
 }
 
-interface ILoginAction {
-  type: UserActionsType.LOGIN
+interface IPendingAction {
+  type: UserActionsType.PENDING
 }
 
-interface ILoginSuccesAction {
-  type: UserActionsType.LOGIN_SUCCESS
+interface IUpdateSuccesAction {
+  type: UserActionsType.UPDATE_SUCCESS
   payload: any
 }
 
-interface ILoginErrorAction {
-  type: UserActionsType.LOGIN_ERROR
+interface IErrorAction {
+  type: UserActionsType.ERROR
   payload: string
 }
 
-export type IUserAction = ILoginAction | ILoginSuccesAction | ILoginErrorAction;
+export type IUserAction = IPendingAction | IUpdateSuccesAction | IErrorAction ;
 
 export const userReducer = (state = InitialState, action: IUserAction): IGlobalStoreType => {
 
   switch (action.type) {
 
-  case UserActionsType.LOGIN: 
+  case UserActionsType.PENDING: 
     return {
-      currentUser: anonUser, 
-      apiMeRoot: undefined, 
+      currentUser: state.currentUser, 
+      apiMeRoot: state.apiMeRoot,
       loading: true, 
       error: ''
     };
 
-  case UserActionsType.LOGIN_SUCCESS: 
+  case UserActionsType.UPDATE_SUCCESS: 
+    const api = action.payload.api ? action.payload.api : state.apiMeRoot;
+
     return {
-      currentUser: action.payload.currentUser, 
-      apiMeRoot: action.payload.apiMeRoot, 
+      currentUser: action.payload.user, 
+      apiMeRoot: api, 
       loading: false, 
       error: ''
     };
 
-  case UserActionsType.LOGIN_ERROR: 
-    return {currentUser: anonUser, apiMeRoot: undefined, loading: true, error: ''};
+  case UserActionsType.ERROR: 
+    return {
+      currentUser: state.currentUser, 
+      apiMeRoot: state.apiMeRoot, 
+      loading: false, 
+      error: action.payload
+    };
 
   default:
     return state;
@@ -59,3 +67,5 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
   }
 
 };
+
+// export const userActionCreator = (payload: any) => {}

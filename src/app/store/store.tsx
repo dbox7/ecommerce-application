@@ -5,4 +5,4 @@ import { rootReducer } from './reducers';
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
-export type AppDispatch = ReturnType<typeof store.dispatch>
+export type AppDispatch = typeof store.dispatch
