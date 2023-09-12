@@ -1,0 +1,39 @@
+.product__wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 3;
+}
+
+.sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.product-list-title {
+  font-family: var(--exa);
+  font-size: var(--main-text);
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 25px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.product__link {
+  display: flex;
+  width: 48%;
+  min-width: 250px;
+}
+
+@media screen and (max-width: 1000px) {
+  .product__link {
+    width: 100%;
+  }
+}

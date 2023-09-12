@@ -1,0 +1,60 @@
+@import "../../utils/constants.css";
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-title {
+  font-family: var(--exa);
+  font-size: calc(var(--sub-title) * 0.8);
+}
+
+.input {
+  min-width: 230px;
+  padding: 3px 10px;
+
+  font-size: var(--main-text);
+  background-color: var(--basic-color);
+  border: 1px solid var(--border-color);
+}
+
+.input:focus {
+  border-color: var(--accent-color);
+  outline: 2px solid var(--accent-color);
+}
+
+.input.error {
+  border-color: var(--error-color);
+  outline: 2px solid var(--error-color);
+}
+
+.out-error {
+  position: absolute;
+  padding: 0 3px;
+  left: -2px;
+  bottom: -17px;
+
+  font-size: 12px;
+  background-color: var(--error-color);
+}
+
+.password-icon {
+  position: absolute;
+  z-index: 0.9;
+  bottom: 5%;
+  right: 3%;
+  width: 1rem;
+  height: 1rem;
+  content: "";
+  cursor: pointer;
+}
+
+@media screen and (max-width: 400px) {
+  .input {
+    min-width: 200px;
+  }
+}

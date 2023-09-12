@@ -1,0 +1,69 @@
+.profile-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5px 20px;
+  font-family: var(--exa);
+}
+
+section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px;
+}
+
+.profile-block {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.input-block {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 16px;
+}
+
+.input-block label {
+  font-size: 14px;
+  line-height: 16px;
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 16px;
+  color: #71797e;
+}
+
+.profile-input {
+  font-size: 14px;
+  line-height: 20px;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  color: #263238;
+  border: none;
+  border-radius: 2px;
+  background: #f5f6fa;
+  padding: 18px 16px 10px;
+}
+
+.profile-input ~ .password-icon {
+  position: absolute;
+  z-index: 0.9;
+  top: 23px;
+  right: 11px;
+  width: 20px;
+  height: 20px;
+  content: "";
+  cursor: pointer;
+}
+
+.password-change,
+.personal-info {
+  width: 45%;
+  min-width: 250px;
+  margin-bottom: 15px;
+}

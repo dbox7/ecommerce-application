@@ -1,0 +1,9 @@
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  max-width: 300px;
+
+  font-size: var(--main-text);
+}

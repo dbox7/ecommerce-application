@@ -1,0 +1,18 @@
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 100vh;
+  font-family: var(--exa);
+  font-size: var(--main-text);
+}
+
+.loading_icon {
+  height: 2rem;
+  width: 2rem;
+  margin-bottom: 1vh;
+  color: var(--accent-color);
+  animation: spin 2s linear infinite;
+}

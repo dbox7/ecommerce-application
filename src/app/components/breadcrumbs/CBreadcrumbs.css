@@ -1,0 +1,21 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+
+  font-family: var(--exa);
+  font-size: 12px;
+}
+
+.breadcrumbs__array_wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media screen and (max-width: 700px) {
+  .breadcrumbs {
+    font-size: 10px;
+  }
+}

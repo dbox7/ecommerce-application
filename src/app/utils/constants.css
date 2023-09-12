@@ -1,0 +1,111 @@
+:root {
+  /* Colors */
+  --basic-color: white;
+  --bg-color: #fafafa;
+  --accent-color: #8ebbff;
+  --dark-accent-color: #629aed;
+  --border-color: #2e2e2e;
+  --error-color: #ff6565;
+  --extra-color: #ffcb65;
+  --dark-extra-color: #ffaa00;
+  --disabled: rgb(176, 176, 176);
+  --backplate: rgba(28, 28, 28, 0.8);
+
+  --blue: rgba(133, 205, 218, 0.7);
+  --purple: rgba(138, 116, 202, 0.7);
+  --yellow: rgba(255, 203, 101, 0.7);
+  --orange: rgba(254, 143, 63, 0.7);
+  --pink: rgba(232, 81, 91, 0.7);
+
+  /* Font sizes */
+  --main-text: 14px;
+  --mini-price: 16px;
+  --sub-title: 18px;
+  --title: 24px;
+  --product-title: 32px;
+  --price: 48px;
+
+  --tera: "Lexend Tera", sans-serif;
+  --exa: "Lexend Exa", sans-serif;
+}
+
+.cat {
+  position: relative;
+  margin: 20px;
+
+  width: 30%;
+  left: 10px;
+}
+
+.cart-icon {
+  cursor: pointer;
+}
+
+.cart-icon:hover {
+  color: var(--dark-accent-color);
+  opacity: 1;
+  transition: color 0.2s ease-in;
+}
+
+.clarification {
+  text-align: center;
+  font-family: var(--exa);
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.form-wrap {
+  width: fit-content;
+  margin: 30px auto;
+}
+
+.hide {
+  display: none !important;
+}
+
+.link {
+  text-align: center;
+}
+
+.link:visited {
+  color: black;
+}
+
+.link:hover {
+  transition: color 0.2s ease-in;
+  color: var(--dark-accent-color);
+}
+
+/* Белая подложка с обрамлением */
+.substrate {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 60px 40px;
+
+  background-color: var(--basic-color);
+  border: 1px solid var(--border-color);
+}
+
+.sub-title {
+  text-align: center;
+  margin: 20px auto 30px;
+  padding-bottom: 5px;
+  width: fit-content;
+
+  font-family: var(--tera);
+  font-size: var(--sub-title);
+
+  border-bottom: 2px solid var(--accent-color);
+}
+
+@media screen and (max-width: 400px) {
+  .substrate {
+    padding: 0 35px 40px;
+  }
+}

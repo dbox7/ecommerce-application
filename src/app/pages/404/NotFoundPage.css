@@ -1,0 +1,59 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  background-image: url("../../assets/not-found-min.png");
+}
+
+.not-found-title,
+.not-found-sub-title {
+  position: relative;
+  width: 50%;
+  left: 50%;
+  padding-right: 20px;
+  font-family: var(--exa);
+  font-size: var(--title);
+  color: var(--basic-color);
+}
+
+.not-found-title {
+  margin-top: 40px;
+}
+
+.not-found-sub-title .link {
+  color: var(--basic-color);
+}
+
+.not-found-sub-title .link:hover {
+  color: var(--dark-extra-color);
+}
+
+@media screen and (max-width: 970px) {
+  .not-found-title,
+  .not-found-sub-title {
+    font-size: var(--sub-title);
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .not-found-title,
+  .not-found-sub-title {
+    font-size: var(--main-text);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .not-found-title,
+  .not-found-sub-title {
+    width: 100%;
+    left: 50%;
+    padding: 0 20px;
+    transform: translate(-50%);
+    text-align: center;
+  }
+
+  .not-found-title {
+    margin-top: 60px;
+  }
+}

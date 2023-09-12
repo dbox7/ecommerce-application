@@ -1,0 +1,84 @@
+.viewImage {
+  display: flex;
+  flex-direction: column;
+}
+
+.viewImage_main {
+  position: relative;
+  margin: auto;
+  cursor: pointer;
+}
+
+.viewImage_main::after {
+  content: "";
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.image_main {
+  width: 100%;
+  max-width: 65vh;
+  max-height: 550px;
+  object-fit: cover;
+}
+
+.image_modal {
+  width: 100%;
+  max-height: 80vh;
+}
+
+.viewImage_variants {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.image_variant {
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.image_variant_wrap {
+  position: relative;
+  width: 15%;
+}
+
+.image_variant_wrap:has(.selected)::after {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 50%;
+  transform: translate(-50%);
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+}
+
+.purple::after {
+  background-color: var(--purple);
+}
+
+.blue::after {
+  background-color: var(--blue);
+}
+
+.yellow::after {
+  background-color: var(--yellow);
+}
+
+.orange::after {
+  background-color: var(--orange);
+}
+
+.pink::after {
+  background-color: var(--pink);
+}
