@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { GlobalContext } from '../../store/GlobalContext';
 
 import { CDeveloperCard } from '../../components/developers/card/CDeveloperCard';
 import { developers } from '../../utils/constants';
@@ -9,12 +11,18 @@ import './AboutUsPage.css';
 
 export const AboutUsPage = () => {
 
+  const [globalStore] = useContext(GlobalContext);  
+  const user = globalStore.currentUser;
+
   return (
 
     <div className="content about">
       <h1 className="about-page-title">About Us</h1>
       <div className="about-page-text">
-        <p>Hey there, <b>username!</b></p>
+        {user.firstName ? 
+          <p>Hey there, <b>{user.firstName}!</b></p> :
+          <p>Hey there, <b>username!</b></p>
+        }
         <br/>
         <p>We're a team of young web developers, united by a common goal: to create 
           an educational project for <b><Link to="https://rs.school/" target="_blank" className="text-link">RS-School</Link></b>. 
