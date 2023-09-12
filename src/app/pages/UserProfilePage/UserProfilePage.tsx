@@ -12,7 +12,7 @@ export const UserProfilePage = () => {
 
   useEffect(() => {
 
-    if (!currentUser.id) {
+    if (currentUser.id !== '') {
 
       navigate('/login');
   

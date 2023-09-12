@@ -12,7 +12,7 @@ export const SignUpPage = () => {
 
   useEffect(() => {
     
-    if (!currentUser.id) {
+    if (currentUser.id !== '') {
 
       navigate('/');
   
