@@ -16,8 +16,8 @@ import {
 import { anonUser } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import { useDispatch } from 'react-redux';
-import { UserActionsType } from '../store/reducers/userReducer';
-import { ProductActionsType } from '../store/reducers/productsReducer';
+import { UserActionsType } from '../store/types';
+import { ProductActionsType } from '../store/types';
 import { useTypedSelector } from '../store/hooks/useTypedSelector';
 
 const GetApi = (userState: IGlobalStoreType) => {

@@ -1,4 +1,4 @@
-import { Category, ProductProjection } from '@commercetools/platform-sdk';
+import { IProductsState, IProductsAction, ProductActionsType } from '../types';
 
 const InitialState: IProductsState = {
   products: [],
@@ -6,46 +6,6 @@ const InitialState: IProductsState = {
   loading: false,
   msg: { body: '', error: false }
 };
-
-interface IProductPayload {
-  prods: ProductProjection[],
-  msg?: string
-}
-
-interface IProductsState {
-  products: ProductProjection[],
-  categories: Category[],
-  loading: boolean
-  msg: { body: string, error: boolean }
-}
-
-export enum ProductActionsType {
-  PENDING_PRODS = 'PENDING_PRODS',
-  UPDATE_PRODS = 'UPDATE_PRODS',
-  UPDATE_CATS = 'UPDATE_CATS',
-  ERROR_PRODS = 'ERROR_PRODS',
-}
-
-interface IPendingAction {
-  type: ProductActionsType.PENDING_PRODS
-}
-
-interface IUpdateProdsAction {
-  type: ProductActionsType.UPDATE_PRODS
-  payload: IProductPayload
-}
-
-interface IUpdateCatsAction {
-  type: ProductActionsType.UPDATE_CATS
-  payload: Category[]
-}
-
-interface IErrorAction {
-  type: ProductActionsType.ERROR_PRODS
-  payload: string
-}
-
-export type IProductsAction = IPendingAction | IUpdateProdsAction | IUpdateCatsAction | IErrorAction ;
 
 export const productsReducer = (state = InitialState, action: IProductsAction): IProductsState => {
 

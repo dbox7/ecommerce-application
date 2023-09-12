@@ -1,5 +1,6 @@
 import { anonUser } from '../../utils/constants';
 import { IGlobalStoreType } from '../../utils/types';
+import { IUserAction, UserActionsType } from '../types';
 
 const InitialState : IGlobalStoreType = {
   currentUser: anonUser,
@@ -7,28 +8,6 @@ const InitialState : IGlobalStoreType = {
   loading: false,
   msg: { body: '', error: false }
 };
-
-export enum UserActionsType {
-  PENDING = 'PENDING',
-  UPDATE_SUCCESS = 'UPDATE_SUCCESS',
-  ERROR = 'ERROR'
-}
-
-interface IPendingAction {
-  type: UserActionsType.PENDING
-}
-
-interface IUpdateSuccesAction {
-  type: UserActionsType.UPDATE_SUCCESS
-  payload: any
-}
-
-interface IErrorAction {
-  type: UserActionsType.ERROR
-  payload: string
-}
-
-export type IUserAction = IPendingAction | IUpdateSuccesAction | IErrorAction ;
 
 export const userReducer = (state = InitialState, action: IUserAction): IGlobalStoreType => {
 
@@ -66,3 +45,5 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
   }
 
 };
+
+export { UserActionsType };
