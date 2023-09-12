@@ -1,13 +1,8 @@
-.text-link:hover {
-  color: var(--dark-accent-color);
-  transition: all 0.3s ease-in-out;
-}
-
-.content.about {
+.about__content {
   padding: 5vh;
 }
 
-.about-page-title {
+.about__content__title {
   margin-bottom: 2vh;
   font-family: var(--tera);
   font-size: var(--title);
@@ -15,13 +10,13 @@
   width: fit-content;
 }
 
-.about-page-text {
+.about__content__text {
   position: relative;
   font-family: var(--exa);
   font-size: var(--main-text);
 }
 
-.school-logo {
+.about__content__text__school-logo {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -33,7 +28,12 @@
   height: 5rem;
 }
 
-.about-page-team {
+.about__content__text__text-link:hover {
+  color: var(--dark-accent-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.about__content__team {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,7 +42,7 @@
 }
 
 @media screen and (max-width: 900px) {
-  .about-page-team {
+  .about__content__team {
     flex-direction: column;
   }
 }
