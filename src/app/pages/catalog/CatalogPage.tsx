@@ -8,6 +8,7 @@ import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import useToastify from '../../services/useToastify';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/filters/search/CSearch';
@@ -22,8 +23,9 @@ import './CatalogPage.css';
 
 export const CatalogPage = () => {
 
+  const notify = useToastify();
   const server = useServerApi();
-  const { products, categories } = useTypedSelector(state => state.products);
+  const { products, categories, msg } = useTypedSelector(state => state.products);
 
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
  
@@ -59,6 +61,19 @@ export const CatalogPage = () => {
     setCrumbs(c);
   
   }, [products]);
+
+  useEffect(() => {
+
+    if (msg.body !== '') {
+
+      msg.error ? 
+        notify({ error: msg.body })
+        :
+        notify({ success: msg.body });
+
+    }
+
+  }, [msg]);
   
   return (
     (products.length !== 0 && categories.length !== 0) ? 

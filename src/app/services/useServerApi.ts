@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
 import { 
   MyCustomerDraft, 
@@ -41,7 +40,6 @@ const GetApi = (userState: IGlobalStoreType) => {
 
 export const useServerApi = () => {
 
-  const [error, setError] = useState('');
   const dispatch: any = useDispatch();
 
   const userState = useTypedSelector(state => state.user);
@@ -205,7 +203,9 @@ export const useServerApi = () => {
 
     }).catch(() => {
         
-      setError('Something went wrong. Please try again later.');
+      const error = 'Something went wrong. Please try again later.';
+
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});
 
     });
 
@@ -220,9 +220,11 @@ export const useServerApi = () => {
         
         setProduct(res.body);
         
-      }).catch(err => {
+      }).catch(() => {
         
-        setError(err);        
+        const error = 'Something went wrong. Please try again later.';
+
+        dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});       
         
       });
 
@@ -237,7 +239,9 @@ export const useServerApi = () => {
 
     }).catch(() => {
         
-      setError('Something went wrong. Please try again later.');
+      const error = 'Something went wrong. Please try again later.';
+
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: error});
 
     });
 
@@ -250,7 +254,6 @@ export const useServerApi = () => {
       queryArgs: queryArgs
     }).execute().then((data) => {
   
-      // setProducts(data.body.results);
       dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
       
     });
@@ -507,7 +510,6 @@ export const useServerApi = () => {
   };
   
   return { 
-    error,
     Registration,
     Login,
     Logout,
