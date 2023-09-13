@@ -1,7 +1,6 @@
-import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
+import { Api } from '../ctp';
 import { 
   MyCustomerDraft, 
-  createApiBuilderFromCtpClient,
   CustomerChangePassword, 
   CustomerUpdate,
   MyCartDraft,
@@ -12,55 +11,39 @@ import {
   IAction,
   IAddress,
   IChangePassword, 
-  IGlobalStoreType, 
   IPayload, 
   IQueryArgs
 } from '../utils/types';
 import { anonUser, initialCart } from '../utils/constants';
-import { createAnonApiClient } from '../ctp';
 import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/types';
 import { ProductActionsType } from '../store/types';
 import { useTypedSelector } from '../store/hooks/useTypedSelector';
 import { CartActionTypes } from '../store/reducers/cartReducer';
 
-const GetApi = (userState: IGlobalStoreType) => {
 
-  let api;
-
-  if (userState.currentUser.id && userState.apiMeRoot) {
-
-    api = userState.apiMeRoot;
-  
-  } else {
-  
-    api = apiAnonRoot;
-  
-  }
-
-  return api;
-  
-}; 
 
 export const useServerApi = () => {
 
   const dispatch: any = useDispatch();
 
   const userState = useTypedSelector(state => state.user);
-  const api = GetApi(userState);
 
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
 
-    apiAnonRoot.me().signup()
+    Api.root.me().signup()
       .post({body: payload as MyCustomerDraft})
       .execute()
       .then((data) => {
 
-        const ctpMeClient = createUserApiClient(payload.email, payload.password);
-        const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
+        Api.passwordRoot(payload.email, payload.password).me().get().execute().then((data) => {
+          
+          localStorage.currentUser = JSON.stringify(data.body);
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
 
-        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
+        });
+
       
       })
       .catch((err) => {
@@ -79,42 +62,41 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Login
   const Login = (email: string, password: string) => {
 
-    const ctpMeClient = createUserApiClient(email, password);
-    const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
-    
-    
-    apiMeRoot.me().login().post({
-      body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'} })
-      .execute()
-      .then(data => {
+    Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
-        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body.customer, api: apiMeRoot }});
-        
-      }).catch(err => {
-          
-        const error = (err.body.message === 'Customer account with the given credentials not found.') ? 
-          'The user does not exist or the email/password is incorrect.'
-          :
-          'Something went wrong. Please try again later.';
+      // Сохраняем в глобальном хранилище и localStorage профиль пользователя
+      localStorage.currentUser = JSON.stringify(data.body);
+      dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
+   
+    }).catch((err) => {
 
-        dispatch({type: UserActionsType.ERROR, payload: error});
-        
-      });
+      const error = (err.body.message === 'Customer account with the given credentials not found.') ? 
+        'The user does not exist or the email/password is incorrect.'
+        :
+        'Something went wrong. Please try again later.';
+
+      dispatch({type: UserActionsType.ERROR, payload: error});
+
+    });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ Logout
   const Logout = () => {
 
-    createAnonApiClient();
-    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot, cart: initialCart }});
+    delete localStorage.currentUser;
+    delete localStorage.rToken;
+    // Удаляем из кеша анонимного API-клиента, так как после логина/регистрации он протух
+    Api.expireAnonClient();
+    
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, cart: initialCart }});
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ ChangePassword
   const ChangePassword = (email: string, updateData: IChangePassword): void => {
 
-    api
+    Api.root
       .me()
       .password()
       .post({ body: updateData as CustomerChangePassword })
@@ -122,23 +104,22 @@ export const useServerApi = () => {
       .then(() => {
    
         const password: string = updateData.newPassword;
-        const ctpMeClient = createUserApiClient(email, password);
-        const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
 
-        apiMeRoot.me().login().post({
+        Api.expireAnonClient();
+        Api.passwordRoot(email, password).me().login().post({
           body: {email, password}
         })
           .execute()
           .then(data => {
-      
+
             const successMessage = 'Your password has been updated successfully!';
 
             dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { 
               user: data.body.customer, 
-              api: apiMeRoot, 
               msg: successMessage
-            }});
 
+            }});
+  
           });
         
       })
@@ -155,7 +136,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ getCustomer
   const getCustomer = () => {
 
-    api.me()
+    Api.root.me()
       .get()
       .execute()
       .then((data) => {
@@ -186,7 +167,7 @@ export const useServerApi = () => {
       ],
     };
 
-    api.customers()
+    Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
@@ -210,7 +191,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
   const GetAllProducts = () => {
 
-    api?.productProjections().get({
+    Api.root.productProjections().get({
       queryArgs: {
         limit: 100
       }
@@ -231,7 +212,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ GetProductById
   const GetProductById = (id: string, setProduct: Function) => {
 
-    api?.productProjections()
+    Api.root.productProjections()
       .withId({ID: id as string})
       .get().execute().then(res => {
         
@@ -250,7 +231,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ GetAllCategories
   const GetAllCategories = () => {
 
-    api?.categories().get().execute().then((data) => {
+    Api.root.categories().get().execute().then((data) => {
 
       dispatch({type: ProductActionsType.UPDATE_CATS, payload: data.body.results });
 
@@ -267,7 +248,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ FilterProducts
   const FilterProducts = (queryArgs: IQueryArgs) => {
 
-    api.productProjections().search().get({
+    Api.root.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then((data) => {
   
@@ -293,7 +274,7 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
@@ -336,7 +317,7 @@ export const useServerApi = () => {
           actions,
         };
 
-        api.customers()
+        Api.root.customers()
           .withId({ ID: customerID })
           .post({ body: updateData as CustomerUpdate})
           .execute()
@@ -411,7 +392,7 @@ export const useServerApi = () => {
       actions,
     };
 
-    api.customers()
+    Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData as CustomerUpdate })
       .execute()
@@ -447,7 +428,7 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
@@ -504,7 +485,7 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData as CustomerUpdate })
       .execute()
@@ -529,7 +510,7 @@ export const useServerApi = () => {
 
   const createCart = (draft: MyCartDraft): void => {
 
-    api
+    Api.root
       .me()
       .carts()
       .post({ body: draft })
@@ -551,7 +532,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ getCart
   const getCart = (cartID: string): void => {
 
-    api.me()
+    Api.root.me()
       .carts()
       .withId({ ID: cartID })
       .get()
@@ -574,7 +555,7 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ deleteCart
   const deleteCart = (cartID: string, version: number): void => {
 
-    api.me()
+    Api.root.me()
       .carts()
       .withId({ ID: cartID })
       .delete({
@@ -614,7 +595,7 @@ export const useServerApi = () => {
     };
 
 
-    api.me()
+    Api.root.me()
       .carts()
       .withId({ ID: cartID })
       .post({ body: updateData })
@@ -655,7 +636,7 @@ export const useServerApi = () => {
  
     return new Promise<Cart> ((resolve, reject) => {
 
-      api.me()
+      Api.root.me()
         .carts()
         .withId({ ID: cartID })
         .post({ body: updateData })

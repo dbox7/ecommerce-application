@@ -1,11 +1,9 @@
 import fetch from 'node-fetch';
 import { ClientBuilder, 
-  type HttpMiddlewareOptions, 
-  AnonymousAuthMiddlewareOptions, 
-  PasswordAuthMiddlewareOptions } from '@commercetools/sdk-client-v2';
+  type HttpMiddlewareOptions} from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { Client } from '@commercetools/sdk-client-v2';
-import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
+import { TokenCache, TokenStore, TokenCacheOptions } from '@commercetools/sdk-client-v2';
 
 
 export const AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
@@ -20,53 +18,164 @@ export const httpMiddlewareOptions: HttpMiddlewareOptions = {
   fetch,
 };
 
-export let ctpAnonClient: Client;
-export let apiAnonRoot: ByProjectKeyRequestBuilder;
+class MyTokenCache implements TokenCache {
 
+  _store: TokenStore;
+  
+  static DEFAULT = {
+    token: '',
+    expirationTime: 0,
+    refreshToken: ''
 
-export function createAnonApiClient() {
+  };
 
-  ctpAnonClient = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withAnonymousSessionFlow({
-      host: AUTH_URL,
-      projectKey: PROJECT_KEY,
-      credentials: {
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-      },
-      scopes: SCOPES,
-      fetch,
-    } as AnonymousAuthMiddlewareOptions)
-    .withHttpMiddleware(httpMiddlewareOptions)
-    .build();
+  constructor() {
 
-  apiAnonRoot = createApiBuilderFromCtpClient(ctpAnonClient).withProjectKey({ projectKey: 'rss-final-task' });
+    this._store = MyTokenCache.DEFAULT;
+
+  }
+
+  get(tokenCacheOptions?: TokenCacheOptions): TokenStore {
+
+    return this._store;
+
+  }
+
+  set(cache: TokenStore, tokenCacheOptions?: TokenCacheOptions): void {
+
+    if(cache.refreshToken) {
+
+      localStorage.rToken = cache.refreshToken;
+
+    }
+
+    this._store = cache;
+
+  }
+
+  clear() {
+
+    this._store = MyTokenCache.DEFAULT;
+
+  }
 
 }
+const tokenCache = new MyTokenCache();
 
-createAnonApiClient();
+export class Api {
 
+  static _anonClientCache?: Client;
+  static DEBUG = true;
 
-export function createUserApiClient(username: string, password: string) {
+  private static log(txt: string) {
 
-  const ctpMeClient = new ClientBuilder()
-    .withProjectKey(PROJECT_KEY)
-    .withPasswordFlow({
-      host: AUTH_URL,
-      projectKey: PROJECT_KEY,
-      credentials: {
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        user: {
-          username: username,
-          password: password
-        }
+    if (Api.DEBUG) {
+
+      console.log('Api: %s', txt);
+
+    }
+
+  }
+
+  /**
+   * Возвращает API Client. Если в localStorage был Refresh Token, то создаст клиента с
+   * RefreshTokenFlow, а если не было — то анонимного.
+   */
+  static get client() {
+
+    if (!localStorage.rToken) {
+
+      if (!Api._anonClientCache) {
+
+        Api.log('Creating Anonymous client');
+        Api._anonClientCache = new ClientBuilder().withProjectKey(PROJECT_KEY)
+          .withAnonymousSessionFlow({
+            host: AUTH_URL,
+            projectKey: PROJECT_KEY,
+            credentials: {
+              clientId: CLIENT_ID,
+              clientSecret: CLIENT_SECRET,
+            },
+            scopes: SCOPES,
+            fetch
+          })
+          .withHttpMiddleware(httpMiddlewareOptions)
+          .build();
+
+      } else {
+
+        Api.log('Re-using Anonymous client');
+
       }
-    } as PasswordAuthMiddlewareOptions)
-    .withHttpMiddleware(httpMiddlewareOptions)
-    .build();
-    
-  return ctpMeClient;
+      return Api._anonClientCache;
+
+    } else {
+
+      Api.log(`Creating Refresh Token Client (${localStorage.rToken})`);
+      return new ClientBuilder().withProjectKey(PROJECT_KEY)
+        .withRefreshTokenFlow({
+          host: AUTH_URL,
+          projectKey: PROJECT_KEY,
+          credentials: {
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+          },
+          refreshToken: localStorage.rToken,
+          fetch,
+          tokenCache: tokenCache
+        })
+        .withHttpMiddleware(httpMiddlewareOptions)
+        .build();
+
+    }
+
+  }
+
+  /**
+   * Создаёт и возвращает API-клиента с Password Flow
+   */
+  static passwordClient(email: string, password: string) {
+
+    Api.log('Creating Password client');
+    return new ClientBuilder().withProjectKey(PROJECT_KEY)
+      .withPasswordFlow({
+        host: AUTH_URL,
+        projectKey: PROJECT_KEY,
+        credentials: {
+          clientId: CLIENT_ID,
+          clientSecret: CLIENT_SECRET,
+          user: {
+            username: email,
+            password: password
+          }
+        },
+        tokenCache: tokenCache
+      })
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .build();
+
+  }
+
+  static get root() {
+
+    return createApiBuilderFromCtpClient(Api.client).withProjectKey({ projectKey: PROJECT_KEY });
+
+  }
+
+  static passwordRoot(email: string, password: string) {
+
+    return createApiBuilderFromCtpClient(Api.passwordClient(email, password)).withProjectKey({ projectKey: PROJECT_KEY });
+  
+  }
+
+  static expireAnonClient() {
+
+    Api._anonClientCache = undefined;
+    // Нужно почистить кэш токенов тоже, потому что новое создание клиента с password flow авторизацией
+    // не пересоздаст refresh token и он не запомнится
+    tokenCache.clear();
+
+  }
 
 }
+
