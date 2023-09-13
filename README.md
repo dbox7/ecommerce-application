@@ -37,6 +37,12 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.
 See the section about running tests for more information.
 
+`npm run lint`
+Runs a code style and syntax check on your code using a linter. A linter is a tool that helps identify and fix potential issues and stylistic inconsistencies in your code. The results of the check will be displayed in the console. This is useful for maintaining clean and consistent code in your project.
+
+`npm run pre`
+Formats your code using Prettier, an opinionated code formatter. Prettier helps maintain a consistent and clean code style throughout your project. The results of the formatting will be displayed in the console.
+
 `npm run build`  
 Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.

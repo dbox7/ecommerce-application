@@ -4,6 +4,9 @@ import {
   createApiBuilderFromCtpClient,
   CustomerChangePassword, 
   CustomerUpdate,
+  MyCartDraft,
+  MyCartUpdate,
+  Cart,
 } from '@commercetools/platform-sdk';
 import { 
   IAction,
@@ -13,12 +16,13 @@ import {
   IPayload, 
   IQueryArgs
 } from '../utils/types';
-import { anonUser } from '../utils/constants';
+import { anonUser, initialCart } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/types';
 import { ProductActionsType } from '../store/types';
 import { useTypedSelector } from '../store/hooks/useTypedSelector';
+import { CartActionTypes } from '../store/reducers/cartReducer';
 
 const GetApi = (userState: IGlobalStoreType) => {
 
@@ -79,9 +83,8 @@ export const useServerApi = () => {
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
     
     
-    return apiMeRoot.me().login().post({
-      body: {email, password}
-    })
+    apiMeRoot.me().login().post({
+      body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'} })
       .execute()
       .then(data => {
 
@@ -104,7 +107,7 @@ export const useServerApi = () => {
   const Logout = () => {
 
     createAnonApiClient();
-    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot }});
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot, cart: initialCart }});
 
   };
 
@@ -147,6 +150,20 @@ export const useServerApi = () => {
       
       });
 
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ getCustomer
+  const getCustomer = () => {
+
+    api.me()
+      .get()
+      .execute()
+      .then((data) => {
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {user: data.body}});
+        
+      });
+      
   };
 
   // ------------------------------------------------------------------------------------------------------------------ UpdatePersonalInfo
@@ -505,15 +522,173 @@ export const useServerApi = () => {
         dispatch({type: UserActionsType.ERROR, payload: error});
         
       });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ createCart
+
+  const createCart = (draft: MyCartDraft): void => {
+
+    api
+      .me()
+      .carts()
+      .post({ body: draft })
+      .execute()
+      .then((data) => {
+        
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+      
+      }).catch(() => {
+
+        const error = 'Something went wrong. Please try again later.';
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+      
+      });
+      
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ getCart
+  const getCart = (cartID: string): void => {
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .get()
+      .execute()
+      .then((data) => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+      
+      })
+      .catch(() => {
+      
+        const error = 'You do not have a shopping cart yet, please add the product';
+        
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+      });
+    
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ deleteCart
+  const deleteCart = (cartID: string, version: number): void => {
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .delete({
+        queryArgs: { version },
+      })
+      .execute()
+      .then(() => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: null }});
+      
+      })
+      .catch(() => {
+      
+        const error = 'Something went wrong. Please try again later.';
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+      });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ addCartItem
+  const addCartItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    variantId: number,
+    productId: string,
+  ): void => {
+
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'addLineItem', productId, variantId, quantity }
+      ],
+    };
+
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        const successMessage ='Pruduct has been added to cart successfully!';
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
+
+      })
+      .catch(() => {
+
+        const error = 'An error occurred while adding item to cart.';
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+      });
     
   
   };
+
+  // ------------------------------------------------------------------------------------------------------------------ removeCartItem
+  const removeCartItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
+  ): Promise<Cart> => {
+
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'removeLineItem', lineItemId, quantity }
+      ],
+    };
+ 
+    return new Promise<Cart> ((resolve, reject) => {
+
+      api.me()
+        .carts()
+        .withId({ ID: cartID })
+        .post({ body: updateData })
+        .execute()
+        .then((data) => {
+
+          const successMessage =  'Your cart has been updated successfully!';
+
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
+
+          resolve(data.body);
+
+        })
+        .catch(() => {
+
+          const error ='An error occurred while updating cart.';
+          
+          dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+          reject(error);
+
+        });
+    
+    });
+  
+  };
+
   
   return { 
     Registration,
     Login,
     Logout,
     ChangePassword,
+    getCustomer,
     UpdatePersonalInfo,
     GetAllProducts,
     GetProductById,
@@ -522,7 +697,12 @@ export const useServerApi = () => {
     addAddresses,
     changeAddress,
     removeAddress,
-    setDefaultAddress
+    setDefaultAddress,
+    createCart,
+    getCart,
+    deleteCart,
+    addCartItem,
+    removeCartItem
   };
 
 };

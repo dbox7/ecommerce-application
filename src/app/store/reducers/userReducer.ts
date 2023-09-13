@@ -1,4 +1,4 @@
-import { anonUser } from '../../utils/constants';
+import { anonUser, initialCart } from '../../utils/constants';
 import { IGlobalStoreType } from '../../utils/types';
 import { IUserAction, UserActionsType } from '../types';
 
@@ -6,7 +6,8 @@ const InitialState : IGlobalStoreType = {
   currentUser: anonUser,
   apiMeRoot: undefined,
   loading: false,
-  msg: { body: '', error: false }
+  msg: { body: '', error: false },
+  cart: initialCart,
 };
 
 export const userReducer = (state = InitialState, action: IUserAction): IGlobalStoreType => {
@@ -18,7 +19,8 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: state.currentUser, 
       apiMeRoot: state.apiMeRoot,
       loading: true, 
-      msg: { body: '', error: false }
+      msg: { body: '', error: false },
+      cart: state.cart,
     };
 
   case UserActionsType.UPDATE_SUCCESS: 
@@ -28,7 +30,8 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: action.payload.user, 
       apiMeRoot: api, 
       loading: false, 
-      msg: { body: action.payload.msg || '', error: false }
+      msg: { body: action.payload.msg || '', error: false },
+      cart: action.payload.cart,
     };
 
   case UserActionsType.ERROR: 
@@ -36,7 +39,8 @@ export const userReducer = (state = InitialState, action: IUserAction): IGlobalS
       currentUser: state.currentUser, 
       apiMeRoot: state.apiMeRoot, 
       loading: false, 
-      msg: { body: action.payload, error: true }
+      msg: { body: action.payload, error: true },
+      cart: state.cart,
     };
 
   default:
