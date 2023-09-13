@@ -11,8 +11,7 @@ export const CPromo10 = () => {
       <div className={styles.promo__container__content}>
         <div className={styles.promo__container__content__text}>
           <div className={styles.promo__container__content_left}>
-            <p>Get 10% off your order of $1000 </p>
-            <p> or more with promo code:</p>
+            <p>Get 10% off your order of $1000 or more with promo code:</p>
             <p className={styles.promo__container__content__code}><b>BIGORDERDEAL</b></p>
           </div>
           <div className={styles.promo__container__content_right}>
