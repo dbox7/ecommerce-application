@@ -16,7 +16,7 @@ import {
   IPayload, 
   IQueryArgs
 } from '../utils/types';
-import { anonUser } from '../utils/constants';
+import { anonUser, initialCart } from '../utils/constants';
 import { createAnonApiClient } from '../ctp';
 import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/types';
@@ -106,7 +106,7 @@ export const useServerApi = () => {
   const Logout = () => {
 
     createAnonApiClient();
-    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot }});
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, api: apiAnonRoot, cart: initialCart }});
 
   };
 
@@ -159,21 +159,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({...globalStore, currentUser: data.body});
-        
-      });
-      
-  };
-
-  // ------------------------------------------------------------------------------------------------------------------ getCustomer
-  const getCustomer = () => {
-
-    api.me()
-      .get()
-      .execute()
-      .then((data) => {
-
-        setGlobalStore({...globalStore, currentUser: data.body});
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {user: data.body}});
         
       });
       
@@ -543,10 +529,6 @@ export const useServerApi = () => {
   const createCart = (draft: MyCartDraft): Promise<Cart> => {
 
 
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
-
     return new Promise<Cart>((resolve, reject) => {
 
       api
@@ -556,13 +538,15 @@ export const useServerApi = () => {
         .execute()
         .then((data) => {
 
-          setGlobalStore({ ...globalStore, cart: data.body });
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {cart: data.body}});
           resolve(data.body);
         
         })
-        .catch((error) => {
+        .catch(() => {
 
-          notify(errorServerMessage);
+          const error = 'Something went wrong. Please try again later.';
+
+          dispatch({type: UserActionsType.ERROR, payload: error});
           reject(error);
         
         });
@@ -575,10 +559,6 @@ export const useServerApi = () => {
   const getCart = (cartID: string): Promise<Cart> => {
 
 
-    const errorServerMessage: IToastify = {
-      error: 'You do not have a shopping cart yet, please add the product',
-    };
-
     return new Promise<Cart>((resolve, reject) => {
 
       api.me()
@@ -588,13 +568,16 @@ export const useServerApi = () => {
         .execute()
         .then((data) => {
 
-          setGlobalStore({...globalStore, cart: data.body});
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {cart: data.body}});
+
           resolve(data.body);
         
         })
         .catch(() => {
         
-          notify(errorServerMessage);
+          const error = 'You do not have a shopping cart yet, please add the product';
+          
+          dispatch({type: UserActionsType.ERROR, payload: error});
           reject(error);
 
         });
@@ -606,10 +589,6 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ deleeCart
   const deleteCart = (cartID: string, version: number): Promise<Cart> => {
 
-
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
     
     return new Promise((resolve, reject) => {
 
@@ -622,18 +601,21 @@ export const useServerApi = () => {
         .execute()
         .then((data) => {
 
-          setGlobalStore({...globalStore, cart: initialCart});
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: initialCart}});
+
           resolve(data.body);
         
         })
         .catch(() => {
         
-          notify(errorServerMessage);
+          const error = 'Something went wrong. Please try again later.';
+
+          dispatch({type: UserActionsType.ERROR, payload: error});
           reject(error);
 
         });
     
-    }); 
+    });
   
   };
 
@@ -646,12 +628,6 @@ export const useServerApi = () => {
     productId: string,
   ): void => {
 
-    const errorMessage: IToastify = {
-      error: 'An error occurred while adding item to cart.',
-    };
-    const successMessage: IToastify = {
-      success: 'Pruduct has been added to cart  successfully!'
-    };
 
     const updateData: MyCartUpdate = {
       version,
@@ -668,14 +644,16 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, cart: data.body });
-        notify(successMessage);
+        const successMessage ='Pruduct has been added to cart  successfully!';
+
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: data.body, msg: successMessage}});
 
       })
       .catch(() => {
 
-        setError('An error occurred while updating cart.');
-        notify(errorMessage);
+        const error = 'An error occurred while adding item to cart.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
 
       });
     
@@ -690,12 +668,6 @@ export const useServerApi = () => {
     lineItemId: string
   ): Promise<Cart> => {
 
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating cart.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your cart has been updated successfully!'
-    };
 
     const updateData: MyCartUpdate = {
       version,
@@ -713,15 +685,18 @@ export const useServerApi = () => {
         .execute()
         .then((data) => {
 
-          setGlobalStore({ ...globalStore, cart: data.body });
-          notify(successMessage);
+          const successMessage =  'Your cart has been updated successfully!';
+
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: data.body, msg: successMessage}});
+
           resolve(data.body);
 
         })
         .catch(() => {
 
-          setError('An error occurred while updating cart.');
-          notify(errorMessage);
+          const error ='An error occurred while updating cart.';
+          
+          dispatch({type: UserActionsType.ERROR, payload: error});
           reject(error);
 
         });

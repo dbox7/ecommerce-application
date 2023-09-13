@@ -16,7 +16,6 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import './ProductPage.css';
 import useIsItemInCart from '../../services/useIsItemInCart';
 import { getSizeArray } from '../../utils/useFullFuncs';
-import { GlobalContext } from '../../store/GlobalContext';
 
 
 export const ProductPage = () => {
@@ -25,16 +24,18 @@ export const ProductPage = () => {
   const props = useParams();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
-  const [product, setProduct] = useState<ProductProjection>();  
+  const [product, setProduct] = useState<ProductProjection>();
   const { msg } = useTypedSelector(state => state.products);
 
   const productData = product?.masterVariant;
+  const server = useServerApi();
   
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
 
   const isDuplicatedProduct = useIsItemInCart(product?.id);
+  const userState = useTypedSelector(state => state.user);
   
   let sizes: number[] = [];
 
@@ -78,6 +79,59 @@ export const ProductPage = () => {
     }
 
   }, [msg]);
+
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+  const productQuantity = 1;
+  const productVariant = 1;
+
+  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!userState.cart.id) {
+
+      try {
+
+        const newCart = await server.createCart(draft);
+
+        if (product) {
+
+          server.addCartItem(
+            newCart.id,
+            newCart.version,
+            productVariant,
+            productQuantity,
+            product.id
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error('Ошибка при создании корзины:', error);
+
+      }
+
+    } else {
+
+      if (product) {
+
+        server.addCartItem(
+          userState.cart.id,
+          userState.cart.version,
+          productVariant,
+          productQuantity,
+          product.id
+        );
+
+      }
+
+    }
+
+  };
   
   return (
     product ? 

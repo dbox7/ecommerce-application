@@ -1,21 +1,26 @@
-import { useEffect, useContext } from 'react';
-import { GlobalContext } from '../store/GlobalContext';
+import { useEffect } from 'react';
 import { useServerApi } from './useServerApi';
+import { useTypedSelector } from '../store/hooks/useTypedSelector';
+import { UserActionsType } from '../store/reducers/userReducer';
+import { useDispatch } from 'react-redux';
 
 const useIsItemInCart = (productId: string | undefined): boolean => {
 
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
+  const { cart } = useTypedSelector(state => state.user);
 
-  const server = useServerApi();  
+  console.log(cart);
+
+  const server = useServerApi();
+  const dispatch: any = useDispatch();
   
   useEffect(() => {
 
-    if (globalStore.cart.id) {
+    if (cart.id) {
 
-      server.getCart(globalStore.cart.id)
+      server.getCart(cart.id)
         .then((cartData) => {
 
-          setGlobalStore({ ...globalStore, cart: cartData });
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: cartData}});
         
         })
         .catch((error) => {
@@ -29,8 +34,9 @@ const useIsItemInCart = (productId: string | undefined): boolean => {
   }, []);
 
 
-  return globalStore.cart.lineItems.some((item) => item.productId === productId);
+  return cart.lineItems.some((item) => item.productId === productId);
 
 };
 
 export default useIsItemInCart;
+

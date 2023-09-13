@@ -1,16 +1,17 @@
 
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
-import { useContext } from 'react';
-import { GlobalContext } from '../../../store/GlobalContext';
 import { useServerApi } from '../../../services/useServerApi';
 import CPrice from '../../price/CPrice';
 import { BsCart2 } from 'react-icons/bs';
+import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 import './CProductCard.css';
 
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
-  const [globalStore] = useContext(GlobalContext);
+  const { cart } = useTypedSelector(state => state.user);
+
+  console.log(cart.id);
 
   const server = useServerApi();
 
@@ -32,7 +33,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     //setAddInCart(!addInCart);
     e.stopPropagation();
 
-    if (!globalStore.cart.id) {
+    if (!cart.id) {
 
       try {
 
@@ -55,8 +56,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     } else {
 
       server.addCartItem(
-        globalStore.cart.id,
-        globalStore.cart.version,
+        cart.id,
+        cart.version,
         productVariant,
         productQuantity,
         product.id

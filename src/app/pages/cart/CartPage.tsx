@@ -1,31 +1,31 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import CButton from '../../components/button/CButton';
 
 import { BsPlus } from 'react-icons/bs';
 import { BsDash } from 'react-icons/bs';
 import { GoTrash } from 'react-icons/go';
-
-import './CartPage.css';
-import { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useEffect, useState } from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { Cart } from '@commercetools/platform-sdk';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import './CartPage.css';
+
 
 export const CartPage = () => {
 
-  const [globalStore] = useContext(GlobalContext);
+  const { cart } = useTypedSelector(state => state.user);
   const server = useServerApi();
-  const [cart, setCart] = useState<Cart | null>(null);
+  const [renderCart, setRenderCart] = useState<Cart | null>(null);
   const [cartState, setCartState] = useState(false);
-
+  
   useEffect(() => {
 
     const fetchCart = async () => {
 
       try {
 
-        if (globalStore.cart.id) {
+        if (cart.id) {
 
           setCartState(true);
         
@@ -41,7 +41,7 @@ export const CartPage = () => {
   
     fetchCart();
   
-  }, [globalStore.cart.id]);
+  }, [cart.id]);
   
   useEffect(() => {
 
@@ -51,9 +51,9 @@ export const CartPage = () => {
 
         if (cartState) {
         
-          const cartData = await server.getCart(globalStore.cart.id);
+          const cartData = await server.getCart(cart.id);
 
-          setCart(cartData);
+          setRenderCart(cartData);
         
         }
       
@@ -67,7 +67,7 @@ export const CartPage = () => {
   
     fetchCartData();
   
-  }, [cartState, globalStore.cart.id]);
+  }, [cartState, cart.id]);
 
   const handleDeleteItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string) => {
     
@@ -75,11 +75,11 @@ export const CartPage = () => {
 
     try {
 
-      await server.removeCartItem(globalStore.cart.id, globalStore.cart.version, 1, itemId);
+      await server.removeCartItem(cart.id, cart.version, 1, itemId);
 
-      const updatedCart = await server.getCart(globalStore.cart.id);
+      const updatedCart = await server.getCart(cart.id);
 
-      setCart(updatedCart);
+      setRenderCart(updatedCart);
     
     } catch (error) {
 
@@ -95,7 +95,7 @@ export const CartPage = () => {
 
     try {
 
-      await server.deleteCart(globalStore.cart.id, globalStore.cart.version);
+      await server.deleteCart(cart.id, cart.version);
 
       setCartState(false);
 
@@ -112,7 +112,7 @@ export const CartPage = () => {
       <h1 className="cart__title">Cart</h1>
       <div className="cart__content">
         <div className="cart__content__products-container">
-          {!cart || !cart.lineItems || cart.lineItems.length === 0 || !cartState ? (
+          {!renderCart || !renderCart.lineItems || renderCart.lineItems.length === 0 || !cartState ? (
             <div className="cart__content__products-container__empty">
               <p>
                 Your cart is currently empty. Take a look at the{' '}
@@ -123,7 +123,7 @@ export const CartPage = () => {
               </p>
             </div>
           ) : (
-            cart.lineItems.map((lineItem) => (
+            renderCart.lineItems.map((lineItem) => (
               <div key={lineItem.id} className="cart__content__products-container__product">
                 <div className="cart__content__products-container__product__image">
                   <Link to={`/product/${lineItem.productId}`}>
@@ -154,7 +154,7 @@ export const CartPage = () => {
           )}
         </div>
         <div className="cart__content__order-container__total">
-          total price: {cart ? `${cart.totalPrice.centAmount/100}$` : '0'}
+          total price: {renderCart ? `${renderCart.totalPrice.centAmount/100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
           <CButton value="clear cart" type="submit" extraClass="clear" clickHandler={handleClearCart}></CButton>
