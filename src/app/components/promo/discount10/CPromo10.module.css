@@ -80,9 +80,9 @@
     width: 50%;
   }
   .promo__container__content__text {
-    font-size: calc(var(--sub-title) * .7);
+    font-size: calc(var(--sub-title) * 0.7);
   }
   .promo__container__content__code {
-    font-size: calc(var(--title) * .8);
+    font-size: calc(var(--title) * 0.8);
   }
 }
