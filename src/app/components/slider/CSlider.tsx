@@ -3,7 +3,6 @@ import { Image } from '@commercetools/platform-sdk';
 import { ISliderContext } from '../../utils/types';
 import { TRANSITION_DURATION } from '../../utils/constants';
 
-import { RxCross2 } from 'react-icons/rx';
 import CSliderList from './CSliderList';
 import CArrows from './CArrows';
 
