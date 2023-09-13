@@ -15,7 +15,7 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
 import useIsItemInCart from '../../services/useIsItemInCart';
-import { getSizeArray } from '../../utils/useFullFuncs';
+import { getSizeArray } from '../../utils/usefullFuncs';
 
 
 export const ProductPage = () => {
