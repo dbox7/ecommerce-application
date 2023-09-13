@@ -105,7 +105,7 @@ export const useServerApi = () => {
     const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
     
     
-    api.me().login().post({
+    apiMeRoot.me().login().post({
       body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'} })
       .execute()
       .then(data => {
