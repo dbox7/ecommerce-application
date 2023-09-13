@@ -9,6 +9,7 @@ import CButton from '../button/CButton';
 
 import './CLoginForm.css';
 
+
 export const CLoginForm = () => {
 
   const email = useInput('', 'email');
@@ -24,7 +25,7 @@ export const CLoginForm = () => {
     password.valid.isPasswordGood!,
   ]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
     server.Login(email.value, password.value);

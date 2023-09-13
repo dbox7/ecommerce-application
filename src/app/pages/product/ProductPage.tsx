@@ -4,6 +4,8 @@ import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
+import useToastify from '../../services/useToastify';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
@@ -19,10 +21,12 @@ import { GlobalContext } from '../../store/GlobalContext';
 
 export const ProductPage = () => {
   
+  const notify = useToastify();
   const props = useParams();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();  
+  const { msg } = useTypedSelector(state => state.products);
 
   const productData = product?.masterVariant;
   
@@ -62,63 +66,18 @@ export const ProductPage = () => {
   
   }, [product]);
 
+  useEffect(() => {
 
-  const [globalStore] = useContext(GlobalContext);
+    if (msg.body !== '') {
 
-  const server = useServerApi();
+      msg.error ? 
+        notify({ error: msg.body })
+        :
+        notify({ success: msg.body });
 
-  const draft: MyCartDraft = {
-    currency: 'USD',
-  };
-  const productQuantity = 1;
-  const productVariant = 1;
-
-  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!globalStore.cart.id) {
-
-      try {
-
-        const newCart = await server.createCart(draft);
-
-        if (product) {
-
-          server.addCartItem(
-            newCart.id,
-            newCart.version,
-            productVariant,
-            productQuantity,
-            product.id
-          );
-        
-        }
-      
-      } catch (error) {
-
-        console.error('Ошибка при создании корзины:', error);
-      
-      }
-    
-    } else {
-
-      if (product) {
-
-        server.addCartItem(
-          globalStore.cart.id,
-          globalStore.cart.version,
-          productVariant,
-          productQuantity,
-          product.id
-        );
-      
-      }
-    
     }
-  
-  };
+
+  }, [msg]);
   
   return (
     product ? 

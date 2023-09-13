@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { COUNTRIES } from '../../utils/constants';
 import { IAddress, IEditAdrdressProps } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import { useServerApi } from '../../services/useServerApi';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
@@ -11,7 +11,6 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
-
 
 const getCountryCode = (countryName: string): string => {
   
@@ -35,10 +34,10 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
   const [removeShippingAddress, setRemoveShippingAddress] = useState<boolean>(false);
   const [removeBillingAddress, setRemoveBillingAddress] = useState<boolean>(false);
-  const [globalStore] = useContext(GlobalContext);
+  const {currentUser} = useTypedSelector(state => state.user);
 
   const targetAddressId = addressId;
-  const addresses = globalStore.currentUser.addresses;
+  const addresses = currentUser.addresses;
 
   const targetAddress = addresses.find(address => address.id === targetAddressId);
 
@@ -109,8 +108,8 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
     }
 
     if (targetAddressId) server.changeAddress(
-      globalStore.currentUser.id,
-      globalStore.currentUser.version,
+      currentUser.id,
+      currentUser.version,
       address,
       targetAddressId,
       actionTypes,

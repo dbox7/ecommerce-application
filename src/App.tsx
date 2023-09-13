@@ -1,9 +1,8 @@
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { GlobalContext, defaultGlobalStore } from './app/store/GlobalContext';
-import { IGlobalStoreType } from '../src/app/utils/types';
+import { Provider } from 'react-redux';
+import { store } from './app/store/store';
 
-import { LoginPage} from './app/pages/login/LoginPage';
+import { LoginPage } from './app/pages/login/LoginPage';
 import { MainPage } from './app/pages/main/MainPage';
 import { SignUpPage } from './app/pages/signup/SignUpPage';
 import { NotFoundPage } from './app/pages/404/NotFoundPage';
@@ -20,13 +19,11 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const App = () => {
 
-  // Значение стейта по-умолчанию - анонимный юзер (потом будем брать значение из localStorage)
-  const [globalStore, setGlobalStore] = useState<IGlobalStoreType>(defaultGlobalStore);
-
   return (
-    <GlobalContext.Provider value={[globalStore, setGlobalStore]}>
+    <Provider store={store}>
       <BrowserRouter>
         <div className="main_container">
           <Header/>
@@ -56,7 +53,7 @@ const App = () => {
             theme="light"/>
         </div>
       </BrowserRouter>
-    </GlobalContext.Provider>
+    </Provider>
   );
 
 };

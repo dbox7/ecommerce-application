@@ -1,33 +1,43 @@
-import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import useToastify from '../../services/useToastify';
 
 import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
 import './LoginPage.css';
 
+
 export const LoginPage = () => {
 
-  const [globalStore] = useContext(GlobalContext);
+  const { currentUser, msg } = useTypedSelector(state => state.user);
   const navigate = useNavigate();
+  const notify = useToastify();
 
   useEffect(() => {
 
-    if (globalStore.currentUser.id) {
+    if (currentUser.id !== '') {
 
       navigate('/');
   
     }
 
-  });
+    if (msg.body !== '') {
+
+      msg.error ? 
+        notify({ error: msg.body })
+        :
+        notify({ success: msg.body });
+
+    }
+
+  }, [currentUser.id, msg]);
 
   return (
 
-    <>
-      <div className="form-wrap">
-        <CLoginForm />
-      </div>
-    </>
+    <div className="form-wrap">
+      <CLoginForm />
+    </div>
 
   );
 

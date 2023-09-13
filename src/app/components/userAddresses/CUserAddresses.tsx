@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { IAdressProps } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CButton from '../button/CButton';
 import CModal from '../modal/CModal';
@@ -11,6 +11,7 @@ import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 
 import './CUserAddresses.css';
 
+
 const CUserAddresses: React.FC<IAdressProps> = ({ 
   addresses,
   shippingAddressIds,
@@ -19,11 +20,13 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   defaultBillingAddressIds
 }) => {
 
+  const server = useServerApi();
+  const {currentUser} = useTypedSelector(state => state.user);
+
   const [modalAddAddress, setModalAddAddress] = useState(false);
   const [modalRemoveAddress, setModalRemoveAddress] = useState<Record<string, boolean>>({});
   const [modalSetDefault, setModalSetDefault] = useState<Record<string, boolean>>({});
-  const server = useServerApi();
-  const [globalStore] = useContext(GlobalContext);
+
   const [useDefaultShippingAddress, setUseDefaultShippingAddress] = useState<Record<string, boolean>>({});
   const [useDefaultBillingAddress, setUseDefaultBillingAddress] = useState<Record<string, boolean>>({});
   const [modalEditAddress, setModalEditAddress] = useState<Record<string, boolean>>({});
@@ -101,8 +104,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
             if(address.id) {
 
               server.removeAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+                currentUser.id,
+                currentUser.version,
                 address.id
               );
 
@@ -133,8 +136,8 @@ const CUserAddresses: React.FC<IAdressProps> = ({
             if(address.id) {
 
               server.setDefaultAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+                currentUser.id,
+                currentUser.version,
                 address.id,
                 actionTypes
               );

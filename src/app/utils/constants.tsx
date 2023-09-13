@@ -1,5 +1,5 @@
 import { Cart, Customer } from '@commercetools/platform-sdk';
-import { ICountry, IValidationRules } from './types';
+import { ICountry, IDeveloper, IValidationRules } from './types';
 
 import dbox7Photo from '../assets/team/dbox7.jpeg';
 import xu69uxPhoto from '../assets/team/xu69ux.jpeg';
@@ -72,7 +72,7 @@ export const COUNTRIES: ICountry[] = [
   }
 ];
 
-export const developers = [
+export const developers: IDeveloper[] = [
 
   { name: 'Dmitry Korobka', 
     role: 'Team lead and design', 

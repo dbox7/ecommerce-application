@@ -16,7 +16,7 @@ const CSliderList = () => {
       }}
     >
       {slider.slides.map(slide => (
-        <div className="slide">
+        <div className="slide" key={slide.label}>
           <img src={slide.url} alt={slide.label} className="slide__img" />
         </div>
       ))}
