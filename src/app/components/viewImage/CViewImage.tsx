@@ -58,11 +58,11 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
         ref={imgElement}  
       >
         {
-          images.map(image => (
+          images.map((image, idx) => (
             <div 
               id={image.label} 
               className={'image_variant_wrap ' + color} 
-              key={image.label}
+              key={idx}
             >
               <img 
                 src={image.url} 
