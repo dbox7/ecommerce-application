@@ -1,11 +1,12 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
-import useToastify from '../../services/useToastify';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { getSizeArray } from '../../utils/usefullFuncs';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
@@ -14,30 +15,33 @@ import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 
 import './ProductPage.css';
-import useIsItemInCart from '../../services/useIsItemInCart';
-import { getSizeArray } from '../../utils/usefullFuncs';
 
 
 export const ProductPage = () => {
   
-  const notify = useToastify();
+  const showMessage = useShowMessage();
   const props = useParams();
+  const server = useServerApi();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
+  const [hasProduct, setHasProduct] = useState(false);
   const { msg } = useTypedSelector(state => state.products);
+  const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
-  const server = useServerApi();
   
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-
-  const isDuplicatedProduct = useIsItemInCart(product?.id);
-  const userState = useTypedSelector(state => state.user);
   
   let sizes: number[] = [];
+
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+  const productQuantity = 1;
+  const productVariant = 1;
 
   if (product) {
 
@@ -47,7 +51,13 @@ export const ProductPage = () => {
   
   useEffect(() => {
 
-    server.GetProductById(props.id!, setProduct);  
+    server.GetProductById(props.id!, setProduct);
+    
+    if (cart && cart.lineItems.some(item => item.productId === props.id)) {
+
+      setHasProduct(true);
+
+    }
   
   }, []);  
 
@@ -63,73 +73,41 @@ export const ProductPage = () => {
       c[2] = {url: '', name: product?.name.en};
     
     }
-    setCrumbs(c); 
+    setCrumbs(c);
   
   }, [product]);
 
   useEffect(() => {
 
-    if (msg.body !== '') {
+    showMessage(msg);
+    showMessage(msg_cart);
 
-      msg.error ? 
-        notify({ error: msg.body })
-        :
-        notify({ success: msg.body });
+  }, [msg, msg_cart]);
 
-    }
-
-  }, [msg]);
-
-  const draft: MyCartDraft = {
-    currency: 'USD',
-  };
-  const productQuantity = 1;
-  const productVariant = 1;
-
-  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
+  const handleCart = (e: React.MouseEvent<HTMLElement>) => {
 
     e.preventDefault();
     e.stopPropagation();
 
-    if (!userState.cart.id) {
+    if (!cart) {
 
-      try {
+      server.createCart(draft);
+    
+    };
+    
+    if (cart) {
 
-        const newCart = await server.createCart(draft);
-
-        if (product) {
-
-          server.addCartItem(
-            newCart.id,
-            newCart.version,
-            productVariant,
-            productQuantity,
-            product.id
-          );
-
-        }
-
-      } catch (error) {
-
-        console.error('Ошибка при создании корзины:', error);
-
-      }
-
-    } else {
-
-      if (product) {
-
-        server.addCartItem(
-          userState.cart.id,
-          userState.cart.version,
-          productVariant,
-          productQuantity,
-          product.id
-        );
-
-      }
+      server.addCartItem(
+        cart.id,
+        cart.version,
+        productVariant,
+        productQuantity,
+        product!.id
+      );
 
     }
+
+    setHasProduct(true);
 
   };
   
@@ -163,7 +141,7 @@ export const ProductPage = () => {
               value="Add to cart +"
               type="button"
               extraClass="product_button"
-              disabled={isDuplicatedProduct}
+              disabled={hasProduct}
               clickHandler={handleCart}
             />
           </div>

@@ -1,17 +1,17 @@
-
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../../services/useServerApi';
-import CPrice from '../../price/CPrice';
-import { BsCart2 } from 'react-icons/bs';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
+
+import CPrice from '../../price/CPrice';
+
+import { BsCart2 } from 'react-icons/bs';
+
 import './CProductCard.css';
 
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
-  const { cart } = useTypedSelector(state => state.user);
-
-  console.log(cart.id);
+  const { cart } = useTypedSelector(state => state.cart);
 
   const server = useServerApi();
 
@@ -21,39 +21,22 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productQuantity = 1;
   const productVariant = 1;
 
-
   // const name = product.name.en.split(/.-./);
 
   //const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
-
   const handleClick = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     
     e.preventDefault();
-    //setAddInCart(!addInCart);
     e.stopPropagation();
 
-    if (!cart.id) {
+    if (!cart) {
 
-      try {
-
-        const newCart = await server.createCart(draft);
-
-        server.addCartItem(
-          newCart.id,
-          newCart.version,
-          productVariant,
-          productQuantity,
-          product.id
-        );
-      
-      } catch (error) {
-
-        console.error('Ошибка при создании корзины:', error);
-      
-      }
+      server.createCart(draft);
     
-    } else {
+    } 
+    
+    if (cart) {
 
       server.addCartItem(
         cart.id,
@@ -62,11 +45,10 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
         productQuantity,
         product.id
       );
-    
-    }
-  
-  };
 
+    }
+      
+  };
 
   // const cartIconDisabled = addInCart ? 'disabled' : '';
 

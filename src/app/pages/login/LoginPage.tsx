@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import useToastify from '../../services/useToastify';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import { CLoginForm } from '../../components/loginForm/CLoginForm';
 
@@ -12,7 +12,7 @@ export const LoginPage = () => {
 
   const { currentUser, msg } = useTypedSelector(state => state.user);
   const navigate = useNavigate();
-  const notify = useToastify();
+  const showMessage = useShowMessage();
 
   useEffect(() => {
 
@@ -22,14 +22,7 @@ export const LoginPage = () => {
   
     }
 
-    if (msg.body !== '') {
-
-      msg.error ? 
-        notify({ error: msg.body })
-        :
-        notify({ success: msg.body });
-
-    }
+    showMessage(msg);
 
   }, [currentUser.id, msg]);
 

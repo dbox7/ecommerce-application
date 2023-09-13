@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/types';
 import { ProductActionsType } from '../store/types';
 import { useTypedSelector } from '../store/hooks/useTypedSelector';
+import { CartActionTypes } from '../store/reducers/cartReducer';
 
 const GetApi = (userState: IGlobalStoreType) => {
 
@@ -526,100 +527,76 @@ export const useServerApi = () => {
 
   // ------------------------------------------------------------------------------------------------------------------ createCart
 
-  const createCart = (draft: MyCartDraft): Promise<Cart> => {
+  const createCart = (draft: MyCartDraft): void => {
 
-
-    return new Promise<Cart>((resolve, reject) => {
-
-      api
-        .me()
-        .carts()
-        .post({ body: draft })
-        .execute()
-        .then((data) => {
-
-          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {cart: data.body}});
-          resolve(data.body);
+    api
+      .me()
+      .carts()
+      .post({ body: draft })
+      .execute()
+      .then((data) => {
         
-        })
-        .catch(() => {
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+      
+      }).catch(() => {
 
-          const error = 'Something went wrong. Please try again later.';
+        const error = 'Something went wrong. Please try again later.';
 
-          dispatch({type: UserActionsType.ERROR, payload: error});
-          reject(error);
-        
-        });
-    
-    });
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+      
+      });
       
   };
 
   // ------------------------------------------------------------------------------------------------------------------ getCart
-  const getCart = (cartID: string): Promise<Cart> => {
+  const getCart = (cartID: string): void => {
 
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .get()
+      .execute()
+      .then((data) => {
 
-    return new Promise<Cart>((resolve, reject) => {
-
-      api.me()
-        .carts()
-        .withId({ ID: cartID })
-        .get()
-        .execute()
-        .then((data) => {
-
-          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: {cart: data.body}});
-
-          resolve(data.body);
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+      
+      })
+      .catch(() => {
+      
+        const error = 'You do not have a shopping cart yet, please add the product';
         
-        })
-        .catch(() => {
-        
-          const error = 'You do not have a shopping cart yet, please add the product';
-          
-          dispatch({type: UserActionsType.ERROR, payload: error});
-          reject(error);
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
 
-        });
+      });
     
-    });
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ deleteCart
+  const deleteCart = (cartID: string, version: number): void => {
+
+    api.me()
+      .carts()
+      .withId({ ID: cartID })
+      .delete({
+        queryArgs: { version },
+      })
+      .execute()
+      .then(() => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: null }});
+      
+      })
+      .catch(() => {
+      
+        const error = 'Something went wrong. Please try again later.';
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+      });
   
   };
 
-  // ------------------------------------------------------------------------------------------------------------------ deleeCart
-  const deleteCart = (cartID: string, version: number): Promise<Cart> => {
-
-    
-    return new Promise((resolve, reject) => {
-
-      api.me()
-        .carts()
-        .withId({ ID: cartID })
-        .delete({
-          queryArgs: { version },
-        })
-        .execute()
-        .then((data) => {
-
-          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: initialCart}});
-
-          resolve(data.body);
-        
-        })
-        .catch(() => {
-        
-          const error = 'Something went wrong. Please try again later.';
-
-          dispatch({type: UserActionsType.ERROR, payload: error});
-          reject(error);
-
-        });
-    
-    });
-  
-  };
-
-  // ------------------------------------------------------------------------------------------------------------------ addCatrtItem
+  // ------------------------------------------------------------------------------------------------------------------ addCartItem
   const addCartItem = (
     cartID: string,
     version: number,
@@ -644,23 +621,23 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        const successMessage ='Pruduct has been added to cart  successfully!';
+        const successMessage ='Pruduct has been added to cart successfully!';
 
-        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: data.body, msg: successMessage}});
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
 
       })
       .catch(() => {
 
         const error = 'An error occurred while adding item to cart.';
 
-        dispatch({type: UserActionsType.ERROR, payload: error});
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
 
       });
     
   
   };
 
-  // ------------------------------------------------------------------------------------------------------------------ removeCatrtItem
+  // ------------------------------------------------------------------------------------------------------------------ removeCartItem
   const removeCartItem = (
     cartID: string,
     version: number,
@@ -687,7 +664,7 @@ export const useServerApi = () => {
 
           const successMessage =  'Your cart has been updated successfully!';
 
-          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { cart: data.body, msg: successMessage}});
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
 
           resolve(data.body);
 
@@ -696,7 +673,7 @@ export const useServerApi = () => {
 
           const error ='An error occurred while updating cart.';
           
-          dispatch({type: UserActionsType.ERROR, payload: error});
+          dispatch({type: CartActionTypes.ERROR_CART, payload: error});
           reject(error);
 
         });
