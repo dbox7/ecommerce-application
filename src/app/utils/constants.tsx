@@ -17,7 +17,7 @@ export const anonUser: Customer = {
   authenticationMode: ''
 };
 
-export const initialCart: Cart = {
+export const emptyCart: Cart = {
   id: '',
   version: 0,
   lineItems: [],
