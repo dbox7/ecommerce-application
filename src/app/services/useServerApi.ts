@@ -537,23 +537,23 @@ export const useServerApi = () => {
 
   // ------------------------------------------------------------------------------------------------------------------ createCart
 
-  const createCart = (draft: MyCartDraft): void => {
+  const createCart = (draft: MyCartDraft): Promise<Cart> => {
 
-    Api.root
+    return Api.root
       .me()
       .carts()
       .post({ body: draft })
       .execute()
-      .then((data) => {
+      .then(async (data) => {
         
-        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+        return await dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }}).payload.cart;
       
       }).catch(() => {
 
         const error = 'Something went wrong. Please try again later.';
 
         dispatch({type: CartActionTypes.ERROR_CART, payload: error});
-      
+
       });
       
   };
