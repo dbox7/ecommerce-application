@@ -62,22 +62,30 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Login
   const Login = (email: string, password: string) => {
 
-    Api.passwordRoot(email, password).me().get().execute().then((data) => {
+    Api.root.me().login().post({
+      body: {email, password}
+    })
+      .execute()
+      .then(data => {
 
-      // Сохраняем в глобальном хранилище и localStorage профиль пользователя
-      localStorage.currentUser = JSON.stringify(data.body);
-      dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
-   
-    }).catch((err) => {
+        Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
-      const error = (err.body.message === 'Customer account with the given credentials not found.') ? 
-        'The user does not exist or the email/password is incorrect.'
-        :
-        'Something went wrong. Please try again later.';
+          // Сохраняем в глобальном хранилище и localStorage профиль пользователя
+          localStorage.currentUser = JSON.stringify(data.body);
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
 
-      dispatch({type: UserActionsType.ERROR, payload: error});
+        });
+      
+      }).catch((err) => {
 
-    });
+        const error = (err.body.message === 'Customer account with the given credentials not found.') ? 
+          'The user does not exist or the email/password is incorrect.'
+          :
+          'Something went wrong. Please try again later.';
+
+        dispatch({type: UserActionsType.ERROR, payload: error});
+
+      });
 
   };
 
