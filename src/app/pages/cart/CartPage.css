@@ -44,6 +44,11 @@
   padding: 1vh;
 }
 
+.cart__content__products-container__product__name {
+  width: 40%;
+  text-align: left;
+}
+
 .cart__content__products-container__product__count {
   display: flex;
   flex-direction: row;
