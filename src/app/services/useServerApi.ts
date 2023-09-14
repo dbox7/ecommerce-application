@@ -14,11 +14,10 @@ import {
   IPayload, 
   IQueryArgs
 } from '../utils/types';
-import { anonUser, initialCart } from '../utils/constants';
+import { anonUser, emptyCart } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { UserActionsType } from '../store/types';
 import { ProductActionsType } from '../store/types';
-import { useTypedSelector } from '../store/hooks/useTypedSelector';
 import { CartActionTypes } from '../store/reducers/cartReducer';
 
 
@@ -27,7 +26,6 @@ export const useServerApi = () => {
 
   const dispatch: any = useDispatch();
 
-  const userState = useTypedSelector(state => state.user);
 
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
@@ -35,12 +33,18 @@ export const useServerApi = () => {
     Api.root.me().signup()
       .post({body: payload as MyCustomerDraft})
       .execute()
-      .then((data) => {
+      .then(() => {
 
         Api.passwordRoot(payload.email, payload.password).me().get().execute().then((data) => {
           
           localStorage.currentUser = JSON.stringify(data.body);
           dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
+
+        });
+        Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
+
+          localStorage.cart = JSON.stringify(data.body);
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
 
         });
 
@@ -63,16 +67,22 @@ export const useServerApi = () => {
   const Login = (email: string, password: string) => {
 
     Api.root.me().login().post({
-      body: {email, password}
+      body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'}
     })
       .execute()
-      .then(data => {
+      .then(() => {
 
         Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
           // Сохраняем в глобальном хранилище и localStorage профиль пользователя
           localStorage.currentUser = JSON.stringify(data.body);
           dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
+
+        });
+        Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
+
+          localStorage.cart = JSON.stringify(data.body);
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
 
         });
       
@@ -93,11 +103,13 @@ export const useServerApi = () => {
   const Logout = () => {
 
     delete localStorage.currentUser;
+    delete localStorage.cart;
     delete localStorage.rToken;
     // Удаляем из кеша анонимного API-клиента, так как после логина/регистрации он протух
     Api.expireAnonClient();
     
-    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser, cart: initialCart }});
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: anonUser}});
+    dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: emptyCart}});
 
   };
 

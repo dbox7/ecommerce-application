@@ -1,7 +1,8 @@
 import { Cart } from '@commercetools/platform-sdk';
+import { emptyCart } from '../../utils/constants';
 
 interface ICartState {
-  cart: Cart | null,
+  cart: Cart,
   msg: { body: string, error: boolean }
 }
 
@@ -29,7 +30,7 @@ type ICartAction = ICartUpdate | ICartError;
 
 
 const initialCart: ICartState = {
-  cart: null,
+  cart: localStorage.cart ? JSON.parse(localStorage.cart): emptyCart,
   msg: { body: '', error: false }
 };
 

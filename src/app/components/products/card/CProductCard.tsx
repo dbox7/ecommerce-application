@@ -13,6 +13,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   const { cart } = useTypedSelector(state => state.cart);
 
+  console.log(cart);
+
   const server = useServerApi();
 
   const draft: MyCartDraft = {
@@ -30,13 +32,13 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!cart) {
+    if (!cart.id) {
 
       server.createCart(draft);
     
     } 
     
-    if (cart) {
+    if (cart.id) {
 
       server.addCartItem(
         cart.id,
