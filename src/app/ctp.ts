@@ -97,7 +97,8 @@ export class Api {
               clientSecret: CLIENT_SECRET,
             },
             scopes: SCOPES,
-            fetch
+            fetch,
+            tokenCache: tokenCache
           })
           .withHttpMiddleware(httpMiddlewareOptions)
           .build();
@@ -108,6 +109,7 @@ export class Api {
 
       }
       return Api._anonClientCache;
+      
 
     } else {
 
