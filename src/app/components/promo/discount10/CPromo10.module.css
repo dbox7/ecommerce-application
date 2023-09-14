@@ -1,7 +1,8 @@
 .promo__container {
-  height: 18vh;
+  height: 25vh;
   padding: 2vh 5vw;
   background: linear-gradient(to right, #6aff00, #002aff);
+  align-items: center;
 }
 
 .promo__container__content__text {
@@ -45,6 +46,18 @@
 
 .promo__container__content__code {
   font-size: calc(var(--title) * 1.3);
+}
+
+@media screen and (max-width: 1400px) {
+  .promo__container {
+    height: 22vh;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .promo__container {
+    height: 20vh;
+  }
 }
 
 @media screen and (max-width: 800px) {

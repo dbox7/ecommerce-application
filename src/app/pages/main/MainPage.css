@@ -1,11 +1,18 @@
-.poster-wrap {
+.main-wrap {
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  height: fit-content;
+}
+.poster-wrap {
   background-image: url("../../assets/poster.png");
   background-position: center;
   background-size: cover;
+  height: 80vh;
 }
 
+.promo-wrap {
+  height: fit-content;
+}
 .link-main-wrap {
   position: absolute;
   top: 20%;
