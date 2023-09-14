@@ -119,7 +119,6 @@ export interface IGlobalStoreType {
   apiMeRoot?: ByProjectKeyRequestBuilder,
   loading: boolean,
   msg: { body: string, error: boolean }
-  cart: Cart;
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IInfoProps
