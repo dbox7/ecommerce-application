@@ -1,6 +1,7 @@
 import { Image } from '@commercetools/platform-sdk';
 import { useRef, useState } from 'react';
 
+import { RxCross2 } from 'react-icons/rx';
 import CSlider from '../slider/CSlider';
 
 import './CViewImage.css';
@@ -38,7 +39,9 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
       { isActiveSlider && 
         <>
           <CSlider images={images} />
-          <div className="backplate" onClick={() => setIsActiveSlider(false)}></div>
+          <div className="backplate" onClick={() => setIsActiveSlider(false)}>
+            <RxCross2 className="backplate__close-icon"/> 
+          </div>
         </>
       }
       <div className={'viewImage_main ' + color}>
@@ -55,11 +58,11 @@ const CViewImage = ({images, color}: {images: Image[], color: string}) => {
         ref={imgElement}  
       >
         {
-          images.map(image => (
+          images.map((image, idx) => (
             <div 
               id={image.label} 
               className={'image_variant_wrap ' + color} 
-              key={image.label}
+              key={idx}
             >
               <img 
                 src={image.url} 

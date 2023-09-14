@@ -5,8 +5,9 @@ import {
   ChangeEvent
 } from 'react';
 import { 
+  Cart,
   Customer, 
-  Price,
+  Price, 
   Image
 } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from
@@ -19,7 +20,9 @@ export type IAction = 'setDefaultShippingAddress'
 | 'removeShippingAddressId'
 | 'setDefaultBillingAddress'
 | 'addBillingAddressId'
-| 'removeBillingAddressId';
+| 'removeBillingAddressId'
+| 'addLineItem'
+| 'removeLineItem';
 
 // ------------------------------------------------------------------------------------------------------------------ IAddress
 export interface IAddress {
@@ -195,6 +198,12 @@ export interface IPriceProps {
   isMini?: boolean
 }
 
+// ------------------------------------------------------------------------------------------------------------------ ISortProductsProps
+export interface ISortProductsProps {
+  filters: IProductFilters
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
+}
+
 // ------------------------------------------------------------------------------------------------------------------ ISearchBarProps
 export interface ISearchBarProps {
   onSearch: (query: string) => void;
@@ -206,12 +215,6 @@ export interface ISliderContext {
   slideNumber: number
   changeSlide: Function
   transitionDuration: number
-}
-
-// ------------------------------------------------------------------------------------------------------------------ ISortProductsProps
-export interface ISortProductsProps {
-  filters: IProductFilters
-  setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
 // ------------------------------------------------------------------------------------------------------------------ ITextDateInputProps

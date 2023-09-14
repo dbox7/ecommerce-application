@@ -1,4 +1,5 @@
 .viewImage {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -81,4 +82,18 @@
 
 .pink::after {
   background-color: var(--pink);
+}
+
+.backplate__close-icon {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  font-size: 2rem;
+  color: var(--basic-color);
+  cursor: pointer;
+  z-index: 20;
+}
+
+.backplate__close-icon:hover {
+  color: var(--accent-color);
 }

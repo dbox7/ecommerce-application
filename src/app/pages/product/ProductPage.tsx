@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
-import useToastify from '../../services/useToastify';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { getSizeArray } from '../../utils/useFullFuncs';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
@@ -16,26 +17,17 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import './ProductPage.css';
 
 
-const getSizeArray = (product: ProductProjection) => {
-  
-  return [
-    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value,
-    ...product.variants.map(variant => 
-      variant.attributes!.find(attr => 
-        attr.name === 'size')?.value)
-  ];
-
-};
-
 export const ProductPage = () => {
   
-  const notify = useToastify();
+  const showMessage = useShowMessage();
   const props = useParams();
+  const server = useServerApi();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
-  const server = useServerApi();
-  const [product, setProduct] = useState<ProductProjection>();  
+  const [product, setProduct] = useState<ProductProjection>();
+  const [hasProduct, setHasProduct] = useState(false);
   const { msg } = useTypedSelector(state => state.products);
+  const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
   
@@ -45,6 +37,12 @@ export const ProductPage = () => {
   
   let sizes: number[] = [];
 
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+  const productQuantity = 1;
+  const productVariant = 1;
+
   if (product) {
 
     sizes = getSizeArray(product);    
@@ -53,7 +51,13 @@ export const ProductPage = () => {
   
   useEffect(() => {
 
-    server.GetProductById(props.id!, setProduct);  
+    server.GetProductById(props.id!, setProduct);
+    
+    if (cart && cart.lineItems.some(item => item.productId === props.id)) {
+
+      setHasProduct(true);
+
+    }
   
   }, []);  
 
@@ -69,22 +73,43 @@ export const ProductPage = () => {
       c[2] = {url: '', name: product?.name.en};
     
     }
-    setCrumbs(c); 
+    setCrumbs(c);
   
   }, [product]);
 
   useEffect(() => {
 
-    if (msg.body !== '') {
+    showMessage(msg);
+    showMessage(msg_cart);
 
-      msg.error ? 
-        notify({ error: msg.body })
-        :
-        notify({ success: msg.body });
+  }, [msg, msg_cart]);
+
+  const handleCart = (e: React.MouseEvent<HTMLElement>) => {
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!cart) {
+
+      server.createCart(draft);
+    
+    };
+    
+    if (cart) {
+
+      server.addCartItem(
+        cart.id,
+        cart.version,
+        productVariant,
+        productQuantity,
+        product!.id
+      );
 
     }
 
-  }, [msg]);
+    setHasProduct(true);
+
+  };
   
   return (
     product ? 
@@ -116,6 +141,8 @@ export const ProductPage = () => {
               value="Add to cart +"
               type="button"
               extraClass="product_button"
+              disabled={hasProduct}
+              clickHandler={handleCart}
             />
           </div>
         </div> 
