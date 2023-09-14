@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useState, FormEvent } from 'react';
 
 import CButton from '../../components/button/CButton';
 
@@ -14,7 +15,9 @@ import './CartPage.css';
 export const CartPage = () => {
 
   const { cart } = useTypedSelector(state => state.cart);
+  const [discount, setDiscount] = useState('');
   const server = useServerApi();
+  
 
   const handleDeleteItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string) => {
     
@@ -39,6 +42,15 @@ export const CartPage = () => {
     }
 
   };
+
+  const handleDiscount = (e: FormEvent) => {
+
+    e.preventDefault();
+    server.addDiscount(cart.id, cart.version, discount);
+    setDiscount('');
+
+  };
+
 
   return (
     <div className="cart">
@@ -86,12 +98,28 @@ export const CartPage = () => {
             ))
           )}
         </div>
+        <div className="cart__content__order-container__discount">
+          <form onSubmit={handleDiscount}>
+            <label>Do you have a promo code?
+              <input 
+                type="text" 
+                placeholder="Enter it here"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}/>
+            </label>
+            <button 
+              className="cart__content__order-container__discount__button" 
+              type="submit"
+              onClick={handleDiscount}>Yes!
+            </button>
+          </form>
+        </div>
         <div className="cart__content__order-container__total">
           total price: {cart ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
-          <CButton value="clear cart" type="submit" extraClass="clear" clickHandler={handleClearCart}></CButton>
-          <CButton value="order!" type="submit" extraClass="order"></CButton>
+          <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={handleClearCart}></CButton>
+          <CButton value="Order!" type="submit" extraClass="order"></CButton>
         </div>
       </div>
     </div>

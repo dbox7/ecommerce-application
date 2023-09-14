@@ -683,6 +683,52 @@ export const useServerApi = () => {
   
   };
 
+  // ------------------------------------------------------------------------------------------------------------------ addDiscount
+  const addDiscount = (
+    cartID: string,
+    version: number,
+    code: string
+  ): Promise<Cart> => {
+
+    console.log('code:', code, 'cart ID:', cartID, 'version:', version);
+
+
+    const updateDiscount: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'addDiscountCode', code}
+      ],
+    };
+ 
+    return new Promise<Cart> ((resolve, reject) => {
+
+      Api.root.me()
+        .carts()
+        .withId({ ID: cartID })
+        .post({ body: updateDiscount })
+        .execute()
+        .then((data) => {
+
+          const successMessage =  'Your promo code has been successfully applied!';
+
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
+
+          resolve(data.body);
+
+        })
+        .catch(() => {
+
+          const error ='Error applying the promo code. Please try again.';
+          
+          dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+          reject(error);
+
+        });
+    
+    });
+  
+  };
+
   
   return { 
     Registration,
@@ -703,7 +749,8 @@ export const useServerApi = () => {
     getCart,
     deleteCart,
     addCartItem,
-    removeCartItem
+    removeCartItem,
+    addDiscount
   };
 
 };

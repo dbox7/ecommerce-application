@@ -1,11 +1,11 @@
-.promo-container {
+.promo__container {
   height: 18vh;
   padding: 2vh 5vw;
   background: linear-gradient(to right, #ff9500, #ff3300);
 }
 
-.promo-content {
-  background-image: url("../../assets/promo-runner.png");
+.promo__container__content {
+  background-image: url("../../../assets/promo-runner.png");
   background-size: 18rem;
   background-repeat: no-repeat;
   background-position: left;
@@ -14,7 +14,7 @@
   height: 100%;
 }
 
-.promo-text {
+.promo__container__content__text {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -25,72 +25,72 @@
   font-size: var(--title);
 }
 
-.promo-text-right {
+.promo__container__content__text_right {
   text-align: right;
 }
 
-.promo-code {
+.promo__container__content__code {
   font-size: calc(var(--title) * 2);
 }
 
 @media screen and (max-width: 880px) {
-  .promo-container {
+  .promo__container {
     height: 16vh;
   }
-  .promo-content {
+  .promo__container__content {
     background-size: 15rem;
     background-position-x: 10vw;
     background-position-y: 0vh;
   }
-  .promo-text {
+  .promo__container__content__text {
     font-size: calc(var(--title) * 0.7);
   }
-  .promo-code {
+  .promo__container__content__code {
     font-size: calc(var(--title) * 1.5);
   }
 }
 
 @media screen and (max-width: 700px) {
-  .promo-container {
+  .promo__container {
     height: 14vh;
   }
-  .promo-content {
+  .promo__container__content {
     background-position-x: 15vw;
     background-position-y: 1vh;
     background-size: 10rem;
   }
-  .promo-text {
+  .promo__container__content__text {
     font-size: calc(var(--title) * 0.6);
   }
-  .promo-code {
+  .promo__container__content__code {
     font-size: calc(var(--title) * 1.2);
   }
 }
 
 @media screen and (max-width: 525px) {
-  .promo-container {
+  .promo__container {
     height: 12vh;
   }
-  .promo-content {
+  .promo__container__content {
     background-position-x: 13vw;
     background-position-y: 1vh;
     background-size: 8rem;
   }
-  .promo-text {
+  .promo__container__content__text {
     font-size: calc(var(--title) * 0.5);
   }
 }
 
 @media screen and (max-width: 415px) {
-  .promo-container {
+  .promo__container {
     height: 10vh;
   }
-  .promo-content {
+  .promo__container__content {
     background-position-x: 10vw;
     background-position-y: 1vh;
     background-size: 6rem;
   }
-  .promo-text {
+  .promo__container__content__text {
     font-size: calc(var(--title) * 0.3);
   }
 }
