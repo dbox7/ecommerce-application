@@ -13,8 +13,6 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   const { cart } = useTypedSelector(state => state.cart);
 
-  console.log(cart);
-
   const server = useServerApi();
 
   const draft: MyCartDraft = {
