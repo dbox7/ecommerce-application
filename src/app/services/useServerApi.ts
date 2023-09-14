@@ -33,7 +33,7 @@ export const useServerApi = () => {
     Api.root.me().signup()
       .post({body: payload as MyCustomerDraft})
       .execute()
-      .then(() => {
+      .then((data) => {
 
         Api.passwordRoot(payload.email, payload.password).me().get().execute().then((data) => {
           
@@ -41,12 +41,16 @@ export const useServerApi = () => {
           dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
 
         });
-        Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
+        if (data.body.cart) {
 
-          localStorage.cart = JSON.stringify(data.body);
-          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
+          Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
 
-        });
+            localStorage.cart = JSON.stringify(data.body);
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
+
+          });
+        
+        }
 
       
       })
@@ -70,7 +74,7 @@ export const useServerApi = () => {
       body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'}
     })
       .execute()
-      .then(() => {
+      .then((data) => {
 
         Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
@@ -79,12 +83,17 @@ export const useServerApi = () => {
           dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: { user: data.body }});
 
         });
-        Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
 
-          localStorage.cart = JSON.stringify(data.body);
-          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
+        if (data.body.cart) {
 
-        });
+          Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
+
+            localStorage.cart = JSON.stringify(data.body);
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
+
+          });
+        
+        }
       
       }).catch((err) => {
 
@@ -584,7 +593,7 @@ export const useServerApi = () => {
       .execute()
       .then(() => {
 
-        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: null }});
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: emptyCart }});
       
       })
       .catch(() => {
@@ -624,6 +633,8 @@ export const useServerApi = () => {
 
         const successMessage ='Pruduct has been added to cart successfully!';
 
+        localStorage.cart = JSON.stringify(data.body);
+
         dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
 
       })
@@ -644,7 +655,7 @@ export const useServerApi = () => {
     version: number,
     quantity: number,
     lineItemId: string
-  ): Promise<Cart> => {
+  ): void => {
 
 
     const updateData: MyCartUpdate = {
@@ -654,32 +665,29 @@ export const useServerApi = () => {
       ],
     };
  
-    return new Promise<Cart> ((resolve, reject) => {
 
-      Api.root.me()
-        .carts()
-        .withId({ ID: cartID })
-        .post({ body: updateData })
-        .execute()
-        .then((data) => {
+    Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
 
-          const successMessage =  'Your cart has been updated successfully!';
-
-          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
-
-          resolve(data.body);
-
-        })
-        .catch(() => {
-
-          const error ='An error occurred while updating cart.';
+        const successMessage =  'Your cart has been updated successfully!';
           
-          dispatch({type: CartActionTypes.ERROR_CART, payload: error});
-          reject(error);
+        localStorage.cart = JSON.stringify(data.body);
 
-        });
-    
-    });
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
+
+      })
+      .catch(() => {
+
+        const error ='An error occurred while updating cart.';
+          
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+      });
+
   
   };
 

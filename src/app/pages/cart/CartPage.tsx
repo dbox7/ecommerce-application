@@ -19,7 +19,7 @@ export const CartPage = () => {
   const server = useServerApi();
   
 
-  const handleDeleteItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string) => {
+  const handleDeleteItem = (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string) => {
     
     e.preventDefault();
 
@@ -31,7 +31,7 @@ export const CartPage = () => {
 
   };
 
-  const handleClearCart = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleClearCart = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     
     e.preventDefault();
 
@@ -57,7 +57,7 @@ export const CartPage = () => {
       <h1 className="cart__title">Cart</h1>
       <div className="cart__content">
         <div className="cart__content__products-container">
-          {!cart ? (
+          {!cart || !cart.lineItems || cart.lineItems.length === 0 ? (
             <div className="cart__content__products-container__empty">
               <p>
                 Your cart is currently empty. Take a look at the{' '}
