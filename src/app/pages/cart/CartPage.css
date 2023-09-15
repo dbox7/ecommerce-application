@@ -115,3 +115,8 @@
 .cart__content__order-container__discount__button:hover {
   background-color: var(--accent-color);
 }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

@@ -152,6 +152,6 @@ export const msg = {
   PERSONAL_INFO_CHANGE_ERROR: { body: 'An error occurred while updating personal information.', error: true },
   ADDRESS_UPDATE_SUCCESS: { body: 'Your addresses has been update successfully!', error: false },
   ADDRESS_UPDATE_ERROR: { body: 'An error occurred while updating address.', error: true },
-  PRODUCT_ADD_SUCCESS: { body: 'Your added in cart successfully!', error: false },
+  PRODUCT_ADD_SUCCESS: { body: 'Your product added in cart successfully!', error: false },
   PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
 };

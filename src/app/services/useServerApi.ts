@@ -46,7 +46,7 @@ export const useServerApi = () => {
           Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
 
             localStorage.cart = JSON.stringify(data.body);
-            dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
           });
         
@@ -56,13 +56,8 @@ export const useServerApi = () => {
       
       })
       .catch((err) => {
-        
-        const error = (err.body.message === 'There is already an existing customer with the provided email.') ?
-          'An account with this email already exists.'
-          :
-          'Something went wrong. Please try again later.';
 
-        dispatch({type: UserActionsType.ERROR, payload: { body: error, error: true }});
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
 
         return (err.body.message);
 
@@ -79,6 +74,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+
         Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
           // Сохраняем в глобальном хранилище и localStorage профиль пользователя
@@ -92,7 +88,7 @@ export const useServerApi = () => {
           Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
 
             localStorage.cart = JSON.stringify(data.body);
-            dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
           });
 
@@ -120,7 +116,7 @@ export const useServerApi = () => {
     Api.expireAnonClient();
     
     dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: anonUser});
-    dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: emptyCart }});
+    dispatch({type: CartActionTypes.UPDATE_CART, payload: emptyCart});
 
   };
 
@@ -224,7 +220,7 @@ export const useServerApi = () => {
       }
     }).execute().then(data => {
 
-      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: { prods: data.body.results }});
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results});
 
     }).catch((err) => {
 
@@ -353,17 +349,15 @@ export const useServerApi = () => {
           .then((data) => {
 
             dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
-
-            return ('success');
       
           })
           .catch((err) => {
 
             dispatch({type: UserActionsType.ERROR, payload: err.body.message});
-
-            return ('error');
         
           });
+
+        return ('success');
       
       })
       .catch((err) => {
@@ -559,7 +553,7 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ getCart
-  const getCart = (cartID: string) => {
+  const getCart = (cartID: string, callback?: Function) => {
 
     return Api.root.me()
       .carts()
@@ -568,10 +562,11 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
-        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body });
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+        if (callback) callback(data);
 
         return ('success');
-      
+       
       })
       .catch((err) => {
         
@@ -659,7 +654,6 @@ export const useServerApi = () => {
     lineItemId: string
   ) => {
 
-
     const updateData: MyCartUpdate = {
       version,
       actions: [
@@ -667,7 +661,6 @@ export const useServerApi = () => {
       ],
     };
  
-
     return Api.root.me()
       .carts()
       .withId({ ID: cartID })
@@ -689,7 +682,6 @@ export const useServerApi = () => {
         return ('error');
 
       });
-
   
   };
 
@@ -726,6 +718,45 @@ export const useServerApi = () => {
         return ('error');
 
       });
+
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ changeLineItem
+  const changeLineItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
+  ) => {
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'changeLineItemQuantity', lineItemId, quantity }
+      ],
+    };
+ 
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        localStorage.cart = JSON.stringify(data.body);
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+        return ('success');
+
+      })
+      .catch((err) => {
+          
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
   
   };
 
@@ -750,7 +781,8 @@ export const useServerApi = () => {
     deleteCart,
     addCartItem,
     removeCartItem,
-    addDiscount
+    addDiscount,
+    changeLineItem
   };
 
 };

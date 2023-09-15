@@ -34,7 +34,9 @@ export const ProductPage = () => {
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-  
+  const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
+  const quantity = cart.totalLineItemQuantity;
+
   let sizes: number[] = [];
 
   const draft: MyCartDraft = {
@@ -53,12 +55,6 @@ export const ProductPage = () => {
 
     server.GetProductById(props.id!, setProduct);
     
-    if (cart && cart.lineItems.some(item => item.productId === props.id)) {
-
-      setHasProduct(true);
-
-    }
-  
   }, []);  
 
   useEffect(() => {
@@ -112,18 +108,20 @@ export const ProductPage = () => {
 
       res = await addCartItem();
 
-    }
+    } else {
 
-    res && res === 'success' ?
-      showMessage(msg.PRODUCT_ADD_SUCCESS)
-      :
-      showMessage(msg.PRODUCT_ADD_ERROR);
+      res && res === 'success' ?
+        showMessage(msg.PRODUCT_ADD_SUCCESS)
+        :
+        showMessage(msg.PRODUCT_ADD_ERROR);
 
 
-    setHasProduct(true);
+      setHasProduct(true);
+
+    };
 
   };
-  
+
   return (
     product ? 
       <div className="product-page">
@@ -150,13 +148,21 @@ export const ProductPage = () => {
             </div>
             <CPrice price={productData?.prices![0]!} />
             <CSizeOption sizes={sizes}/>
-            <CButton 
-              value="Add to cart +"
-              type="button"
-              extraClass="product_button"
-              disabled={hasProduct}
-              clickHandler={handleCart}
-            />
+            {item ? 
+              <CButton 
+                value="Remove from cart -"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+              :
+              <CButton 
+                value="Add to cart +"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+            }
           </div>
         </div> 
       </div>
