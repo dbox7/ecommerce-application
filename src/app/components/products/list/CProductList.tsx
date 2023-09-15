@@ -1,7 +1,14 @@
-import { useEffect, memo } from 'react';
-import { IProductListProps, IQueryArgs } from '../../../utils/types';
+import { 
+  useEffect, 
+  useState, 
+  useCallback, 
+  memo 
+} from 'react';
+import { IProductListProps } from '../../../utils/types';
 import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
+import { checkFilters } from '../../../utils/usefullFuncs';
+import { ProductProjection } from '@commercetools/platform-sdk';
 
 import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
@@ -9,69 +16,68 @@ import { CProductCard } from '../card/CProductCard';
 import './CProductList.css';
 
 
-const concatQueryString = (attr: string, attrArray: string[]) => {
-  
-  let res = `variants.attributes.${attr}:`;
-
-  attrArray.forEach((attr: string) => {
-    
-    res += `"${attr}",`;
-  
-  });
-
-  return res.slice(0, -1);
-
-};
-
 export const CProductList = memo(({ filters }: IProductListProps) => {
 
   const server = useServerApi();
   const { products } = useTypedSelector(state => state.products);
 
+  const [page, setPage] = useState(0);
+  const [items, setItems] = useState<ProductProjection[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = useCallback(async () => {
+
+    if (isLoading) return;
+
+    console.log('fetch');
+    
+    setIsLoading(true);
+
+    const queryArgs = checkFilters(filters, page);
+
+    const data = await server.FilterProducts(queryArgs);
+
+    setItems((prevItems) => prevItems ? [...prevItems, ...data] : [...data]);
+    setPage(prevIdx => prevIdx + 1);
+    setIsLoading(false);
+
+  }, [page, isLoading]);
+
   useEffect(() => {
 
-    let queryArgs: IQueryArgs = {
-      limit: 30,
-      filter: [], 
+    const handleScroll = () => {
+
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+
+        console.log('scroll');
+        
+        fetchData();
+
+      }
+
     };
 
-    if (filters.search) {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
 
-      queryArgs['text.en'] = filters.search;
+      window.removeEventListener('scroll', handleScroll);
 
-    }
-    
-    if ( filters.categoryId !== undefined ) {
+    };
 
-      queryArgs.filter!.push(`categories.id:"${filters.categoryId}"`);
-    
-    }
+  }, [fetchData]);
 
-    if ( filters.minPrice !== undefined || filters.maxPrice !== undefined) {
+  useEffect(() => {
 
-      queryArgs.filter!.push(`variants.price.centAmount:range (${filters.minPrice! * 100} to ${filters.maxPrice! * 100})`);
-    
-    }
-    
-    if ( filters.sizes && filters.sizes.length !== 0 ) {
+    const queryArgs = checkFilters(filters, page);
 
-      const res = concatQueryString('size', filters.sizes);
+    server.FilterProducts(queryArgs).then((data) => {
 
-      queryArgs.filter!.push(res);
+      setItems(data);
+      setPage(prevIdx => prevIdx + 1);
 
-    }
-
-    if (filters.brands && filters.brands.length !== 0) {
-
-      const res = concatQueryString('Brand.key', filters.brands);
-
-      queryArgs.filter!.push(res);
-    
-    }
-
-    queryArgs.sort = filters.sort;
-
-    server.FilterProducts(queryArgs);
+    });
      
   }, [filters]);  
 
@@ -80,7 +86,7 @@ export const CProductList = memo(({ filters }: IProductListProps) => {
     <div className="product__wrap">
       <div className="product-list-title">Products ({products.length})</div>
       <div className="product-list">
-        { products.map((product) => 
+        { items.map((product) => 
           <Link 
             key={ product.id } 
             to={`/catalog/${product.id}`} 

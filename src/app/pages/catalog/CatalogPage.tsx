@@ -19,14 +19,14 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import { CSortProducts } from '../../components/products/sort/CSortProducts';
 
 import './CatalogPage.css';
+import { msg } from '../../utils/constants';
 
 
 export const CatalogPage = () => {
 
-  const showMessage = useShowMessage();
   const server = useServerApi();
-  const { products, categories, msg } = useTypedSelector(state => state.products);
-  const cart = useTypedSelector(state => state.cart);
+  const showMessage = useShowMessage();
+  const { products, categories } = useTypedSelector(state => state.products);
 
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
  
@@ -44,8 +44,11 @@ export const CatalogPage = () => {
 
   useEffect(() => { 
 
-    server.GetAllProducts();
-    server.GetAllCategories();
+    server.GetAllCategories().catch(() => {
+
+      showMessage(msg.COMMON_ERROR);
+
+    });
 
   }, []);
 
@@ -62,16 +65,9 @@ export const CatalogPage = () => {
     setCrumbs(c);
   
   }, [products]);
-
-  useEffect(() => {
-
-    showMessage(msg);
-    showMessage(cart.msg);
-
-  }, [msg, cart.msg]);
   
   return (
-    (products.length !== 0 && categories.length !== 0) ? 
+    (categories.length !== 0) ? 
       <div className="catalog">
         {<CBreadcrumbs crumbs={crumbs}/>}
         <div className="sub-title">Catalog</div>

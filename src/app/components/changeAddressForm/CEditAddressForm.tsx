@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { COUNTRIES } from '../../utils/constants';
+import { COUNTRIES, msg } from '../../utils/constants';
 import { IAddress, IEditAdrdressProps } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
@@ -11,6 +12,7 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
+
 
 const getCountryCode = (countryName: string): string => {
   
@@ -52,6 +54,7 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   const country = useInput(`${targetCountry}`, 'text');
 
   const server = useServerApi();
+  const showMessage = useShowMessage();
 
   const handleSaveClick = () => {
 
@@ -63,7 +66,7 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
 
@@ -107,13 +110,22 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
     
     }
 
-    if (targetAddressId) server.changeAddress(
-      currentUser.id,
-      currentUser.version,
-      address,
-      targetAddressId,
-      actionTypes,
-    );
+    if (targetAddressId) {
+
+      const res = await server.changeAddress(
+        currentUser.id,
+        currentUser.version,
+        address,
+        targetAddressId,
+        actionTypes,
+      );
+
+      res === 'success' ?
+        showMessage(msg.ADDRESS_UPDATE_SUCCESS)
+        :
+        showMessage(msg.ADDRESS_UPDATE_ERROR);
+
+    }
 
     handleSaveClick();
 

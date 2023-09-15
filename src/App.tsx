@@ -40,7 +40,7 @@ const App = () => {
             <Route path="contacts" element={<ContactsPage />}/>
           </Routes>
           <Footer/>
-          {/*           <ToastContainer
+          <ToastContainer
             position="top-center"
             autoClose={2000}
             hideProgressBar={false}
@@ -50,7 +50,7 @@ const App = () => {
             pauseOnFocusLoss
             draggable
             pauseOnHover={false}
-            theme="light"/> */}
+            theme="light"/>
         </div>
       </BrowserRouter>
     </Provider>

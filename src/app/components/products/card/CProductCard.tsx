@@ -1,6 +1,8 @@
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
+import { msg } from '../../../utils/constants';
+import { useShowMessage } from '../../../services/useShowMessage';
 
 import CPrice from '../../price/CPrice';
 
@@ -14,6 +16,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const { cart } = useTypedSelector(state => state.cart);
 
   const server = useServerApi();
+  const showMessage = useShowMessage();
 
   const draft: MyCartDraft = {
     currency: 'USD',
@@ -25,9 +28,9 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   //const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
-  const addCartItem = (id = cart.id, version = cart.version) => {   
+  const addCartItem = async (id = cart.id, version = cart.version) => {   
 
-    server.addCartItem(
+    return await server.addCartItem(
       id,
       version,
       productVariant,
@@ -42,13 +45,15 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     e.preventDefault();
     e.stopPropagation();
 
+    let res: string = '';
+
     if (!cart.id) {
 
       const newCart = await server.createCart(draft);
 
       if (typeof newCart === 'object') {      
         
-        addCartItem(newCart.id, newCart.version);      
+        res = await addCartItem(newCart.id, newCart.version);      
 
       }
     
@@ -56,9 +61,14 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     
     if (cart.id) {
 
-      addCartItem();
+      res = await addCartItem();
 
     }
+
+    res && res === 'success' ?
+      showMessage(msg.PRODUCT_ADD_SUCCESS)
+      :
+      showMessage(msg.PRODUCT_ADD_ERROR);
       
   };
 

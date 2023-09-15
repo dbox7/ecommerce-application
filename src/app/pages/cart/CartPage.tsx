@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useState, FormEvent } from 'react';
+import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
 
 import CButton from '../../components/button/CButton';
+import { Link } from 'react-router-dom';
 import CModal from '../../components/modal/CModal';
 
 import { BsPlus } from 'react-icons/bs';
@@ -17,31 +19,46 @@ export const CartPage = () => {
 
   const { cart } = useTypedSelector(state => state.cart);
   const [discount, setDiscount] = useState('');
+
   const server = useServerApi();
+  const showMessage = useShowMessage();
+
   const [modalState, setModalState] = useState(false);
   const [plusButtonActive, setPlusButtonActive] = useState(true);
   const [minusButtonActive, setMinusButtonActive] = useState(true);
   const [isOrdered, setOrdered] = useState(false);
 
-  const handleDeleteItem = (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
+  const handleDeleteItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
     
     e.preventDefault();
 
     if (cart) {
 
-      server.removeCartItem(cart.id, cart.version, quantity, itemId);
+      const res = await server.removeCartItem(cart.id, cart.version, 1, itemId);
+
+      if (res === 'error') {
+
+        showMessage(msg.COMMON_ERROR);
+
+      }
     
     }
 
   };
 
-  const handleClearCart = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleClearCart = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     
     e.preventDefault();
 
     if (cart) {
 
-      server.deleteCart(cart.id, cart.version);
+      const res = await server.deleteCart(cart.id, cart.version);
+
+      if (res === 'error') {
+
+        showMessage(msg.COMMON_ERROR);
+
+      }
     
     }
 
@@ -49,10 +66,17 @@ export const CartPage = () => {
 
   };
 
-  const handleDiscount = (e: FormEvent) => {
+  const handleDiscount = async (e: FormEvent) => {
 
     e.preventDefault();
-    server.addDiscount(cart.id, cart.version, discount);
+    const res = await server.addDiscount(cart.id, cart.version, discount);
+
+    if (res === 'error') {
+
+      showMessage(msg.COMMON_ERROR);
+
+    };
+
     setDiscount('');
 
   };
@@ -70,7 +94,13 @@ export const CartPage = () => {
 
       setPlusButtonActive(false);
 
-      await server.changeLineItem(cart.id, cart.version, quantity + 1, itemId);
+      const res = await server.changeLineItem(cart.id, cart.version, quantity + 1, itemId);
+
+      if (res === 'error') {
+       
+        showMessage(msg.COMMON_ERROR);
+
+      }
     
     }
 
@@ -92,7 +122,13 @@ export const CartPage = () => {
 
       setMinusButtonActive(false);
 
-      await server.changeLineItem(cart.id, cart.version, quantity - 1, itemId);
+      const res = await server.changeLineItem(cart.id, cart.version, quantity - 1, itemId);
+
+      if (res === 'error') {
+       
+        showMessage(msg.COMMON_ERROR);
+
+      }
     
     }
     setMinusButtonActive(true);

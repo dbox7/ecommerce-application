@@ -5,8 +5,9 @@ import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { getSizeArray } from '../../utils/useFullFuncs';
+import { getSizeArray } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
@@ -25,8 +26,8 @@ export const ProductPage = () => {
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
-  const { msg } = useTypedSelector(state => state.products);
-  const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
+  const [hasProduct, setHasProduct] = useState(false);
+  const { cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
   
@@ -72,60 +73,53 @@ export const ProductPage = () => {
   
   }, [product]);
 
-  useEffect(() => {
+  const addCartItem = async (id = cart.id, version = cart.version) => {   
 
-    showMessage(msg);
-    showMessage(msg_cart);
+    return await server.addCartItem(
+      id,
+      version,
+      productVariant,
+      productQuantity,
+      product!.id
+    );
 
-  }, [msg, msg_cart]);
+  };
 
-  const handleCart = (e: React.MouseEvent<HTMLElement>) => {
+  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
 
     e.preventDefault();
     e.stopPropagation();
 
-    if (!cart) {
+    let res: string = '';  
 
-      server.createCart(draft);
-    
-    };
-    
-    if (cart) {
+    if (!cart.id) {
 
-      if (item) {
+      const newCart = await server.createCart(draft);    
+
+      if (typeof newCart === 'object') {      
         
-        server.removeCartItem(
-          cart.id,
-          cart.version,
-          quantity!,
-          item.id
-          
-        );
-        server.getCart(
-          cart.id,
-        );
-
-      } else {
-
-        server.addCartItem(
-          cart.id,
-          cart.version,
-          productVariant,
-          productQuantity,
-          product!.id
-        );
-        server.getCart(
-          cart.id,
-        );
+        res = await addCartItem(newCart.id, newCart.version);      
 
       }
 
-    };
+    } 
+    
+    if (cart.id) {
+
+      res = await addCartItem();
+
+    } 
+
+    res && res === 'success' ?
+      showMessage(msg.PRODUCT_ADD_SUCCESS)
+      :
+      showMessage(msg.PRODUCT_ADD_ERROR);
+      
+
+    setHasProduct(true);
 
   };
 
-
-  console.log(cart);
   return (
     product ? 
       <div className="product-page">

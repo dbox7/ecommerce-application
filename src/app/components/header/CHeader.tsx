@@ -29,7 +29,8 @@ export const Header = () => {
             <CProfileMenu/>
           </li>
           <Link to="/cart" className="link header__cart burger-menu__list-item">
-            Cart <BsCart2 className="cart-icon menu-cart-icon"/>{cart.totalLineItemQuantity}
+            Cart <BsCart2 className="cart-icon menu-cart-icon"/>
+            {cart.totalLineItemQuantity}
           </Link>
         </ul>
       </aside>
@@ -51,13 +52,18 @@ export const Header = () => {
                     <Link to="/" className="link">SNEAKERS STORE</Link>
                   </div>
                   <ul className="menu right">
-                    <li className="menu-item">
+                    <li className="menu-item">  
                       <CProfileMenu/>
                     </li>
                     <li className="menu-item">
                       <Link to="/cart" className="link header__cart">
-                        Cart <BsCart2 className="cart-icon menu-cart-icon"/>{cart.totalLineItemQuantity}
+                        Cart <BsCart2 className="cart-icon menu-cart-icon"/>
                       </Link>
+                      {cart.totalLineItemQuantity ? 
+                        <div className="cart-icon menu-cart-count">{cart.totalLineItemQuantity}</div>  
+                        :
+                        null
+                      } 
                     </li>
                   </ul>
                 </>

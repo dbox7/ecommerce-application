@@ -1,4 +1,4 @@
-import { ProductProjection, Category } from '@commercetools/platform-sdk';
+import { ProductProjection, Category, Customer } from '@commercetools/platform-sdk';
 
 // ------------------------------------------------------------------------------- For userReducer
 
@@ -13,7 +13,7 @@ export interface IPendingAction {
 }
 export interface IUpdateSuccesAction {
   type: UserActionsType.UPDATE_SUCCESS
-  payload: any
+  payload: Customer
 }
 
 export interface IErrorAction {
@@ -25,16 +25,14 @@ export type IUserAction = IPendingAction | IUpdateSuccesAction | IErrorAction ;
 
 // ------------------------------------------------------------------------------- For productsReducer
 
-export interface IProductPayload {
-  prods: ProductProjection[],
-  msg?: string
-}
+// export interface IProductPayload {
+//   prods: ProductProjection[]
+// }
 
 export interface IProductsState {
   products: ProductProjection[],
   categories: Category[],
   loading: boolean
-  msg: { body: string, error: boolean }
 }
 
 export enum ProductActionsType {
@@ -50,7 +48,7 @@ export interface IProdsPendingAction {
 
 export interface IUpdateProdsAction {
   type: ProductActionsType.UPDATE_PRODS
-  payload: IProductPayload
+  payload: ProductProjection[]
 }
 
 export interface IUpdateCatsAction {
