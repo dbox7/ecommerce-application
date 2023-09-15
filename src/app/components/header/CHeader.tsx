@@ -59,7 +59,11 @@ export const Header = () => {
                       <Link to="/cart" className="link header__cart">
                         Cart <BsCart2 className="cart-icon menu-cart-icon"/>
                       </Link>
-                      <div className="cart-icon menu-cart-count">{cart.totalLineItemQuantity}</div>  
+                      {cart.totalLineItemQuantity ? 
+                        <div className="cart-icon menu-cart-count">{cart.totalLineItemQuantity}</div>  
+                        :
+                        null
+                      } 
                     </li>
                   </ul>
                 </>
