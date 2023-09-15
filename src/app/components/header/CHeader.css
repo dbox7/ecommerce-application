@@ -91,6 +91,7 @@ header {
 }
 
 .menu-item {
+  position: relative;
   text-align: center;
   font-family: var(--exa);
   font-size: var(--main-text);
@@ -120,6 +121,30 @@ header {
 .menu-cart-icon {
   font-size: 20px;
   transform: translateY(-2px);
+}
+
+.menu-cart-count {
+  position: absolute;
+  top: -40%;
+  right: -30%;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  width: 0.9rem;
+  height: 0.9rem;
+  font-size: calc(var(--main-text) * 0.7);
+}
+.menu-cart-count-burger {
+  margin-bottom: 1.1rem;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  width: 0.9rem;
+  height: 0.9rem;
+  font-size: calc(var(--main-text) * 0.7);
+}
+
+.menu-cart-count:hover,
+.menu-cart-count-burger:hover {
+  color: var(--border-color);
 }
 
 .menu-profile-icon {
