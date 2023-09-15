@@ -540,7 +540,7 @@ export const useServerApi = () => {
       .execute()
       .then(async (data) => {
         
-        return await dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body}).payload.cart;
+        return dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body}).payload;
       
       }).catch((err) => {
 

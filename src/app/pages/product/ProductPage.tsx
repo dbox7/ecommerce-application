@@ -90,35 +90,33 @@ export const ProductPage = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    let res: string = '';
+    let res: string = '';  
 
     if (!cart.id) {
 
-      const newCart = await server.createCart(draft);
+      const newCart = await server.createCart(draft);    
 
       if (typeof newCart === 'object') {      
         
         res = await addCartItem(newCart.id, newCart.version);      
 
       }
-    
+
     } 
     
     if (cart.id) {
 
       res = await addCartItem();
 
-    } else {
+    } 
 
-      res && res === 'success' ?
-        showMessage(msg.PRODUCT_ADD_SUCCESS)
-        :
-        showMessage(msg.PRODUCT_ADD_ERROR);
+    res && res === 'success' ?
+      showMessage(msg.PRODUCT_ADD_SUCCESS)
+      :
+      showMessage(msg.PRODUCT_ADD_ERROR);
+      
 
-
-      setHasProduct(true);
-
-    };
+    setHasProduct(true);
 
   };
 

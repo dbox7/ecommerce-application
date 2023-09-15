@@ -98,6 +98,7 @@ export class Api {
             },
             scopes: SCOPES,
             fetch,
+            tokenCache: tokenCache
           })
           .withHttpMiddleware(httpMiddlewareOptions)
           .build();
