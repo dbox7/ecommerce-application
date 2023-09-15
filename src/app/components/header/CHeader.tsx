@@ -29,7 +29,7 @@ export const Header = () => {
             <CProfileMenu/>
           </li>
           <Link to="/cart" className="link header__cart burger-menu__list-item">
-            Cart <BsCart2 className="cart-icon menu-cart-icon"/>
+            Cart <BsCart2 className="cart-icon menu-cart-icon"/>{cart.totalLineItemQuantity}
           </Link>
         </ul>
       </aside>
