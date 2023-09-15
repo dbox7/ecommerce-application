@@ -97,19 +97,54 @@ export const ProductPage = () => {
     
     if (cart) {
 
-      server.addCartItem(
-        cart.id,
-        cart.version,
-        productVariant,
-        productQuantity,
-        product!.id
-      );
+      if (hasProduct) {
+        
+        const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
 
-    }
+        console.log(item);
 
-    setHasProduct(true);
+        console.log('remove');
+        server.removeCartItem(
+          cart.id,
+          cart.version,
+          productQuantity,
+          item.id
+          
+        );
+        server.getCart(
+          cart.id,
+          () => {
+
+            console.log(cart);
+
+          }
+        );
+
+        setHasProduct(false);
+
+      } else {
+
+        console.log('add');
+        server.addCartItem(
+          cart.id,
+          cart.version,
+          productVariant,
+          productQuantity,
+          product!.id
+        );
+        server.getCart(
+          cart.id,
+        );
+
+        setHasProduct(true);
+
+      }
+
+    };
 
   };
+
+
   
   return (
     product ? 
@@ -137,13 +172,21 @@ export const ProductPage = () => {
             </div>
             <CPrice price={productData?.prices![0]!} />
             <CSizeOption sizes={sizes}/>
-            <CButton 
-              value="Add to cart +"
-              type="button"
-              extraClass="product_button"
-              disabled={hasProduct}
-              clickHandler={handleCart}
-            />
+            {hasProduct ? 
+              <CButton 
+                value="Remove from cart -"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+              :
+              <CButton 
+                value="Add to cart +"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+            }
           </div>
         </div> 
       </div>
