@@ -35,7 +35,6 @@ export const ProductPage = () => {
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
   const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
-  const quantity = cart.totalLineItemQuantity;
 
   let sizes: number[] = [];
 
@@ -73,6 +72,28 @@ export const ProductPage = () => {
   
   }, [product]);
 
+  const removeFromCart = async () => {
+
+    const item = cart.lineItems.find((v) => v.productId === product?.id);
+
+    if (item) {
+
+      const res = await server.removeCartItem(
+        cart.id,
+        cart.version,
+        productQuantity,
+        item.id
+      );
+
+      res === 'success' ?
+        showMessage(msg.PRODUCT_REMOVE_SUCCESS)
+        :
+        showMessage(msg.PRODUCT_REMOVE_ERROR);
+
+    }
+
+  };
+
   const addCartItem = async (id = cart.id, version = cart.version) => {   
 
     return await server.addCartItem(
@@ -85,10 +106,7 @@ export const ProductPage = () => {
 
   };
 
-  const handleCart = async (e: React.MouseEvent<HTMLElement>) => {
-
-    e.preventDefault();
-    e.stopPropagation();
+  const addToCart = async () => {
 
     let res: string = '';  
 
@@ -151,14 +169,14 @@ export const ProductPage = () => {
                 value="Remove from cart -"
                 type="button"
                 extraClass="product_button"
-                clickHandler={handleCart}
+                clickHandler={removeFromCart}
               />
               :
               <CButton 
                 value="Add to cart +"
                 type="button"
                 extraClass="product_button"
-                clickHandler={handleCart}
+                clickHandler={addToCart}
               />
             }
           </div>
