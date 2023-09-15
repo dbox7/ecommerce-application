@@ -4,13 +4,13 @@ import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useState, FormEvent } from 'react';
 
 import CButton from '../../components/button/CButton';
+import CModal from '../../components/modal/CModal';
 
 import { BsPlus } from 'react-icons/bs';
 import { BsDash } from 'react-icons/bs';
 import { GoTrash } from 'react-icons/go';
 
 import './CartPage.css';
-import CModal from '../../components/modal/CModal';
 
 
 export const CartPage = () => {
@@ -21,6 +21,7 @@ export const CartPage = () => {
   const [modalState, setModalState] = useState(false);
   const [plusButtonActive, setPlusButtonActive] = useState(true);
   const [minusButtonActive, setMinusButtonActive] = useState(true);
+  const [isOrdered, setOrdered] = useState(false);
 
   const handleDeleteItem = (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
     
@@ -104,53 +105,61 @@ export const CartPage = () => {
       <h1 className="cart__title">Cart</h1>
       <div className="cart__content">
         <div className="cart__content__products-container">
-          {!cart || !cart.lineItems || cart.lineItems.length === 0 ? (
-            <div className="cart__content__products-container__empty">
+          {isOrdered ?
+            (<div className="cart__content__products-container__empty">
               <p>
-                Your cart is currently empty. Take a look at the{' '}
-                <Link to="/catalog">
-                  <b>Catalog</b>
-                </Link>
-                , there are many cool products there.
+                Your order has been accepted!<br/>When we open our real store, we will get in touch with you.<br/>Perhaps.
               </p>
-            </div>
-          ) : (
-            cart.lineItems.map((lineItem) => (
-              <div key={lineItem.id} className="cart__content__products-container__product">
-                <div className="cart__content__products-container__product__image">
-                  <Link to={`/catalog/${lineItem.productId}`}>
-                    {lineItem.variant && lineItem.variant.images && lineItem.variant.images[0] && (
-                      <img src={lineItem.variant.images[0].url} alt={lineItem.name.en} />
-                    )}
+            </div>)
+            : 
+            !isOrdered && !cart || !cart.lineItems || cart.lineItems.length === 0 ?  
+              (<div className="cart__content__products-container__empty">
+                <p>
+                  Your cart is currently empty. Take a look at the{' '}
+                  <Link to="/catalog">
+                    <b>Catalog</b>
                   </Link>
-                </div>
-                <div className="cart__content__products-container__product__name">
-                  <Link to={`/catalog/${lineItem.productId}`}>
-                    <b>{lineItem.name.en}</b>
-                  </Link>
-                </div>
-                <div className="cart__content__products-container__product__count">
-                  <BsDash className={`cart__content__products-container__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
-                    onClick={(e) => handleMinusItem(e, lineItem.id, lineItem.quantity)}/>
-                  <div className="cart__content__products-container__product__count__number">
-                    {lineItem.quantity}
+                  , there are many cool products there.
+                </p>
+              </div>)
+              :
+              (cart.lineItems.map((lineItem) => (
+                <div key={lineItem.id} className="cart__content__products-container__product">
+                  <div className="cart__content__products-container__product__image">
+                    <Link to={`/catalog/${lineItem.productId}`}>
+                      {lineItem.variant && lineItem.variant.images && lineItem.variant.images[0] && (
+                        <img src={lineItem.variant.images[0].url} alt={lineItem.name.en} />
+                      )}
+                    </Link>
                   </div>
-                  <BsPlus className={`cart__content__products-container__product__count__plus ${plusButtonActive ? '' : 'disabled'}`} 
-                    onClick={(e) => handlePlusItem(e, lineItem.id, lineItem.quantity)}/>
+                  <div className="cart__content__products-container__product__name">
+                    <Link to={`/catalog/${lineItem.productId}`}>
+                      <b>{lineItem.name.en}</b>
+                    </Link>
+                  </div>
+                  <div className="cart__content__products-container__product__count">
+                    <BsDash className={`cart__content__products-container__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
+                      onClick={(e) => handleMinusItem(e, lineItem.id, lineItem.quantity)}/>
+                    <div className="cart__content__products-container__product__count__number">
+                      {lineItem.quantity}
+                    </div>
+                    <BsPlus className={`cart__content__products-container__product__count__plus ${plusButtonActive ? '' : 'disabled'}`} 
+                      onClick={(e) => handlePlusItem(e, lineItem.id, lineItem.quantity)}/>
+                  </div>
+                  <div className="cart__content__products-container__product__price">
+                    <p>price</p>
+                    {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
+                  </div>
+                  <div className="cart__content__products-container__product__price__total">
+                    <p>total cost</p>
+                    {lineItem.totalPrice.centAmount/100}$
+                  </div>
+                  <GoTrash className="cart__content__products-container__product__delete" 
+                    onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
                 </div>
-                <div className="cart__content__products-container__product__price">
-                  <p>price</p>
-                  {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
-                </div>
-                <div className="cart__content__products-container__product__price__total">
-                  <p>total cost</p>
-                  {lineItem.totalPrice.centAmount/100}$
-                </div>
-                <GoTrash className="cart__content__products-container__product__delete" 
-                  onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
-              </div>
-            ))
-          )}
+              ))
+              )
+          }
         </div>
         <div className="cart__content__order-container__discount">
           <form onSubmit={handleDiscount}>
@@ -195,7 +204,17 @@ export const CartPage = () => {
               />
             </div>
           </CModal>
-          <CButton value="Order!" type="submit" extraClass="order"></CButton>
+          <CButton 
+            value="Order!" 
+            type="submit" 
+            extraClass="order"
+            clickHandler={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+
+              setOrdered(true);
+              handleClearCart(e);
+
+            }}
+          />
         </div>
       </div>
     </div>
