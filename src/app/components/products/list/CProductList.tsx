@@ -1,8 +1,14 @@
-import { useEffect, memo } from 'react';
+import { 
+  useEffect, 
+  useState, 
+  useCallback, 
+  memo 
+} from 'react';
 import { IProductListProps } from '../../../utils/types';
 import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 import { checkFilters } from '../../../utils/usefullFuncs';
+import { ProductProjection } from '@commercetools/platform-sdk';
 
 import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
@@ -15,11 +21,63 @@ export const CProductList = memo(({ filters }: IProductListProps) => {
   const server = useServerApi();
   const { products } = useTypedSelector(state => state.products);
 
+  const [page, setPage] = useState(0);
+  const [items, setItems] = useState<ProductProjection[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = useCallback(async () => {
+
+    if (isLoading) return;
+
+    console.log('fetch');
+    
+    setIsLoading(true);
+
+    const queryArgs = checkFilters(filters, page);
+
+    const data = await server.FilterProducts(queryArgs);
+
+    setItems((prevItems) => prevItems ? [...prevItems, ...data] : [...data]);
+    setPage(prevIdx => prevIdx + 1);
+    setIsLoading(false);
+
+  }, [page, isLoading]);
+
   useEffect(() => {
 
-    const queryArgs = checkFilters(filters);
+    const handleScroll = () => {
 
-    server.FilterProducts(queryArgs);
+      const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+
+        console.log('scroll');
+        
+        fetchData();
+
+      }
+
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+
+      window.removeEventListener('scroll', handleScroll);
+
+    };
+
+  }, [fetchData]);
+
+  useEffect(() => {
+
+    const queryArgs = checkFilters(filters, page);
+
+    server.FilterProducts(queryArgs).then((data) => {
+
+      setItems(data);
+      setPage(prevIdx => prevIdx + 1);
+
+    });
      
   }, [filters]);  
 
@@ -28,7 +86,7 @@ export const CProductList = memo(({ filters }: IProductListProps) => {
     <div className="product__wrap">
       <div className="product-list-title">Products ({products.length})</div>
       <div className="product-list">
-        { products.map((product) => 
+        { items.map((product) => 
           <Link 
             key={ product.id } 
             to={`/catalog/${product.id}`} 

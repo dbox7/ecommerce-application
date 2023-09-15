@@ -13,7 +13,7 @@ export const getSizeArray = (product: ProductProjection) => {
 };
 
 
-export const checkFilters = (filters: IProductFilters) => {
+export const checkFilters = (filters: IProductFilters, index: number) => {
 
   const concatQueryString = (attr: string, attrArray: string[]) => {
   
@@ -30,7 +30,8 @@ export const checkFilters = (filters: IProductFilters) => {
   };
   
   let queryArgs: IQueryArgs = {
-    limit: 30,
+    limit: 5,
+    offset: index * 5,
     filter: [], 
   };
 

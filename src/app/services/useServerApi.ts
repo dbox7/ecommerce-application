@@ -273,11 +273,11 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ FilterProducts
   const FilterProducts = (queryArgs: IQueryArgs) => {
 
-    Api.root.productProjections().search().get({
+    return Api.root.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then((data) => {
   
-      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results});
+      return dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results}).payload;
       
     });
 
