@@ -2,14 +2,12 @@ import { Cart } from '@commercetools/platform-sdk';
 import { emptyCart } from '../../utils/constants';
 
 interface ICartState {
-  cart: Cart,
-  msg: { body: string, error: boolean }
+  cart: Cart
 }
 
-interface ICartPayload {
-  cart: Cart,
-  msg?: string
-}
+// interface ICartPayload {
+//   cart: Cart
+// }
 
 export enum CartActionTypes {
   UPDATE_CART = 'UPDATE_CART',
@@ -18,7 +16,7 @@ export enum CartActionTypes {
 
 interface ICartUpdate {
   type: CartActionTypes.UPDATE_CART,
-  payload: ICartPayload
+  payload: Cart
 }
 
 interface ICartError {
@@ -30,8 +28,7 @@ type ICartAction = ICartUpdate | ICartError;
 
 
 const initialCart: ICartState = {
-  cart: localStorage.cart ? JSON.parse(localStorage.cart): emptyCart,
-  msg: { body: '', error: false }
+  cart: localStorage.cart ? JSON.parse(localStorage.cart): emptyCart
 };
 
 export const cartReducer = (state: ICartState = initialCart, action: ICartAction): ICartState => {
@@ -40,14 +37,12 @@ export const cartReducer = (state: ICartState = initialCart, action: ICartAction
 
   case CartActionTypes.UPDATE_CART:
     return {
-      cart: action.payload.cart,
-      msg: { body: action.payload.msg || '', error: false }
+      cart: action.payload
     };
   
   case CartActionTypes.ERROR_CART: 
     return {
-      cart: state.cart,
-      msg: { body: action.payload, error: true }
+      cart: state.cart
     };
 
   default:
