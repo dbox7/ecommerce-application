@@ -13,8 +13,6 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   const { cart } = useTypedSelector(state => state.cart);
 
-  console.log(cart.id);
-
   const server = useServerApi();
 
   const draft: MyCartDraft = {
@@ -27,6 +25,18 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
   //const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
+  const addCartItem = (id = cart.id, version = cart.version) => {   
+
+    server.addCartItem(
+      id,
+      version,
+      productVariant,
+      productQuantity,
+      product.id
+    );
+
+  };
+
   const handleClick = async (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     
     e.preventDefault();
@@ -34,25 +44,23 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
 
     if (!cart.id) {
 
-      server.createCart(draft);
+      const newCart = await server.createCart(draft);
+
+      if (typeof newCart === 'object') {      
+        
+        addCartItem(newCart.id, newCart.version);      
+
+      }
     
     } 
     
     if (cart.id) {
 
-      server.addCartItem(
-        cart.id,
-        cart.version,
-        productVariant,
-        productQuantity,
-        product.id
-      );
+      addCartItem();
 
     }
       
   };
-
-  // const cartIconDisabled = addInCart ? 'disabled' : '';
 
   return (
     <div className="product-card">

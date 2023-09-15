@@ -26,7 +26,7 @@ export const MainPage = () => {
 
         
         :
-        <div className="poster-wrap"/>
+        <div className="poster-wrap-full"/>
       }
     </>
 

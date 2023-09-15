@@ -10,6 +10,14 @@
   height: 80vh;
 }
 
+.poster-wrap-full {
+  display: flex;
+  flex: 1;
+  background-image: url("../../assets/poster.png");
+  background-position: center;
+  background-size: cover;
+}
+
 .promo-wrap {
   height: fit-content;
 }
