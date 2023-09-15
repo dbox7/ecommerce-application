@@ -560,7 +560,7 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ getCart
-  const getCart = (cartID: string): void => {
+  const getCart = (cartID: string, callback?: Function): void => {
 
     Api.root.me()
       .carts()
@@ -570,6 +570,7 @@ export const useServerApi = () => {
       .then((data) => {
 
         dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body }});
+        if (callback) callback(data);
       
       })
       .catch(() => {

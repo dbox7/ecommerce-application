@@ -87,7 +87,7 @@ export class Api {
 
       if (!Api._anonClientCache) {
 
-        Api.log('Creating Anonymous client');
+        /* Api.log('Creating Anonymous client'); */
         Api._anonClientCache = new ClientBuilder().withProjectKey(PROJECT_KEY)
           .withAnonymousSessionFlow({
             host: AUTH_URL,
@@ -98,14 +98,13 @@ export class Api {
             },
             scopes: SCOPES,
             fetch,
-            tokenCache: tokenCache
           })
           .withHttpMiddleware(httpMiddlewareOptions)
           .build();
 
       } else {
 
-        Api.log('Re-using Anonymous client');
+        /* Api.log('Re-using Anonymous client'); */
 
       }
       return Api._anonClientCache;
@@ -113,7 +112,7 @@ export class Api {
 
     } else {
 
-      Api.log(`Creating Refresh Token Client (${localStorage.rToken})`);
+      /* Api.log(`Creating Refresh Token Client (${localStorage.rToken})`); */
       return new ClientBuilder().withProjectKey(PROJECT_KEY)
         .withRefreshTokenFlow({
           host: AUTH_URL,
@@ -138,7 +137,7 @@ export class Api {
    */
   static passwordClient(email: string, password: string) {
 
-    Api.log('Creating Password client');
+    /* Api.log('Creating Password client'); */
     return new ClientBuilder().withProjectKey(PROJECT_KEY)
       .withPasswordFlow({
         host: AUTH_URL,

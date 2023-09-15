@@ -25,7 +25,6 @@ export const ProductPage = () => {
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
-  const [hasProduct, setHasProduct] = useState(false);
   const { msg } = useTypedSelector(state => state.products);
   const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
 
@@ -34,7 +33,9 @@ export const ProductPage = () => {
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-  
+  const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
+  const quantity = cart.totalLineItemQuantity;
+
   let sizes: number[] = [];
 
   const draft: MyCartDraft = {
@@ -53,12 +54,6 @@ export const ProductPage = () => {
 
     server.GetProductById(props.id!, setProduct);
     
-    if (cart && cart.lineItems.some(item => item.productId === props.id)) {
-
-      setHasProduct(true);
-
-    }
-  
   }, []);  
 
   useEffect(() => {
@@ -97,20 +92,40 @@ export const ProductPage = () => {
     
     if (cart) {
 
-      server.addCartItem(
-        cart.id,
-        cart.version,
-        productVariant,
-        productQuantity,
-        product!.id
-      );
+      if (item) {
+        
+        server.removeCartItem(
+          cart.id,
+          cart.version,
+          quantity!,
+          item.id
+          
+        );
+        server.getCart(
+          cart.id,
+        );
 
-    }
+      } else {
 
-    setHasProduct(true);
+        server.addCartItem(
+          cart.id,
+          cart.version,
+          productVariant,
+          productQuantity,
+          product!.id
+        );
+        server.getCart(
+          cart.id,
+        );
+
+      }
+
+    };
 
   };
-  
+
+
+  console.log(cart);
   return (
     product ? 
       <div className="product-page">
@@ -137,13 +152,21 @@ export const ProductPage = () => {
             </div>
             <CPrice price={productData?.prices![0]!} />
             <CSizeOption sizes={sizes}/>
-            <CButton 
-              value="Add to cart +"
-              type="button"
-              extraClass="product_button"
-              disabled={hasProduct}
-              clickHandler={handleCart}
-            />
+            {item ? 
+              <CButton 
+                value="Remove from cart -"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+              :
+              <CButton 
+                value="Add to cart +"
+                type="button"
+                extraClass="product_button"
+                clickHandler={handleCart}
+              />
+            }
           </div>
         </div> 
       </div>
