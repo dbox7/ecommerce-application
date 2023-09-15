@@ -76,6 +76,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+
         Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
           // Сохраняем в глобальном хранилище и localStorage профиль пользователя
@@ -698,8 +699,6 @@ export const useServerApi = () => {
     code: string
   ): Promise<Cart> => {
 
-    console.log('code:', code, 'cart ID:', cartID, 'version:', version);
-
 
     const updateDiscount: MyCartUpdate = {
       version,
@@ -708,32 +707,67 @@ export const useServerApi = () => {
       ],
     };
  
-    return new Promise<Cart> ((resolve, reject) => {
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateDiscount })
+      .execute()
+      .then(async (data) => {
 
-      Api.root.me()
-        .carts()
-        .withId({ ID: cartID })
-        .post({ body: updateDiscount })
-        .execute()
-        .then((data) => {
+        const successMessage =  'Your promo code has been successfully applied!';
 
-          const successMessage =  'Your promo code has been successfully applied!';
+        return await dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
 
-          dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body, msg: successMessage }});
 
-          resolve(data.body);
+      })
+      .catch(() => {
 
-        })
-        .catch(() => {
+        const error ='Error applying the promo code. Please try again.';
 
-          const error ='Error applying the promo code. Please try again.';
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
+
+
+      });
+
+
+  };
+  // ------------------------------------------------------------------------------------------------------------------ changeLineItem
+  const changeLineItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
+  ): Promise<Cart> => {
+
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'changeLineItemQuantity', lineItemId, quantity }
+      ],
+    };
+ 
+
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then(async (data) => {
+
+        localStorage.cart = JSON.stringify(data.body);
+
+        return await dispatch({type: CartActionTypes.UPDATE_CART, payload: { cart: data.body}});
+
+      })
+      .catch(() => {
+
+        const error ='An error occurred while updating cart.';
           
-          dispatch({type: CartActionTypes.ERROR_CART, payload: error});
-          reject(error);
+        dispatch({type: CartActionTypes.ERROR_CART, payload: error});
 
-        });
-    
-    });
+      });
+
   
   };
 
@@ -758,7 +792,8 @@ export const useServerApi = () => {
     deleteCart,
     addCartItem,
     removeCartItem,
-    addDiscount
+    addDiscount,
+    changeLineItem
   };
 
 };
