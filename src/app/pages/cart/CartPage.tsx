@@ -10,6 +10,7 @@ import { BsDash } from 'react-icons/bs';
 import { GoTrash } from 'react-icons/go';
 
 import './CartPage.css';
+import CModal from '../../components/modal/CModal';
 
 
 export const CartPage = () => {
@@ -17,15 +18,17 @@ export const CartPage = () => {
   const { cart } = useTypedSelector(state => state.cart);
   const [discount, setDiscount] = useState('');
   const server = useServerApi();
-  
+  const [modalState, setModalState] = useState(false);
+  const [plusButtonActive, setPlusButtonActive] = useState(true);
+  const [minusButtonActive, setMinusButtonActive] = useState(true);
 
-  const handleDeleteItem = (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string) => {
+  const handleDeleteItem = (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
     
     e.preventDefault();
 
     if (cart) {
 
-      server.removeCartItem(cart.id, cart.version, 1, itemId);
+      server.removeCartItem(cart.id, cart.version, quantity, itemId);
     
     }
 
@@ -41,6 +44,8 @@ export const CartPage = () => {
     
     }
 
+    setModalState(false);
+
   };
 
   const handleDiscount = (e: FormEvent) => {
@@ -48,6 +53,48 @@ export const CartPage = () => {
     e.preventDefault();
     server.addDiscount(cart.id, cart.version, discount);
     setDiscount('');
+
+  };
+
+  const handlePlusItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
+    
+    e.preventDefault();
+    if (!plusButtonActive) {
+
+      return;
+    
+    }
+
+    if (cart) {
+
+      setPlusButtonActive(false);
+
+      await server.changeLineItem(cart.id, cart.version, quantity + 1, itemId);
+    
+    }
+
+    setPlusButtonActive(true);
+  
+  };
+
+  const handleMinusItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
+    
+    e.preventDefault();
+
+    if (!minusButtonActive) {
+
+      return;
+    
+    }
+
+    if (cart) {
+
+      setMinusButtonActive(false);
+
+      await server.changeLineItem(cart.id, cart.version, quantity - 1, itemId);
+    
+    }
+    setMinusButtonActive(true);
 
   };
 
@@ -83,17 +130,24 @@ export const CartPage = () => {
                   </Link>
                 </div>
                 <div className="cart__content__products-container__product__count">
-                  <BsDash className="cart__content__products-container__product__count__minus" />
+                  <BsDash className={`cart__content__products-container__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
+                    onClick={(e) => handleMinusItem(e, lineItem.id, lineItem.quantity)}/>
                   <div className="cart__content__products-container__product__count__number">
                     {lineItem.quantity}
                   </div>
-                  <BsPlus className="cart__content__products-container__product__count__plus" />
+                  <BsPlus className={`cart__content__products-container__product__count__plus ${plusButtonActive ? '' : 'disabled'}`} 
+                    onClick={(e) => handlePlusItem(e, lineItem.id, lineItem.quantity)}/>
                 </div>
                 <div className="cart__content__products-container__product__price">
+                  <p>price</p>
+                  {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
+                </div>
+                <div className="cart__content__products-container__product__price__total">
+                  <p>total cost</p>
                   {lineItem.totalPrice.centAmount/100}$
                 </div>
                 <GoTrash className="cart__content__products-container__product__delete" 
-                  onClick={(e) => handleDeleteItem(e, lineItem.id)}/>
+                  onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
               </div>
             ))
           )}
@@ -118,7 +172,29 @@ export const CartPage = () => {
           total price: {cart ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
-          <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={handleClearCart}></CButton>
+          <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>
+          <CModal
+            isActive={modalState}
+            setIsActive={setModalState}>
+            <div className="title">Clear cart
+              <p>You really want to clear the cart ?
+              </p>
+            </div>
+            <div className="btn-block">
+              <CButton
+                value="Yes"
+                type="button"
+                disabled={false}
+                clickHandler={handleClearCart}
+              />
+              <CButton
+                value="Cancel"
+                type="button"
+                disabled={false}
+                clickHandler={() => setModalState(false)}
+              />
+            </div>
+          </CModal>
           <CButton value="Order!" type="submit" extraClass="order"></CButton>
         </div>
       </div>
