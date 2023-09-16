@@ -77,7 +77,7 @@ export const CatalogPage = () => {
         </div>
         <CSortProducts filters={filters} setFilters={setFilters}/>
         <div className="catalog__filters-and-prods">
-          <CFilterMenu callback={setFilters_cb} />
+          {products.length > 0 ? <CFilterMenu callback={setFilters_cb} /> : <CLoading />}
           <CProductList filters={filters} setFilters={setFilters}/>
         </div>
       </div>

@@ -275,7 +275,7 @@ export const useServerApi = () => {
 
     return Api.root.productProjections().search().get({
       queryArgs: queryArgs
-    }).execute().then((data) => {
+    }).execute().then(async (data) => {
   
       return dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results}).payload;
       

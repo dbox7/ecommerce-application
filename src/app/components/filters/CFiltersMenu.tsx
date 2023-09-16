@@ -85,8 +85,8 @@ const CFilterMenu = ({ callback }: { callback: Function } ) => {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
 
-  let sizes: string[] = getSizes(products);
-  const brands: string[] = getBrands(products);
+  const [brands, setBrands] = useState<string[]>([]);
+  const [sizes, setSizes] = useState<string[]>([]);
 
   useEffect(() => {
 
@@ -95,7 +95,15 @@ const CFilterMenu = ({ callback }: { callback: Function } ) => {
     setMin(minR);
     setMax(maxR);
 
+    setBrands(getBrands(products));
+
   }, []);
+
+  useEffect(() => {
+
+    setSizes(getSizes(products));
+
+  }, [products]);
   
   const [chosenSizes, setChosenSizes] = useState([]);
   const [chosenBrands, setChosenBrands] = useState([]);
