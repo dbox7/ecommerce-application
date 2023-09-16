@@ -188,9 +188,15 @@ export const CartPage = () => {
                   </div>
                   <div className="cart__content__products-container__product__price__total">
                     <p>total cost</p>
-                    {lineItem.totalPrice.centAmount/100}$
+                    {lineItem.discountedPricePerQuantity.length > 0 ?
+                      (<div className="cart__content__products-container__product__price__total old_new">
+                        <span className="cart__content__products-container__product__price__total old">{lineItem.price.discounted ?
+                          lineItem.price.discounted.value.centAmount/100 * lineItem.quantity
+                          : lineItem.price.value.centAmount/100 * lineItem.quantity}$</span>
+                        <span>{lineItem.totalPrice.centAmount/100}$</span>
+                      </div>) : (<span>{lineItem.totalPrice.centAmount/100}$</span>)}
                   </div>
-                  <GoTrash className="cart__content__products-container__product__delete" 
+                  <GoTrash className="cart__content__products-container__product__delete"
                     onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
                 </div>
               ))

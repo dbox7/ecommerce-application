@@ -5,7 +5,7 @@ import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { getSizeArray } from '../../utils/usefullFuncs';
+import { getSizeArray } from '../../utils/useFullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
 

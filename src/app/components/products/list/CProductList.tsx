@@ -7,7 +7,7 @@ import {
 import { IProductListProps } from '../../../utils/types';
 import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
-import { checkFilters } from '../../../utils/usefullFuncs';
+import { checkFilters } from '../../../utils/useFullFuncs';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
 import { Link } from 'react-router-dom';
