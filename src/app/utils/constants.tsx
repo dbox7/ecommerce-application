@@ -154,4 +154,6 @@ export const msg = {
   ADDRESS_UPDATE_ERROR: { body: 'An error occurred while updating address.', error: true },
   PRODUCT_ADD_SUCCESS: { body: 'Your product added in cart successfully!', error: false },
   PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
+  PRODUCT_REMOVE_SUCCESS: { body: 'Your product removed from cart successfully!', error: false },
+  PRODUCT_REMOVE_ERROR: { body: 'An error occurred while removing product from cart.', error: true },
 };
