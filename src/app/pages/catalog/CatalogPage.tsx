@@ -26,7 +26,7 @@ export const CatalogPage = () => {
 
   const server = useServerApi();
   const showMessage = useShowMessage();
-  const { products, categories } = useTypedSelector(state => state.products);
+  const { products, categories, loading } = useTypedSelector(state => state.products);
 
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
  
@@ -77,8 +77,8 @@ export const CatalogPage = () => {
         </div>
         <CSortProducts filters={filters} setFilters={setFilters}/>
         <div className="catalog__filters-and-prods">
-          {products.length > 0 ? <CFilterMenu callback={setFilters_cb} /> : <CLoading />}
-          <CProductList filters={filters} setFilters={setFilters}/>
+          {products.length > 0 && <CFilterMenu callback={setFilters_cb} />}
+          {!loading ? <CProductList filters={filters} setFilters={setFilters}/> : <CLoading />}
         </div>
       </div>
       :

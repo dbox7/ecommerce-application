@@ -100,7 +100,7 @@ export const CProductList = memo(({ filters }: IProductListProps) => {
             )}
           </div>
           :
-          < CLoading />
+          <div>No items</div>
       }
     </div>
   );

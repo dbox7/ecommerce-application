@@ -1,7 +1,7 @@
 import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/usefullFuncs';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useResize } from '../../services/useResize';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
@@ -13,6 +13,7 @@ import { LuSettings2 } from 'react-icons/lu';
 import { RxCross2 } from 'react-icons/rx';
 
 import './CFiltersMenu.css';
+import { CLoading } from '../loading/CLoading';
 
 
 const getPriceRange = (prods: ProductProjection[]) => {
@@ -80,13 +81,21 @@ const getBrands = (prods: ProductProjection[]) => {
 
 const CFilterMenu = ({ callback }: { callback: Function } ) => {
 
-  const { products } = useTypedSelector(state => state.products);
+  const { products, loading } = useTypedSelector(state => state.products);
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
 
   const [brands, setBrands] = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
+
+  const [chosenSizes, setChosenSizes] = useState([]);
+  const [chosenBrands, setChosenBrands] = useState([]);
+  const multiRange = useMultiRange(`${min}`, `${max}`);
+
+  const [hideFilterMenu, setHideFilterMenu] = useState(false);
+  const [absolutePosition, setAbsolutePosition] = useState(false);
+  const width = useResize();
 
   useEffect(() => {
 
@@ -104,14 +113,6 @@ const CFilterMenu = ({ callback }: { callback: Function } ) => {
     setSizes(getSizes(products));
 
   }, [products]);
-  
-  const [chosenSizes, setChosenSizes] = useState([]);
-  const [chosenBrands, setChosenBrands] = useState([]);
-  const multiRange = useMultiRange(`${min}`, `${max}`);
-
-  const [hideFilterMenu, setHideFilterMenu] = useState(false);
-  const [absolutePosition, setAbsolutePosition] = useState(false);
-  const width = useResize();
 
   const handleSettingClick = () => {
 
