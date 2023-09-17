@@ -50,7 +50,7 @@ export const developers: IDeveloper[] = [
   { name: 'Dmitry Korobka', 
     role: 'Team lead and design', 
     photo: dbox7Photo, 
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
+    bio: 'I am actively developing as a front-end engineer. I have good experience writing code in JavaScript and TypeScrpt. I have an understanding of the language features, which allows me to write fairly high-quality code. Several pet projects have been implemented and presented on GitHub.',
     telegram: 'https://t.me/dbox7', 
     github: 'https://github.com/dbox7', 
     email: 'mailto:dbox.insight@gmail.com'
