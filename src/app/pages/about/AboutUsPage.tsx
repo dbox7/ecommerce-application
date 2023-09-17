@@ -20,16 +20,25 @@ export const AboutUsPage = () => {
       <h1 className="about__content__title">About Us</h1>
       <div className="about__content__text">
         {user.firstName ? 
-          <p>Hey there, <b>{user.firstName}!</b></p> :
-          <p>Hey there, <b>username!</b></p>
+          <p>Hey there,&nbsp; 
+            <Link to="/profile/:user" className="about__content__text__text-link" target="_blank">
+              <b>{user.firstName}!</b>
+            </Link>
+          </p> :
+          <p>Hey there,&nbsp; 
+            <Link to="/signup" className="about__content__text__text-link" target="_blank">
+              <b>username!</b>
+            </Link>
+          </p>
         }
         <br/>
         <p>We're a team of young web developers, united by a common goal: to create 
-          an educational project for  
-        <b><Link to="https://rs.school/" 
-            target="_blank" 
-            className="about__content__text__text-link"> RS-School
-          </Link></b>. 
+          an educational project for&nbsp;
+        <b>
+            <Link to="https://rs.school/" className="about__content__text__text-link" target="_blank"> 
+            RS-School
+          </Link>
+          </b>. 
           This project is not only our first experience of collaboration but also our first foray into React development.
         </p>
         <br/>
@@ -42,7 +51,8 @@ export const AboutUsPage = () => {
         <p>We're open to feedback and value diverse perspectives. 
           If you have suggestions or observations, let us know. 
           Additionally, if you share our drive and propose collaboration, 
-          drop us a line through the <b><Link to="/contacts" className="about__content__text__text-link">"Contact Us"</Link></b> page.</p>
+          drop us a line through the&nbsp;  
+        <b><Link to="/contacts" className="about__content__text__text-link" target="_blank">"Contact Us"</Link></b> page.</p>
         <br/>
         <p>Best regards,</p>
         <p>The <b>"JS do IT"</b> Team</p>
