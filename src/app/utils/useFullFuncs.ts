@@ -4,16 +4,16 @@ import { IProductFilters, IQueryArgs } from './types';
 export const getSizeArray = (product: ProductProjection) => {
   
   return [
-    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value,
+    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value.toString(),
     ...product.variants.map(variant => 
       variant.attributes!.find(attr => 
-        attr.name === 'size')?.value)
+        attr.name === 'size')?.value.toString())
   ];
 
 };
 
 
-export const checkFilters = (filters: IProductFilters, index: number) => {
+export const checkFilters = (filters: IProductFilters) => {
 
   const concatQueryString = (attr: string, attrArray: string[]) => {
   
@@ -30,8 +30,7 @@ export const checkFilters = (filters: IProductFilters, index: number) => {
   };
   
   let queryArgs: IQueryArgs = {
-    limit: 5,
-    offset: index * 5,
+    limit: 30,
     filter: [], 
   };
 

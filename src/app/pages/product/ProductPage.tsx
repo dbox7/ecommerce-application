@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
-import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { getSizeArray } from '../../utils/useFullFuncs';
@@ -14,6 +13,7 @@ import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
+import { CLoading } from '../../components/loading/CLoading';
 
 import './ProductPage.css';
 
@@ -26,7 +26,6 @@ export const ProductPage = () => {
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
-  const [hasProduct, setHasProduct] = useState(false);
   const { cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
@@ -132,9 +131,6 @@ export const ProductPage = () => {
       showMessage(msg.PRODUCT_ADD_SUCCESS)
       :
       showMessage(msg.PRODUCT_ADD_ERROR);
-      
-
-    setHasProduct(true);
 
   };
 

@@ -14,14 +14,14 @@ export const productsReducer = (state = InitialState, action: IProductsAction): 
     return {
       products: [...state.products],
       categories: [...state.categories],
-      loading: true
+      loading: !state.loading
     };
 
   case ProductActionsType.UPDATE_PRODS: 
     return {
       products: [...action.payload], 
       categories: [...state.categories], 
-      loading: false
+      loading: true
     };
 
   case ProductActionsType.UPDATE_CATS: 
