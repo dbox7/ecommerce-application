@@ -25,7 +25,11 @@ export const AboutUsPage = () => {
         }
         <br/>
         <p>We're a team of young web developers, united by a common goal: to create 
-          an educational project for <b><Link to="https://rs.school/" target="_blank" className="text-link">RS-School</Link></b>. 
+          an educational project for  
+        <b><Link to="https://rs.school/" 
+            target="_blank" 
+            className="about__content__text__text-link"> RS-School
+          </Link></b>. 
           This project is not only our first experience of collaboration but also our first foray into React development.
         </p>
         <br/>
