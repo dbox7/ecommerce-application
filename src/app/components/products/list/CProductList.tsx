@@ -21,8 +21,9 @@ export const CProductList = memo(() => {
   const [items, setItems] = useState<ProductProjection[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getSlice = (page: number, arr = products) => {
+  const getSlice = (page: number, arr = products) => {    
   
+    setPage(prevIdx => prevIdx + 1);
     return arr.slice(page * 5, (page + 1) * 5);
 
   };
@@ -32,11 +33,10 @@ export const CProductList = memo(() => {
     if (isLoading) return;
     
     setIsLoading(true);
-
+    
     const data = getSlice(page);
 
     setItems((prevItems) => prevItems ? [...prevItems, ...data] : [...data]);
-    setPage(prevIdx => prevIdx + 1);
     setIsLoading(false);
 
   }, [page, isLoading, items]);
@@ -65,9 +65,8 @@ export const CProductList = memo(() => {
   }, [fetchData]);
 
   useEffect(() => {
-
+    
     setItems(getSlice(0, products));
-    setPage(prevIdx => prevIdx + 1);
 
   }, []);
 
