@@ -67,6 +67,7 @@ export const CProductList = memo(() => {
   useEffect(() => {
 
     setItems(getSlice(0, products));
+    setPage(prevIdx => prevIdx + 1);
 
   }, []);
 
