@@ -4,22 +4,17 @@ import {
   useCallback, 
   memo 
 } from 'react';
-import { IProductListProps } from '../../../utils/types';
-import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
-import { checkFilters } from '../../../utils/usefullFuncs';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
 import { Link } from 'react-router-dom';
 import { CProductCard } from '../card/CProductCard';
-import { CLoading } from '../../loading/CLoading';
 
 import './CProductList.css';
 
 
-export const CProductList = memo(({ filters }: IProductListProps) => {
+export const CProductList = memo(() => {
 
-  const server = useServerApi();
   const { products } = useTypedSelector(state => state.products);
 
   const [page, setPage] = useState(0);
@@ -71,17 +66,9 @@ export const CProductList = memo(({ filters }: IProductListProps) => {
 
   useEffect(() => {
 
-    const queryArgs = checkFilters(filters);
+    setItems(getSlice(0, products));
 
-    server.FilterProducts(queryArgs).then((data) => {
-      
-      setItems(getSlice(0, data));
-      setPage(1);
-
-    });
-     
-  }, [filters]);  
-
+  }, []);
 
   return (
     <div className="product__wrap">

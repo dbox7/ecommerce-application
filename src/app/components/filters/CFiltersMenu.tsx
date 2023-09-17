@@ -1,7 +1,7 @@
 import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/usefullFuncs';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { useResize } from '../../services/useResize';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
@@ -13,7 +13,6 @@ import { LuSettings2 } from 'react-icons/lu';
 import { RxCross2 } from 'react-icons/rx';
 
 import './CFiltersMenu.css';
-import { CLoading } from '../loading/CLoading';
 
 
 const getPriceRange = (prods: ProductProjection[]) => {
@@ -79,9 +78,9 @@ const getBrands = (prods: ProductProjection[]) => {
 
 };
 
-const CFilterMenu = ({ callback }: { callback: Function } ) => {
+const CFilterMenu = memo(({ callback }: { callback: Function } ) => {
 
-  const { products, loading } = useTypedSelector(state => state.products);
+  const { products } = useTypedSelector(state => state.products);
 
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(0);
@@ -99,20 +98,19 @@ const CFilterMenu = ({ callback }: { callback: Function } ) => {
 
   useEffect(() => {
 
-    const {minR, maxR} = getPriceRange(products);
+    if (min === 0 && max === 0) {
 
-    setMin(minR);
-    setMax(maxR);
+      const {minR, maxR} = getPriceRange(products);
 
+      setMin(minR);
+      setMax(maxR);
+
+    }
+    
     setBrands(getBrands(products));
-
-  }, []);
-
-  useEffect(() => {
-
     setSizes(getSizes(products));
 
-  }, [products]);
+  }, []);
 
   const handleSettingClick = () => {
 
@@ -178,6 +176,6 @@ const CFilterMenu = ({ callback }: { callback: Function } ) => {
     </>
   );
 
-};
+});
 
 export default CFilterMenu;

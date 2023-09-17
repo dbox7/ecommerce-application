@@ -276,9 +276,15 @@ export const useServerApi = () => {
     return Api.root.productProjections().search().get({
       queryArgs: queryArgs
     }).execute().then(async (data) => {
+
+      await dispatch({type: ProductActionsType.PENDING_PRODS});
   
-      return dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results}).payload;
+      const res = await dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results}).payload;
+
+      await dispatch({type: ProductActionsType.PENDING_PRODS});
       
+      return res;
+
     });
 
   };
