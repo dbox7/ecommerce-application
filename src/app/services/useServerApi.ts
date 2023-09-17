@@ -87,7 +87,6 @@ export const useServerApi = () => {
 
           Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
 
-            localStorage.cart = JSON.stringify(data.body);
             dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
           });
@@ -110,7 +109,6 @@ export const useServerApi = () => {
   const Logout = () => {
 
     delete localStorage.currentUser;
-    delete localStorage.cart;
     delete localStorage.rToken;
     // Удаляем из кеша анонимного API-клиента, так как после логина/регистрации он протух
     Api.expireAnonClient();
@@ -139,6 +137,7 @@ export const useServerApi = () => {
           .execute()
           .then(data => {
 
+            localStorage.currentUser = JSON.stringify(data.body);
             dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body.customer});
   
           });
@@ -164,6 +163,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
         
       });
@@ -195,7 +195,8 @@ export const useServerApi = () => {
       .post({ body: updateData })
       .execute()
       .then((data) => {
-
+        
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         return ('success');
@@ -305,6 +306,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         const addresses = data.body.addresses;
@@ -348,6 +350,7 @@ export const useServerApi = () => {
           .execute()
           .then((data) => {
 
+            localStorage.currentUser = JSON.stringify(data.body);
             dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
       
           })
@@ -421,6 +424,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         return ('success');
@@ -457,6 +461,7 @@ export const useServerApi = () => {
       .execute()
       .then((data) => {
 
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         return ('success');
@@ -513,7 +518,8 @@ export const useServerApi = () => {
       .post({ body: updateData as CustomerUpdate })
       .execute()
       .then((data) => {
-
+        
+        localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         return ('success');
@@ -553,28 +559,54 @@ export const useServerApi = () => {
   };
 
   // ------------------------------------------------------------------------------------------------------------------ getCart
-  const getCart = (cartID: string, callback?: Function) => {
+  const getCart = (cartID: string, userID:string, callback?: Function) => {
 
-    return Api.root.me()
-      .carts()
-      .withId({ ID: cartID })
-      .get()
-      .execute()
-      .then((data) => {
+    if (!userID) {
 
-        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
-        if (callback) callback(data);
+      return Api.root.me()
+        .carts()
+        .withId({ID: cartID})
+        .get()
+        .execute()
+        .then((data) => {
 
-        return ('success');
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+          if (callback) callback(data);
+
+          return ('success');
        
-      })
-      .catch((err) => {
+        })
+        .catch((err) => {
         
-        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+          dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
 
-        return ('error');
+          return ('error');
 
-      });
+        });
+    
+    } else {
+
+      return Api.root.me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((data) => {
+
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+          if (callback) callback(data);
+
+          return ('success');
+       
+        })
+        .catch((err) => {
+        
+          dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+          return ('error');
+
+        });
+    
+    }
     
   };
 
@@ -589,9 +621,8 @@ export const useServerApi = () => {
       })
       .execute()
       .then(() => {
-
+        
         dispatch({type: CartActionTypes.UPDATE_CART, payload: emptyCart});
-
         return ('success');
       
       })
@@ -627,8 +658,6 @@ export const useServerApi = () => {
       .post({ body: updateData })
       .execute()
       .then((data) => {
-
-        localStorage.cart = JSON.stringify(data.body);
 
         dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
@@ -667,8 +696,6 @@ export const useServerApi = () => {
       .post({ body: updateData })
       .execute()
       .then((data) => {
-
-        localStorage.cart = JSON.stringify(data.body);
 
         dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
@@ -742,8 +769,6 @@ export const useServerApi = () => {
       .post({ body: updateData })
       .execute()
       .then((data) => {
-
-        localStorage.cart = JSON.stringify(data.body);
 
         dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 

@@ -1,20 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BsCart2 } from 'react-icons/bs';
 import { useResize } from '../../services/useResize';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CProfileMenu from '../profileMenu/CProfileMenu';
 import CBurgerMenu from '../burger/CBurgerMenu';
-
-import { BsCart2 } from 'react-icons/bs';
+import { useServerApi } from '../../services/useServerApi';
 
 import './CHeader.css';
+
 
 export const Header = () => {
 
   const width = useResize();
   const [openMenu, setOpenMenu] = useState(false);
   const { cart } = useTypedSelector(state => state.cart);
+  const { currentUser } = useTypedSelector(state => state.user);
+  const server = useServerApi();
+ 
+  useEffect(() => {
+
+    server.getCart(cart.id, currentUser.id);
+
+  },[]);
 
 
   return (

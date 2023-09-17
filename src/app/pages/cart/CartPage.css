@@ -121,18 +121,22 @@
   pointer-events: none;
 }
 
-.old_new {
+.cart__content__products-container__product__price__total__old_new {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.old_new span {
+.cart__content__products-container__product__price__total__old_new span {
   display: inline-block;
   margin-right: 5px;
 }
 
-.old {
+.cart__content__products-container__product__price__total__old {
   opacity: 0.5;
   text-decoration: line-through;
+}
+
+.cart__content__products-container__product__price__total {
+  width: 10%;
 }

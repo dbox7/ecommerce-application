@@ -34,7 +34,7 @@ export const CartPage = () => {
 
     if (cart) {
 
-      const res = await server.removeCartItem(cart.id, cart.version, 1, itemId);
+      const res = await server.removeCartItem(cart.id, cart.version, quantity, itemId);
 
       if (res === 'error') {
 
@@ -189,8 +189,8 @@ export const CartPage = () => {
                   <div className="cart__content__products-container__product__price__total">
                     <p>total cost</p>
                     {lineItem.discountedPricePerQuantity.length > 0 ?
-                      (<div className="cart__content__products-container__product__price__total old_new">
-                        <span className="cart__content__products-container__product__price__total old">{lineItem.price.discounted ?
+                      (<div className="cart__content__products-container__product__price__total__old_new">
+                        <span className="cart__content__products-container__product__price__total__old">{lineItem.price.discounted ?
                           lineItem.price.discounted.value.centAmount/100 * lineItem.quantity
                           : lineItem.price.value.centAmount/100 * lineItem.quantity}$</span>
                         <span>{lineItem.totalPrice.centAmount/100}$</span>
@@ -220,7 +220,7 @@ export const CartPage = () => {
           </form>
         </div>
         <div className="cart__content__order-container__total">
-          total price: {cart ? `${cart.totalPrice.centAmount / 100}$` : '0'}
+          total price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
           <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>

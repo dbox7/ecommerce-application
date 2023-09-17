@@ -81,7 +81,7 @@ export const ProductPage = () => {
       const res = await server.removeCartItem(
         cart.id,
         cart.version,
-        productQuantity,
+        item.quantity,
         item.id
       );
 
@@ -94,7 +94,7 @@ export const ProductPage = () => {
 
   };
 
-  const addCartItem = async (id = cart.id, version = cart.version) => {   
+  const addCartItem = async (id = cart.id, version = cart.version) => {
 
     return await server.addCartItem(
       id,
@@ -108,20 +108,20 @@ export const ProductPage = () => {
 
   const addToCart = async () => {
 
-    let res: string = '';  
+    let res: string = '';
 
     if (!cart.id) {
 
-      const newCart = await server.createCart(draft);    
+      const newCart = await server.createCart(draft);
 
-      if (typeof newCart === 'object') {      
-        
-        res = await addCartItem(newCart.id, newCart.version);      
+      if (typeof newCart === 'object') {
+
+        res = await addCartItem(newCart.id, newCart.version);
 
       }
 
     } 
-    
+
     if (cart.id) {
 
       res = await addCartItem();

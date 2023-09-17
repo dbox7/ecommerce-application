@@ -14,7 +14,6 @@ import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 const CProfileMenu = () => {
   
-  // const [globalStore] = useContext(GlobalContext);  
   const [showPopup, setShowPopup] = useState(false);
   const server = useServerApi();
 
