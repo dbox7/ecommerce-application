@@ -43,12 +43,6 @@ export const ProductPage = () => {
   const productQuantity = 1;
   const productVariant = 1;
 
-  if (product) {
-
-    setSizes(getSizeArray(product));    
-  
-  }
-  
   useEffect(() => {
 
     server.GetProductById(props.id!, setProduct);
@@ -68,6 +62,13 @@ export const ProductPage = () => {
     
     }
     setCrumbs(c);
+
+    if (product) {
+
+      setSizes(getSizeArray(product));    
+    
+    }
+    
   
   }, [product]);
 
