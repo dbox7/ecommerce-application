@@ -9,6 +9,8 @@ import { IProductFilters } from '../../utils/types';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
+import { checkFilters } from '../../utils/useFullFuncs';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/filters/search/CSearch';
@@ -19,17 +21,17 @@ import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import { CSortProducts } from '../../components/products/sort/CSortProducts';
 
 import './CatalogPage.css';
-import { msg } from '../../utils/constants';
 
 
 export const CatalogPage = () => {
 
   const server = useServerApi();
   const showMessage = useShowMessage();
-  const { products, categories } = useTypedSelector(state => state.products);
+  const { products, categories, loading } = useTypedSelector(state => state.products);
 
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
- 
+
+  const [filterLoading, setFilterLoading] = useState(true);
   const [filters, setFilters] = useState<IProductFilters>({
     sort: 'name.en asc',
   });
@@ -51,6 +53,18 @@ export const CatalogPage = () => {
     });
 
   }, []);
+
+  useEffect(() => {
+
+    const queryArgs = checkFilters(filters);
+
+    server.FilterProducts(queryArgs).then(() => {
+
+      setFilterLoading(false);
+
+    });
+      
+  }, [filters]);  
 
   useEffect(() => {
 
@@ -77,8 +91,8 @@ export const CatalogPage = () => {
         </div>
         <CSortProducts filters={filters} setFilters={setFilters}/>
         <div className="catalog__filters-and-prods">
-          <CFilterMenu callback={setFilters_cb} />
-          <CProductList filters={filters} setFilters={setFilters}/>
+          {!filterLoading ? <CFilterMenu callback={setFilters_cb} /> : <CLoading/>}
+          {!loading ? <CProductList/> : <CLoading/>}
         </div>
       </div>
       :
