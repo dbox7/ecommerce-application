@@ -69,7 +69,7 @@ export const developers: IDeveloper[] = [
     role: 'Front-end developer and API engineer',
     photo: GEKKOPhoto,
     bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
-    telegram: 'https://t.me/GEKKO-ops',
+    telegram: 'https://t.me/GEKKO33',
     github: 'https://github.com/GEKKO-ops',
     email: 'mailto:artem@mikolyuk.com'
   },
