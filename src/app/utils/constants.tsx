@@ -52,7 +52,7 @@ export const developers: IDeveloper[] = [
     photo: dbox7Photo, 
     bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
     telegram: 'https://t.me/dbox7', 
-    github: 'https;//github.com/dbox7', 
+    github: 'https://github.com/dbox7', 
     email: 'mailto:dbox.insight@gmail.com'
   },
 
@@ -61,7 +61,7 @@ export const developers: IDeveloper[] = [
     photo: xu69uxPhoto,
     bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
     telegram: 'https://t.me/xu69ux',
-    github: 'https;//github.com/xu69ux',
+    github: 'https://github.com/xu69ux',
     email: 'mailto:spiridonova.kseniya@gmail.com'
   },
 
@@ -70,7 +70,7 @@ export const developers: IDeveloper[] = [
     photo: GEKKOPhoto,
     bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
     telegram: 'https://t.me/GEKKO-ops',
-    github: 'https;//github.com/GEKKO-ops',
+    github: 'https://github.com/GEKKO-ops',
     email: 'mailto:artem@mikolyuk.com'
   },
   
