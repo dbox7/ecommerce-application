@@ -1,20 +1,17 @@
 import { 
   MouseEventHandler, 
-  // useContext, 
   useState 
 } from 'react';
-// import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
 import './CProfileMenu.css';
-import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 const CProfileMenu = () => {
   
-  // const [globalStore] = useContext(GlobalContext);  
   const [showPopup, setShowPopup] = useState(false);
   const server = useServerApi();
 

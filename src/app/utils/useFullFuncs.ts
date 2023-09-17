@@ -12,7 +12,6 @@ export const getSizeArray = (product: ProductProjection) => {
 
 };
 
-
 export const checkFilters = (filters: IProductFilters) => {
 
   const concatQueryString = (attr: string, attrArray: string[]) => {

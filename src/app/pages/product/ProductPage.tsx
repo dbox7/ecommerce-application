@@ -4,7 +4,7 @@ import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { getSizeArray } from '../../utils/useFullFuncs';
+import { getSizeArray } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
 
@@ -35,7 +35,7 @@ export const ProductPage = () => {
   const images = productData?.images!.slice(1)!;
   const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
 
-  let sizes: number[] = [];
+  const [sizes, setSizes] = useState<string[]>([]);
 
   const draft: MyCartDraft = {
     currency: 'USD',
@@ -45,7 +45,7 @@ export const ProductPage = () => {
 
   if (product) {
 
-    sizes = getSizeArray(product);    
+    setSizes(getSizeArray(product));    
   
   }
   

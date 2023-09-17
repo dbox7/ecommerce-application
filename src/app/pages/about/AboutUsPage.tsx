@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
-
 import { CDeveloperCard } from '../../components/developers/card/CDeveloperCard';
 import { developers } from '../../utils/constants';
 
 import './AboutUsPage.css';
-
 
 
 export const AboutUsPage = () => {
