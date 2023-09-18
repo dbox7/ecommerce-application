@@ -32,13 +32,12 @@ export const ProductPage = () => {
   const productData = product?.masterVariant;
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(undefined);
 
-
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-  const item = cart.lineItems?.filter((v) => v.productId === product?.id)[0];
 
   const [sizes, setSizes] = useState<string[]>([]);
+  const [isFound, setIsFound] = useState<boolean>(false);
 
   const draft: MyCartDraft = {
     currency: 'USD',
@@ -81,12 +80,39 @@ export const ProductPage = () => {
   
   }, [product]);
 
+
+  useEffect(() => {
+
+    const selectedSize = selectedVariant?.attributes?.find((a) => a.name === 'size')?.value;
+    const thisProducts = cart.lineItems?.filter((item) => item.productId === product?.id);
+
+    if (thisProducts.length) {
+
+      let found = thisProducts.filter((item) => item.variant.attributes?.find((a) => a.name === 'size' && a.value === selectedSize)).length > 0;
+
+      if (found) {
+
+        setIsFound(true);
+
+      } else {
+          
+        setIsFound(false);
+
+      }
+
+    }
+
+  }, [cart, selectedVariant]);
+
+
+
   const removeFromCart = async () => {
 
     const item = cart.lineItems.find((v) => v.productId === product?.id);
 
     if (item) {
 
+      setIsFound(false);
       const res = await server.removeCartItem(
         cart.id,
         cart.version,
@@ -112,8 +138,9 @@ export const ProductPage = () => {
       version,
       productQuantity,
       productVariant,
-      product!.id
+      product!.id,
     );
+    
 
   };
 
@@ -136,7 +163,7 @@ export const ProductPage = () => {
     if (cart.id) {
 
       res = await addCartItem();
-
+      
     } 
 
     res && res === 'success' ?
@@ -146,6 +173,7 @@ export const ProductPage = () => {
 
   };
 
+  
   return (
     product ? 
       <div className="product-page">
@@ -176,16 +204,15 @@ export const ProductPage = () => {
               sizes={sizes}
               selectedVariant={selectedVariant}
               setSelectedVariant={setSelectedVariant}/>
-            {item ? 
+            {isFound ? 
               <CButton 
                 value="Remove from cart -"
                 type="button"
                 extraClass="product_button"
-                clickHandler={removeFromCart}
-              />
-              :
+                clickHandler={removeFromCart}   
+              /> :
               <CButton 
-                value="Add to cart +"
+                value="Add to cart"
                 type="button"
                 extraClass="product_button"
                 clickHandler={addToCart}

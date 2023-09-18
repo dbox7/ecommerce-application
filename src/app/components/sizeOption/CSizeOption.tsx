@@ -14,7 +14,17 @@ const CSizeOption = ({ sizes, selectedVariant, setSelectedVariant, product }: IS
   
   function getVariantBySize(product: ProductProjection, size: string) {
 
-    let result = product.masterVariant.attributes?.find(attr => attr.name === 'size' && attr.value.toString() === size.toString());
+    let result = undefined;
+
+    product.masterVariant.attributes?.forEach((attr) => {
+
+      if(attr.name === 'size' && attr.value.toString() === size.toString()) {
+
+        result = product.masterVariant;
+
+      }
+      
+    });
 
     if (result) return result;
 
