@@ -77,18 +77,16 @@ export const developers: IDeveloper[] = [
   { name: 'Dmitry Korobka', 
     role: 'Team lead and design', 
     photo: dbox7Photo, 
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
+    bio: 'I am actively developing as a front-end engineer. I have good experience writing code in JavaScript and TypeScrpt. I have an understanding of the language features, which allows me to write fairly high-quality code. Several pet projects have been implemented and presented on GitHub.',
     telegram: 'https://t.me/dbox7', 
-    github: 'http://github.com/dbox7', 
+    github: 'https://github.com/dbox7', 
     email: 'mailto:dbox.insight@gmail.com'
   },
 
   { name: 'Kseniya Spiridonova',
     role: 'Front-end developer and prompt engineer',
     photo: xu69uxPhoto,
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
+    bio: 'I\'m a  novice front-end developer. I have some experience with generative adversarial neural networks and a strong affinity for large language models, which you can see here. Working as a part of the team on this project has brought me a lot of joy, my other projects are available on GitHub.',
     telegram: 'https://t.me/xu69ux',
     github: 'https://github.com/xu69ux',
     email: 'mailto:spiridonova.kseniya@gmail.com'
@@ -97,9 +95,8 @@ export const developers: IDeveloper[] = [
   { name: 'Artem Mykoliuk',
     role: 'Front-end developer and API engineer',
     photo: GEKKOPhoto,
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
-    telegram: 'https://t.me/GEKKO-ops',
+    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner. I am always looking for new challenges and opportunities to grow as a developer.',
+    telegram: 'https://t.me/GEKKO33',
     github: 'https://github.com/GEKKO-ops',
     email: 'mailto:artem@mikolyuk.com'
   },

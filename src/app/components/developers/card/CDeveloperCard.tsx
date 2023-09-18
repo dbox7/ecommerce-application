@@ -20,13 +20,13 @@ export const CDeveloperCard = ({developer}: {developer: IDeveloper}) => {
         <p className="developer-card__role">{developer.role}</p>
         <p className="developer-card__bio">{developer.bio}</p>
         <div className="developer-card__social-icons">
-          <a href={developer.telegram}>
+          <a href={developer.telegram} target="_blank" rel="noreferrer">
             <PiTelegramLogoThin className="developer-card__social-icons telegram"/>
           </a>
-          <a href={developer.github}>
+          <a href={developer.github} target="_blank" rel="noreferrer">
             <PiGithubLogoLight className="developer-card__social-icons github"/>
           </a>
-          <a href={developer.email}>
+          <a href={developer.email} target="_blank" rel="noreferrer">
             <CiMail className="developer-card__social-icons mail"/>
           </a>
         </div>
