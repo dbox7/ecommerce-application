@@ -183,7 +183,6 @@ export const CartPage = () => {
 
   };
 
-  console.log(cart.lineItems);
 
   return (
     <div className="cart">
