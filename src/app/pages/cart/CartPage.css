@@ -28,6 +28,10 @@
   font-size: var(--title);
 }
 
+.cart__content__products-container__empt__link:hover {
+  color: var(--dark-accent-color);
+}
+
 .cart__content__products-container {
   display: flex;
   flex-direction: column;

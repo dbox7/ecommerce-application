@@ -49,6 +49,12 @@ export const CartPage = () => {
   const handleClearCart = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     
     e.preventDefault();
+    if (cart.lineItems.length === 0) {
+        
+      showMessage(msg.CLEAR_EMPTY_CART);
+      return;
+
+    }
 
     if (cart) {
 
@@ -162,6 +168,20 @@ export const CartPage = () => {
 
   };
 
+  const handleOrder = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+
+    if (cart.lineItems.length === 0) {
+          
+      showMessage(msg.ORDER_CART_EMPTY);
+      return;
+  
+    }
+
+    showMessage(msg.ORDER_CREATE_SUCCESS);
+    setOrdered(true);
+    handleClearCart(e);
+
+  };
 
   return (
     <div className="cart">
@@ -179,7 +199,7 @@ export const CartPage = () => {
               (<div className="cart__content__products-container__empty">
                 <p>
                   Your cart is currently empty. Take a look at the{' '}
-                  <Link to="/catalog">
+                  <Link to="/catalog" className="cart__content__products-container__empt__link">
                     <b>Catalog</b>
                   </Link>
                   , there are many cool products there.
@@ -277,12 +297,7 @@ export const CartPage = () => {
             value="Order!" 
             type="submit" 
             extraClass="order"
-            clickHandler={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-
-              setOrdered(true);
-              handleClearCart(e);
-
-            }}
+            clickHandler={handleOrder}
           />
         </div>
       </div>

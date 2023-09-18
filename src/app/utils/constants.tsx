@@ -161,8 +161,11 @@ export const msg = {
   PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
   PRODUCT_REMOVE_SUCCESS: { body: 'Your product removed from cart successfully!', error: false },
   PRODUCT_REMOVE_ERROR: { body: 'An error occurred while removing product from cart.', error: true },
+  CLEAR_EMPTY_CART: { body: 'Your cart is quite empty!', error: true },
   DISCOUNT_INPUT_EMPTY: { body: 'Please enter discount code!', error: true },
   DISCOUNT_CART_EMPTY: { body: 'You can not apply discount code for empty cart!', error: true },
   DISCOUNT_ADD_SUCCESS: { body: 'Your discount code has been applied successfully!', error: false },
   DISCOUNT_ALREADY_EXIST: { body: 'This discount code has already been applied!', error: true },
+  ORDER_CREATE_SUCCESS: { body: 'Your order has been created successfully!', error: false },
+  ORDER_CART_EMPTY: { body: 'You can not create order for empty cart!', error: true },
 };
