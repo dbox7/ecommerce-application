@@ -4,6 +4,11 @@ import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
 import useInputChanges from '../../services/input/useInputChange';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
+
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -14,10 +19,19 @@ import CPassword from '../inputs/password/CPassword';
 import './CUserProfileForm.css';
 
 
+
+
 const CUserProfileForm: React.FC = () => {
   
   const server = useServerApi();
+  const showMessage = useShowMessage();
   const {currentUser} = useTypedSelector(state => state.user);
+
+  useEffect(() => {
+
+    server.getCustomer();
+  
+  },[currentUser.lastModifiedAt]);
 
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
@@ -31,6 +45,7 @@ const CUserProfileForm: React.FC = () => {
   const lastName = useInput(initLastName.inputValue, 'text');
   const firstName = useInput(initFirstName.inputValue, 'text');
   const email = useInput(initEmail.inputValue, 'email');
+
 
   const convertedAddresses: IAddress[] = currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -60,11 +75,11 @@ const CUserProfileForm: React.FC = () => {
   
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
     
-    server.UpdatePersonalInfo(
+    const res = await server.UpdatePersonalInfo(
       currentUser.id,
       email.value,
       firstName.value,
@@ -72,10 +87,15 @@ const CUserProfileForm: React.FC = () => {
       dateOfBirth.value,
       currentUser.version
     );
+
+    res === 'success' ?
+      showMessage(msg.PERSONAL_INFO_CHANGE_SUCCESS)
+      :
+      showMessage(msg.PERSONAL_INFO_CHANGE_ERROR);
   
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
       id: currentUser.id,
@@ -86,11 +106,17 @@ const CUserProfileForm: React.FC = () => {
 
     e.preventDefault();
     
-    server.ChangePassword(
+    const res = await server.ChangePassword(
       email.value,
       updateData
     );
     
+    res === 'success' ?
+      showMessage(msg.PASSWORD_CHANGE_SUCCESS)
+      :
+      showMessage(msg.PASSWORD_CHANGE_ERROR);
+
+
     isEmptyEvent();
 
   };

@@ -5,7 +5,7 @@ import './CSizeOption.css';
 import { ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 
 interface ISizeOptionsProps { 
-  sizes: number[],  
+  sizes: string[],  
   selectedVariant: ProductVariant, 
   setSelectedVariant: Function, 
   product: ProductProjection
@@ -13,12 +13,12 @@ interface ISizeOptionsProps {
 
 const CSizeOption = ({ sizes, selectedVariant, setSelectedVariant, product }: ISizeOptionsProps) => {
   
-  const [selectedSize, setSelectedSize] = useState<number>(0);
+  const [selectedSize, setSelectedSize] = useState<string>('');
 
   console.log('selectedVariant: ', selectedVariant);
   console.log('selectedSize: ', selectedSize);
 
-  function getVariantBySize(product: ProductProjection, size: number) {
+  function getVariantBySize(product: ProductProjection, size: string) {
 
     let result = product.masterVariant.attributes?.find(attr => attr.name === 'Size' && attr.value.key === size.toString());
 

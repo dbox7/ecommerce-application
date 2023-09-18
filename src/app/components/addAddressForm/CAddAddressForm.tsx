@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { COUNTRIES } from '../../utils/constants';
+import { COUNTRIES, msg } from '../../utils/constants';
 import { IAddAdrdressProps, IAddress } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
@@ -33,8 +34,8 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
   const postalCode = useInput('', 'postalCode');
   const country = useInput('', 'text');
 
-
   const server = useServerApi();
+  const showMessage = useShowMessage();
   const isFormBlockedByMainInfo = UseFormBlock([
 
     street.valid.isNotEmpty!,
@@ -59,7 +60,7 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
   
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
 
@@ -86,12 +87,17 @@ export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
     
     }
 
-    server.addAddresses(
+    const res = await server.addAddresses(
       currentUser.id,
       currentUser.version,
       address,
       actionTypes,
     );
+
+    res === 'success' ?
+      showMessage(msg.ADDRESS_UPDATE_SUCCESS)
+      :
+      showMessage(msg.ADDRESS_UPDATE_ERROR);
 
     handleSaveClick();
 

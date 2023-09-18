@@ -2,17 +2,18 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
-import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { getSizeArray } from '../../utils/useFullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
+import { CLoading } from '../../components/loading/CLoading';
 
 import './ProductPage.css';
 
@@ -25,8 +26,9 @@ export const ProductPage = () => {
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
-  const { msg } = useTypedSelector(state => state.products);
-  const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
+
+  const { cart } = useTypedSelector(state => state.cart);
+
   const productData = product?.masterVariant;
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product?.masterVariant!);
 
@@ -36,9 +38,8 @@ export const ProductPage = () => {
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
   const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
-  const quantity = cart.totalLineItemQuantity;
 
-  let sizes: number[] = [];
+  const [sizes, setSizes] = useState<string[]>([]);
 
   const draft: MyCartDraft = {
     currency: 'USD',
@@ -46,13 +47,7 @@ export const ProductPage = () => {
   const productQuantity = 1;
   const productVariant = 1;
 
-  
-  if (product) {
 
-    sizes = getSizeArray(product);    
-  
-  }
-  
   useEffect(() => {
 
     server.GetProductById(props.id!, setProduct);
@@ -72,61 +67,78 @@ export const ProductPage = () => {
     
     }
     setCrumbs(c);
+
+    if (product) {
+
+      setSizes(getSizeArray(product));    
+    
+    }
+    
   
   }, [product]);
 
-  useEffect(() => {
+  const removeFromCart = async () => {
 
-    showMessage(msg);
-    showMessage(msg_cart);
+    const item = cart.lineItems.find((v) => v.productId === product?.id);
 
-  }, [msg, msg_cart]);
+    if (item) {
 
-  const handleCart = (e: React.MouseEvent<HTMLElement>) => {
+      const res = await server.removeCartItem(
+        cart.id,
+        cart.version,
+        item.quantity,
+        item.id
+      );
 
-    e.preventDefault();
-    e.stopPropagation();
+      res === 'success' ?
+        showMessage(msg.PRODUCT_REMOVE_SUCCESS)
+        :
+        showMessage(msg.PRODUCT_REMOVE_ERROR);
 
-    if (!cart) {
-
-      server.createCart(draft);
-    
-    };
-    
-    if (cart) {
-
-      if (item) {
-        
-        server.removeCartItem(
-          cart.id,
-          cart.version,
-          quantity!,
-          item.id
-          
-        );
-        server.getCart(
-          cart.id,
-        );
-
-      } else {
-
-        server.addCartItem(
-          cart.id,
-          cart.version,
-          productVariant,
-          productQuantity,
-          product!.id
-        );
-        server.getCart(
-          cart.id,
-        );
-
-      }
-
-    };
+    }
 
   };
 
+  const addCartItem = async (id = cart.id, version = cart.version) => {
+
+    return await server.addCartItem(
+      id,
+      version,
+      productVariant,
+      productQuantity,
+      product!.id
+    );
+
+  };
+
+  const addToCart = async () => {
+
+    let res: string = '';
+
+    if (!cart.id) {
+
+      const newCart = await server.createCart(draft);
+
+      if (typeof newCart === 'object') {
+
+        res = await addCartItem(newCart.id, newCart.version);
+
+      }
+
+    } 
+
+    if (cart.id) {
+
+      res = await addCartItem();
+
+    } 
+
+    res && res === 'success' ?
+      showMessage(msg.PRODUCT_ADD_SUCCESS)
+      :
+      showMessage(msg.PRODUCT_ADD_ERROR);
+
+  };
 
   return (
     product ? 
@@ -163,14 +175,14 @@ export const ProductPage = () => {
                 value="Remove from cart -"
                 type="button"
                 extraClass="product_button"
-                clickHandler={handleCart}
+                clickHandler={removeFromCart}
               />
               :
               <CButton 
                 value="Add to cart +"
                 type="button"
                 extraClass="product_button"
-                clickHandler={handleCart}
+                clickHandler={addToCart}
               />
             }
           </div>

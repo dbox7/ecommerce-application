@@ -9,6 +9,8 @@ import { IProductFilters } from '../../utils/types';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
+import { checkFilters } from '../../utils/useFullFuncs';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/filters/search/CSearch';
@@ -23,13 +25,13 @@ import './CatalogPage.css';
 
 export const CatalogPage = () => {
 
-  const showMessage = useShowMessage();
   const server = useServerApi();
-  const { products, categories, msg } = useTypedSelector(state => state.products);
-  const cart = useTypedSelector(state => state.cart);
+  const showMessage = useShowMessage();
+  const { products, categories, loading } = useTypedSelector(state => state.products);
 
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
- 
+
+  const [filterLoading, setFilterLoading] = useState(true);
   const [filters, setFilters] = useState<IProductFilters>({
     sort: 'name.en asc',
   });
@@ -44,10 +46,25 @@ export const CatalogPage = () => {
 
   useEffect(() => { 
 
-    server.GetAllProducts();
-    server.GetAllCategories();
+    server.GetAllCategories().catch(() => {
+
+      showMessage(msg.COMMON_ERROR);
+
+    });
 
   }, []);
+
+  useEffect(() => {
+
+    const queryArgs = checkFilters(filters);
+
+    server.FilterProducts(queryArgs).then(() => {
+
+      setFilterLoading(false);
+
+    });
+      
+  }, [filters]);  
 
   useEffect(() => {
 
@@ -62,16 +79,9 @@ export const CatalogPage = () => {
     setCrumbs(c);
   
   }, [products]);
-
-  useEffect(() => {
-
-    showMessage(msg);
-    showMessage(cart.msg);
-
-  }, [msg, cart.msg]);
   
   return (
-    (products.length !== 0 && categories.length !== 0) ? 
+    (categories.length !== 0) ? 
       <div className="catalog">
         {<CBreadcrumbs crumbs={crumbs}/>}
         <div className="sub-title">Catalog</div>
@@ -81,8 +91,8 @@ export const CatalogPage = () => {
         </div>
         <CSortProducts filters={filters} setFilters={setFilters}/>
         <div className="catalog__filters-and-prods">
-          <CFilterMenu callback={setFilters_cb} />
-          <CProductList filters={filters} setFilters={setFilters}/>
+          {!filterLoading ? <CFilterMenu callback={setFilters_cb} /> : <CLoading/>}
+          {!loading ? <CProductList/> : <CLoading/>}
         </div>
       </div>
       :
