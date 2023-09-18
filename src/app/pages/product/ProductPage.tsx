@@ -111,7 +111,7 @@ export const ProductPage = () => {
     const item = cart.lineItems.find((v) => v.productId === product?.id);
 
     if (item) {
-      
+
       setIsFound(false);
       const res = await server.removeCartItem(
         cart.id,
