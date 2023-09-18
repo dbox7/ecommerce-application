@@ -142,6 +142,11 @@ export const TRANSITION_DURATION = 300;
 
 export const GOOGLE_MAP = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26311.21492459712!2d-113.35652599634557!3d34.48001367189503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d2f79d6df2a0d7%3A0x3a207c1735cf3190!2zTm90aGluZywg0JDRgNC40LfQvtC90LAgODUzNjAsINCh0KjQkA!5e0!3m2!1sru!2skg!4v1694368598079!5m2!1sru!2skg';
 
+export const DISCOUNTS: {[key: string] : string} = {
+  'BIGORDERDEAL': '83622c46-3820-40db-89d6-d3015cb4a0c9',
+  'SPRINT25': '069162aa-d848-4f1d-ae82-f531a8c4b0cc',
+};
+
 export const msg = {
   COMMON_ERROR: { body: 'Something went wrong. Please try again later.', error: true },
   REG_ALREADY_EXIST: { body: 'An account with this email already exists.', error: true },
@@ -156,4 +161,8 @@ export const msg = {
   PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
   PRODUCT_REMOVE_SUCCESS: { body: 'Your product removed from cart successfully!', error: false },
   PRODUCT_REMOVE_ERROR: { body: 'An error occurred while removing product from cart.', error: true },
+  DISCOUNT_INPUT_EMPTY: { body: 'Please enter discount code!', error: true },
+  DISCOUNT_CART_EMPTY: { body: 'You can not apply discount code for empty cart!', error: true },
+  DISCOUNT_ADD_SUCCESS: { body: 'Your discount code has been applied successfully!', error: false },
+  DISCOUNT_ALREADY_EXIST: { body: 'This discount code has already been applied!', error: true },
 };

@@ -2,7 +2,7 @@ import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useState, FormEvent } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';
-import { msg } from '../../utils/constants';
+import { msg, DISCOUNTS } from '../../utils/constants';
 
 import CButton from '../../components/button/CButton';
 import { Link } from 'react-router-dom';
@@ -69,13 +69,40 @@ export const CartPage = () => {
   const handleDiscount = async (e: FormEvent) => {
 
     e.preventDefault();
+    const discountId = DISCOUNTS[discount];
+
+    if (discount === '') {
+        
+      showMessage(msg.DISCOUNT_INPUT_EMPTY);
+      return;
+
+    }
+
+    if (cart.lineItems.length === 0) {
+        
+      showMessage(msg.DISCOUNT_CART_EMPTY);
+      return;
+  
+    }
+    
+    if(cart.discountCodes.find((item) => item.discountCode.id === discountId) !== undefined) {
+
+      showMessage(msg.DISCOUNT_ALREADY_EXIST);
+      return;
+      
+    };
+ 
     const res = await server.addDiscount(cart.id, cart.version, discount);
 
     if (res === 'error') {
 
       showMessage(msg.COMMON_ERROR);
 
-    };
+    } else {
+        
+      showMessage(msg.DISCOUNT_ADD_SUCCESS);
+
+    }
 
     setDiscount('');
 
