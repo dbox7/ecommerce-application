@@ -22,13 +22,20 @@ export const CProductList = memo(() => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getSlice = (page: number, arr = products) => {    
-  
-    setPage(prevIdx => prevIdx + 1);
-    return arr.slice(page * 5, (page + 1) * 5);
+    
+    const res = arr.slice(page * 5, (page + 1) * 5);
+
+    if (res.length) {
+
+      setPage(prevIdx => prevIdx + 1);
+
+    }
+
+    return res;
 
   };
 
-  const fetchData = useCallback(() => {
+  const fetchData = useCallback(() => {   
 
     if (isLoading) return;
     
@@ -66,9 +73,9 @@ export const CProductList = memo(() => {
 
   useEffect(() => {
     
-    setItems(getSlice(0, products));
+    setItems(getSlice(0));
 
-  }, []);
+  }, [products]);
 
   return (
     <div className="product__wrap">
