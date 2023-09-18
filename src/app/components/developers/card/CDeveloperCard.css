@@ -1,6 +1,6 @@
 .developer-card {
   width: 30%;
-  height: 50vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +37,12 @@
 }
 
 .developer-card__role {
+  height: 5vh;
   margin-bottom: 1vh;
+}
+
+.developer-card__bio {
+  min-height: 19vh;
 }
 
 .developer-card__social-icons {

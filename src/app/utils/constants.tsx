@@ -77,18 +77,16 @@ export const developers: IDeveloper[] = [
   { name: 'Dmitry Korobka', 
     role: 'Team lead and design', 
     photo: dbox7Photo, 
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
+    bio: 'I am actively developing as a front-end engineer. I have good experience writing code in JavaScript and TypeScrpt. I have an understanding of the language features, which allows me to write fairly high-quality code. Several pet projects have been implemented and presented on GitHub.',
     telegram: 'https://t.me/dbox7', 
-    github: 'http://github.com/dbox7', 
+    github: 'https://github.com/dbox7', 
     email: 'mailto:dbox.insight@gmail.com'
   },
 
   { name: 'Kseniya Spiridonova',
     role: 'Front-end developer and prompt engineer',
     photo: xu69uxPhoto,
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
+    bio: 'I\'m a  novice front-end developer. I have some experience with generative adversarial neural networks and a strong affinity for large language models, which you can see here. Working as a part of the team on this project has brought me a lot of joy, my other projects are available on GitHub.',
     telegram: 'https://t.me/xu69ux',
     github: 'https://github.com/xu69ux',
     email: 'mailto:spiridonova.kseniya@gmail.com'
@@ -97,9 +95,8 @@ export const developers: IDeveloper[] = [
   { name: 'Artem Mykoliuk',
     role: 'Front-end developer and API engineer',
     photo: GEKKOPhoto,
-    bio: 'I am a software engineer with a passion for web development. I am a team player and a quick learner.' +
-    'I am always looking for new challenges and opportunities to grow as a developer.',
-    telegram: 'https://t.me/GEKKO-ops',
+    bio: 'I\'m a budding web developer with a passion for crafting digital experiences. My journey into the world of web development started with a fascination for coding and a thirst for creativity. I find immense joy in being part of projects, collaborating with teams, and turning ideas into functional websites.',
+    telegram: 'https://t.me/GEKKO33',
     github: 'https://github.com/GEKKO-ops',
     email: 'mailto:artem@mikolyuk.com'
   },
@@ -142,6 +139,11 @@ export const TRANSITION_DURATION = 300;
 
 export const GOOGLE_MAP = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26311.21492459712!2d-113.35652599634557!3d34.48001367189503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d2f79d6df2a0d7%3A0x3a207c1735cf3190!2zTm90aGluZywg0JDRgNC40LfQvtC90LAgODUzNjAsINCh0KjQkA!5e0!3m2!1sru!2skg!4v1694368598079!5m2!1sru!2skg';
 
+export const DISCOUNTS: {[key: string] : string} = {
+  'BIGORDERDEAL': '83622c46-3820-40db-89d6-d3015cb4a0c9',
+  'SPRINT25': '069162aa-d848-4f1d-ae82-f531a8c4b0cc',
+};
+
 export const msg = {
   COMMON_ERROR: { body: 'Something went wrong. Please try again later.', error: true },
   REG_ALREADY_EXIST: { body: 'An account with this email already exists.', error: true },
@@ -156,4 +158,11 @@ export const msg = {
   PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
   PRODUCT_REMOVE_SUCCESS: { body: 'Your product removed from cart successfully!', error: false },
   PRODUCT_REMOVE_ERROR: { body: 'An error occurred while removing product from cart.', error: true },
+  CLEAR_EMPTY_CART: { body: 'Your cart is quite empty!', error: true },
+  DISCOUNT_INPUT_EMPTY: { body: 'Please enter discount code!', error: true },
+  DISCOUNT_CART_EMPTY: { body: 'You can not apply discount code for empty cart!', error: true },
+  DISCOUNT_ADD_SUCCESS: { body: 'Your discount code has been applied successfully!', error: false },
+  DISCOUNT_ALREADY_EXIST: { body: 'This discount code has already been applied!', error: true },
+  ORDER_CREATE_SUCCESS: { body: 'Your order has been created successfully!', error: false },
+  ORDER_CART_EMPTY: { body: 'You can not create order for empty cart!', error: true },
 };

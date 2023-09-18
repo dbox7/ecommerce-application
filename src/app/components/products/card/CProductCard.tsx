@@ -25,6 +25,8 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productVariant = 1;
 
 
+  const item = cart.lineItems.find((v) => v.productId === product?.id);
+
   const addCartItem = async (id = cart.id, version = cart.version) => {   
 
     return await server.addCartItem(
@@ -80,7 +82,11 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className="product-card__icon cart-icon" onClick={handleClick}/>
+        {item? 
+          <BsCart2 className="product-card__icon cart-icon disabled" onClick={handleClick}/>
+          : 
+          <BsCart2 className="product-card__icon cart-icon" onClick={handleClick}/>
+        }
       </div>
     </div>
   );

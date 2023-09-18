@@ -2,7 +2,7 @@ import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useState, FormEvent } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';
-import { msg } from '../../utils/constants';
+import { msg, DISCOUNTS } from '../../utils/constants';
 
 import CButton from '../../components/button/CButton';
 import { Link } from 'react-router-dom';
@@ -49,6 +49,12 @@ export const CartPage = () => {
   const handleClearCart = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     
     e.preventDefault();
+    if (cart.lineItems.length === 0) {
+        
+      showMessage(msg.CLEAR_EMPTY_CART);
+      return;
+
+    }
 
     if (cart) {
 
@@ -69,13 +75,40 @@ export const CartPage = () => {
   const handleDiscount = async (e: FormEvent) => {
 
     e.preventDefault();
+    const discountId = DISCOUNTS[discount];
+
+    if (discount === '') {
+        
+      showMessage(msg.DISCOUNT_INPUT_EMPTY);
+      return;
+
+    }
+
+    if (cart.lineItems.length === 0) {
+        
+      showMessage(msg.DISCOUNT_CART_EMPTY);
+      return;
+  
+    }
+    
+    if(cart.discountCodes.find((item) => item.discountCode.id === discountId) !== undefined) {
+
+      showMessage(msg.DISCOUNT_ALREADY_EXIST);
+      return;
+      
+    };
+ 
     const res = await server.addDiscount(cart.id, cart.version, discount);
 
     if (res === 'error') {
 
       showMessage(msg.COMMON_ERROR);
 
-    };
+    } else {
+        
+      showMessage(msg.DISCOUNT_ADD_SUCCESS);
+
+    }
 
     setDiscount('');
 
@@ -135,6 +168,20 @@ export const CartPage = () => {
 
   };
 
+  const handleOrder = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+
+    if (cart.lineItems.length === 0) {
+          
+      showMessage(msg.ORDER_CART_EMPTY);
+      return;
+  
+    }
+
+    showMessage(msg.ORDER_CREATE_SUCCESS);
+    setOrdered(true);
+    handleClearCart(e);
+
+  };
 
   return (
     <div className="cart">
@@ -152,7 +199,7 @@ export const CartPage = () => {
               (<div className="cart__content__products-container__empty">
                 <p>
                   Your cart is currently empty. Take a look at the{' '}
-                  <Link to="/catalog">
+                  <Link to="/catalog" className="cart__content__products-container__empt__link">
                     <b>Catalog</b>
                   </Link>
                   , there are many cool products there.
@@ -170,7 +217,7 @@ export const CartPage = () => {
                   </div>
                   <div className="cart__content__products-container__product__name">
                     <Link to={`/catalog/${lineItem.productId}`}>
-                      <b>{lineItem.name.en}</b>
+                      {lineItem.name.en}
                     </Link>
                   </div>
                   <div className="cart__content__products-container__product__count">
@@ -186,8 +233,8 @@ export const CartPage = () => {
                     <p>price</p>
                     {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
                   </div>
-                  <div className="cart__content__products-container__product__price__total">
-                    <p>total cost</p>
+                  <div className="cart__content__products-container__product__price subtotal">
+                    <p>subtotal</p>
                     {lineItem.discountedPricePerQuantity.length > 0 ?
                       (<div className="cart__content__products-container__product__price__total__old_new">
                         <span className="cart__content__products-container__product__price__total__old">{lineItem.price.discounted ?
@@ -220,7 +267,7 @@ export const CartPage = () => {
           </form>
         </div>
         <div className="cart__content__order-container__total">
-          total price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
+          total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
           <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>
@@ -250,12 +297,7 @@ export const CartPage = () => {
             value="Order!" 
             type="submit" 
             extraClass="order"
-            clickHandler={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-
-              setOrdered(true);
-              handleClearCart(e);
-
-            }}
+            clickHandler={handleOrder}
           />
         </div>
       </div>
