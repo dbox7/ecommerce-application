@@ -9,6 +9,7 @@ import CPrice from '../../price/CPrice';
 import { BsCart2 } from 'react-icons/bs';
 
 import './CProductCard.css';
+import { useState } from 'react';
 
 
 export const CProductCard = ({ product }: { product: ProductProjection }) => {
@@ -24,9 +25,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productQuantity = 1;
   const productVariant = 1;
 
-  // const name = product.name.en.split(/.-./);
-
-  //const [ addInCart, setAddInCart ] = useState<boolean>(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const addCartItem = async (id = cart.id, version = cart.version) => {   
 
@@ -62,6 +61,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
     if (cart.id) {
 
       res = await addCartItem();
+      setIsAdded(true);
 
     }
 
@@ -83,7 +83,11 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
             isMini={true} 
           />
         </div>
-        <BsCart2 className="product-card__icon cart-icon" onClick={handleClick}/>
+        {isAdded? 
+          <BsCart2 className="product-card__icon cart-icon disabled" onClick={handleClick}/>
+          : 
+          <BsCart2 className="product-card__icon cart-icon" onClick={handleClick}/>
+        }
       </div>
     </div>
   );

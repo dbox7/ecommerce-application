@@ -45,6 +45,7 @@
 
 .product-card__icon {
   font-size: 30px;
+  transition: all 0.3s;
 }
 
 .product-card__icon.disabled {
