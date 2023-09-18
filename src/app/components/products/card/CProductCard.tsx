@@ -21,9 +21,6 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productQuantity = 1;
   const productVariant = 1;
 
-  // const name = product.name.en.split(/.-./);
-
-  //const [ addInCart, setAddInCart ] = useState<boolean>(false);
 
   const addCartItem = (id = cart.id, version = cart.version) => {   
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
@@ -27,9 +27,11 @@ export const ProductPage = () => {
   const [product, setProduct] = useState<ProductProjection>();
   const { msg } = useTypedSelector(state => state.products);
   const { cart, msg: msg_cart } = useTypedSelector(state => state.cart);
-
   const productData = product?.masterVariant;
-  
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product?.masterVariant!);
+
+
+
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
@@ -44,6 +46,7 @@ export const ProductPage = () => {
   const productQuantity = 1;
   const productVariant = 1;
 
+  
   if (product) {
 
     sizes = getSizeArray(product);    
@@ -125,7 +128,6 @@ export const ProductPage = () => {
   };
 
 
-  console.log(cart);
   return (
     product ? 
       <div className="product-page">
@@ -151,7 +153,11 @@ export const ProductPage = () => {
               </div>
             </div>
             <CPrice price={productData?.prices![0]!} />
-            <CSizeOption sizes={sizes}/>
+            <CSizeOption 
+              product={product}
+              sizes={sizes}
+              selectedVariant={selectedVariant}
+              setSelectedVariant={setSelectedVariant}/>
             {item ? 
               <CButton 
                 value="Remove from cart -"
