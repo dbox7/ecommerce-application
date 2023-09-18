@@ -1,7 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { IAdressProps } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
 
 import CButton from '../button/CButton';
 import CModal from '../modal/CModal';
@@ -11,6 +13,7 @@ import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 
 import './CUserAddresses.css';
 
+
 const CUserAddresses: React.FC<IAdressProps> = ({ 
   addresses,
   shippingAddressIds,
@@ -19,11 +22,14 @@ const CUserAddresses: React.FC<IAdressProps> = ({
   defaultBillingAddressIds
 }) => {
 
+  const server = useServerApi();
+  const showMessage = useShowMessage();
+  const {currentUser} = useTypedSelector(state => state.user);
+
   const [modalAddAddress, setModalAddAddress] = useState(false);
   const [modalRemoveAddress, setModalRemoveAddress] = useState<Record<string, boolean>>({});
   const [modalSetDefault, setModalSetDefault] = useState<Record<string, boolean>>({});
-  const server = useServerApi();
-  const [globalStore] = useContext(GlobalContext);
+
   const [useDefaultShippingAddress, setUseDefaultShippingAddress] = useState<Record<string, boolean>>({});
   const [useDefaultBillingAddress, setUseDefaultBillingAddress] = useState<Record<string, boolean>>({});
   const [modalEditAddress, setModalEditAddress] = useState<Record<string, boolean>>({});
@@ -96,15 +102,20 @@ const CUserAddresses: React.FC<IAdressProps> = ({
           
           };
 
-          const handleDeleteAddressClick = () => {
+          const handleDeleteAddressClick = async () => {
 
             if(address.id) {
 
-              server.removeAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+              const res = await server.removeAddress(
+                currentUser.id,
+                currentUser.version,
                 address.id
               );
+
+              res === 'success' ?
+                showMessage(msg.ADDRESS_UPDATE_SUCCESS)
+                :
+                showMessage(msg.ADDRESS_UPDATE_ERROR);
 
             }
             setModalState(false);
@@ -112,7 +123,7 @@ const CUserAddresses: React.FC<IAdressProps> = ({
           };
 
 
-          const handleSetDefaultClick = () => {
+          const handleSetDefaultClick = async () => {
 
             let actionTypes: string[] = [];
 
@@ -132,12 +143,17 @@ const CUserAddresses: React.FC<IAdressProps> = ({
 
             if(address.id) {
 
-              server.setDefaultAddress(
-                globalStore.currentUser.id,
-                globalStore.currentUser.version,
+              const res = await server.setDefaultAddress(
+                currentUser.id,
+                currentUser.version,
                 address.id,
                 actionTypes
               );
+
+              res === 'success' ?
+                showMessage(msg.ADDRESS_UPDATE_SUCCESS)
+                :
+                showMessage(msg.ADDRESS_UPDATE_ERROR);
 
             }
             setModalStateDefault(false);

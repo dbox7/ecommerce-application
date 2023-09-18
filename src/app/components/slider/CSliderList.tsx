@@ -15,8 +15,8 @@ const CSliderList = () => {
         transitionDuration: `${slider.transitionDuration / 1000}s`
       }}
     >
-      {slider.slides.map(slide => (
-        <div className="slide">
+      {slider.slides.map((slide, idx) => (
+        <div className="slide" key={idx}>
           <img src={slide.url} alt={slide.label} className="slide__img" />
         </div>
       ))}

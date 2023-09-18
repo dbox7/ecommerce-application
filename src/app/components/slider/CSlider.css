@@ -39,16 +39,11 @@
 }
 
 .arrow {
-  font-size: 30px;
+  font-size: 2rem;
   color: var(--basic-color);
-
   cursor: pointer;
 }
 
 .arrow:hover {
   color: var(--accent-color);
-}
-
-.arrow_right {
-  transform: rotate(180deg);
 }

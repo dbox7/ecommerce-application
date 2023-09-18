@@ -1,128 +1,106 @@
-import { useContext, useState } from 'react';
-import { PROJECT_KEY, apiAnonRoot, createUserApiClient } from '../ctp';
-import { GlobalContext } from '../store/GlobalContext';
+import { Api } from '../ctp';
 import { 
   MyCustomerDraft, 
-  createApiBuilderFromCtpClient,
   CustomerChangePassword, 
   CustomerUpdate,
+  MyCartDraft,
+  MyCartUpdate,
+  Cart,
 } from '@commercetools/platform-sdk';
 import { 
   IAction,
   IAddress,
   IChangePassword, 
-  IGlobalStoreType, 
   IPayload, 
-  IQueryArgs, 
-  IToastify
+  IQueryArgs
 } from '../utils/types';
-import { useNavigate } from 'react-router-dom';
-import { anonUser } from '../utils/constants';
-import { createAnonApiClient } from '../ctp';
-import useToastify from './useToastify';
+import { anonUser, emptyCart } from '../utils/constants';
+import { useDispatch } from 'react-redux';
+import { UserActionsType } from '../store/types';
+import { ProductActionsType } from '../store/types';
+import { CartActionTypes } from '../store/reducers/cartReducer';
 
-const GetApi = (globalStore: IGlobalStoreType) => {
 
-  let api;
-
-  if (globalStore.currentUser.id && globalStore.apiMeRoot) {
-
-    api = globalStore.apiMeRoot;
-  
-  } else {
-  
-    api = apiAnonRoot;
-  
-  }
-
-  return api;
-  
-}; 
 
 export const useServerApi = () => {
 
-  const [globalStore, setGlobalStore] = useContext(GlobalContext);
-  const [error, setError] = useState('');
-  const notify = useToastify();
-  
-  const navigate = useNavigate();
-  const api = GetApi(globalStore);
+  const dispatch: any = useDispatch();
+
 
   // ------------------------------------------------------------------------------------------------------------------ Registration
   const Registration = (payload: IPayload) => {
 
-    const errorMessage: IToastify = {
-      error: 'An account with this email already exists.',
-    };
-
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
-
-    apiAnonRoot.me().signup()
+    return Api.root.me().signup()
       .post({body: payload as MyCustomerDraft})
       .execute()
       .then((data) => {
 
-        const ctpMeClient = createUserApiClient(payload.email, payload.password);
-        const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
+        Api.passwordRoot(payload.email, payload.password).me().get().execute().then((data) => {
+          
+          localStorage.currentUser = JSON.stringify(data.body);
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-        navigate('/');
+        });
+        if (data.body.cart) {
+
+          Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
+
+            localStorage.cart = JSON.stringify(data.body);
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+          });
+        
+        }
+
+        return ('success');
       
       })
       .catch((err) => {
-        
-        if (err.body.message === 'There is already an existing customer with the provided email.') {
 
-          notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
 
-        } else {
-            
-          notify(errorServerMessage);
-
-        }
+        return (err.body.message);
 
       });
       
   };
 
   // ------------------------------------------------------------------------------------------------------------------ Login
-  const Login = (email: string, password: string): void => {
+  const Login = (email: string, password: string) => {
 
-    const errorMessage: IToastify = {
-      error: 'The user does not exist or the email/password is incorrect.',
-    };
-
-    const errorServerMessage: IToastify = {
-      error: 'Something went wrong. Please try again later.',
-    };
-
-    const ctpMeClient = createUserApiClient(email, password);
-    const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
-    
-    
-    apiMeRoot.me().login().post({
-      body: {email, password}
+    return Api.root.me().login().post({
+      body: {email, password, activeCartSignInMode: 'MergeWithExistingCustomerCart'}
     })
       .execute()
-      .then(data => {
+      .then((data) => {
 
-        setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-        navigate('/');
-      
-      }).catch(err => {
-        
-        if (err.body.message === 'Customer account with the given credentials not found.') {
 
-          notify(errorMessage);
+        Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
-        } else {
-              
-          notify(errorServerMessage);
+          // Сохраняем в глобальном хранилище и localStorage профиль пользователя
+          localStorage.currentUser = JSON.stringify(data.body);
+          dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
+
+        });
+
+        if (data.body.cart) {
+
+          Api.passwordRoot(email, password).me().activeCart().get().execute().then((data) => {
+
+            dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+          });
 
         }
+
+        return ('success');
       
+      }).catch((err) => {
+
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return (err.body.message);
+
       });
 
   };
@@ -130,27 +108,20 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ Logout
   const Logout = () => {
 
-    if (globalStore.currentUser.id) {
-
-      createAnonApiClient();
-      setGlobalStore({...globalStore, currentUser: anonUser});
-
-    }
-    navigate('/');
+    delete localStorage.currentUser;
+    delete localStorage.rToken;
+    // Удаляем из кеша анонимного API-клиента, так как после логина/регистрации он протух
+    Api.expireAnonClient();
+    
+    dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: anonUser});
+    dispatch({type: CartActionTypes.UPDATE_CART, payload: emptyCart});
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ ChangePassword
-  const ChangePassword = (email: string, updateData: IChangePassword): void => {
+  const ChangePassword = (email: string, updateData: IChangePassword) => {
 
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating password.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your password has been updated successfully!'
-    };
-
-    api
+    return Api.root
       .me()
       .password()
       .post({ body: updateData as CustomerChangePassword })
@@ -158,28 +129,45 @@ export const useServerApi = () => {
       .then(() => {
    
         const password: string = updateData.newPassword;
-        const ctpMeClient = createUserApiClient(email, password);
-        const apiMeRoot = createApiBuilderFromCtpClient(ctpMeClient).withProjectKey({ projectKey: PROJECT_KEY});
 
-        apiMeRoot.me().login().post({
+        Api.expireAnonClient();
+        Api.passwordRoot(email, password).me().login().post({
           body: {email, password}
         })
           .execute()
           .then(data => {
-      
-            setGlobalStore({...globalStore, currentUser: data.body.customer, apiMeRoot: apiMeRoot});
-            notify(successMessage);
-          
+
+            localStorage.currentUser = JSON.stringify(data.body);
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body.customer});
+  
           });
+
+        return ('success');
         
       })
-      .catch(() => {
+      .catch((err) => {
 
-        setError('An error occurred while updating password.');
-        notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
       
       });
 
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ getCustomer
+  const getCustomer = () => {
+
+    Api.root.me()
+      .get()
+      .execute()
+      .then((data) => {
+
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
+        
+      });
+      
   };
 
   // ------------------------------------------------------------------------------------------------------------------ UpdatePersonalInfo
@@ -190,14 +178,7 @@ export const useServerApi = () => {
     lastName: string,
     dateOfBirth: string,
     version: number
-  ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating personal information.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your personal information has been updated successfully!'
-    };
+  ) => {
 
     const updateData: CustomerUpdate = {
       version,
@@ -209,43 +190,44 @@ export const useServerApi = () => {
       ],
     };
 
-    api.customers()
+    return Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
       .then((data) => {
+        
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        return ('success');
       
       })
-      .catch(() => {
+      .catch((err) => {
 
-        setError('An error occurred while updating personal information.');
-        notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
       
       });
     
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllProducts
-  const GetAllProducts = (setProducts: Function) => {
+  const GetAllProducts = () => {
 
-    // const [products, setProducts] = useState<ProductProjection[]>([]);
-
-    api?.productProjections().get({
+    Api.root.productProjections().get({
       queryArgs: {
         limit: 100
       }
     }).execute().then(data => {
 
-      const products = data.body.results;
+      dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results});
 
-      setProducts(products);
+    }).catch((err) => {
 
-    }).catch(() => {
-        
-      setError('Something went wrong. Please try again later.');
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: err.body.message});
+
+      return ('error');
 
     });
 
@@ -254,44 +236,56 @@ export const useServerApi = () => {
   // ------------------------------------------------------------------------------------------------------------------ GetProductById
   const GetProductById = (id: string, setProduct: Function) => {
 
-    api?.productProjections()
+    Api.root.productProjections()
       .withId({ID: id as string})
       .get().execute().then(res => {
         
         setProduct(res.body);
         
-      }).catch(err => {
+      }).catch((err) => {
+
+        dispatch({type: ProductActionsType.ERROR_PRODS, payload: err.body.message}); 
         
-        setError(err);        
+        return ('error');
         
       });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ GetAllCategories
-  const GetAllCategories = (setCategories: Function) => {
+  const GetAllCategories = () => {
 
-    api?.categories().get().execute().then((data) => {
+    return Api.root.categories().get().execute().then((data) => {
 
-      setCategories(data.body.results);
+      dispatch({type: ProductActionsType.UPDATE_CATS, payload: data.body.results});
 
-    }).catch(() => {
-        
-      setError('Something went wrong. Please try again later.');
+      return ('success');
+
+    }).catch((err) => {
+      
+      dispatch({type: ProductActionsType.ERROR_PRODS, payload: err.body.message});
+
+      return ('error');
 
     });
 
   };
 
   // ------------------------------------------------------------------------------------------------------------------ FilterProducts
-  const FilterProducts = (queryArgs: IQueryArgs, setProducts: Function) => {
+  const FilterProducts = (queryArgs: IQueryArgs) => {
 
-    api.productProjections().search().get({
+    return Api.root.productProjections().search().get({
       queryArgs: queryArgs
-    }).execute().then((data) => {
+    }).execute().then(async (data) => {
+
+      await dispatch({type: ProductActionsType.PENDING_PRODS});
   
-      setProducts(data.body.results);
+      const res = await dispatch({type: ProductActionsType.UPDATE_PRODS, payload: data.body.results}).payload;
+
+      await dispatch({type: ProductActionsType.PENDING_PRODS});
       
+      return res;
+
     });
 
   };
@@ -302,14 +296,7 @@ export const useServerApi = () => {
     version: number,
     address: IAddress,
     actionTypes: string[],
-  ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while adding address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been added successfully!'
-    };
+  ) => {
  
     const updateData: CustomerUpdate = {
       version,
@@ -319,13 +306,14 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    return Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
         const addresses = data.body.addresses;
         const lastAddress = addresses[addresses.length - 1];
@@ -362,27 +350,30 @@ export const useServerApi = () => {
           actions,
         };
 
-        api.customers()
+        Api.root.customers()
           .withId({ ID: customerID })
           .post({ body: updateData as CustomerUpdate})
           .execute()
           .then((data) => {
 
-            setGlobalStore({ ...globalStore, currentUser: data.body });
+            localStorage.currentUser = JSON.stringify(data.body);
+            dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
       
           })
-          .catch(() => {
+          .catch((err) => {
 
-            setError('An error occurred while updating address.');
+            dispatch({type: UserActionsType.ERROR, payload: err.body.message});
         
           });
-        notify(successMessage);
+
+        return ('success');
       
       })
-      .catch(() => {
+      .catch((err) => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
 
       });
     
@@ -396,14 +387,7 @@ export const useServerApi = () => {
     address: IAddress,
     addressId: string,
     actionTypes: string[],
-  ): void => {
-
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been updated successfully!'
-    };
+  ) => {
 
     const actions: { action: IAction; [key: string]: string | IAddress }[] = [];
 
@@ -440,24 +424,26 @@ export const useServerApi = () => {
       actions,
     };
 
-    api.customers()
+    return Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData as CustomerUpdate })
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
-      
-      })
-      .catch(() => {
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        return ('success');
+
+      })
+      .catch((err) => {
+
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
         
       });
     
-  
   };
 
   // ------------------------------------------------------------------------------------------------------------------ RemoveAddress
@@ -465,15 +451,8 @@ export const useServerApi = () => {
     customerID: string,
     version: number,
     addressId: string,
-  ): void => {
+  ) => {
 
-    const errorMessage: IToastify = {
-      error: 'An error occurred while removing address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been removed successfully!'
-    };
- 
     const updateData: CustomerUpdate = {
       version,
       actions: [
@@ -482,20 +461,23 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    return Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData })
       .execute()
       .then((data) => {
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
+
+        return ('success');
       
       })
-      .catch(() => {
+      .catch((err) => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
         
       });
     
@@ -508,14 +490,8 @@ export const useServerApi = () => {
     version: number,
     addressId: string,
     actionTypes: string[],
-  ): void => {
+  ) => {
     
-    const errorMessage: IToastify = {
-      error: 'An error occurred while updating address.',
-    };
-    const successMessage: IToastify = {
-      success: 'Your addresses has been updated successfully!'
-    };
     const actions: { action: IAction; [key: string]: string }[] = [];
 
     for (let i = 0; i < actionTypes.length; i+=1) {
@@ -543,32 +519,285 @@ export const useServerApi = () => {
     };
 
 
-    api.customers()
+    return Api.root.customers()
       .withId({ ID: customerID })
       .post({ body: updateData as CustomerUpdate })
       .execute()
       .then((data) => {
+        
+        localStorage.currentUser = JSON.stringify(data.body);
+        dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
-        setGlobalStore({ ...globalStore, currentUser: data.body });
-        notify(successMessage);
+        return ('success');
       
       })
-      .catch(() => {
+      .catch((err) => {
 
-        setError('An error occurred while updating address.');
-        notify(errorMessage);
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+
+        return ('error');
         
+      });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ createCart
+
+  const createCart = (draft: MyCartDraft): Promise<Cart> => {
+
+    return Api.root
+      .me()
+      .carts()
+      .post({ body: draft })
+      .execute()
+      .then(async (data) => {
+        
+        return dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body}).payload;
+      
+      }).catch((err) => {
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
+      
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ getCart
+  const getCart = (cartID: string, userID:string, callback?: Function) => {
+
+    if (!userID) {
+
+      return Api.root.me()
+        .carts()
+        .withId({ID: cartID})
+        .get()
+        .execute()
+        .then((data) => {
+
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+          if (callback) callback(data);
+
+          return ('success');
+       
+        })
+        .catch((err) => {
+        
+          dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+          return ('error');
+
+        });
+    
+    } else {
+
+      return Api.root.me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((data) => {
+
+          dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+          if (callback) callback(data);
+
+          return ('success');
+       
+        })
+        .catch((err) => {
+        
+          dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+          return ('error');
+
+        });
+    
+    }
+    
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ deleteCart
+  const deleteCart = (cartID: string, version: number) => {
+
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .delete({
+        queryArgs: { version },
+      })
+      .execute()
+      .then(() => {
+        
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: emptyCart});
+        return ('success');
+      
+      })
+      .catch((err) => {
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ addCartItem
+  const addCartItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    variantId: number,
+    productId: string,
+  ): Promise<string> => {
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'addLineItem', productId, variantId, quantity }
+      ],
+    };
+
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+        return ('success');
+
+      })
+      .catch((err) => {
+
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
       });
     
   
   };
+
+  // ------------------------------------------------------------------------------------------------------------------ removeCartItem
+  const removeCartItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
+  ) => {
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'removeLineItem', lineItemId, quantity }
+      ],
+    };
+ 
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+        return ('success');
+
+      })
+      .catch((err) => {
+          
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
+  
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ addDiscount
+  const addDiscount = (
+    cartID: string,
+    version: number,
+    code: string
+  ): Promise<string> => {
+
+    const updateDiscount: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'addDiscountCode', code}
+      ],
+    };
+ 
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateDiscount })
+      .execute()
+      .then((data) => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+        return ('success');
+
+      })
+      .catch((err) => {
+        
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
+
+  };
+
+  // ------------------------------------------------------------------------------------------------------------------ changeLineItem
+  const changeLineItem = (
+    cartID: string,
+    version: number,
+    quantity: number,
+    lineItemId: string
+  ) => {
+
+    const updateData: MyCartUpdate = {
+      version,
+      actions: [
+        { action: 'changeLineItemQuantity', lineItemId, quantity }
+      ],
+    };
+ 
+    return Api.root.me()
+      .carts()
+      .withId({ ID: cartID })
+      .post({ body: updateData })
+      .execute()
+      .then((data) => {
+
+        dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
+
+        return ('success');
+
+      })
+      .catch((err) => {
+          
+        dispatch({type: CartActionTypes.ERROR_CART, payload: err.body.message});
+
+        return ('error');
+
+      });
+  
+  };
+
   
   return { 
-    error,
     Registration,
     Login,
     Logout,
     ChangePassword,
+    getCustomer,
     UpdatePersonalInfo,
     GetAllProducts,
     GetProductById,
@@ -577,7 +806,14 @@ export const useServerApi = () => {
     addAddresses,
     changeAddress,
     removeAddress,
-    setDefaultAddress
+    setDefaultAddress,
+    createCart,
+    getCart,
+    deleteCart,
+    addCartItem,
+    removeCartItem,
+    addDiscount,
+    changeLineItem
   };
 
 };

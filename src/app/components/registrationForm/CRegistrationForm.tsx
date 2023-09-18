@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { COUNTRIES } from '../../utils/constants';
+import { COUNTRIES, msg } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
-import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
+import { useShowMessage } from '../../services/useShowMessage';
 
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
@@ -12,6 +12,7 @@ import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
+import { Link } from 'react-router-dom';
 
 import './CRegistrationForm.css';
 
@@ -31,8 +32,9 @@ export const CRegistrationForm = () => {
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(true);
 
   const server = useServerApi();
+  const showMessage = useShowMessage();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
 
@@ -73,7 +75,16 @@ export const CRegistrationForm = () => {
 
     }
 
-    server.Registration(payload);
+    const res = await server.Registration(payload);
+
+    if (res !== 'success') {
+
+      res === 'There is already an existing customer with the provided email.' ?
+        showMessage(msg.REG_ALREADY_EXIST)
+        :
+        showMessage(msg.COMMON_ERROR);
+
+    }
 
   };
 

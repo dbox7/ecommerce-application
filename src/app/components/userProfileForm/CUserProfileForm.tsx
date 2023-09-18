@@ -1,11 +1,14 @@
-import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import { useNavigate } from 'react-router-dom';
 import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
 import useInputChanges from '../../services/input/useInputChange';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
+
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -15,26 +18,36 @@ import CPassword from '../inputs/password/CPassword';
 
 import './CUserProfileForm.css';
 
+
+
+
 const CUserProfileForm: React.FC = () => {
   
-  const [globalStore] = useContext(GlobalContext);
-
   const server = useServerApi();
-  const navigate = useNavigate();
+  const showMessage = useShowMessage();
+  const {currentUser} = useTypedSelector(state => state.user);
+
+  useEffect(() => {
+
+    server.getCustomer();
+  
+  },[currentUser.lastModifiedAt]);
+
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
 
-  const initFirstName = useInputChanges(`${globalStore.currentUser.firstName}`);
-  const initEmail = useInputChanges(`${globalStore.currentUser.email}`);
-  const initLastName = useInputChanges(`${globalStore.currentUser.lastName}`);
-  const initDateOfBirth = useInputChanges(`${globalStore.currentUser.dateOfBirth}`);
+  const initFirstName = useInputChanges(`${currentUser.firstName}`);
+  const initEmail = useInputChanges(`${currentUser.email}`);
+  const initLastName = useInputChanges(`${currentUser.lastName}`);
+  const initDateOfBirth = useInputChanges(`${currentUser.dateOfBirth}`);
   
   const dateOfBirth = useInput(initDateOfBirth.inputValue, 'date');
   const lastName = useInput(initLastName.inputValue, 'text');
   const firstName = useInput(initFirstName.inputValue, 'text');
   const email = useInput(initEmail.inputValue, 'email');
 
-  const convertedAddresses: IAddress[] = globalStore.currentUser.addresses.map(address => ({
+
+  const convertedAddresses: IAddress[] = currentUser.addresses.map(address => ({
     id: address.id || '',
     streetName: address.streetName || '',
     postalCode: address.postalCode || '',
@@ -50,16 +63,6 @@ const CUserProfileForm: React.FC = () => {
     currentPassword.valid.isMinLength!,
     currentPassword.valid.isPasswordGood!,
   ]);
-  
-  useEffect(() => {
-
-    if (!globalStore.currentUser.id) {
-
-      navigate('/login');
-    
-    }
-
-  });
 
   const isEmptyEvent = () => {
 
@@ -76,33 +79,44 @@ const CUserProfileForm: React.FC = () => {
 
     e.preventDefault();
     
-    server.UpdatePersonalInfo(
-      globalStore.currentUser.id,
+    const res = await server.UpdatePersonalInfo(
+      currentUser.id,
       email.value,
       firstName.value,
       lastName.value,
       dateOfBirth.value,
-      globalStore.currentUser.version
+      currentUser.version
     );
+
+    res === 'success' ?
+      showMessage(msg.PERSONAL_INFO_CHANGE_SUCCESS)
+      :
+      showMessage(msg.PERSONAL_INFO_CHANGE_ERROR);
   
   };
 
   const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     const updateData: IChangePassword = {
-      id: globalStore.currentUser.id,
+      id: currentUser.id,
       currentPassword: currentPassword.value,
       newPassword: newPassword.value,
-      version: globalStore.currentUser.version
+      version: currentUser.version
     };
 
     e.preventDefault();
     
-    server.ChangePassword(
+    const res = await server.ChangePassword(
       email.value,
       updateData
     );
     
+    res === 'success' ?
+      showMessage(msg.PASSWORD_CHANGE_SUCCESS)
+      :
+      showMessage(msg.PASSWORD_CHANGE_ERROR);
+
+
     isEmptyEvent();
 
   };
@@ -219,14 +233,14 @@ const CUserProfileForm: React.FC = () => {
           </div>
         </section>
         <section>
-          {globalStore.currentUser.shippingAddressIds &&
-          globalStore.currentUser.billingAddressIds && (
+          {currentUser.shippingAddressIds &&
+          currentUser.billingAddressIds && (
             <CUserAddresses
               addresses={convertedAddresses}
-              shippingAddressIds={globalStore.currentUser.shippingAddressIds}
-              billingAddressIds={globalStore.currentUser.billingAddressIds}
-              defaultShippingAddressIds={globalStore.currentUser.defaultShippingAddressId}
-              defaultBillingAddressIds={globalStore.currentUser.defaultBillingAddressId}
+              shippingAddressIds={currentUser.shippingAddressIds}
+              billingAddressIds={currentUser.billingAddressIds}
+              defaultShippingAddressIds={currentUser.defaultShippingAddressId}
+              defaultBillingAddressIds={currentUser.defaultBillingAddressId}
             />
           )}
         </section>

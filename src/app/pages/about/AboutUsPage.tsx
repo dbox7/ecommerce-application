@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import { CDeveloperCard } from '../../components/developers/card/CDeveloperCard';
 import { developers } from '../../utils/constants';
@@ -8,11 +7,10 @@ import { developers } from '../../utils/constants';
 import './AboutUsPage.css';
 
 
-
 export const AboutUsPage = () => {
 
-  const [globalStore] = useContext(GlobalContext);  
-  const user = globalStore.currentUser;
+  const { currentUser } = useTypedSelector(state => state.user);
+  const user = currentUser;
 
   return (
 

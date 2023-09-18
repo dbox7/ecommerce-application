@@ -1,11 +1,10 @@
 import { 
   MouseEventHandler, 
-  useContext, 
   useState 
 } from 'react';
-import { GlobalContext } from '../../store/GlobalContext';
 import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
@@ -13,13 +12,11 @@ import './CProfileMenu.css';
 
 const CProfileMenu = () => {
   
-  const [globalStore] = useContext(GlobalContext);  
   const [showPopup, setShowPopup] = useState(false);
-  const user = globalStore.currentUser;
-
   const server = useServerApi();
 
-  const userName = user.firstName;
+  const { currentUser } = useTypedSelector(state => state.user);
+  const user = currentUser;
   
   return ( 
     <div 
@@ -52,7 +49,7 @@ const CProfileMenu = () => {
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to={`/profile/${userName}`} className="link">Profile</Link>
+                  <Link to={`/profile/${user.firstName}`} className="link">Profile</Link>
                 </li>
               </>
               :

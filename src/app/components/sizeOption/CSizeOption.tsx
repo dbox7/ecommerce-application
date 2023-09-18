@@ -2,7 +2,7 @@ import { ALL_SIZES } from '../../utils/constants';
 
 import './CSizeOption.css';
 
-const CSizeOption = ({ sizes }: { sizes: number[] }) => {
+const CSizeOption = ({ sizes }: { sizes: string[] }) => {
 
   return ( 
     <div className="size-option">

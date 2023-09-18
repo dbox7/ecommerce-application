@@ -1,4 +1,4 @@
-import { Customer } from '@commercetools/platform-sdk';
+import { Cart, Customer } from '@commercetools/platform-sdk';
 import { ICountry, IDeveloper, IValidationRules } from './types';
 
 import dbox7Photo from '../assets/team/dbox7.jpeg';
@@ -15,6 +15,33 @@ export const anonUser: Customer = {
   addresses: [],
   isEmailVerified: false,
   authenticationMode: ''
+};
+
+export const emptyCart: Cart = {
+  id: '',
+  version: 0,
+  lineItems: [],
+  customLineItems: [],
+  totalPrice: {
+    type: 'centPrecision',
+    currencyCode: '',
+    centAmount: 0,
+    fractionDigits: 0
+  },
+  taxMode: '',
+  taxRoundingMode: '',
+  taxCalculationMode: '',
+  inventoryMode: '',
+  cartState: '',
+  shippingMode: '',
+  shipping: [],
+  itemShippingAddresses: [],
+  discountCodes: [],
+  directDiscounts: [],
+  refusedGifts: [],
+  origin: '',
+  createdAt: '',
+  lastModifiedAt: ''
 };
 
 export const COUNTRIES: ICountry[] = [
@@ -105,6 +132,25 @@ export const EmailREGEXP = /^\S+@\S+\.\S+$/;
 export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
 export const TextREGEXP = /^[a-zA-Z ]+$/;
 
-export const ALL_SIZES = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12];
+export const ALL_SIZES = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '11', '12'];
+
 
 export const TRANSITION_DURATION = 300;
+
+export const GOOGLE_MAP = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26311.21492459712!2d-113.35652599634557!3d34.48001367189503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80d2f79d6df2a0d7%3A0x3a207c1735cf3190!2zTm90aGluZywg0JDRgNC40LfQvtC90LAgODUzNjAsINCh0KjQkA!5e0!3m2!1sru!2skg!4v1694368598079!5m2!1sru!2skg';
+
+export const msg = {
+  COMMON_ERROR: { body: 'Something went wrong. Please try again later.', error: true },
+  REG_ALREADY_EXIST: { body: 'An account with this email already exists.', error: true },
+  LOGIN_USER_NOT_FOUND: { body: 'The user does not exist or the email/password is incorrect.', error: true },
+  PASSWORD_CHANGE_SUCCESS: { body: 'Your password has been updated successfully!', error: false },
+  PASSWORD_CHANGE_ERROR: { body: 'An error occurred while updating password.', error: true },
+  PERSONAL_INFO_CHANGE_SUCCESS: { body: 'Your personal information has been updated successfully!', error: false },
+  PERSONAL_INFO_CHANGE_ERROR: { body: 'An error occurred while updating personal information.', error: true },
+  ADDRESS_UPDATE_SUCCESS: { body: 'Your addresses has been update successfully!', error: false },
+  ADDRESS_UPDATE_ERROR: { body: 'An error occurred while updating address.', error: true },
+  PRODUCT_ADD_SUCCESS: { body: 'Your product added in cart successfully!', error: false },
+  PRODUCT_ADD_ERROR: { body: 'An error occurred while addition product in cart.', error: true },
+  PRODUCT_REMOVE_SUCCESS: { body: 'Your product removed from cart successfully!', error: false },
+  PRODUCT_REMOVE_ERROR: { body: 'An error occurred while removing product from cart.', error: true },
+};

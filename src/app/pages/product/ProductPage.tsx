@@ -1,55 +1,52 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
-import { CLoading } from '../../components/loading/CLoading';
 import { ICrumbs } from '../../utils/types';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { getSizeArray } from '../../utils/useFullFuncs';
+import { useShowMessage } from '../../services/useShowMessage';
+import { msg } from '../../utils/constants';
 
 import CPrice from '../../components/price/CPrice';
 import CSizeOption from '../../components/sizeOption/CSizeOption';
 import CViewImage from '../../components/viewImage/CViewImage';
 import CButton from '../../components/button/CButton';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
+import { CLoading } from '../../components/loading/CLoading';
 
 import './ProductPage.css';
 
-const getSizeArray = (product: ProductProjection) => {
-  
-  return [
-    product.masterVariant.attributes!.find(attr => attr.name === 'size')?.value,
-    ...product.variants.map(variant => 
-      variant.attributes!.find(attr => 
-        attr.name === 'size')?.value)
-  ];
-
-};
 
 export const ProductPage = () => {
   
+  const showMessage = useShowMessage();
   const props = useParams();
+  const server = useServerApi();
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
-  const server = useServerApi();
-  const [product, setProduct] = useState<ProductProjection>();  
+  const [product, setProduct] = useState<ProductProjection>();
+  const { cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
   
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-  
-  let sizes: number[] = [];
+  const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
 
-  if (product) {
+  const [sizes, setSizes] = useState<string[]>([]);
 
-    sizes = getSizeArray(product);    
-  
-  }
-  
+  const draft: MyCartDraft = {
+    currency: 'USD',
+  };
+  const productQuantity = 1;
+  const productVariant = 1;
+
   useEffect(() => {
 
-    server.GetProductById(props.id!, setProduct);  
-  
+    server.GetProductById(props.id!, setProduct);
+    
   }, []);  
 
   useEffect(() => {
@@ -64,10 +61,80 @@ export const ProductPage = () => {
       c[2] = {url: '', name: product?.name.en};
     
     }
-    setCrumbs(c); 
+    setCrumbs(c);
+
+    if (product) {
+
+      setSizes(getSizeArray(product));    
+    
+    }
+    
   
   }, [product]);
-  
+
+  const removeFromCart = async () => {
+
+    const item = cart.lineItems.find((v) => v.productId === product?.id);
+
+    if (item) {
+
+      const res = await server.removeCartItem(
+        cart.id,
+        cart.version,
+        item.quantity,
+        item.id
+      );
+
+      res === 'success' ?
+        showMessage(msg.PRODUCT_REMOVE_SUCCESS)
+        :
+        showMessage(msg.PRODUCT_REMOVE_ERROR);
+
+    }
+
+  };
+
+  const addCartItem = async (id = cart.id, version = cart.version) => {
+
+    return await server.addCartItem(
+      id,
+      version,
+      productVariant,
+      productQuantity,
+      product!.id
+    );
+
+  };
+
+  const addToCart = async () => {
+
+    let res: string = '';
+
+    if (!cart.id) {
+
+      const newCart = await server.createCart(draft);
+
+      if (typeof newCart === 'object') {
+
+        res = await addCartItem(newCart.id, newCart.version);
+
+      }
+
+    } 
+
+    if (cart.id) {
+
+      res = await addCartItem();
+
+    } 
+
+    res && res === 'success' ?
+      showMessage(msg.PRODUCT_ADD_SUCCESS)
+      :
+      showMessage(msg.PRODUCT_ADD_ERROR);
+
+  };
+
   return (
     product ? 
       <div className="product-page">
@@ -94,11 +161,21 @@ export const ProductPage = () => {
             </div>
             <CPrice price={productData?.prices![0]!} />
             <CSizeOption sizes={sizes}/>
-            <CButton 
-              value="Add to cart +"
-              type="button"
-              extraClass="product_button"
-            />
+            {item ? 
+              <CButton 
+                value="Remove from cart -"
+                type="button"
+                extraClass="product_button"
+                clickHandler={removeFromCart}
+              />
+              :
+              <CButton 
+                value="Add to cart +"
+                type="button"
+                extraClass="product_button"
+                clickHandler={addToCart}
+              />
+            }
           </div>
         </div> 
       </div>

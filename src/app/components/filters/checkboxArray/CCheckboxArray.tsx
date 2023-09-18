@@ -8,7 +8,7 @@ import CCheckbox from '../../inputs/checkbox/CCheckbox';
 
 import './CCheckboxArray.css';
 
-const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Function }) => {
+const CCheckboxArray = ({ array, setResult }:{ array: string[], setResult: Function }) => {
 
   const [checked, setChecked] = useState<string[]>([]);
 
@@ -21,7 +21,7 @@ const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Fun
   const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
       
     let isSelected = e.target.checked;
-    let value = (e.target.nextSibling as Text).data;  
+    let value = (e.target.nextSibling as Text).data;     
 
     if( isSelected ){
 
@@ -49,10 +49,10 @@ const CCheckboxArray = ({ array, setResult }:{ array: (string[]), setResult: Fun
         array.map((item) => (
           <CCheckbox 
             key={`cb-${item}`}
-            title={item}
+            title={item.toString()}
             checked={checked.includes(item)}
             changeHandler={changeHandler}
-          />
+          />  
         ))
       }
     </div>
