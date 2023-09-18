@@ -30,8 +30,7 @@ export const ProductPage = () => {
   const { cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product?.masterVariant!);
-
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(undefined);
 
 
   const name = product?.name.en.split('-');
@@ -44,14 +43,19 @@ export const ProductPage = () => {
   const draft: MyCartDraft = {
     currency: 'USD',
   };
+
   const productQuantity = 1;
-  const productVariant = 1;
 
 
   useEffect(() => {
 
-    server.GetProductById(props.id!, setProduct);
-    
+    server.GetProductById(props.id!, (data: ProductProjection) => { 
+
+      setProduct(data); 
+      setSelectedVariant(data.masterVariant); 
+
+    });
+
   }, []);  
 
   useEffect(() => {
@@ -101,11 +105,13 @@ export const ProductPage = () => {
 
   const addCartItem = async (id = cart.id, version = cart.version) => {
 
+    const productVariant = selectedVariant!.id;
+    
     return await server.addCartItem(
       id,
       version,
-      productVariant,
       productQuantity,
+      productVariant,
       product!.id
     );
 
