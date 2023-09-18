@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
+import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
@@ -26,10 +26,13 @@ export const ProductPage = () => {
   const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
 
   const [product, setProduct] = useState<ProductProjection>();
+
   const { cart } = useTypedSelector(state => state.cart);
 
   const productData = product?.masterVariant;
-  
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(undefined);
+
+
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
@@ -40,13 +43,19 @@ export const ProductPage = () => {
   const draft: MyCartDraft = {
     currency: 'USD',
   };
+
   const productQuantity = 1;
-  const productVariant = 1;
+
 
   useEffect(() => {
 
-    server.GetProductById(props.id!, setProduct);
-    
+    server.GetProductById(props.id!, (data: ProductProjection) => { 
+
+      setProduct(data); 
+      setSelectedVariant(data.masterVariant); 
+
+    });
+
   }, []);  
 
   useEffect(() => {
@@ -96,11 +105,13 @@ export const ProductPage = () => {
 
   const addCartItem = async (id = cart.id, version = cart.version) => {
 
+    const productVariant = selectedVariant!.id;
+    
     return await server.addCartItem(
       id,
       version,
-      productVariant,
       productQuantity,
+      productVariant,
       product!.id
     );
 
@@ -160,7 +171,11 @@ export const ProductPage = () => {
               </div>
             </div>
             <CPrice price={productData?.prices![0]!} />
-            <CSizeOption sizes={sizes}/>
+            <CSizeOption 
+              product={product}
+              sizes={sizes}
+              selectedVariant={selectedVariant}
+              setSelectedVariant={setSelectedVariant}/>
             {item ? 
               <CButton 
                 value="Remove from cart -"

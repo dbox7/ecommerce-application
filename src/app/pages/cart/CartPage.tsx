@@ -183,6 +183,8 @@ export const CartPage = () => {
 
   };
 
+  console.log(cart.lineItems);
+
   return (
     <div className="cart">
       <h1 className="cart__title">Cart</h1>
@@ -219,6 +221,9 @@ export const CartPage = () => {
                     <Link to={`/catalog/${lineItem.productId}`}>
                       {lineItem.name.en}
                     </Link>
+                  </div>
+                  <div className="cart__content__products-container__product__size">
+                    size { lineItem.variant.attributes!.find((attr) => attr.name === 'size')?.value }
                   </div>
                   <div className="cart__content__products-container__product__count">
                     <BsDash className={`cart__content__products-container__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
