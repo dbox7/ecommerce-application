@@ -59,7 +59,7 @@ export const developers: IDeveloper[] = [
   { name: 'Kseniya Spiridonova',
     role: 'Front-end developer and prompt engineer',
     photo: xu69uxPhoto,
-    bio: 'I\'m a  novice front-end developer. I have some experience with generative adversarial neural networks and a strong affinity for large language models, which you can see here. Working as a part of the team on this project has brought me a lot of joy, and the code for our sneakers store is available on GitHub.',
+    bio: 'I\'m a  novice front-end developer. I have some experience with generative adversarial neural networks and a strong affinity for large language models, which you can see here. Working as a part of the team on this project has brought me a lot of joy, my other projects are available on GitHub.',
     telegram: 'https://t.me/xu69ux',
     github: 'https://github.com/xu69ux',
     email: 'mailto:spiridonova.kseniya@gmail.com'
