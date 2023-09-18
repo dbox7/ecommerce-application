@@ -14,7 +14,7 @@ export const ContactsPage = () => {
         </div>
         <div className="contacts__content__text">
           <p><b>Company Name:</b> DUST SNEAKERS, LLC</p>
-          <p><b>Address:</b> 123 Main Street of Nothing, AZ 85001 United States</p>
+          <p><b>Address:</b> 228 Main Street of Nothing, AZ 1312 United States</p>
           <p><b>Phone:</b> +1 (555) 555-5555</p>
           <p><b>Email:</b> info@dust-sneakers.com</p>
           <p><b>Website:</b> www.dust-sneakers.com</p>
