@@ -45,7 +45,6 @@ export const useServerApi = () => {
 
           Api.passwordRoot(payload.email, payload.password).me().activeCart().get().execute().then((data) => {
 
-            localStorage.cart = JSON.stringify(data.body);
             dispatch({type: CartActionTypes.UPDATE_CART, payload: data.body});
 
           });
@@ -686,7 +685,8 @@ export const useServerApi = () => {
     cartID: string,
     version: number,
     quantity: number,
-    lineItemId: string
+    lineItemId: string,
+    
   ) => {
 
     const updateData: MyCartUpdate = {

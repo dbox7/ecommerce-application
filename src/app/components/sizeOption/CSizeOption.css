@@ -24,3 +24,7 @@
 .size:not(.disabled):hover {
   color: var(--dark-extra-color);
 }
+
+.size.active {
+  color: var(--dark-extra-color);
+}
