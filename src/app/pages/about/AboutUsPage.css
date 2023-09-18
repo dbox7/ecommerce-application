@@ -2,12 +2,22 @@
   padding: 5vh;
 }
 
-.about__content__title {
+.about__content__title,
+.about__content__sub-title {
   margin-bottom: 2vh;
   font-family: var(--tera);
+  width: fit-content;
+}
+
+.about__content__title {
   font-size: var(--title);
   border-bottom: 2px solid var(--accent-color);
-  width: fit-content;
+}
+
+.about__content__sub-title {
+  font-size: var(--sub-title);
+  border-bottom: 1px solid var(--accent-color);
+  margin-top: 2vh;
 }
 
 .about__content__text {
@@ -38,7 +48,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 5vh;
+  margin: 3vh 0;
 }
 
 @media screen and (max-width: 900px) {
