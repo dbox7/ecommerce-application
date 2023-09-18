@@ -197,7 +197,7 @@ export const CartPage = () => {
                   </div>
                   <div className="cart__content__products-container__product__name">
                     <Link to={`/catalog/${lineItem.productId}`}>
-                      <b>{lineItem.name.en}</b>
+                      {lineItem.name.en}
                     </Link>
                   </div>
                   <div className="cart__content__products-container__product__count">
@@ -213,8 +213,8 @@ export const CartPage = () => {
                     <p>price</p>
                     {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
                   </div>
-                  <div className="cart__content__products-container__product__price__total">
-                    <p>total cost</p>
+                  <div className="cart__content__products-container__product__price subtotal">
+                    <p>subtotal</p>
                     {lineItem.discountedPricePerQuantity.length > 0 ?
                       (<div className="cart__content__products-container__product__price__total__old_new">
                         <span className="cart__content__products-container__product__price__total__old">{lineItem.price.discounted ?
@@ -247,7 +247,7 @@ export const CartPage = () => {
           </form>
         </div>
         <div className="cart__content__order-container__total">
-          total price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
+          total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__content__order-container">
           <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>
