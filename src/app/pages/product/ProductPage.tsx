@@ -82,14 +82,14 @@ export const ProductPage = () => {
 
 
   useEffect(() => {
-      
+
     const selectedSize = selectedVariant?.attributes?.find((a) => a.name === 'size')?.value;
-    const thisProducts = cart.lineItems.filter((item) => item.productId === product?.id);
+    const thisProducts = cart.lineItems?.filter((item) => item.productId === product?.id);
 
     if (thisProducts.length) {
 
       let found = thisProducts.filter((item) => item.variant.attributes?.find((a) => a.name === 'size' && a.value === selectedSize)).length > 0;
-      
+
       if (found) {
 
         setIsFound(true);
@@ -111,7 +111,8 @@ export const ProductPage = () => {
     const item = cart.lineItems.find((v) => v.productId === product?.id);
 
     if (item) {
-
+      
+      setIsFound(false);
       const res = await server.removeCartItem(
         cart.id,
         cart.version,
@@ -205,9 +206,10 @@ export const ProductPage = () => {
               setSelectedVariant={setSelectedVariant}/>
             {isFound ? 
               <CButton 
-                value="Add to cart"
+                value="Remove from cart -"
                 type="button"
-                extraClass="product_button disable"
+                extraClass="product_button"
+                clickHandler={removeFromCart}   
               /> :
               <CButton 
                 value="Add to cart"
