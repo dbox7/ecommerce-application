@@ -4,8 +4,11 @@ import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
 import useInputChanges from '../../services/input/useInputChange';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
+
 
 import CButton from '../button/CButton';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
@@ -16,11 +19,19 @@ import CPassword from '../inputs/password/CPassword';
 import './CUserProfileForm.css';
 
 
+
+
 const CUserProfileForm: React.FC = () => {
   
   const server = useServerApi();
   const showMessage = useShowMessage();
   const {currentUser} = useTypedSelector(state => state.user);
+
+  useEffect(() => {
+
+    server.getCustomer();
+  
+  },[currentUser.lastModifiedAt]);
 
   const currentPassword = useInput('', 'password');
   const newPassword = useInput('', 'password');
@@ -34,6 +45,7 @@ const CUserProfileForm: React.FC = () => {
   const lastName = useInput(initLastName.inputValue, 'text');
   const firstName = useInput(initFirstName.inputValue, 'text');
   const email = useInput(initEmail.inputValue, 'email');
+
 
   const convertedAddresses: IAddress[] = currentUser.addresses.map(address => ({
     id: address.id || '',

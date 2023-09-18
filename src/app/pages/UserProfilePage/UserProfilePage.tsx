@@ -5,6 +5,7 @@ import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import CUserProfileForm from '../../components/userProfileForm/CUserProfileForm';
 
 
+
 export const UserProfilePage = () => {
   
   const { currentUser } = useTypedSelector(state => state.user);

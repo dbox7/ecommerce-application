@@ -97,8 +97,7 @@ export class Api {
               clientSecret: CLIENT_SECRET,
             },
             scopes: SCOPES,
-            fetch,
-            tokenCache: tokenCache
+            fetch
           })
           .withHttpMiddleware(httpMiddlewareOptions)
           .build();
