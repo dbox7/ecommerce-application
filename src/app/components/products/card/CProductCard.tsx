@@ -24,8 +24,7 @@ export const CProductCard = ({ product }: { product: ProductProjection }) => {
   const productQuantity = 1;
   const productVariant = 1;
 
-
-  const item = cart.lineItems.find((v) => v.productId === product?.id);
+  const item = cart.lineItems?.find((v) => v.productId === product?.id);
 
   const addCartItem = async (id = cart.id, version = cart.version) => {   
 

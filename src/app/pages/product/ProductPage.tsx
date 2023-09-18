@@ -36,7 +36,7 @@ export const ProductPage = () => {
   const name = product?.name.en.split('-');
   const color = productData?.attributes!.find(attr => attr.name === 'BackColor')?.value.key;
   const images = productData?.images!.slice(1)!;
-  const item = cart.lineItems.filter((v) => v.productId === product?.id)[0];
+  const item = cart.lineItems?.filter((v) => v.productId === product?.id)[0];
 
   const [sizes, setSizes] = useState<string[]>([]);
 

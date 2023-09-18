@@ -95,7 +95,7 @@ export const developers: IDeveloper[] = [
   { name: 'Artem Mykoliuk',
     role: 'Front-end developer and API engineer',
     photo: GEKKOPhoto,
-    bio: 'I\'m a budding web developer with a passion for crafting digital experiences. My journey into the world of web development started with a fascination for coding and a thirst for creativity. I find immense joy in being part of projects, collaborating with teams, and turning ideas into functional websites.',
+    bio: 'I\'m a budding front-end developer with a passion for crafting digital experiences. My journey into the world of web development started with a fascination for coding and a thirst for creativity. I find immense joy in being part of projects, collaborating with teams, and turning ideas into functional websites.',
     telegram: 'https://t.me/GEKKO33',
     github: 'https://github.com/GEKKO-ops',
     email: 'mailto:artem@mikolyuk.com'
