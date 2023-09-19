@@ -21,9 +21,9 @@ export const CProductList = memo(() => {
   const [items, setItems] = useState<ProductProjection[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getSlice = (page: number, arr = products) => {    
+  const getSlice = (page: number, arr = products) => {   
     
-    const res = arr.slice(page * 5, (page + 1) * 5);
+    const res = arr.slice(page * 5, (page + 1) * 5);    
 
     if (res.length) {
 
@@ -35,7 +35,13 @@ export const CProductList = memo(() => {
 
   };
 
-  const fetchData = useCallback(() => {   
+  useEffect(() => {
+
+    setItems(getSlice(0));
+
+  }, [products]);
+
+  const fetchData = useCallback(() => {    
 
     if (isLoading) return;
     
@@ -70,12 +76,6 @@ export const CProductList = memo(() => {
     };
 
   }, [fetchData]);
-
-  useEffect(() => {
-    
-    setItems(getSlice(0));
-
-  }, [products]);
 
   return (
     <div className="product__wrap">
