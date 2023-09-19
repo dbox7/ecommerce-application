@@ -208,7 +208,7 @@
 
 @media screen and (max-width: 850px) {
   .cart__product {
-    gap: 10px;  
+    gap: 10px;
   }
 
   .cart__product__delete {
@@ -222,7 +222,7 @@
   .cart__product {
     gap: 20px;
   }
-  
+
   .info-wrap {
     align-items: flex-start;
     flex-direction: column;
