@@ -188,19 +188,19 @@ export const CartPage = () => {
     <div className="cart">
       <h1 className="cart__title">Cart</h1>
       <div className="cart__content">
-        <div className="cart__content__products-container">
+        <div className="cart__products-container">
           {isOrdered ?
-            (<div className="cart__content__products-container__empty">
+            (<div className="cart__products-container_empty">
               <p>
                 Your order has been accepted!<br/>When we open our real store, we will get in touch with you.<br/>Perhaps.
               </p>
             </div>)
             : 
             !isOrdered && !cart || !cart.lineItems || cart.lineItems.length === 0 ?  
-              (<div className="cart__content__products-container__empty">
+              (<div className="cart__products-container_empty">
                 <p>
                   Your cart is currently empty. Take a look at the{' '}
-                  <Link to="/catalog" className="cart__content__products-container__empt__link">
+                  <Link to="/catalog" className="cart__products-container__empt__link">
                     <b>Catalog</b>
                   </Link>
                   , there are many cool products there.
@@ -208,72 +208,95 @@ export const CartPage = () => {
               </div>)
               :
               (cart.lineItems.map((lineItem) => (
-                <div key={lineItem.id} className="cart__content__products-container__product">
-                  <div className="cart__content__products-container__product__image">
-                    <Link to={`/catalog/${lineItem.productId}`}>
-                      {lineItem.variant && lineItem.variant.images && lineItem.variant.images[0] && (
-                        <img src={lineItem.variant.images[0].url} alt={lineItem.name.en} />
-                      )}
-                    </Link>
-                  </div>
-                  <div className="cart__content__products-container__product__name">
-                    <Link to={`/catalog/${lineItem.productId}`}>
-                      {lineItem.name.en}
-                    </Link>
-                  </div>
-                  <div className="cart__content__products-container__product__size">
-                    size { lineItem.variant.attributes!.find((attr) => attr.name === 'size')?.value }
-                  </div>
-                  <div className="cart__content__products-container__product__count">
-                    <BsDash className={`cart__content__products-container__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
-                      onClick={(e) => handleMinusItem(e, lineItem.id, lineItem.quantity)}/>
-                    <div className="cart__content__products-container__product__count__number">
-                      {lineItem.quantity}
+                <div key={lineItem.id} className="cart__product">
+                  <div className="image-name-price-wrap">
+                    <div className="cart__product__image">
+                      <Link to={`/catalog/${lineItem.productId}`}>
+                        {lineItem.variant && lineItem.variant.images && lineItem.variant.images[0] && (
+                          <img src={lineItem.variant.images[0].url} alt={lineItem.name.en} />
+                        )}
+                      </Link>
                     </div>
-                    <BsPlus className={`cart__content__products-container__product__count__plus ${plusButtonActive ? '' : 'disabled'}`} 
-                      onClick={(e) => handlePlusItem(e, lineItem.id, lineItem.quantity)}/>
+                    <div className="info-wrap">
+                      <div className="name-size-wrap">
+                        <div className="cart__product__name">
+                          <Link to={`/catalog/${lineItem.productId}`}>
+                            {lineItem.name.en}
+                          </Link>
+                        </div>
+                        <div className="cart__product__size">
+                          size { lineItem.variant.attributes!.find((attr) => attr.name === 'size')?.value }
+                        </div>
+                      </div>
+                      <div className="price-wrap">
+                        <div className="cart__product__price">
+                          {lineItem.discountedPricePerQuantity.length > 0 ?
+                            <div className="cart__price__total__old_new">
+                              <strong className="cart__price__total__old"> 
+                                {
+                                  lineItem.price.discounted ?
+                                    lineItem.price.discounted.value.centAmount/100 * lineItem.quantity
+                                    : 
+                                    lineItem.price.value.centAmount/100 * lineItem.quantity
+                                }$
+                              </strong>
+                              <strong>{lineItem.totalPrice.centAmount/100}$</strong>
+                            </div>
+                            : 
+                            <strong> {lineItem.totalPrice.centAmount/100}$</strong>}
+                        </div>
+                        <div className="cart__product__price price-per-item">
+                          { lineItem.price.discounted ? 
+                            lineItem.price.discounted.value.centAmount/100 
+                            : 
+                            lineItem.price.value.centAmount/100
+                          }$/per item
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="cart__content__products-container__product__price">
-                    <p>price</p>
-                    {lineItem.price.discounted ? lineItem.price.discounted.value.centAmount/100 : lineItem.price.value.centAmount/100}$
+                  <div className="settings-wrap">
+                    <div className="cart__product__count">
+                      <BsDash className={`cart__product__count__minus ${minusButtonActive ? '' : 'disabled'}`} 
+                        onClick={(e) => handleMinusItem(e, lineItem.id, lineItem.quantity)}/>
+                      <div className="cart__product__count__number">
+                        {lineItem.quantity}
+                      </div>
+                      <BsPlus className={`cart__product__count__plus ${plusButtonActive ? '' : 'disabled'}`} 
+                        onClick={(e) => handlePlusItem(e, lineItem.id, lineItem.quantity)}/>
+                    </div>
+                    <GoTrash className="cart__product__delete"
+                      onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
                   </div>
-                  <div className="cart__content__products-container__product__price subtotal">
-                    <p>subtotal</p>
-                    {lineItem.discountedPricePerQuantity.length > 0 ?
-                      (<div className="cart__content__products-container__product__price__total__old_new">
-                        <span className="cart__content__products-container__product__price__total__old">{lineItem.price.discounted ?
-                          lineItem.price.discounted.value.centAmount/100 * lineItem.quantity
-                          : lineItem.price.value.centAmount/100 * lineItem.quantity}$</span>
-                        <span>{lineItem.totalPrice.centAmount/100}$</span>
-                      </div>) : (<span>{lineItem.totalPrice.centAmount/100}$</span>)}
-                  </div>
-                  <GoTrash className="cart__content__products-container__product__delete"
-                    onClick={(e) => handleDeleteItem(e, lineItem.id, lineItem.quantity)}/>
                 </div>
               ))
               )
           }
         </div>
-        <div className="cart__content__order-container__discount">
-          <form onSubmit={handleDiscount}>
-            <label>Do you have a promo code?
+        <div className="cart__discount">
+          <form onSubmit={handleDiscount} className="discount-form">
+            <label>Do you have a promo code?</label>
+            <div className="input-btn-wrap">
               <input 
                 type="text" 
                 placeholder="Enter it here"
                 value={discount}
-                onChange={(e) => setDiscount(e.target.value)}/>
-            </label>
-            <button 
-              className="cart__content__order-container__discount__button" 
-              type="submit"
-              onClick={handleDiscount}>Yes!
-            </button>
+                onChange={(e) => setDiscount(e.target.value)}
+              />
+              <button 
+                className="cart__discount__button" 
+                type="submit"
+                onClick={handleDiscount}
+              >
+                Yes!
+              </button>
+            </div>
           </form>
         </div>
-        <div className="cart__content__order-container__total">
+        <div className="cart__total">
           total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
-        <div className="cart__content__order-container">
+        <div className="cart__order-container">
           <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>
           <CModal
             isActive={modalState}

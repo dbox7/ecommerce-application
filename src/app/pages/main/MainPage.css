@@ -1,8 +1,10 @@
 .main-wrap {
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  height: 100%;
+  max-height: calc(100vh - 162px);
 }
+
 .poster-wrap {
   background-image: url("../../assets/poster.png");
   background-position: center;
@@ -21,6 +23,7 @@
 .promo-wrap {
   height: fit-content;
 }
+
 .link-main-wrap {
   position: absolute;
   top: 20%;
