@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { ICheckboxProps } from '../../../utils/types';
 
 import './CCheckbox.css';
+
+interface ICheckboxProps {
+  title: string
+  checked: boolean
+  changeHandler: React.ChangeEventHandler
+};
 
 const CCheckbox: FC<ICheckboxProps> = (props) => {
 

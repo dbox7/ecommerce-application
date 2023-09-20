@@ -1,5 +1,9 @@
 import { toast } from 'react-toastify';
-import { IToastify } from '../utils/types';
+
+interface IToastify {
+  error?: string;
+  success?: string;
+}
 
 export default function useToastify() {
 

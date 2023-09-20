@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { IUseInputChangesResult } from '../../utils/types';
+import { ChangeEvent } from 'react';
+
+type IUseInputChangesResult = {
+  inputValue: string;
+  hasChanged: boolean;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  saveChanges: () => void;
+};
 
 const useInputChanges = (initialValue: string): IUseInputChangesResult => {
 

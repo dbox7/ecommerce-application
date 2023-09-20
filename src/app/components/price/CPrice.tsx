@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { IPriceProps } from '../../utils/types';
+import { Price } from '@commercetools/platform-sdk';
 
 import './CPrice.css';
+
+interface IPriceProps {
+  price: Price
+  isMini?: boolean
+}
 
 const CPrice:FC<IPriceProps> = ({ price, isMini = false }) => {  
 

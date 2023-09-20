@@ -1,6 +1,12 @@
-import { ISortProductsProps } from '../../../utils/types';
+import { Dispatch, SetStateAction } from 'react';
+import { IProductFilters } from '../../../utils/types';
 
 import './CSortProducts.css';
+
+interface ISortProductsProps {
+  filters: IProductFilters
+  setFilters: Dispatch<SetStateAction<IProductFilters>>
+}
 
 export function CSortProducts({filters, setFilters} : ISortProductsProps) {
 

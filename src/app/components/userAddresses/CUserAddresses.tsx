@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IAdressProps } from '../../utils/types';
+import { IAddress } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
@@ -13,6 +13,13 @@ import CAddAddressForm from '../addAddressForm/CAddAddressForm';
 
 import './CUserAddresses.css';
 
+interface IAdressProps {
+  addresses: IAddress[]
+  shippingAddressIds: string[]
+  billingAddressIds: string[]
+  defaultBillingAddressIds: string | undefined
+  defaultShippingAddressIds: string | undefined
+}
 
 const CUserAddresses: React.FC<IAdressProps> = ({ 
   addresses,

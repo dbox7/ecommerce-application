@@ -1,12 +1,18 @@
 import { createContext, useEffect, useState } from 'react';
 import { Image } from '@commercetools/platform-sdk';
-import { ISliderContext } from '../../utils/types';
 import { TRANSITION_DURATION } from '../../utils/constants';
 
 import CSliderList from './CSliderList';
 import CArrows from './CArrows';
 
 import './CSlider.css';
+
+interface ISliderContext {
+  slides: Image[]
+  slideNumber: number
+  changeSlide: Function
+  transitionDuration: number
+}
 
 export const SliderContext = createContext<ISliderContext>({ 
   slides: [], 

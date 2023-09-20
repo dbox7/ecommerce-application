@@ -1,7 +1,14 @@
 import { FC } from 'react';
-import { IButtonProps } from '../../utils/types';
 
 import './CButton.css';
+
+export interface IButtonProps {
+  value: string
+  type: 'button' | 'submit' | 'reset'
+  clickHandler?: React.MouseEventHandler
+  disabled?: boolean
+  extraClass?: string
+}
 
 const CButton: FC<IButtonProps> = ({ 
   value, 

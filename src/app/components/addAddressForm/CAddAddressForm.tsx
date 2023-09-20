@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { COUNTRIES, msg } from '../../utils/constants';
-import { IAddAdrdressProps, IAddress } from '../../utils/types';
+import { IAddress } from '../../utils/types';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
 import { useServerApi } from '../../services/useServerApi';
-import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
+import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
@@ -13,6 +13,10 @@ import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
+
+interface IAddAdrdressProps {
+  setModal: Dispatch<SetStateAction<boolean>>;
+}
 
 const getCountryCode = (countryName: string): string => {
   

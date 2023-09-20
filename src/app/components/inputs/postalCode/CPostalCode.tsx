@@ -1,8 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import { ICountry, IPostalCodeProps } from '../../../utils/types';
+import { ICountry, IInputProps } from '../../../utils/types';
 import { COUNTRIES } from '../../../utils/constants';
 
 import { CInfo } from '../../info/CInfo';
+
+type IPostalCodeProps = IInputProps & {
+  country: string
+}
 
 const CPostalCode: FC<IPostalCodeProps> = ({
   value, 

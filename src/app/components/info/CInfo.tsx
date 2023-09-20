@@ -1,9 +1,12 @@
-import { IInfoProps } from '../../utils/types';
 import { useEffect, useState } from 'react';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
 import './CInfo.css'; 
+
+interface IInfoProps {
+  text: string
+}
 
 export const CInfo = ({ text }: IInfoProps) => {
 

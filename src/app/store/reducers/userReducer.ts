@@ -1,6 +1,13 @@
 import { anonUser } from '../../utils/constants';
-import { IGlobalStoreType } from '../../utils/types';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
+import { Customer } from '@commercetools/platform-sdk';
 import { IUserAction, UserActionsType } from '../types';
+
+interface IGlobalStoreType {
+  currentUser: Customer
+  apiMeRoot?: ByProjectKeyRequestBuilder,
+  loading: boolean
+}
 
 const InitialState : IGlobalStoreType = {
   currentUser: localStorage.currentUser ? JSON.parse(localStorage.currentUser): anonUser,

@@ -1,9 +1,15 @@
 import { FC } from 'react';
-import { IModalProps } from '../../utils/types';
+import { Dispatch, SetStateAction } from 'react';
 
 import { RxCross2 } from 'react-icons/rx';
 
 import './CModal.css';
+
+interface IModalProps {
+  children: React.ReactNode;
+  isActive: boolean;
+  setIsActive: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
+}
 
 const CModal: FC<IModalProps> = ({
   children,

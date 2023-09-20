@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { COUNTRIES, msg } from '../../utils/constants';
-import { IAddress, IEditAdrdressProps } from '../../utils/types';
+import { IAddress } from '../../utils/types';
+
 import useInput from '../../services/input/useInput';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
@@ -13,6 +14,10 @@ import CButton from '../button/CButton';
 
 import '../registrationForm/CRegistrationForm.css';
 
+interface IEditAdrdressProps {
+  setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
+  addressId: string | undefined;
+}
 
 const getCountryCode = (countryName: string): string => {
   

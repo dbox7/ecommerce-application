@@ -14,17 +14,13 @@ export const MainPage = () => {
 
     <>
       { currentUser.id ? 
-
         <div className="main-wrap">
           <div className="promo-wrap">
             <CPromo25/>
             <CPromo10/>
           </div>
           <div className="poster-wrap"/>
-
         </div>
-
-        
         :
         <div className="poster-wrap-full"/>
       }
