@@ -6,15 +6,15 @@ import { Client } from '@commercetools/sdk-client-v2';
 import { TokenCache, TokenStore, TokenCacheOptions } from '@commercetools/sdk-client-v2';
 
 
-export const AUTH_URL = 'https://auth.europe-west1.gcp.commercetools.com';
-export const API_URL = 'https://api.europe-west1.gcp.commercetools.com';
-export const PROJECT_KEY = 'rss-final-task';
-export const CLIENT_ID = 'WqMoyyfNlL6wt3UPtf-VRde2';
-export const CLIENT_SECRET = 'v3QgpGgAMVDPDcGtWmPnz8cphLrAF90X';
-export const SCOPES = ['manage_project:rss-final-task'];
+export const AUTH_URL = process.env.REACT_APP_AUTH_URL;
+export const API_URL = process.env.REACT_APP_API_URL;
+export const PROJECT_KEY = process.env.REACT_APP_PROJECT_KEY;
+export const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+export const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
+export const SCOPES = process.env.REACT_APP_SCOPES?.split(' ');
 
 export const httpMiddlewareOptions: HttpMiddlewareOptions = {
-  host: API_URL,
+  host: API_URL!,
   fetch,
 };
 
@@ -88,15 +88,15 @@ export class Api {
       if (!Api._anonClientCache) {
 
         /* Api.log('Creating Anonymous client'); */
-        Api._anonClientCache = new ClientBuilder().withProjectKey(PROJECT_KEY)
+        Api._anonClientCache = new ClientBuilder().withProjectKey(PROJECT_KEY!)
           .withAnonymousSessionFlow({
-            host: AUTH_URL,
-            projectKey: PROJECT_KEY,
+            host: AUTH_URL!,
+            projectKey: PROJECT_KEY!,
             credentials: {
-              clientId: CLIENT_ID,
-              clientSecret: CLIENT_SECRET,
+              clientId: CLIENT_ID!,
+              clientSecret: CLIENT_SECRET!,
             },
-            scopes: SCOPES,
+            scopes: SCOPES!,
             fetch
           })
           .withHttpMiddleware(httpMiddlewareOptions)
@@ -113,13 +113,13 @@ export class Api {
     } else {
 
       /* Api.log(`Creating Refresh Token Client (${localStorage.rToken})`); */
-      return new ClientBuilder().withProjectKey(PROJECT_KEY)
+      return new ClientBuilder().withProjectKey(PROJECT_KEY!)
         .withRefreshTokenFlow({
-          host: AUTH_URL,
-          projectKey: PROJECT_KEY,
+          host: AUTH_URL!,
+          projectKey: PROJECT_KEY!,
           credentials: {
-            clientId: CLIENT_ID,
-            clientSecret: CLIENT_SECRET,
+            clientId: CLIENT_ID!,
+            clientSecret: CLIENT_SECRET!,
           },
           refreshToken: localStorage.rToken,
           fetch,
@@ -138,13 +138,13 @@ export class Api {
   static passwordClient(email: string, password: string) {
 
     /* Api.log('Creating Password client'); */
-    return new ClientBuilder().withProjectKey(PROJECT_KEY)
+    return new ClientBuilder().withProjectKey(PROJECT_KEY!)
       .withPasswordFlow({
-        host: AUTH_URL,
-        projectKey: PROJECT_KEY,
+        host: AUTH_URL!,
+        projectKey: PROJECT_KEY!,
         credentials: {
-          clientId: CLIENT_ID,
-          clientSecret: CLIENT_SECRET,
+          clientId: CLIENT_ID!,
+          clientSecret: CLIENT_SECRET!,
           user: {
             username: email,
             password: password
@@ -159,13 +159,13 @@ export class Api {
 
   static get root() {
 
-    return createApiBuilderFromCtpClient(Api.client).withProjectKey({ projectKey: PROJECT_KEY });
+    return createApiBuilderFromCtpClient(Api.client).withProjectKey({ projectKey: PROJECT_KEY! });
 
   }
 
   static passwordRoot(email: string, password: string) {
 
-    return createApiBuilderFromCtpClient(Api.passwordClient(email, password)).withProjectKey({ projectKey: PROJECT_KEY });
+    return createApiBuilderFromCtpClient(Api.passwordClient(email, password)).withProjectKey({ projectKey: PROJECT_KEY! });
   
   }
 

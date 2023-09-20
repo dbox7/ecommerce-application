@@ -165,6 +165,12 @@ export const useServerApi = () => {
         localStorage.currentUser = JSON.stringify(data.body);
         dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
         
+      })
+      .catch((err) => {
+          
+        dispatch({type: UserActionsType.ERROR, payload: err.body.message});
+        return ('error');
+        
       });
       
   };

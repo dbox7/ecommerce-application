@@ -61,6 +61,34 @@ You don’t have to ever use eject. The curated feature set is suitable for smal
 1. Access to a commercetools Project and the Merchant Center. If you do not have a commercetools Project, follow our Getting started guide.
 2. Node.js (version 10 or later) must be installed on your computer.
 
+## Environment variables
+
+The application requires the following environment variables to be set:
+
+#AUTH_URL
+Description: This is the authentication URL used for authentication in your system.
+Example Value: https://example.com/auth
+
+#API_URL
+Description: This is the URL of the API endpoint you need to connect to.
+Example Value: https://api.example.com
+
+#PROJECT_KEY
+Description: Your project's unique identifier or key.
+Example Value: my-project-key
+
+#CLIENT_ID
+Description: Your client ID for authentication purposes.
+Example Value: your-client-id
+
+#CLIENT_SECRET
+Description: Your client secret for authentication purposes.
+Example Value: your-client-secret
+
+#SCOPES
+Description: The scopes or permissions required for accessing the API.
+Example Value: read write
+
 ## Setting up and running the project locally:
 
 Clone repo  
