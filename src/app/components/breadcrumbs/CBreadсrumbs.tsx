@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ICrumbs } from '../../utils/types';
 
@@ -5,7 +6,11 @@ import { IoIosArrowForward } from 'react-icons/io';
 
 import './CBreadcrumbs.css';
 
-const CBreadcrumbs = ({ crumbs }: { crumbs: ICrumbs[] }) => {
+interface IBreadcrumbsProps {
+  crumbs: ICrumbs[];
+}
+
+const CBreadcrumbs: FC<IBreadcrumbsProps> = ({ crumbs }) => {
 
   return (
 

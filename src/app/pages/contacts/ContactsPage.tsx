@@ -1,11 +1,11 @@
+import { FC } from 'react';
 import { GOOGLE_MAP } from '../../utils/constants';
 
 import './ContactsPage.css';
 
-export const ContactsPage = () => {
+export const ContactsPage: FC = () => {
 
   return (
-
     <div className="contacts">
       <h1 className="contacts__title">Contacts</h1>
       <div className="contacts__content">
@@ -31,7 +31,6 @@ export const ContactsPage = () => {
         </div>
       </div>
     </div>
-
   );
   
 };

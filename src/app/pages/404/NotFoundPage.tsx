@@ -1,8 +1,9 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import './NotFoundPage.css';
 
-export const NotFoundPage = () => {
+export const NotFoundPage: FC = () => {
 
   return (
     <div className="poster-wrap not-found">

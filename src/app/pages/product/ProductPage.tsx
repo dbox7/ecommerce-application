@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { useServerApi } from '../../services/useServerApi';
@@ -18,7 +18,7 @@ import { CLoading } from '../../components/loading/CLoading';
 import './ProductPage.css';
 
 
-export const ProductPage = () => {
+export const ProductPage: FC = () => {
   
   const showMessage = useShowMessage();
   const props = useParams();

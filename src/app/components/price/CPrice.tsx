@@ -8,7 +8,7 @@ interface IPriceProps {
   isMini?: boolean
 }
 
-const CPrice:FC<IPriceProps> = ({ price, isMini = false }) => {  
+const CPrice: FC<IPriceProps> = ({ price, isMini = false }) => {  
 
   const miniClass = isMini ? 'isMini' : '';
 

@@ -1,8 +1,14 @@
+import { FC } from 'react';
 import { RxCross2, RxHamburgerMenu } from 'react-icons/rx';
 
 import './CBurgerMenu.css';
 
-const CBurgerMenu = ({openMenu, setOpenMenu}:{openMenu: boolean, setOpenMenu: Function}) => {
+interface IBurgerMenuProps {
+  openMenu: boolean,
+  setOpenMenu: Function
+}
+
+const CBurgerMenu: FC<IBurgerMenuProps> = ({openMenu, setOpenMenu}) => {
 
   const handleClick = () => {
 

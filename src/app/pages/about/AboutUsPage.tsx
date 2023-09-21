@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
@@ -7,13 +8,12 @@ import { developers } from '../../utils/constants';
 import './AboutUsPage.css';
 
 
-export const AboutUsPage = () => {
+export const AboutUsPage: FC = () => {
 
   const { currentUser } = useTypedSelector(state => state.user);
   const user = currentUser;
 
   return (
-
     <div className="about__content">
       <h1 className="about__content__title">About Us</h1>
       <div className="about__content__text">
@@ -65,7 +65,6 @@ export const AboutUsPage = () => {
         <Link to="https://rs.school/" target="_blank"><div className="about__content__text__school-logo"></div></Link>
       </div>
     </div>
-
   );
 
 };

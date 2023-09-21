@@ -1,14 +1,20 @@
 import { 
   ChangeEvent, 
   useEffect, 
-  useState 
+  useState,
+  FC 
 } from 'react';
 
 import CCheckbox from '../../inputs/checkbox/CCheckbox';
 
 import './CCheckboxArray.css';
 
-const CCheckboxArray = ({ array, setResult }:{ array: string[], setResult: Function }) => {
+interface ICheckboxArrayProps {
+  array: string[],
+  setResult: Function
+}
+
+const CCheckboxArray: FC<ICheckboxArrayProps> = ({ array, setResult }) => {
 
   const [checked, setChecked] = useState<string[]>([]);
 

@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
 import CRegistrationForm from '../../components/registrationForm/CRegistrationForm';
 
 
-export const SignUpPage = () => {
+export const SignUpPage: FC = () => {
 
   const { currentUser } = useTypedSelector(state => state.user);
   const navigate = useNavigate();

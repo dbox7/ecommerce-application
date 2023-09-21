@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction, FC } from 'react';
 import { COUNTRIES, msg } from '../../utils/constants';
 import { IAddress } from '../../utils/types';
 import useInput from '../../services/input/useInput';
@@ -26,7 +26,7 @@ const getCountryCode = (countryName: string): string => {
 
 };
 
-export const CAddAddressForm: React.FC<IAddAdrdressProps> = ({setModal}) => {
+export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
 
   const [useShippingAddress, setUseShippingAddress] = useState<boolean>(false);
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);

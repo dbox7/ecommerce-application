@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, FC } from 'react';
 import { IProductFilters } from '../../../utils/types';
 
 import './CSortProducts.css';
@@ -8,7 +8,7 @@ interface ISortProductsProps {
   setFilters: Dispatch<SetStateAction<IProductFilters>>
 }
 
-export function CSortProducts({filters, setFilters} : ISortProductsProps) {
+export const CSortProducts: FC<ISortProductsProps> = ({ filters, setFilters }) => {
 
   
   function sortItems(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -33,4 +33,4 @@ export function CSortProducts({filters, setFilters} : ISortProductsProps) {
 
   );
 
-}
+};

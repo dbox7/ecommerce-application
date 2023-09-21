@@ -1,10 +1,12 @@
+import { FC } from 'react';
+
 import boxPic01 from '../../../assets/sneakers-box-01.png';
 import boxPic02 from '../../../assets/sneakers-box-02.png';
 import boxPic03 from '../../../assets/sneakers-box-03.png';
 
 import styles from './CPromo10.module.css';
 
-export const CPromo10 = () => {
+export const CPromo10: FC = () => {
   
   return (
     <div className={styles.promo__container}>
@@ -15,11 +17,11 @@ export const CPromo10 = () => {
             <p className={styles.promo__container__content__code}><b>BIGORDERDEAL</b></p>
           </div>
           <div className={styles.promo__container__content_right}>
-            <img className={styles.promo__container__content_img1} src={boxPic01}></img>
+            <img className={styles.promo__container__content_img1} src={boxPic01} alt="Sneakers in box"></img>
             <b>+</b>
-            <img className={styles.promo__container__content_img2} src={boxPic02}></img>
+            <img className={styles.promo__container__content_img2} src={boxPic02} alt="Sneakers in box"></img>
             <b>+</b>
-            <img className={styles.promo__container__content_img3} src={boxPic03}></img>
+            <img className={styles.promo__container__content_img3} src={boxPic03} alt="Sneakers in box"></img>
           </div>
 
         </div>

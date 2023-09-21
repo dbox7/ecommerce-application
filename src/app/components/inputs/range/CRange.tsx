@@ -8,7 +8,7 @@ import { IMultiRangeProps } from '../../../utils/types';
 
 import './CRange.css';
 
-const CRange:FC<IMultiRangeProps> = (multiRange) => {
+const CRange: FC<IMultiRangeProps> = (multiRange) => {
 
   const range = useRef<HTMLDivElement>(null);
 

@@ -1,7 +1,8 @@
+import { FC } from 'react';
+import { ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { ALL_SIZES } from '../../utils/constants';
 
 import './CSizeOption.css';
-import { ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 
 interface ISizeOptionsProps { 
   sizes: string[],  
@@ -10,7 +11,7 @@ interface ISizeOptionsProps {
   product: ProductProjection
 }
 
-const CSizeOption = ({ sizes, selectedVariant, setSelectedVariant, product }: ISizeOptionsProps) => {
+const CSizeOption: FC<ISizeOptionsProps> = ({ sizes, selectedVariant, setSelectedVariant, product }) => {
   
   function getVariantBySize(product: ProductProjection, size: string) {
 

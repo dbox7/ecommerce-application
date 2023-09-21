@@ -1,6 +1,7 @@
 import { 
   MouseEventHandler, 
-  useState 
+  useState,
+  FC 
 } from 'react';
 import { Link } from 'react-router-dom';
 import { useServerApi } from '../../services/useServerApi';
@@ -10,7 +11,7 @@ import { BsPerson, BsPersonFill } from 'react-icons/bs';
 
 import './CProfileMenu.css';
 
-const CProfileMenu = () => {
+const CProfileMenu: FC = () => {
   
   const [showPopup, setShowPopup] = useState(false);
   const server = useServerApi();

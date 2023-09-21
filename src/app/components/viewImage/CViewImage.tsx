@@ -1,12 +1,17 @@
 import { Image } from '@commercetools/platform-sdk';
-import { useRef, useState } from 'react';
+import { useRef, useState, FC } from 'react';
 
 import { RxCross2 } from 'react-icons/rx';
 import CSlider from '../slider/CSlider';
 
 import './CViewImage.css';
 
-const CViewImage = ({images, color}: {images: Image[], color: string}) => {
+interface IViewImageProps {
+  images: Image[];
+  color: string;
+}
+
+const CViewImage: FC<IViewImageProps> = ({images, color}) => {
 
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const imgElement = useRef(null);

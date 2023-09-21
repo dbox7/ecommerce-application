@@ -1,3 +1,6 @@
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useState, FormEvent } from 'react';
@@ -5,7 +8,6 @@ import { useShowMessage } from '../../services/useShowMessage';
 import { msg, DISCOUNTS } from '../../utils/constants';
 
 import CButton from '../../components/button/CButton';
-import { Link } from 'react-router-dom';
 import CModal from '../../components/modal/CModal';
 
 import { BsPlus } from 'react-icons/bs';
@@ -15,7 +17,7 @@ import { GoTrash } from 'react-icons/go';
 import './CartPage.css';
 
 
-export const CartPage = () => {
+export const CartPage: FC = () => {
 
   const { cart } = useTypedSelector(state => state.cart);
   const [discount, setDiscount] = useState('');
@@ -182,7 +184,6 @@ export const CartPage = () => {
     handleClearCart(e);
 
   };
-
 
   return (
     <div className="cart">

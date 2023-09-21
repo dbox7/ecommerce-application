@@ -1,11 +1,10 @@
-// import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-
+import { FC } from 'react';
 import { CPromo25 } from '../../components/promo/discount25/CPromo25';
 
 import './MainPage.css';
 
 
-export const MainPage = () => {
+export const MainPage: FC = () => {
 
   return (
     <div className="main-wrap">

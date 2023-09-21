@@ -2,7 +2,8 @@ import {
   SetStateAction, 
   useCallback, 
   useEffect, 
-  useState 
+  useState,
+  FC
 } from 'react';
 import { useServerApi } from '../../services/useServerApi';
 import { IProductFilters } from '../../utils/types';
@@ -23,7 +24,7 @@ import { CSortProducts } from '../../components/products/sort/CSortProducts';
 import './CatalogPage.css';
 
 
-export const CatalogPage = () => {
+export const CatalogPage: FC = () => {
 
   const server = useServerApi();
   const showMessage = useShowMessage();

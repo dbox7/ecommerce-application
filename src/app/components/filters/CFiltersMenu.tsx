@@ -1,7 +1,7 @@
 import useMultiRange from '../../services/input/useMultiRange';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { getSizeArray } from '../../utils/useFullFuncs';
-import { useEffect, useState, memo } from 'react';
+import { useEffect, useState, memo, FC } from 'react';
 import { useResize } from '../../services/useResize';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
@@ -78,7 +78,11 @@ const getBrands = (prods: ProductProjection[]) => {
 
 };
 
-const CFilterMenu = memo(({ callback }: { callback: Function } ) => {
+interface IFilterMenuProps {
+  callback: Function
+}
+
+const CFilterMenu: FC<IFilterMenuProps> = memo(({ callback }) => {
 
   const { products } = useTypedSelector(state => state.products);
 

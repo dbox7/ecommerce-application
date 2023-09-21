@@ -2,7 +2,8 @@ import {
   useEffect, 
   useState, 
   useCallback, 
-  memo 
+  memo,
+  FC 
 } from 'react';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 import { ProductProjection } from '@commercetools/platform-sdk';
@@ -13,7 +14,7 @@ import { CProductCard } from '../card/CProductCard';
 import './CProductList.css';
 
 
-export const CProductList = memo(() => {
+export const CProductList: FC = memo(() => {
 
   const { products } = useTypedSelector(state => state.products);
 

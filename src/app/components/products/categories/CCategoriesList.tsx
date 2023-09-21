@@ -1,11 +1,14 @@
 import { Category } from '@commercetools/platform-sdk';
-import { useState, memo } from 'react';
+import { useState, memo, FC } from 'react';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 
 import './CCategoriesList.css';
 
+interface ICategoriesListProps {
+  callback: Function
+}
 
-export const CCategoriesList = memo(({callback}: {callback: Function}) => {
+export const CCategoriesList: FC<ICategoriesListProps> = memo(({ callback }) => {
 
   const [chosenCategory, setChosenCategory] = useState<string | undefined>(undefined);
   const { categories } = useTypedSelector(state => state.products);

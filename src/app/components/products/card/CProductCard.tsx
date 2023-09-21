@@ -1,4 +1,5 @@
 import { MyCartDraft, ProductProjection } from '@commercetools/platform-sdk';
+import { FC } from 'react';
 import { useServerApi } from '../../../services/useServerApi';
 import { useTypedSelector } from '../../../store/hooks/useTypedSelector';
 import { msg } from '../../../utils/constants';
@@ -10,8 +11,11 @@ import { BsCart2 } from 'react-icons/bs';
 
 import './CProductCard.css';
 
+interface IProductCardProps {
+  product: ProductProjection
+}
 
-export const CProductCard = ({ product }: { product: ProductProjection }) => {
+export const CProductCard: FC<IProductCardProps> = ({ product }) => {
 
   const { cart } = useTypedSelector(state => state.cart);
 

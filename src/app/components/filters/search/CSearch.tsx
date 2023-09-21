@@ -1,11 +1,15 @@
-import { useState, FormEvent, memo } from 'react';
+import { useState, FormEvent, memo, FC } from 'react';
 
 import { BiSearch } from 'react-icons/bi';
 import { RxCross2 } from 'react-icons/rx';
 
 import './CSearch.css';
 
-const CSearch = memo(({ callback }: { callback: Function }) => {
+interface ISearchProps {
+  callback: Function
+}
+
+const CSearch: FC<ISearchProps> = memo(({ callback }) => {
 
   const [search, setSearch] = useState('');
 

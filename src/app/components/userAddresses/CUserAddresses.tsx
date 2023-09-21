@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { IAddress } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
@@ -21,7 +21,7 @@ interface IAdressProps {
   defaultShippingAddressIds: string | undefined
 }
 
-const CUserAddresses: React.FC<IAdressProps> = ({ 
+const CUserAddresses: FC<IAdressProps> = ({ 
   addresses,
   shippingAddressIds,
   billingAddressIds,

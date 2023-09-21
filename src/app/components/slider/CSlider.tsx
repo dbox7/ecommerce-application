@@ -21,7 +21,11 @@ export const SliderContext = createContext<ISliderContext>({
   transitionDuration: TRANSITION_DURATION
 });
 
-const CSlider = ({ images }:{ images: Image[] }) => {
+interface ISliderProps {
+  images: Image[]
+}
+
+const CSlider: React.FC<ISliderProps> = ({ images }) => {
 
   const [slides, setSlides] = useState([...images]);
   const [slideNumber, setSlideNumber] = useState(1);

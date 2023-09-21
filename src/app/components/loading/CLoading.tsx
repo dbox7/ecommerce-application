@@ -1,8 +1,10 @@
+import { FC } from 'react';
+
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 import './CLoading.css';
 
-export const CLoading = () => {
+export const CLoading: FC = () => {
 
   return (
 

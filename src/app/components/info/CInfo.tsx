@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 
@@ -8,7 +8,7 @@ interface IInfoProps {
   text: string
 }
 
-export const CInfo = ({ text }: IInfoProps) => {
+export const CInfo: FC<IInfoProps> = ({ text }) => {
 
   const [showInfo, setShowInfo] = useState(false);
 
@@ -38,12 +38,10 @@ export const CInfo = ({ text }: IInfoProps) => {
   };
 
   return (
-
     <div className="info-container">
       <AiOutlineInfoCircle className="info-icon" onClick={handleInfoClick}/>
       <div className={showInfo ? 'info-text' : 'info-text hidden'}>{text}</div>
     </div>
-    
   );
 
 };

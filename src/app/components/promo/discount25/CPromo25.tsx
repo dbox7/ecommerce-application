@@ -1,6 +1,8 @@
+import { FC } from 'react';
+
 import styles from './CPromo25.module.css';
 
-export const CPromo25 = () => {
+export const CPromo25: FC = () => {
   
   return (
     <div className={styles.promo__container}>

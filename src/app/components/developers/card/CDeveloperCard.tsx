@@ -1,13 +1,17 @@
+import { FC } from 'react';
 import { IDeveloper } from '../../../utils/types';
 
 import { PiGithubLogoLight } from 'react-icons/pi';
-import { CiMail } from 'react-icons/ci';
 import { PiTelegramLogoThin } from 'react-icons/pi';
+import { CiMail } from 'react-icons/ci';
 
 import './CDeveloperCard.css';
 
+interface IDeveloperCardProps {
+  developer: IDeveloper
+}
 
-export const CDeveloperCard = ({developer}: {developer: IDeveloper}) => {
+export const CDeveloperCard: FC<IDeveloperCardProps> = ({ developer }) => {
 
   return (
 

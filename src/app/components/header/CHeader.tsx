@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { BsCart2 } from 'react-icons/bs';
 import { useResize } from '../../services/useResize';
@@ -11,7 +11,7 @@ import { useServerApi } from '../../services/useServerApi';
 import './CHeader.css';
 
 
-export const Header = () => {
+export const Header: FC = () => {
 
   const width = useResize();
   const [openMenu, setOpenMenu] = useState(false);

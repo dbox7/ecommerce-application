@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, FC } from 'react';
 
 import { MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
@@ -6,7 +6,7 @@ import { SliderContext } from './CSlider';
 
 import './CSlider.css';
 
-const CArrows = () => {
+const CArrows: FC = () => {
 
   const slider = useContext(SliderContext);
 

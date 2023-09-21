@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 
@@ -7,7 +7,7 @@ import { CLoginForm } from '../../components/loginForm/CLoginForm';
 import './LoginPage.css';
 
 
-export const LoginPage = () => {
+export const LoginPage: FC = () => {
 
   const { currentUser } = useTypedSelector(state => state.user);
   const navigate = useNavigate();

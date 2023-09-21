@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import { COUNTRIES, msg } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
@@ -24,7 +24,7 @@ const getCountryCode = (countryName: string): string => {
 
 };
 
-export const CRegistrationForm = () => {
+export const CRegistrationForm: FC = () => {
 
   const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(true);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(true);

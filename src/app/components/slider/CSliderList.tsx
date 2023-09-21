@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { useContext, FC } from 'react';
 import { SliderContext } from './CSlider';
 
 import './CSlider.css';
 
-const CSliderList = () => {
+const CSliderList: FC = () => {
 
   const slider = useContext(SliderContext);
 

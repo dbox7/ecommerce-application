@@ -4,7 +4,7 @@ import UseFormBlock from '../../services/useFormBlock';
 import useInput from '../../services/input/useInput';
 import useInputChanges from '../../services/input/useInputChange';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
 
@@ -18,9 +18,7 @@ import CPassword from '../inputs/password/CPassword';
 import './CUserProfileForm.css';
 
 
-
-
-const CUserProfileForm: React.FC = () => {
+const CUserProfileForm: FC = () => {
   
   const server = useServerApi();
   const showMessage = useShowMessage();

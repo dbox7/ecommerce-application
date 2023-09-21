@@ -1,3 +1,6 @@
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput';
 import UseFormBlock from '../../services/useFormBlock';
@@ -7,12 +10,11 @@ import { msg } from '../../utils/constants';
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
-import { Link } from 'react-router-dom';
 
 import './CLoginForm.css';
 
 
-export const CLoginForm = () => {
+export const CLoginForm: FC = () => {
 
   const email = useInput('', 'email');
   const password = useInput('', 'password');

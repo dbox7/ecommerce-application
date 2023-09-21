@@ -1,10 +1,11 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { SOCIAL_LINKS } from '../../utils/constants';
 
 import './CFooter.css';
 
-export const Footer = () => {
+export const Footer: FC = () => {
 
   return (
 
