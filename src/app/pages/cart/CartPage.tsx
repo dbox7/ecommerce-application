@@ -298,6 +298,12 @@ export const CartPage: FC = () => {
           total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__order-container">
+          <CButton value="Clear cart" 
+            type="submit" 
+            extraClass="clear" 
+            clickHandler={() => setModalState(!modalState)} 
+            disabled={isDisable}
+          ></CButton>
           <CModal
             isActive={modalState}
             setIsActive={setModalState}>

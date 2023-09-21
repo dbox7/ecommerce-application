@@ -331,16 +331,9 @@ export const useServerApi = () => {
 
             const actionType = actionTypes[i];
         
-            switch (actionType) {
-      
-            case 'addShippingAddressId':
+            if (actionType === 'addShippingAddressId' || actionType === 'addBillingAddressId') {
+
               actions.push({ action: actionType, addressId });
-              break;
-            case 'addBillingAddressId':
-              actions.push({ action: actionType, addressId });
-              break;
-            default:
-              break;
             
             }
           
@@ -501,17 +494,11 @@ export const useServerApi = () => {
 
       const actionType = actionTypes[i];
 
-      switch (actionType) {
+              
+      if (actionType === 'setDefaultShippingAddress' || actionType === 'setDefaultBillingAddress') {
 
-      case 'setDefaultShippingAddress':
         actions.push({ action: actionType, addressId });
-        break;
-      case 'setDefaultBillingAddress':
-        actions.push({ action: actionType, addressId });
-        break;
-      default:
-        break;
-    
+      
       }
     
     }
