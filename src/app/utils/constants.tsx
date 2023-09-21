@@ -1,6 +1,9 @@
 import { Cart, Customer } from '@commercetools/platform-sdk';
 import { ICountry, IDeveloper, IValidationRules } from './types';
 
+
+import { CiFacebook, CiInstagram, CiYoutube } from 'react-icons/ci';
+
 import dbox7Photo from '../assets/team/dbox7.jpeg';
 import xu69uxPhoto from '../assets/team/xu69ux.jpeg';
 import GEKKOPhoto from '../assets/team/GEKKO-ops.jpeg';
@@ -166,3 +169,18 @@ export const msg = {
   ORDER_CREATE_SUCCESS: { body: 'Your order has been created successfully!', error: false },
   ORDER_CART_EMPTY: { body: 'You can not create order for empty cart!', error: true },
 };
+
+export const SOCIAL_LINKS = [
+  {
+    link: 'https://www.facebook.com/rickroll548?mibextid=LQQJ4d',
+    icon: <CiFacebook className="footer-icon facebook" />,
+  },
+  {
+    link: 'https://www.instagram.com/p/BgSlRglAKBn/?igshid=MWZjMTM2ODFkZg%3D%3D',
+    icon: <CiInstagram className="footer-icon instagram" />,
+  },
+  {
+    link: 'https://youtu.be/dQw4w9WgXcQ?si=EVR4Pmst23-IHIwy',
+    icon: <CiYoutube className="footer-icon youtube" />,
+  },
+];

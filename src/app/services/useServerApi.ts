@@ -76,7 +76,6 @@ export const useServerApi = () => {
 
         Api.passwordRoot(email, password).me().get().execute().then((data) => {
 
-          // Сохраняем в глобальном хранилище и localStorage профиль пользователя
           localStorage.currentUser = JSON.stringify(data.body);
           dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: data.body});
 
@@ -109,7 +108,6 @@ export const useServerApi = () => {
 
     delete localStorage.currentUser;
     delete localStorage.rToken;
-    // Удаляем из кеша анонимного API-клиента, так как после логина/регистрации он протух
     Api.expireAnonClient();
     
     dispatch({type: UserActionsType.UPDATE_SUCCESS, payload: anonUser});

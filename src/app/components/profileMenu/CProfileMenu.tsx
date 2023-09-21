@@ -42,14 +42,16 @@ const CProfileMenu = () => {
                 <li className="profile-nav-item">
                   <Link 
                     to="/" 
-                    onClick={server.Logout as MouseEventHandler} 
                     className="link"
-                  >
-                    Log out
+                    onClick={server.Logout as MouseEventHandler} 
+                  >Log out
                   </Link>
                 </li>
                 <li className="profile-nav-item">
-                  <Link to={`/profile/${user.firstName}`} className="link">Profile</Link>
+                  <Link to={`/profile/${user.firstName}`} 
+                    className="link"
+                  >Profile
+                  </Link>
                 </li>
               </>
               :

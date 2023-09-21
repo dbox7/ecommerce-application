@@ -88,7 +88,8 @@ export const ProductPage = () => {
 
     if (thisProducts?.length) {
 
-      let found = thisProducts.filter((item) => item.variant.attributes?.find((a) => a.name === 'size' && a.value === selectedSize))?.length > 0;
+      let found = thisProducts.filter((item) => 
+        item.variant.attributes?.find((a) => a.name === 'size' && a.value === selectedSize))?.length > 0;
 
       if (found) {
 

@@ -30,7 +30,6 @@ export const ContactsPage = () => {
           <p>Please note that these are fictional details and are not associated with any real company.</p>
         </div>
       </div>
-
     </div>
 
   );

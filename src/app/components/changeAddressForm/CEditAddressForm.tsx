@@ -140,12 +140,10 @@ export const CEditAddressForm: React.FC<IEditAdrdressProps> = ({setModal,  addre
   return (
     <div className="substrate">
       <div className="sub-title">Edit address</div>
-
       <form 
         className="form"
         onSubmit={handleSubmit}
       >
-
         <div className="info">
           <div className="info-block">
             <CTextDateInput

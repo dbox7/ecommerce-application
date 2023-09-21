@@ -20,15 +20,16 @@ export const CDeveloperCard = ({developer}: {developer: IDeveloper}) => {
         <p className="developer-card__role">{developer.role}</p>
         <p className="developer-card__bio">{developer.bio}</p>
         <div className="developer-card__social-icons">
-          <a href={developer.telegram} target="_blank" rel="noreferrer">
-            <PiTelegramLogoThin className="developer-card__social-icons telegram"/>
-          </a>
-          <a href={developer.github} target="_blank" rel="noreferrer">
-            <PiGithubLogoLight className="developer-card__social-icons github"/>
-          </a>
-          <a href={developer.email} target="_blank" rel="noreferrer">
-            <CiMail className="developer-card__social-icons mail"/>
-          </a>
+          {[
+            {link: developer.github, icon: <PiGithubLogoLight className="developer-card__social-icons github" />},
+            {link: developer.email, icon: <CiMail className="developer-card__social-icons mail" />},
+            {link: developer.telegram, icon: <PiTelegramLogoThin className="developer-card__social-icons telegram" />}
+          ].map((item, index) => (
+            <a key={index} href={item.link} target="_blank" rel="noreferrer">
+              {item.icon}
+            </a>
+          ))
+          }
         </div>
       </div>
     </div>   
