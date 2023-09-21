@@ -30,7 +30,9 @@ export const CatalogPage: FC = () => {
   const showMessage = useShowMessage();
   const { products, categories, loading } = useTypedSelector(state => state.products);
 
-  const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
+  const [crumbs, setCrumbs] = useState<ICrumbs[]>([
+    { url: '/', name: 'Home' },
+  ]);
 
   const [filterLoading, setFilterLoading] = useState(true);
   const [filters, setFilters] = useState<IProductFilters>({
@@ -69,14 +71,14 @@ export const CatalogPage: FC = () => {
 
   useEffect(() => {
 
-    let c: ICrumbs[] = [];
-
-    c = [{url: '/', name: 'Home'}];
+    let c: ICrumbs[] = [{ url: '/', name: 'Home' }];
+  
     if (products) {
 
-      c[1] = {url: '', name: 'Catalog'};
+      c.push({ url: '/catalog', name: 'Catalog' });
     
     }
+  
     setCrumbs(c);
   
   }, [products]);

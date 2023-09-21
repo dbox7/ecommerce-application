@@ -23,7 +23,10 @@ export const ProductPage: FC = () => {
   const showMessage = useShowMessage();
   const props = useParams();
   const server = useServerApi();
-  const [crumbs, setCrumbs] = useState<ICrumbs[]>([]);
+  const [crumbs, setCrumbs] = useState<ICrumbs[]>([
+    { url: '/', name: 'Home' },
+    { url: '/catalog', name: 'Catalog' },
+  ]);
 
   const [product, setProduct] = useState<ProductProjection>();
 
@@ -59,26 +62,18 @@ export const ProductPage: FC = () => {
 
   useEffect(() => {
 
-    let c: ICrumbs[] = [];
-
-    c = [{url: '/', name: 'Home'}];
-
-    c[1] = {'url': '/catalog', name: 'Catalog'};
     if (product) {
 
-      c[2] = {url: '', name: product?.name.en};
-    
-    }
-    setCrumbs(c);
-
-    if (product) {
-
-      setSizes(getSizeArray(product));    
+      setCrumbs((prevCrumbs) => [
+        ...prevCrumbs,
+        { url: '', name: product?.name.en },
+      ]);
+      setSizes(getSizeArray(product));
     
     }
     
   
-  }, [product]);
+  }, [product?.lastModifiedAt]);
 
 
   useEffect(() => {
