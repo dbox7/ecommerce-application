@@ -19,6 +19,7 @@ export const CartPage = () => {
 
   const { cart } = useTypedSelector(state => state.cart);
   const [discount, setDiscount] = useState('');
+  const isDisable: boolean = !cart.id || (cart.lineItems && cart.lineItems.length === 0);
 
   const server = useServerApi();
   const showMessage = useShowMessage();
@@ -51,6 +52,7 @@ export const CartPage = () => {
     e.preventDefault();
     if (cart.lineItems.length === 0) {
         
+      setModalState(false);
       showMessage(msg.CLEAR_EMPTY_CART);
       return;
 
@@ -297,7 +299,12 @@ export const CartPage = () => {
           total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
         </div>
         <div className="cart__order-container">
-          <CButton value="Clear cart" type="submit" extraClass="clear" clickHandler={() => setModalState(!modalState)}></CButton>
+          <CButton value="Clear cart" 
+            type="submit" 
+            extraClass="clear" 
+            clickHandler={() => setModalState(!modalState)} 
+            disabled={isDisable}
+          ></CButton>
           <CModal
             isActive={modalState}
             setIsActive={setModalState}>
