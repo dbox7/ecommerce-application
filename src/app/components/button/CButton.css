@@ -1,14 +1,10 @@
-@import "../../utils/constants.css";
-
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
-
   min-width: 120px;
   max-width: 250px;
   padding: 5px 15px;
-
   font-family: var(--exa);
   font-size: var(--main-text);
   background-color: var(--basic-color);

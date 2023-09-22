@@ -108,7 +108,7 @@ header {
 }
 
 .link.active:hover {
-  color: black;
+  color: var(--dark-basic-color);
   cursor: default;
 }
 

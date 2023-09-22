@@ -23,7 +23,7 @@ ul li {
 
 a {
   text-decoration: none;
-  color: black;
+  color: --dark-basic-color;
 }
 
 a:visited {
@@ -41,7 +41,7 @@ body {
 
 h1 {
   font-size: 1.5rem;
-  color: black;
+  color: --dark-basic-color;
 }
 
 .App {

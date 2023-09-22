@@ -1,6 +1,7 @@
 :root {
   /* Colors */
-  --basic-color: white;
+  --basic-color: #ffffff;
+  --dark-basic-color: #000000;
   --bg-color: #fafafa;
   --accent-color: #8ebbff;
   --dark-accent-color: #629aed;
@@ -74,7 +75,7 @@
 }
 
 .link:visited {
-  color: black;
+  color: #000000;
 }
 
 .link:hover {

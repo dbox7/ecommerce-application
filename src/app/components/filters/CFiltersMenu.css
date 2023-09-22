@@ -54,7 +54,6 @@
   opacity: 0.4;
   cursor: pointer;
   z-index: 10;
-
   animation: blinker 2s 2 ease-in-out 0s;
 }
 
@@ -66,7 +65,6 @@
 }
 
 .filter-menu__popup.hide {
-  /* display: flex !important; */
   opacity: 0;
 }
 

@@ -1,7 +1,6 @@
 .profile-menu {
   position: relative;
   padding: 15px 0;
-
   font-family: var(--exa);
   font-size: var(--main-text);
 }
@@ -55,13 +54,13 @@
 }
 
 .profile-nav::before {
-  border-bottom-color: black;
+  border-bottom-color: var(--dark-basic-color);
   border-width: 12px;
   top: -24px;
 }
 
 .profile-nav::after {
-  border-bottom-color: white;
+  border-bottom-color: var(--basic-color);
   border-width: 16px;
   margin-left: -16px;
 }

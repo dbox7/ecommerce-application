@@ -31,7 +31,7 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 24px;
-  color: #fff;
+  color: var(--basic-color);
   padding: 0 8px;
   border-radius: 12px;
   background: #3dbf00;
@@ -56,7 +56,7 @@
 .action-list {
   display: flex;
   justify-content: space-around;
-  color: black;
+  color: var(--dark-basic-color);
 }
 
 .action-list li {
@@ -69,12 +69,12 @@
 
 .title {
   font-size: 1.5rem;
-  color: black;
+  color: var(--dark-basic-color);
 }
 
 .title p {
   font-size: 1rem;
-  color: black;
+  color: var(--dark-basic-color);
   margin-top: 15px;
 }
 
