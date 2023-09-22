@@ -30,6 +30,7 @@ export const CartPage: FC = () => {
   const [plusButtonActive, setPlusButtonActive] = useState(true);
   const [minusButtonActive, setMinusButtonActive] = useState(true);
   const [isOrdered, setOrdered] = useState(false);
+  const centPerDollar = 100;
 
   const handleDeleteItem = async (e: React.MouseEvent<SVGElement, MouseEvent>, itemId: string, quantity: number) => {
     
@@ -238,21 +239,21 @@ export const CartPage: FC = () => {
                               <strong className="cart__price__total__old"> 
                                 {
                                   lineItem.price.discounted ?
-                                    lineItem.price.discounted.value.centAmount/100 * lineItem.quantity
+                                    lineItem.price.discounted.value.centAmount/centPerDollar * lineItem.quantity
                                     : 
-                                    lineItem.price.value.centAmount/100 * lineItem.quantity
+                                    lineItem.price.value.centAmount/centPerDollar * lineItem.quantity
                                 }$
                               </strong>
-                              <strong>{lineItem.totalPrice.centAmount/100}$</strong>
+                              <strong>{lineItem.totalPrice.centAmount/centPerDollar}$</strong>
                             </div>
                             : 
-                            <strong> {lineItem.totalPrice.centAmount/100}$</strong>}
+                            <strong> {lineItem.totalPrice.centAmount/centPerDollar}$</strong>}
                         </div>
                         <div className="cart__product__price price-per-item">
                           { lineItem.price.discounted ? 
-                            lineItem.price.discounted.value.centAmount/100 
+                            lineItem.price.discounted.value.centAmount/centPerDollar 
                             : 
-                            lineItem.price.value.centAmount/100
+                            lineItem.price.value.centAmount/centPerDollar
                           }$/per item
                         </div>
                       </div>
@@ -295,7 +296,7 @@ export const CartPage: FC = () => {
           </form>
         </div>
         <div className="cart__total">
-          total order price: {cart.id ? `${cart.totalPrice.centAmount / 100}$` : '0'}
+          total order price: {cart.id ? `${cart.totalPrice.centAmount /centPerDollar}$` : '0'}
         </div>
         <div className="cart__order-container">
           <CButton value="Clear cart" 
