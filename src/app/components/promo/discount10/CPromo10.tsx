@@ -23,7 +23,6 @@ export const CPromo10: FC = () => {
             <b>+</b>
             <img className={styles.promo__container__content_img3} src={boxPic03} alt="Sneakers in box"></img>
           </div>
-
         </div>
       </div>
     </div>

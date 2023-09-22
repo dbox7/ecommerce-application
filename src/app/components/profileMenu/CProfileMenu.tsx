@@ -33,7 +33,6 @@ const CProfileMenu: FC = () => {
           <BsPerson className="cart-icon profile-menu__icon"/>
         }
       </div>
-      
       {
         showPopup && 
         <ul className="profile-nav substrate">
@@ -67,7 +66,6 @@ const CProfileMenu: FC = () => {
           }
         </ul>
       }
-
     </div>
   );
 

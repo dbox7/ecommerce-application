@@ -5,10 +5,6 @@ interface ICartState {
   cart: Cart
 }
 
-// interface ICartPayload {
-//   cart: Cart
-// }
-
 export enum CartActionTypes {
   UPDATE_CART = 'UPDATE_CART',
   ERROR_CART = 'ERROR_CART'

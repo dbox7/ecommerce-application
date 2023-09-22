@@ -53,10 +53,8 @@ const CRange: FC<IMultiRangeProps> = (multiRange) => {
           className="thumb thumb_z-idx-4"
           onChange={multiRange.changeMaxRangeHandler}
         />
-
         <div className="slider__track" />
         <div className="slider__range" ref={range} />
-        
       </div>
     </div>
   );

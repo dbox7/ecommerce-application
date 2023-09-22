@@ -51,14 +51,22 @@ export const AboutUsPage: FC = () => {
           {developers.map((developer, index) => <CDeveloperCard key={index} developer={developer} />)}
         </div>
         <h2 className="about__content__sub-title">How we did IT</h2>
-        <p>Despite the fact that the three of us were not acquainted before the project began, it didn't hinder us from finding common ground. 
-          We quickly understood each other's strengths and weaknesses, which helped us navigate through all the challenges of team development.</p><br/>
-        <p>The most challenging part of the project was dealing with the Commercetools platform and its SDK, and we often laughed at how difficult it was to decipher their documentation. 
-          Nevertheless, gradually, we arrived at more optimal solutions for the project: the API root was rewritten three times, Redux was added, and a comprehensive code refactoring was carried out.
-          Additionally, this project helped us gain confidence in working with Git. By the way, the code for our application is available at the following link.</p><br/>
+        <p>Despite the fact that the three of us were not acquainted before the project began, 
+          it didn't hinder us from finding common ground. 
+          We quickly understood each other's strengths and weaknesses, which helped us navigate 
+          through all the challenges of team development.</p><br/>
+        <p>The most challenging part of the project was dealing with the Commercetools platform 
+          and its SDK, and we often laughed at how difficult it was to decipher their documentation. 
+          Nevertheless, gradually, we arrived at more optimal solutions for the project: 
+          the API root was rewritten three times, Redux was added, and a comprehensive code refactoring 
+          was carried out. Additionally, this project helped us gain confidence in working with Git. 
+          By the way, the code for our application is available at the following link.</p><br/>
         <p>We're open to feedback and value diverse perspectives. If you have suggestions or observations, let us know. 
           The&nbsp;
-        <b><Link to="/contacts" className="about__content__text__text-link" target="_blank">"Contacts"</Link></b> page is just a joke, so please reach out to us through the links on the cards.</p>
+        <b><Link to="/contacts" 
+            className="about__content__text__text-link" 
+            target="_blank">"Contacts"
+          </Link></b> page is just a joke, so please reach out to us through the links on the cards.</p>
         <br/>
         <p>Best regards,</p>
         <p>The <b>"JS do IT"</b> Team</p>

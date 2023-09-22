@@ -52,7 +52,7 @@ const CPostalCode: FC<IPostalCodeProps> = ({
       <div className="out-error">Not be an empty</div>}
 
       {valid.isNotEmpty && selectedCountry && !selectedCountry?.postalCode.test(value) && !activeState &&
-      <div className="out-error">Enter right postal code</div>}
+      <div className="out-error">Please, enter a valid postal code</div>}
 
     </div>
   );

@@ -57,7 +57,7 @@ const CPassword: FC<IInputProps> = ({
       <div className="out-error">At least 8 characters</div>}
 
       {!valid.isPasswordGood && !activeState && valid.isMinLength &&
-      <div className="out-error">Enter correct password</div>}
+      <div className="out-error">Please, enter a correct password</div>}
 
       <img className="password-icon"
         src={showPassword ? showPasswordIcon : hidePasswordIcon}

@@ -53,7 +53,7 @@ const CEmail: FC<IInputProps> = ({
         <div className="out-error">Not be an empty</div>}
 
         {!valid.isEmailGood && !activeState && 
-        <div className="out-error">Enter right email</div>}
+        <div className="out-error">Please, enter a valid email</div>}
       </div>
     </>
     

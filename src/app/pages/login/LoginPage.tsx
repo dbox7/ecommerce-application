@@ -23,11 +23,9 @@ export const LoginPage: FC = () => {
   }, [currentUser.id]);
 
   return (
-
     <div className="form-wrap">
       <CLoginForm />
     </div>
-
   );
 
 };

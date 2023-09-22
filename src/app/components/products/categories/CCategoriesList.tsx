@@ -41,7 +41,6 @@ export const CCategoriesList: FC<ICategoriesListProps> = memo(({ callback }) => 
           }
         </ul>
       </div>
-
     </div>
   );
 

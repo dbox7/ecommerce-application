@@ -18,7 +18,6 @@ export const CSortProducts: FC<ISortProductsProps> = ({ filters, setFilters }) =
   }
   
   return (
-
     <div className="sort-by-container">
       <label className="sort-by-label">Sort by:</label>
       <div className="select-wrapper">
@@ -30,7 +29,6 @@ export const CSortProducts: FC<ISortProductsProps> = ({ filters, setFilters }) =
         </select>
       </div>
     </div>
-
   );
 
 };
