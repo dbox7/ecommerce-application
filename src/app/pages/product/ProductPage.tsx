@@ -4,7 +4,7 @@ import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/p
 import { useServerApi } from '../../services/useServerApi';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { getSizeArray } from '../../utils/useFullFuncs';
+import { getSizeArray } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
 
