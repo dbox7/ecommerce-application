@@ -13,10 +13,6 @@ interface ISizeOptionsProps {
 
 const CSizeOption: FC<ISizeOptionsProps> = ({ sizes, selectedVariant, setSelectedVariant, product }) => {
   
-  console.log('sizes from size options:', sizes);
-  console.log('selectedVariant from size options:', selectedVariant);
-  console.log('product from size options:', product);
-
   function getVariantBySize(product: ProductProjection, size: string) {
 
     let result = undefined;
@@ -26,7 +22,6 @@ const CSizeOption: FC<ISizeOptionsProps> = ({ sizes, selectedVariant, setSelecte
       if (attr.name === 'size' && attr.value.toString() === size.toString()) {
 
         result = product.masterVariant;
-        console.log('result from size options:', result);
       
       }
       

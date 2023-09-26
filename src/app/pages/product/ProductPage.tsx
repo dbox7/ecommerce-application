@@ -64,11 +64,11 @@ export const ProductPage: FC = () => {
 
     if (product) {
 
-      console.log('product from product page:', product);
       setCrumbs((prevCrumbs) => [
         ...prevCrumbs,
         { url: '', name: product?.name.en },
       ]);
+      
       setSizes(getSizeArray(product));
     
     }
@@ -81,9 +81,6 @@ export const ProductPage: FC = () => {
 
     const selectedSize = selectedVariant?.attributes?.find((a) => a.name === 'size')?.value;
     const thisProducts = cart.lineItems?.filter((item) => item.productId === product?.id);
-
-    console.log('product:', product);
-    console.log('selectedSize:', selectedSize);
 
     if (thisProducts?.length) {
 
