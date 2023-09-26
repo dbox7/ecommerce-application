@@ -4,7 +4,7 @@ import { MyCartDraft, ProductProjection, ProductVariant } from '@commercetools/p
 import { useServerApi } from '../../services/useServerApi';
 import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
-import { getSizeArray } from '../../utils/useFullFuncs';
+import { getSizeArray } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
 
@@ -64,6 +64,7 @@ export const ProductPage: FC = () => {
 
     if (product) {
 
+      console.log('product from product page:', product);
       setCrumbs((prevCrumbs) => [
         ...prevCrumbs,
         { url: '', name: product?.name.en },
@@ -73,13 +74,16 @@ export const ProductPage: FC = () => {
     }
     
   
-  }, [product?.lastModifiedAt]);
+  }, [crumbs, product]);
 
 
   useEffect(() => {
 
     const selectedSize = selectedVariant?.attributes?.find((a) => a.name === 'size')?.value;
     const thisProducts = cart.lineItems?.filter((item) => item.productId === product?.id);
+
+    console.log('product:', product);
+    console.log('selectedSize:', selectedSize);
 
     if (thisProducts?.length) {
 
