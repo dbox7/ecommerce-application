@@ -11,7 +11,7 @@ import { ICrumbs } from '../../utils/types';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
 import { msg } from '../../utils/constants';
-import { checkFilters } from '../../utils/usefullFuncs';
+import { checkFilters } from '../../utils/useFullFuncs';
 
 import { CCategoriesList } from '../../components/products/categories/CCategoriesList';
 import CFilterProducts from '../../components/filters/search/CSearch';
