@@ -7,7 +7,7 @@
   text-align: center;
   background-color: var(--basic-color);
   padding: 1rem;
-  border-radius: .3rem;
+  border-radius: 0.3rem;
   box-shadow: var(--back-plate);
   font-family: var(--exa);
 }
@@ -28,12 +28,12 @@
 
 .developer-card__info {
   font-size: var(--main-text);
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .developer-card__name {
   font-size: var(--sub-title);
-  margin-bottom: .4rem;
+  margin-bottom: 0.4rem;
 }
 
 .developer-card__role {
