@@ -1,9 +1,12 @@
-.not-found {
+.poster-wrap {
+  background-position: center;
+  background-size: cover;
+  background-image: url("../../assets/not-found-min.png");
+  height: 12.8rem;
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 20px;
-  background-image: url("../../assets/not-found-min.png");
+  gap: 1.25rem;
 }
 
 .not-found-title,
@@ -11,14 +14,14 @@
   position: relative;
   width: 50%;
   left: 50%;
-  padding-right: 20px;
+  padding-right: 1.25rem;
   font-family: var(--exa);
   font-size: var(--title);
   color: var(--basic-color);
 }
 
 .not-found-title {
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 
 .not-found-sub-title .link {
@@ -48,12 +51,12 @@
   .not-found-sub-title {
     width: 100%;
     left: 50%;
-    padding: 0 20px;
+    padding: 0 1.25rem;
     transform: translate(-50%);
     text-align: center;
   }
 
   .not-found-title {
-    margin-top: 60px;
+    margin-top: 3.85rem;
   }
 }

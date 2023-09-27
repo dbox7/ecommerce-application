@@ -74,7 +74,7 @@ export const ProductPage: FC = () => {
     }
     
   
-  }, [crumbs, product]);
+  }, [product?.lastModifiedAt]);
 
 
   useEffect(() => {

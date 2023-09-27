@@ -1,11 +1,13 @@
 .cart {
-  padding: 5vw;
+  padding: 3rem;
   font-family: var(--exa);
   transition: all 0.3s;
+  margin-bottom: 1rem;
+  height: 80vh;
 }
 
 .cart__title {
-  margin-bottom: 2vh;
+  margin-bottom: 1.5rem;
   font-family: var(--tera);
   font-size: var(--title);
   border-bottom: 2px solid var(--accent-color);
@@ -19,11 +21,11 @@
   width: 100%;
   border: 1px solid var(--border-color);
   text-align: center;
-  padding: 2vh;
+  padding: 1rem;
 }
 
 .cart__products-container_empty {
-  margin-top: 10vh;
+  margin-top: 5rem;
   font-size: var(--title);
 }
 
@@ -34,18 +36,20 @@
 .cart__products-container {
   display: flex;
   flex-direction: column;
-  max-height: 45vh;
-  min-height: 40vh;
+  height: 20rem;
   overflow-y: auto;
+  margin-bottom: 2rem;
 }
 
 .cart__product {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 40px;
+  gap: 3rem;
   background-color: var(--basic-color);
-  padding: 1vh;
+  padding: .5rem;
+  margin-bottom: 1rem;
+  min-width: 35rem;
 }
 
 .cart__product:hover {
@@ -68,7 +72,7 @@
 .cart__product__count__minus,
 .cart__product__count__plus {
   cursor: pointer;
-  margin: 0 2vw;
+  margin: 0 1rem;
 }
 
 .cart__product__count__minus:hover,
@@ -78,7 +82,7 @@
 
 .cart__product__delete {
   cursor: pointer;
-  margin-right: 2vw;
+  margin-right: 1rem;
 }
 
 .cart__product__delete:hover {
@@ -90,18 +94,17 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 1vh;
+  padding: .5rem;
 }
 
 .cart__total {
   margin-left: auto;
-  margin-bottom: 2vh;
+  margin-bottom: 1rem;
 }
 
 .cart__product__image img {
-  width: 15vw;
-  max-width: 130px;
-  min-width: 70px;
+  max-width: 10rem;
+  min-width: 4.5rem;
 }
 
 .cart__discount {
@@ -113,10 +116,10 @@
 .cart__discount__button {
   font-family: var(--exa);
   font-size: var(--main-text);
-  width: 6vh;
-  height: 3vh;
-  margin-left: 1vw;
-  padding: 0.3vh;
+  width: 3rem;
+  height: 2rem;
+  margin-left: .5rem;
+  padding: .5rem;
   background-color: transparent;
   border: 1px solid var(--bg-color);
   cursor: pointer;
@@ -135,7 +138,7 @@
 .cart__price__total__old_new {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: .8rem;
   font-size: var(--sub-title);
 }
 
@@ -152,7 +155,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  gap: 3rem;
   width: 100%;
 }
 
@@ -160,17 +163,17 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  gap: 10px;
+  gap: .8rem;
 }
 
 .settings-wrap {
   display: flex;
   align-items: center;
-  gap: 3vw;
+  gap: 2rem;
 }
 
 .price-wrap {
-  min-width: 130px;
+  min-width: 10rem;
 }
 
 .price-per-item {
@@ -180,15 +183,15 @@
 .image-name-price-wrap {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 2.5rem;
   width: 100%;
 }
 
 .discount-form {
   display: flex;
   align-items: center;
-  gap: 1vw;
-  margin: 2vh 0 2vh 2vw;
+  gap: .5rem;
+  margin: 1rem 0 1rem 1rem;
 }
 
 .input-btn-wrap {
@@ -202,13 +205,19 @@
   letter-spacing: 2px;
   outline: none;
   border: 1px solid var(--bg-color);
+  padding: .3rem;
+}
 
-  padding: 0.5vh;
+.btn-block {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 850px) {
   .cart__product {
-    gap: 10px;
+    gap: .8rem;
   }
 
   .cart__product__delete {
@@ -220,14 +229,14 @@
   }
 
   .cart__product {
-    gap: 20px;
+    gap: 1.8rem;
   }
 
   .info-wrap {
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
-    gap: 10px;
+    gap: .8rem;
   }
 
   .price-wrap {
@@ -241,7 +250,7 @@
   .settings-wrap {
     flex-direction: column;
     justify-content: space-between;
-    gap: 5vw;
+    gap: 2rem;
   }
 
   .cart__discount label {
@@ -255,7 +264,7 @@
   }
 
   .cart__product {
-    gap: 5px;
+    gap: .4rem;
   }
 
   .cart__product__name {
@@ -263,12 +272,12 @@
   }
 
   .image-name-price-wrap {
-    gap: 10px;
+    gap: .8rem;
   }
 
   .price-per-item,
   .cart__product__size {
-    font-size: 12px;
+    font-size: 1rem;
   }
 
   .discount-form {
@@ -284,6 +293,7 @@
   .settings-wrap {
     flex-direction: row;
     justify-content: space-between;
-    gap: 7vw;
+    gap: 1rem;
   }
+
 }
