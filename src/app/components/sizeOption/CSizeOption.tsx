@@ -19,10 +19,10 @@ const CSizeOption: FC<ISizeOptionsProps> = ({ sizes, selectedVariant, setSelecte
 
     product.masterVariant.attributes?.forEach((attr) => {
 
-      if(attr.name === 'size' && attr.value.toString() === size.toString()) {
+      if (attr.name === 'size' && attr.value.toString() === size.toString()) {
 
         result = product.masterVariant;
-
+      
       }
       
     });

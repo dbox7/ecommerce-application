@@ -23,7 +23,7 @@ ul li {
 
 a {
   text-decoration: none;
-  color: --dark-basic-color;
+  color: var(--dark-basic-color);
 }
 
 a:visited {

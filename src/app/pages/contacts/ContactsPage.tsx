@@ -1,18 +1,18 @@
 import { FC } from 'react';
 import { GOOGLE_MAP } from '../../utils/constants';
 
-import './ContactsPage.css';
+import styles from './ContactsPage.module.css';
 
 export const ContactsPage: FC = () => {
 
   return (
-    <div className="contacts">
-      <h1 className="contacts__title">Contacts</h1>
-      <div className="contacts__content">
-        <div className="contacts__content__map">
-          <iframe title="contacts__content__map google" src={GOOGLE_MAP} style={{border:0}} allowFullScreen loading="lazy"></iframe>
+    <div className={styles['contacts']}>
+      <h1 className={styles['contacts__title']}>Contacts</h1>
+      <div className={styles['contacts__content']}>
+        <div className={styles['contacts__content__map']}>
+          <iframe title="google map" src={GOOGLE_MAP} style={{border:0}} allowFullScreen loading="lazy"></iframe>
         </div>
-        <div className="contacts__content__text">
+        <div className={styles['contacts__content__text']}>
           <p><b>Company Name:</b> DUST SNEAKERS, LLC</p>
           <p><b>Address:</b> 228 Main Street of Nothing, AZ 1312 United States</p>
           <p><b>Phone:</b> +1 (555) 555-5555</p>

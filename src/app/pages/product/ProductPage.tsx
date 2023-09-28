@@ -68,6 +68,7 @@ export const ProductPage: FC = () => {
         ...prevCrumbs,
         { url: '', name: product?.name.en },
       ]);
+      
       setSizes(getSizeArray(product));
     
     }

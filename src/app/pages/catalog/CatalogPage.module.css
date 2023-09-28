@@ -33,3 +33,11 @@
   flex-direction: row;
   row-gap: 5vw;
 }
+
+.title {
+  font-size: var(--title);
+  border-bottom: 2px solid var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-family: var(--tera);
+  width: fit-content;
+}

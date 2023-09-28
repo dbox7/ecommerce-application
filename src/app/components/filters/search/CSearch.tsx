@@ -3,7 +3,7 @@ import { useState, FormEvent, memo, FC } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { RxCross2 } from 'react-icons/rx';
 
-import './CSearch.css';
+import styles from './CSearch.module.css';
 
 interface ISearchProps {
   callback: Function
@@ -28,14 +28,14 @@ const CSearch: FC<ISearchProps> = memo(({ callback }) => {
   };
 
   return (
-    <div className="filter-container">
+    <div className={styles['filter-container']}>
       <RxCross2 
-        className="close-icon"
+        className={styles['close-icon']}
         onClick={closeSearchHandler}
       />
-      <div className="filter-search-container">
+      <div className={styles['filter-search-container']}>
         <form 
-          className="filter-search" 
+          className={styles['filter-search']} 
           onSubmit={ handleSearch }
         >
           <input 
@@ -48,10 +48,10 @@ const CSearch: FC<ISearchProps> = memo(({ callback }) => {
       </div>
       <button 
         type="submit"
-        className="search-btn"
+        className={styles['search-btn']}
         onClick={handleSearch}
       >
-        <BiSearch className="search-icon"/>
+        <BiSearch className={styles['search-icon']}/>
       </button>
     </div>
   );

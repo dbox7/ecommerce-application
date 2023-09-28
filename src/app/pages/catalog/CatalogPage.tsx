@@ -21,7 +21,7 @@ import { CLoading } from '../../components/loading/CLoading';
 import CBreadcrumbs from '../../components/breadcrumbs/CBreadсrumbs';
 import { CSortProducts } from '../../components/products/sort/CSortProducts';
 
-import './CatalogPage.css';
+import styles from './CatalogPage.module.css';
 
 
 export const CatalogPage: FC = () => {
@@ -85,15 +85,15 @@ export const CatalogPage: FC = () => {
   
   return (
     (categories.length !== 0) ? 
-      <div className="catalog">
+      <div className={styles['catalog']}>
         {<CBreadcrumbs crumbs={crumbs}/>}
-        <div className="sub-title">Catalog</div>
-        <div className="catalog__search">
+        <div className={styles['title']}>Catalog</div>
+        <div className={styles['catalog__search']}>
           <CFilterProducts callback={setFilters_cb}/>
           <CCategoriesList callback={setFilters_cb}/>
         </div>
         <CSortProducts filters={filters} setFilters={setFilters}/>
-        <div className="catalog__filters-and-prods">
+        <div className={styles['catalog__filters-and-prods']}>
           {!filterLoading ? <CFilterMenu callback={setFilters_cb} /> : <CLoading/>}
           {!loading ? <CProductList/> : <CLoading/>}
         </div>
