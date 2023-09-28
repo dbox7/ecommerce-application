@@ -3,11 +3,9 @@ import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, inputsInfo, msg, va
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput2';
-import UseFormBlock from '../../services/useFormBlock';
+// import UseFormBlock from '../../services/useFormBlock';
 import { useShowMessage } from '../../services/useShowMessage';
 
-import CEmail from '../inputs/email/CEmail';
-import CPassword from '../inputs/password/CPassword';
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
@@ -100,6 +98,10 @@ export const CRegistrationForm: FC = () => {
         isEmpty()
       ]
     ),
+
+  };
+
+  const bilData = {
     billingStreet: useInput(
       'text', 
       [
@@ -142,14 +144,14 @@ export const CRegistrationForm: FC = () => {
     };
 
     const billingAddress: IAddress = {
-      streetName: data.billingStreet.value,
-      city: data.billingCity.value,
-      postalCode: data.billingPostalCode.value,
-      country: getCountryCode(data.billingCountry.value),
+      streetName: bilData.billingStreet.value,
+      city: bilData.billingCity.value,
+      postalCode: bilData.billingPostalCode.value,
+      country: getCountryCode(bilData.billingCountry.value),
     };
 
     const payload: IPayload = {
-      email: email.value, 
+      email: data.email.value, 
       password: data.password.value, 
       firstName: data.firstName.value, 
       lastName: data.lastName.value, 
@@ -190,36 +192,9 @@ export const CRegistrationForm: FC = () => {
 
   };
 
-  // const isFormBlockedByMainInfo = UseFormBlock([
-  //   email.valid.isNotEmpty!,
-  //   email.valid.isEmailGood!,
-  //   password.valid.isNotEmpty!,
-  //   password.valid.isMinLength!,
-  //   password.valid.isPasswordGood!,
-  //   dateOfBirth.valid.isDateGood!,
-  //   firstName.valid.isNotEmpty!,
-  //   firstName.valid.isTextGood!,
-  //   lastName.valid.isNotEmpty!,
-  //   lastName.valid.isTextGood!,
-  //   shippingStreet.valid.isNotEmpty!,
-  //   shippingCity.valid.isNotEmpty!,
-  //   shippingCity.valid.isTextGood!,
-  //   shippingPostalCode.valid.isNotEmpty!,
-  //   shippingPostalCode.valid.isPostalCodeGood!,
-  //   shippingCountry.valid.isNotEmpty!,
-  //   shippingCountry.valid.isTextGood!,
-  // ]);
+  const isFormBlockedByMainInfo = Object.values(data).some(item => item.errors.length > 0);
+  const isFormBlockedByBilling = Object.values(bilData).some(item => item.errors.length > 0);  
 
-  // const isFormBlockedByBilling = UseFormBlock([
-  //   billingStreet.valid.isNotEmpty!,
-  //   billingCity.valid.isNotEmpty!,
-  //   billingCity.valid.isTextGood!,
-  //   billingPostalCode.valid.isNotEmpty!,
-  //   billingPostalCode.valid.isPostalCodeGood!,
-  //   billingCountry.valid.isNotEmpty!,
-  //   billingCountry.valid.isTextGood!
-  // ]);
-  
   return (
     <div className="substrate">
       <div className="sub-title">Registration</div>
@@ -243,16 +218,19 @@ export const CRegistrationForm: FC = () => {
             <CInput
               {...data.firstName}
               title="First name"
+              info={inputsInfo.text}
             />
             <CInput
               {...data.lastName}
               title="Last name"
+              info={inputsInfo.text}
             />
             <CTextDateInput 
               {...data.dateOfBirth}
               title="Date of birth"
               data={null}
               isDate={true}
+              info={inputsInfo.date}
             />
           </div>
           
@@ -261,10 +239,12 @@ export const CRegistrationForm: FC = () => {
             <CInput 
               {...data.shippingStreet}
               title="Street"
+              info={inputsInfo.street}
             />
             <CInput 
               {...data.shippingCity}
               title="City"
+              info={inputsInfo.text}
             />
             <CPostalCode 
               {...data.shippingPostalCode}
@@ -291,19 +271,21 @@ export const CRegistrationForm: FC = () => {
             <div className="info-block">
               <h4 className="clarification">Enter the billing address:</h4>
               <CInput 
-                {...data.billingStreet}
+                {...bilData.billingStreet}
                 title="Street"
+                info={inputsInfo.street}
               />
               <CInput 
-                {...data.billingCity}
+                {...bilData.billingCity}
                 title="City"
+                info={inputsInfo.text}
               />
               <CPostalCode 
-                {...data.billingPostalCode}
-                country={data.billingCountry.value}
+                {...bilData.billingPostalCode}
+                country={bilData.billingCountry.value}
               />
               <CTextDateInput 
-                {...data.billingCountry}
+                {...bilData.billingCountry}
                 title="Country"
                 data={COUNTRIES}
               />
@@ -319,10 +301,10 @@ export const CRegistrationForm: FC = () => {
         <CButton 
           type="submit"
           value="Sign up"
-          // disabled={!useBillingAddress && !isFormBlockedByMainInfo ? 
-          //   isFormBlockedByBilling 
-          //   : 
-          //   isFormBlockedByMainInfo}
+          disabled={!useBillingAddress && !isFormBlockedByMainInfo ? 
+            isFormBlockedByBilling 
+            : 
+            isFormBlockedByMainInfo}
         />
         <div>
           Already have an account?

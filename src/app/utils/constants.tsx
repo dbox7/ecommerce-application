@@ -142,14 +142,16 @@ export const validError = {
   email: 'Please, enter a valid email',
   password: 'Please, enter a correct password',
   postalCode: 'postalCode',
-  text: 'text'
+  text: 'Please, don\'t use nums or spec chars'
 };
 
 export const inputsInfo = {
   email: 'A properly formatted email address (e.g., example@email.com)',
   password: 'Minimum 8 characters, at least 1 uppercase letter,' +
   '1 lowercase letter, 1 number and 1 special character. No whitespaces, please.',
-  
+  text: 'Must contain at least one character and no special characters or numbers',
+  date: 'A valid date input ensuring the user is above a certain age (e.g., 14 years old or older)',
+  street: 'Must contain at least one character',
 };
 
 export const ALL_SIZES = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '11', '12'];
