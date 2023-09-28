@@ -3,18 +3,17 @@ import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, inputsInfo, msg, va
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput2';
-// import UseFormBlock from '../../services/useFormBlock';
+import { checkMinMax, checkPostalCode, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
 import { Link } from 'react-router-dom';
+import CInput from '../inputs/CInput';
 
 import './CRegistrationForm.css';
-import { checkMinMax, checkPostalCode, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
-import CInput from '../inputs/CInput';
+
 
 const getCountryCode = (countryName: string): string => {
   
@@ -225,11 +224,9 @@ export const CRegistrationForm: FC = () => {
               title="Last name"
               info={inputsInfo.text}
             />
-            <CTextDateInput 
+            <CInput 
               {...data.dateOfBirth}
               title="Date of birth"
-              data={null}
-              isDate={true}
               info={inputsInfo.date}
             />
           </div>
@@ -248,12 +245,14 @@ export const CRegistrationForm: FC = () => {
             />
             <CPostalCode 
               {...data.shippingPostalCode}
+              title="Postal Code"
+              info={inputsInfo.postalCode}
               country={data.shippingCountry.value}
             />
-            <CTextDateInput 
+            <CInput 
               {...data.shippingCountry}
               title="Country"
-              data={COUNTRIES}
+              dataList={COUNTRIES}
             />
             <CCheckbox 
               title="Set as default shipping address"
@@ -282,12 +281,14 @@ export const CRegistrationForm: FC = () => {
               />
               <CPostalCode 
                 {...bilData.billingPostalCode}
+                title="Postal Code"
+                info={inputsInfo.postalCode}
                 country={bilData.billingCountry.value}
               />
-              <CTextDateInput 
+              <CInput 
                 {...bilData.billingCountry}
                 title="Country"
-                data={COUNTRIES}
+                dataList={COUNTRIES}
               />
               <CCheckbox 
                 title="Set as default billing address"

@@ -138,10 +138,10 @@ export const validError = {
   empty: 'Not be an empty',
   pwdLength: 'At least 8 characters',
   age: 'You too young',
-  num: 'num',
+  num: 'Out range',
   email: 'Please, enter a valid email',
   password: 'Please, enter a correct password',
-  postalCode: 'postalCode',
+  postalCode: 'Please, enter a valid postal code',
   text: 'Please, don\'t use nums or spec chars'
 };
 
@@ -152,6 +152,7 @@ export const inputsInfo = {
   text: 'Must contain at least one character and no special characters or numbers',
   date: 'A valid date input ensuring the user is above a certain age (e.g., 14 years old or older)',
   street: 'Must contain at least one character',
+  postalCode: 'Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)',
 };
 
 export const ALL_SIZES = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '11', '12'];

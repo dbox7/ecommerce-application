@@ -18,6 +18,7 @@ const CInput: FC<IInputProps> = ({
   activeState, 
   errors,
   className,
+  dataList,
   children
 }) => {
 
@@ -36,8 +37,6 @@ const CInput: FC<IInputProps> = ({
     errors
   ]);
   
-  console.log(errors);
-  
 
   return ( 
     <>
@@ -51,7 +50,16 @@ const CInput: FC<IInputProps> = ({
           onChange={changeHandler}
           onBlur={blurHandler}
           children={children}
+          list={dataList ? 'list' : undefined}
         />
+
+        {dataList ? (
+          <datalist id="list">
+            {dataList.map((item) => (
+              <option value={item.name} key={item.name} />
+            ))}
+          </datalist>
+        ) : ('')}
 
         { !activeState && <div className="out-error">{errors[errors.length - 1]}</div> }
       </div>

@@ -1,18 +1,20 @@
 import { useState, Dispatch, SetStateAction, FC } from 'react';
-import { COUNTRIES, msg } from '../../utils/constants';
+import { COUNTRIES, TextREGEXP, inputsInfo, msg, validError } from '../../utils/constants';
 import { IAddress } from '../../utils/types';
-import useInput from '../../services/input/useInput';
-import UseFormBlock from '../../services/useFormBlock';
+import useInput from '../../services/input/useInput2';
 import { useServerApi } from '../../services/useServerApi';
 import { useShowMessage } from '../../services/useShowMessage';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
+import { checkRegExp, isEmpty, checkPostalCode } from '../../utils/usefullFuncs';
 
 import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
+import CInput from '../inputs/CInput';
 
 import '../registrationForm/CRegistrationForm.css';
+
 
 interface IAddAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>>;
@@ -32,33 +34,50 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
   const [useBillingAddress, setUseBillingAddress] = useState<boolean>(false);
   const {currentUser} = useTypedSelector(state => state.user);
 
-  
-  const street = useInput('', 'text');
-  const city = useInput('', 'text');
-  const postalCode = useInput('', 'postalCode');
-  const country = useInput('', 'text');
+  const data = {
+    street: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    city: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    postalCode: useInput(
+      'text', 
+      [
+        checkPostalCode(), 
+        isEmpty()
+      ]
+    ),
+    country: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+  };
 
   const server = useServerApi();
   const showMessage = useShowMessage();
-  // const isFormBlockedByMainInfo = UseFormBlock([
-
-  //   street.valid.isNotEmpty!,
-  //   city.valid.isNotEmpty!,
-  //   city.valid.isTextGood!,
-  //   postalCode.valid.isNotEmpty!,
-  //   postalCode.valid.isPostalCodeGood!,
-  //   country.valid.isNotEmpty!,
-  //   country.valid.isTextGood!,
-  // ]);
+  
+  const isFormBlockedByMainInfo = Object.values(data).some(item => item.errors.length > 0);
 
   const handleSaveClick = () => {
 
     setModal(false);
 
-    street.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    city.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    postalCode.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
-    country.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    data.street.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    data.city.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    data.postalCode.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
+    data.country.changeHandler({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     setUseBillingAddress(false);
     setUseShippingAddress(false);
   
@@ -69,10 +88,10 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
     e.preventDefault();
 
     const address: IAddress = {
-      streetName: street.value,
-      city: city.value,
-      postalCode: postalCode.value,
-      country: getCountryCode(country.value),
+      streetName: data.street.value,
+      city: data.city.value,
+      postalCode: data.postalCode.value,
+      country: getCountryCode(data.country.value),
     };
 
     let actionTypes: string[] = [];
@@ -119,25 +138,29 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
 
         <div className="info">
           <div className="info-block">
-            <CTextDateInput
-              {...street}
+            <CInput
+              {...data.street}
               title="Street"
+              info={inputsInfo.street}
             />
-            <CTextDateInput
-              {...city}
+            <CInput
+              {...data.city}
               title="City"
+              info={inputsInfo.text}
             />
             <CPostalCode
-              {...postalCode}
-              country={country.value}
+              {...data.postalCode}
+              title="Postal Code"
+              info={inputsInfo.postalCode}
+              country={data.country.value}
             />
-            <CTextDateInput
-              {...country}
+            <CInput
+              {...data.country}
               title="Country"
-              data={COUNTRIES}
+              dataList={COUNTRIES}
             />
             <CCheckbox
-              title="Set as shipping address"
+              title="Set as  address"
               checked={useShippingAddress}
               changeHandler={(e) => setUseShippingAddress((e.target as HTMLInputElement).checked)}
             />
@@ -151,11 +174,11 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
         <CButton
           type="submit"
           value="Save"
-          // disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
-          //   ? isFormBlockedByMainInfo
-          //   : !useShippingAddress
-          //     ? !useBillingAddress
-          //     : isFormBlockedByMainInfo}
+          disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
+            ? isFormBlockedByMainInfo
+            : !useShippingAddress
+              ? !useBillingAddress
+              : isFormBlockedByMainInfo}
         />
         <CButton
           type="button"

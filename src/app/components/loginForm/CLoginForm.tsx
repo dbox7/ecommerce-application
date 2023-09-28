@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput2';
-import UseFormBlock from '../../services/useFormBlock';
 import { useShowMessage } from '../../services/useShowMessage';
 import { checkMinMax, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 import { 
@@ -40,13 +39,7 @@ export const CLoginForm: FC = () => {
     ]
   );
   
-  // const isFormBlocked = UseFormBlock([
-  //   email.valid!.isNotEmpty!,
-  //   email.valid!.isEmailGood!,
-  //   password.valid!.isNotEmpty!,
-  //   password.valid!.isMinLength!,
-  //   password.valid!.isPasswordGood!,
-  // ]);
+  const isFormBlocked = (email.errors.length + password.errors.length) > 0;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -86,7 +79,7 @@ export const CLoginForm: FC = () => {
         <CButton
           type="submit"
           value="Log in"
-          disabled={false}
+          disabled={isFormBlocked}
         />
         <div>
           Don't have an account yet?

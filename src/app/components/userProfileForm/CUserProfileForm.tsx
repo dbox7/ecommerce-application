@@ -1,19 +1,22 @@
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import UseFormBlock from '../../services/useFormBlock';
-import useInput from '../../services/input/useInput';
-import useInputChanges from '../../services/input/useInputChange';
+import useInput from '../../services/input/useInput2';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useEffect, FC } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';
-import { msg } from '../../utils/constants';
-
+import { checkRegExp, checkMinMax, isEmpty } from '../../utils/usefullFuncs';
+import { 
+  EmailREGEXP, 
+  PasswordREGEXP, 
+  TextREGEXP, 
+  inputsInfo, 
+  msg, 
+  validError 
+} from '../../utils/constants';
 
 import CButton from '../button/CButton';
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
-import CEmail from '../inputs/email/CEmail';
+import CInput from '../inputs/CInput';
 import CUserAddresses from '../userAddresses/CUserAddresses';
-import CPassword from '../inputs/password/CPassword';
 
 import './CUserProfileForm.css';
 
@@ -30,19 +33,53 @@ const CUserProfileForm: FC = () => {
   
   },[currentUser.lastModifiedAt]);
 
-  const currentPassword = useInput('', 'password');
-  const newPassword = useInput('', 'password');
+  const passData = {
+    currentPassword: useInput(
+      'password',
+      [
+        checkRegExp(PasswordREGEXP, validError.password), 
+        checkMinMax([8], 'length')
+      ]
+    ),
+    newPassword: useInput(
+      'password',
+      [
+        checkRegExp(PasswordREGEXP, validError.password), 
+        checkMinMax([8], 'length')
+      ]
+    )
+  };
 
-  const initFirstName = useInputChanges(`${currentUser.firstName}`);
-  const initEmail = useInputChanges(`${currentUser.email}`);
-  const initLastName = useInputChanges(`${currentUser.lastName}`);
-  const initDateOfBirth = useInputChanges(`${currentUser.dateOfBirth}`);
-  
-  const dateOfBirth = useInput(initDateOfBirth.inputValue, 'date');
-  const lastName = useInput(initLastName.inputValue, 'text');
-  const firstName = useInput(initFirstName.inputValue, 'text');
-  const email = useInput(initEmail.inputValue, 'email');
-
+  const data = {
+    email: useInput(
+      'email', 
+      [
+        checkRegExp(EmailREGEXP, validError.email), 
+        isEmpty()
+      ]
+    ),
+    dateOfBirth: useInput(
+      'date', 
+      [
+        checkMinMax([14], 'date'), 
+        isEmpty()
+      ]
+    ),
+    firstName: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    lastName: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+  };
 
   const convertedAddresses: IAddress[] = currentUser.addresses.map(address => ({
     id: address.id || '',
@@ -52,21 +89,15 @@ const CUserProfileForm: FC = () => {
     country: address.country || '',
   }));
 
-  // const isPasswordBlockedByInfo = UseFormBlock([
-  //   newPassword.valid.isNotEmpty!,
-  //   newPassword.valid.isMinLength!,
-  //   newPassword.valid.isPasswordGood!,
-  //   currentPassword.valid.isNotEmpty!,
-  //   currentPassword.valid.isMinLength!,
-  //   currentPassword.valid.isPasswordGood!,
-  // ]);
+  const isPasswordBlockedByInfo = Object.values(passData).some(item => item.errors.length > 0);
+  const isFormBlockedByInfo = Object.values(data).some(item => item.errors.length > 0);
 
   const isEmptyEvent = () => {
 
-    currentPassword.changeHandler({
+    passData.currentPassword.changeHandler({
       target: { value: '' }
     } as React.ChangeEvent<HTMLInputElement>);
-    newPassword.changeHandler({
+    passData.newPassword.changeHandler({
       target: { value: '' }
     } as React.ChangeEvent<HTMLInputElement>);
   
@@ -78,10 +109,10 @@ const CUserProfileForm: FC = () => {
     
     const res = await server.UpdatePersonalInfo(
       currentUser.id,
-      email.value,
-      firstName.value,
-      lastName.value,
-      dateOfBirth.value,
+      data.email.value,
+      data.firstName.value,
+      data.lastName.value,
+      data.dateOfBirth.value,
       currentUser.version
     );
 
@@ -96,15 +127,15 @@ const CUserProfileForm: FC = () => {
 
     const updateData: IChangePassword = {
       id: currentUser.id,
-      currentPassword: currentPassword.value,
-      newPassword: newPassword.value,
+      currentPassword: passData.currentPassword.value,
+      newPassword: passData.newPassword.value,
       version: currentUser.version
     };
 
     e.preventDefault();
     
     const res = await server.ChangePassword(
-      email.value,
+      data.email.value,
       updateData
     );
     
@@ -118,21 +149,11 @@ const CUserProfileForm: FC = () => {
 
   };
 
-  // const isFormBlockedByInfo = UseFormBlock([
-  //   email.valid.isNotEmpty!,
-  //   email.valid.isEmailGood!,
-  //   dateOfBirth.valid.isDateGood!,
-  //   firstName.valid.isNotEmpty!,
-  //   firstName.valid.isTextGood!,
-  //   lastName.valid.isNotEmpty!,
-  //   lastName.valid.isTextGood!,
-  // ]);
-
   const anyInputChanged =
-  initFirstName.hasChanged ||
-  initLastName.hasChanged ||
-  initEmail.hasChanged ||
-  initDateOfBirth.hasChanged;
+  data.firstName.hasChanged ||
+  data.lastName.hasChanged ||
+  data.email.hasChanged ||
+  data.dateOfBirth.hasChanged;
 
 
   return (
@@ -144,63 +165,42 @@ const CUserProfileForm: FC = () => {
             <h3>Personal information</h3>
             <form onSubmit={handleSubmit}>
               <div className="input-block">
-                <CEmail
-                  {...email}
+                <CInput
+                  {...data.email}
                   className="profile-input"
-                  changeHandler={(e) => {
-
-                    email.changeHandler(e);
-                    initEmail.handleInputChange(e);
-                  
-                  }}
+                  title="Email"
+                  info={inputsInfo.email}
                 />
               </div>
               <div className="input-block">
-                <CTextDateInput
-                  {...firstName}
+                <CInput
+                  {...data.firstName}
                   className="profile-input"
                   title="First name"
-                  changeHandler={(e) => {
-
-                    firstName.changeHandler(e);
-                    initFirstName.handleInputChange(e);
-                  
-                  }}
+                  info={inputsInfo.text}
                 />
               </div>
               <div className="input-block">
-                <CTextDateInput
-                  {...lastName}
+                <CInput
+                  {...data.lastName}
                   className="profile-input"
                   title="Last name"
-                  changeHandler={(e) => {
-
-                    lastName.changeHandler(e);
-                    initLastName.handleInputChange(e);
-                  
-                  }}
+                  info={inputsInfo.text}
                 />
               </div>
               <div className="input-block">
-                <CTextDateInput
+                <CInput
+                  {...data.dateOfBirth}
                   className="profile-input"
-                  {...dateOfBirth}
                   title="Date of birth"
-                  data={null}
-                  isDate={true}
-                  changeHandler={(e) => {
-
-                    dateOfBirth.changeHandler(e);
-                    initDateOfBirth.handleInputChange(e);
-                  
-                  }}
+                  info={inputsInfo.date}
                 />
               </div>
               <CButton
                 value="Save changes"
                 type="submit"
-                // disabled={!isFormBlockedByInfo && !anyInputChanged ?
-                //   !anyInputChanged: isFormBlockedByInfo}
+                disabled={!isFormBlockedByInfo && !anyInputChanged ?
+                  !anyInputChanged: isFormBlockedByInfo}
               />
             </form>
           </div>
@@ -208,23 +208,25 @@ const CUserProfileForm: FC = () => {
             <h3>Change password</h3>
             <form onSubmit={handlePasswordSubmit}>
               <div className="input-block">
-                <CPassword
-                  {...currentPassword}
+                <CInput
+                  {...passData.currentPassword}
                   className="profile-input"
                   title="Current password"
+                  info={inputsInfo.password}
                 />
               </div>
               <div className="input-block">
-                <CPassword
-                  {...newPassword}
+                <CInput
+                  {...passData.newPassword}
                   className="profile-input"
                   title="New password"
+                  info={inputsInfo.password}
                 />
               </div>
               <CButton
                 value="Save changes"
                 type="submit"
-                // disabled={isPasswordBlockedByInfo}
+                disabled={isPasswordBlockedByInfo}
               />
             </form>
           </div>

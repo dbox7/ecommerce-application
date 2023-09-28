@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { ICountry, IInputProps } from '../../../utils/types';
+import { validError } from '../../../utils/constants';
 
 import { CInfo } from '../../info/CInfo';
 
 import '../input.css';
-import { validError } from '../../../utils/constants';
 
 type ITextDateInputProps = IInputProps & {
   title: string

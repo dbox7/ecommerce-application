@@ -55,17 +55,18 @@ export interface IDeveloper {
 
 // ------------------------------------------------------------------------------------------------------------------ IInputProps
 export interface IInputProps {
-  title?: string
-  info?: string
   value: string
   type: string
   changeHandler: ChangeEventHandler<HTMLInputElement>
   blurHandler: React.FocusEventHandler
   activeState: boolean
-  valid?: Partial<IValidation>
-  className?: string
-  children?: React.ReactNode
+  hasChanged: boolean
   errors: string[]
+  title?: string
+  info?: string
+  className?: string
+  dataList?: ICountry[] | null
+  children?: React.ReactNode
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IMultiRangeProps

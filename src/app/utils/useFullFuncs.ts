@@ -1,5 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { IProductFilters, IQueryArgs, IRule } from './types';
+import { ICountry, IProductFilters, IQueryArgs, IRule } from './types';
 import { COUNTRIES, MS_IN_YEAR, validError } from './constants';
 
 export const getSizeArray = (product: ProductProjection) => {
@@ -32,7 +32,9 @@ export const checkRegExp: IRule<RegExp, string> = (option, msg) => (value) => {
 
 };
 
-export const checkPostalCode: IRule<void, void> = (option) => (value) => {
+export const checkPostalCode: IRule<void, void> = (country) => (value) => {
+
+  // const selectedCountry: ICountry | undefined = COUNTRIES.find((item) => item.name === country);
 
   if (COUNTRIES.some((country) => country.postalCode.test(value))) {
 
