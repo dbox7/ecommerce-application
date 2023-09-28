@@ -40,16 +40,16 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
 
   const server = useServerApi();
   const showMessage = useShowMessage();
-  const isFormBlockedByMainInfo = UseFormBlock([
+  // const isFormBlockedByMainInfo = UseFormBlock([
 
-    street.valid.isNotEmpty!,
-    city.valid.isNotEmpty!,
-    city.valid.isTextGood!,
-    postalCode.valid.isNotEmpty!,
-    postalCode.valid.isPostalCodeGood!,
-    country.valid.isNotEmpty!,
-    country.valid.isTextGood!,
-  ]);
+  //   street.valid.isNotEmpty!,
+  //   city.valid.isNotEmpty!,
+  //   city.valid.isTextGood!,
+  //   postalCode.valid.isNotEmpty!,
+  //   postalCode.valid.isPostalCodeGood!,
+  //   country.valid.isNotEmpty!,
+  //   country.valid.isTextGood!,
+  // ]);
 
   const handleSaveClick = () => {
 
@@ -151,11 +151,11 @@ export const CAddAddressForm: FC<IAddAdrdressProps> = ({setModal}) => {
         <CButton
           type="submit"
           value="Save"
-          disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
-            ? isFormBlockedByMainInfo
-            : !useShippingAddress
-              ? !useBillingAddress
-              : isFormBlockedByMainInfo}
+          // disabled={isFormBlockedByMainInfo && (!useShippingAddress || !useBillingAddress)
+          //   ? isFormBlockedByMainInfo
+          //   : !useShippingAddress
+          //     ? !useBillingAddress
+          //     : isFormBlockedByMainInfo}
         />
         <CButton
           type="button"

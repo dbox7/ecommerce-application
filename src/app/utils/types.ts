@@ -60,9 +60,10 @@ export interface IInputProps {
   changeHandler: ChangeEventHandler<HTMLInputElement>
   blurHandler: React.FocusEventHandler
   activeState: boolean
-  valid: Partial<IValidation>
+  valid?: Partial<IValidation>
   className?: string
   children?: React.ReactNode
+  errors?: string[]
 }
 
 // ------------------------------------------------------------------------------------------------------------------ IMultiRangeProps
@@ -100,6 +101,21 @@ export interface IPayload {
   billingAddress: number[]
   defaultBillingAddress: number | undefined
 }
+
+export interface Rule<T, U> {
+  (option: T, type?: U): (value: string) => {
+    valid: boolean, 
+    type?: string
+  }
+}
+
+export const GenericRule = <T=void>(option: T) => (value: string): {valid: boolean, msg?: string} => { 
+ 
+  return {
+    valid: false
+  };
+
+};
 
 // ------------------------------------------------------------------------------------------------------------------ IQueryArgs
 export interface IQueryArgs {

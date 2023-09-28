@@ -5,6 +5,7 @@ import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
 
 import { CInfo } from '../../info/CInfo';
+import { validType } from '../../../utils/constants';
 
 const CPassword: FC<IInputProps> = ({
   title,
@@ -12,7 +13,7 @@ const CPassword: FC<IInputProps> = ({
   changeHandler, 
   blurHandler, 
   activeState, 
-  valid,
+  errors,
   className,
 }) => {
 
@@ -21,8 +22,7 @@ const CPassword: FC<IInputProps> = ({
 
   useEffect(() => {
 
-    (!valid.isNotEmpty || 
-    !valid.isPasswordGood) && 
+    (errors!.length > 0) && 
     !activeState ?
       setError('error')
       :
@@ -30,8 +30,7 @@ const CPassword: FC<IInputProps> = ({
 
   }, [
     activeState, 
-    valid.isNotEmpty, 
-    valid.isPasswordGood
+    errors
   ]);
 
   const toggleShowPassword = () => {
@@ -53,11 +52,14 @@ const CPassword: FC<IInputProps> = ({
         onBlur={blurHandler}
       />
 
-      {!valid.isMinLength && !activeState &&
-      <div className="out-error">At least 8 characters</div>}
-
-      {!valid.isPasswordGood && !activeState && valid.isMinLength &&
-      <div className="out-error">Please, enter a correct password</div>}
+      {
+        errors!.includes(validType.length) ?
+          (!activeState) && 
+          <div className="out-error">At least 8 characters</div>
+          :
+          (!activeState) && errors!.includes('password') && 
+          <div className="out-error">Please, enter a correct password</div>
+      }
 
       <img className="password-icon"
         src={showPassword ? showPasswordIcon : hidePasswordIcon}

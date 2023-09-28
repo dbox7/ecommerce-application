@@ -1,5 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { IProductFilters, IQueryArgs } from './types';
+import { IProductFilters, IQueryArgs, Rule } from './types';
+import { COUNTRIES, MS_IN_YEAR, validType } from './constants';
 
 export const getSizeArray = (product: ProductProjection) => {
   
@@ -9,6 +10,101 @@ export const getSizeArray = (product: ProductProjection) => {
       variant.attributes!.find(attr => 
         attr.name === 'size')?.value.toString())
   ];
+
+};
+
+export const checkRegExp: Rule<RegExp, string> = (option, type) => (value) => {
+
+  if (option.test(value)) {
+
+    return {
+      valid: true
+    };
+  
+  } else {
+
+    return {
+      valid: false,
+      type: type
+    };
+  
+  }
+
+};
+
+export const checkPostalCode: Rule<void, void> = (option) => (value) => {
+
+  if (COUNTRIES.some((country) => country.postalCode.test(value))) {
+
+    return {
+      valid: true
+    };
+  
+  } else {
+
+    return {
+      valid: false,
+      type: validType.postalCode
+    };
+  
+  }
+
+};
+
+export const isEmpty: Rule<void, void> = (option) => (value) => {
+  
+  if (value !== '') {
+
+    return {
+      valid: true
+    };
+
+  } else {
+
+    return {
+      valid: false,
+      type: validType.empty
+    };
+
+  }
+
+};
+
+export const checkMinMax: Rule<[number, number?], 'date' | 'length' | 'num'> = ([min = 0, max = 100], type) => (value) => {
+  
+  let checkValue = 0;
+
+  if (type === 'date') {
+
+    // Проверяет дату
+    checkValue = Math.floor((Date.now() - Date.parse(value)) / MS_IN_YEAR);
+
+  } else if (type === 'length') {
+
+    // Проверяет длину строки
+    checkValue = value.length;
+
+  } else if (type === 'num'){
+
+    // Проверяет любое число
+    checkValue = Number(value);
+
+  }
+
+  if (min <= checkValue && checkValue <= max) {
+
+    return {
+      valid: true
+    };
+
+  } else {
+
+    return {
+      valid: false,
+      type: type
+    };
+
+  }
 
 };
 

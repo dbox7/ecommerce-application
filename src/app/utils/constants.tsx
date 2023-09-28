@@ -1,7 +1,6 @@
 import { Cart, Customer } from '@commercetools/platform-sdk';
 import { ICountry, IDeveloper, IValidationRules } from './types';
 
-
 import { CiFacebook, CiInstagram, CiYoutube } from 'react-icons/ci';
 
 import dbox7Photo from '../assets/team/dbox7.jpeg';
@@ -134,6 +133,17 @@ export const MS_IN_YEAR = 31536000000;
 export const EmailREGEXP = /^\S+@\S+\.\S+$/;
 export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
 export const TextREGEXP = /^[a-zA-Z ]+$/;
+
+export const validType = {
+  empty: 'empty',
+  length: 'length',
+  date: 'date',
+  num: 'num',
+  email: 'email',
+  password: 'password',
+  postalCode: 'postalCode',
+  text: 'text'
+};
 
 export const ALL_SIZES = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '11', '12'];
 

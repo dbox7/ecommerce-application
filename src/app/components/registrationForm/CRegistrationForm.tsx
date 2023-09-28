@@ -1,8 +1,8 @@
 import { useState, FC } from 'react';
-import { COUNTRIES, msg } from '../../utils/constants';
+import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, msg, validType } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import useInput from '../../services/input/useInput';
+import useInput from '../../services/input/useInput2';
 import UseFormBlock from '../../services/useFormBlock';
 import { useShowMessage } from '../../services/useShowMessage';
 
@@ -15,6 +15,7 @@ import CButton from '../button/CButton';
 import { Link } from 'react-router-dom';
 
 import './CRegistrationForm.css';
+import { checkMinMax, checkPostalCode, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 
 const getCountryCode = (countryName: string): string => {
   
@@ -33,6 +34,22 @@ export const CRegistrationForm: FC = () => {
 
   const server = useServerApi();
   const showMessage = useShowMessage();
+
+  const email = useInput('', [checkRegExp(EmailREGEXP, validType.email), isEmpty()]);
+  const password = useInput('', [checkRegExp(PasswordREGEXP, validType.password)]);
+  const dateOfBirth = useInput('', [checkMinMax([14]), isEmpty()]);  
+  const firstName = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const lastName = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+
+  const shippingStreet = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const shippingCity = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const shippingPostalCode = useInput('', [checkPostalCode(), isEmpty()]);
+  const shippingCountry = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+
+  const billingStreet = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const billingCity = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const billingPostalCode = useInput('', [checkPostalCode(), isEmpty()]);
+  const billingCountry = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -94,51 +111,35 @@ export const CRegistrationForm: FC = () => {
 
   };
 
-  const email = useInput('', 'email');
-  const password = useInput('', 'password');
-  const dateOfBirth = useInput('', 'date');  
-  const firstName = useInput('', 'text');
-  const lastName = useInput('', 'text');
+  // const isFormBlockedByMainInfo = UseFormBlock([
+  //   email.valid.isNotEmpty!,
+  //   email.valid.isEmailGood!,
+  //   password.valid.isNotEmpty!,
+  //   password.valid.isMinLength!,
+  //   password.valid.isPasswordGood!,
+  //   dateOfBirth.valid.isDateGood!,
+  //   firstName.valid.isNotEmpty!,
+  //   firstName.valid.isTextGood!,
+  //   lastName.valid.isNotEmpty!,
+  //   lastName.valid.isTextGood!,
+  //   shippingStreet.valid.isNotEmpty!,
+  //   shippingCity.valid.isNotEmpty!,
+  //   shippingCity.valid.isTextGood!,
+  //   shippingPostalCode.valid.isNotEmpty!,
+  //   shippingPostalCode.valid.isPostalCodeGood!,
+  //   shippingCountry.valid.isNotEmpty!,
+  //   shippingCountry.valid.isTextGood!,
+  // ]);
 
-  const shippingStreet = useInput('', 'text');
-  const shippingCity = useInput('', 'text');
-  const shippingPostalCode = useInput('', 'postalCode');
-  const shippingCountry = useInput('', 'text');
-
-  const billingStreet = useInput('', 'text');
-  const billingCity = useInput('', 'text');
-  const billingPostalCode = useInput('', 'postalCode');
-  const billingCountry = useInput('', 'text');
-
-  const isFormBlockedByMainInfo = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    password.valid.isNotEmpty!,
-    password.valid.isMinLength!,
-    password.valid.isPasswordGood!,
-    dateOfBirth.valid.isDateGood!,
-    firstName.valid.isNotEmpty!,
-    firstName.valid.isTextGood!,
-    lastName.valid.isNotEmpty!,
-    lastName.valid.isTextGood!,
-    shippingStreet.valid.isNotEmpty!,
-    shippingCity.valid.isNotEmpty!,
-    shippingCity.valid.isTextGood!,
-    shippingPostalCode.valid.isNotEmpty!,
-    shippingPostalCode.valid.isPostalCodeGood!,
-    shippingCountry.valid.isNotEmpty!,
-    shippingCountry.valid.isTextGood!,
-  ]);
-
-  const isFormBlockedByBilling = UseFormBlock([
-    billingStreet.valid.isNotEmpty!,
-    billingCity.valid.isNotEmpty!,
-    billingCity.valid.isTextGood!,
-    billingPostalCode.valid.isNotEmpty!,
-    billingPostalCode.valid.isPostalCodeGood!,
-    billingCountry.valid.isNotEmpty!,
-    billingCountry.valid.isTextGood!
-  ]);
+  // const isFormBlockedByBilling = UseFormBlock([
+  //   billingStreet.valid.isNotEmpty!,
+  //   billingCity.valid.isNotEmpty!,
+  //   billingCity.valid.isTextGood!,
+  //   billingPostalCode.valid.isNotEmpty!,
+  //   billingPostalCode.valid.isPostalCodeGood!,
+  //   billingCountry.valid.isNotEmpty!,
+  //   billingCountry.valid.isTextGood!
+  // ]);
   
   return (
     <div className="substrate">
@@ -236,10 +237,10 @@ export const CRegistrationForm: FC = () => {
         <CButton 
           type="submit"
           value="Sign up"
-          disabled={!useBillingAddress && !isFormBlockedByMainInfo ? 
-            isFormBlockedByBilling 
-            : 
-            isFormBlockedByMainInfo}
+          // disabled={!useBillingAddress && !isFormBlockedByMainInfo ? 
+          //   isFormBlockedByBilling 
+          //   : 
+          //   isFormBlockedByMainInfo}
         />
         <div>
           Already have an account?

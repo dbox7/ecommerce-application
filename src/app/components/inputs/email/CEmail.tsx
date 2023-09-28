@@ -6,6 +6,7 @@ import {
 import { IInputProps } from '../../../utils/types';
 
 import { CInfo } from '../../info/CInfo';
+import { validType } from '../../../utils/constants';
 
 
 const CEmail: FC<IInputProps> = ({
@@ -13,7 +14,7 @@ const CEmail: FC<IInputProps> = ({
   changeHandler, 
   blurHandler, 
   activeState, 
-  valid,
+  errors,
   className,
   children
 }) => {
@@ -22,8 +23,7 @@ const CEmail: FC<IInputProps> = ({
 
   useEffect(() => {
 
-    (!valid.isNotEmpty || 
-    !valid.isEmailGood) && 
+    (errors!.length > 0) && 
     !activeState ?
       setError('error')
       :
@@ -31,10 +31,9 @@ const CEmail: FC<IInputProps> = ({
 
   }, [
     activeState, 
-    valid.isEmailGood, 
-    valid.isNotEmpty
+    errors
   ]);
-
+  
   return ( 
     <>
       <div className="input-wrap">
@@ -49,14 +48,16 @@ const CEmail: FC<IInputProps> = ({
           children={children}
         />
 
-        {!valid.isNotEmpty && !activeState &&
-        <div className="out-error">Not be an empty</div>}
-
-        {!valid.isEmailGood && !activeState && 
-        <div className="out-error">Please, enter a valid email</div>}
+        {
+          errors!.includes(validType.empty) ?
+            (!activeState) && 
+            <div className="out-error">Not be an empty</div>
+            :
+            (!activeState) && errors!.includes(validType.email) &&
+            <div className="out-error">Please, enter a valid email</div>
+        }
       </div>
     </>
-    
   );
 
 };

@@ -2,33 +2,35 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useServerApi } from '../../services/useServerApi';
-import useInput from '../../services/input/useInput';
+// import useInput from '../../services/input/useInput';
+import useInput from '../../services/input/useInput2';
 import UseFormBlock from '../../services/useFormBlock';
 import { useShowMessage } from '../../services/useShowMessage';
-import { msg } from '../../utils/constants';
+import { EmailREGEXP, PasswordREGEXP, msg, validType } from '../../utils/constants';
 
 import CEmail from '../inputs/email/CEmail';
 import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
 
 import './CLoginForm.css';
+import { checkMinMax, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 
 
 export const CLoginForm: FC = () => {
-
-  const email = useInput('', 'email');
-  const password = useInput('', 'password');
+  
+  const email = useInput('', [checkRegExp(EmailREGEXP, validType.email), isEmpty()]);
+  const password = useInput('', [checkRegExp(PasswordREGEXP, validType.password), checkMinMax([8])]);
   
   const server = useServerApi();
   const showMessage = useShowMessage();
   
-  const isFormBlocked = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    password.valid.isNotEmpty!,
-    password.valid.isMinLength!,
-    password.valid.isPasswordGood!,
-  ]);
+  // const isFormBlocked = UseFormBlock([
+  //   email.valid!.isNotEmpty!,
+  //   email.valid!.isEmailGood!,
+  //   password.valid!.isNotEmpty!,
+  //   password.valid!.isMinLength!,
+  //   password.valid!.isPasswordGood!,
+  // ]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
@@ -63,7 +65,7 @@ export const CLoginForm: FC = () => {
         <CButton
           type="submit"
           value="Log in"
-          disabled={isFormBlocked}
+          disabled={false}
         />
         <div>
           Don't have an account yet?

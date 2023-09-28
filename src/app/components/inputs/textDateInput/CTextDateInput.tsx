@@ -4,6 +4,7 @@ import { ICountry, IInputProps } from '../../../utils/types';
 import { CInfo } from '../../info/CInfo';
 
 import '../input.css';
+import { validType } from '../../../utils/constants';
 
 type ITextDateInputProps = IInputProps & {
   title: string
@@ -16,7 +17,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
   changeHandler,
   blurHandler,
   activeState,
-  valid,
+  errors,
   title,
   data,
   isDate,
@@ -29,9 +30,7 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
   useEffect(() => {
 
-    (!valid.isNotEmpty || 
-    (!valid.isDateGood && isDate) ||
-    !valid.isTextGood && !isDate && (!title.toLowerCase().includes('street'))) && 
+    (errors!.length > 0) && 
     !activeState ?
       setError('error')
       :
@@ -64,14 +63,19 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
         </datalist>
       ) : ('')}
 
-      {!valid.isNotEmpty && !activeState &&
-      <div className="out-error">Not be an empty</div>}
 
-      {!valid.isDateGood && !activeState && isDate && valid.isNotEmpty &&
-      <div className="out-error">You too young</div>}
-
-      {!valid.isTextGood && !activeState && !isDate && valid.isNotEmpty && (title !== 'Street') &&
-      <div className="out-error">Please, don't use nums or spec chars</div>}
+      {
+        errors!.includes(validType.empty) ?
+          (!activeState) && 
+          <div className="out-error">Not be an empty</div>
+          :
+          isDate ?
+            (!activeState) && errors!.includes(validType.date) &&
+            <div className="out-error">You too young</div>
+            :
+            (!activeState) && errors!.includes(validType.text) && (title !== 'Street') &&
+            <div className="out-error">Please, don't use nums or spec chars</div>
+      }
 
     </div>
   );
