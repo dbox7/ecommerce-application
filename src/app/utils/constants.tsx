@@ -134,15 +134,22 @@ export const EmailREGEXP = /^\S+@\S+\.\S+$/;
 export const PasswordREGEXP = /^(?!\s)(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}(?<!\s)$/;
 export const TextREGEXP = /^[a-zA-Z ]+$/;
 
-export const validType = {
-  empty: 'empty',
-  length: 'length',
-  date: 'date',
+export const validError = {
+  empty: 'Not be an empty',
+  pwdLength: 'At least 8 characters',
+  age: 'You too young',
   num: 'num',
-  email: 'email',
-  password: 'password',
+  email: 'Please, enter a valid email',
+  password: 'Please, enter a correct password',
   postalCode: 'postalCode',
   text: 'text'
+};
+
+export const inputsInfo = {
+  email: 'A properly formatted email address (e.g., example@email.com)',
+  password: 'Minimum 8 characters, at least 1 uppercase letter,' +
+  '1 lowercase letter, 1 number and 1 special character. No whitespaces, please.',
+  
 };
 
 export const ALL_SIZES = ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '11', '12'];

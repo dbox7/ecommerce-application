@@ -2,27 +2,43 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useServerApi } from '../../services/useServerApi';
-// import useInput from '../../services/input/useInput';
 import useInput from '../../services/input/useInput2';
 import UseFormBlock from '../../services/useFormBlock';
 import { useShowMessage } from '../../services/useShowMessage';
-import { EmailREGEXP, PasswordREGEXP, msg, validType } from '../../utils/constants';
+import { checkMinMax, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
+import { 
+  EmailREGEXP, 
+  PasswordREGEXP, 
+  inputsInfo, 
+  msg, 
+  validError 
+} from '../../utils/constants';
 
-import CEmail from '../inputs/email/CEmail';
-import CPassword from '../inputs/password/CPassword';
 import CButton from '../button/CButton';
+import CInput from '../inputs/CInput';
 
 import './CLoginForm.css';
-import { checkMinMax, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 
 
 export const CLoginForm: FC = () => {
-  
-  const email = useInput('', [checkRegExp(EmailREGEXP, validType.email), isEmpty()]);
-  const password = useInput('', [checkRegExp(PasswordREGEXP, validType.password), checkMinMax([8])]);
-  
+
   const server = useServerApi();
   const showMessage = useShowMessage();
+  
+  const email = useInput(
+    'email', 
+    [
+      checkRegExp(EmailREGEXP, validError.email), 
+      isEmpty()
+    ]
+  );
+  const password = useInput(
+    'password', 
+    [
+      checkRegExp(PasswordREGEXP, validError.password), 
+      checkMinMax([8], 'length')
+    ]
+  );
   
   // const isFormBlocked = UseFormBlock([
   //   email.valid!.isNotEmpty!,
@@ -56,10 +72,15 @@ export const CLoginForm: FC = () => {
         onSubmit={handleSubmit}
       >
         <div className="info-block">
-          <CEmail {...email}/>
-          <CPassword 
+          <CInput 
+            {...email}
+            title="Email"
+            info={inputsInfo.email}
+          />
+          <CInput 
             {...password}
             title="Password"
+            info={inputsInfo.password}
           />
         </div>
         <CButton

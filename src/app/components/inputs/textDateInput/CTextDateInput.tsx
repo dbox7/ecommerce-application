@@ -4,7 +4,7 @@ import { ICountry, IInputProps } from '../../../utils/types';
 import { CInfo } from '../../info/CInfo';
 
 import '../input.css';
-import { validType } from '../../../utils/constants';
+import { validError } from '../../../utils/constants';
 
 type ITextDateInputProps = IInputProps & {
   title: string
@@ -65,15 +65,15 @@ const CTextDateInput: FC<ITextDateInputProps> = ({
 
 
       {
-        errors!.includes(validType.empty) ?
+        errors!.includes(validError.empty) ?
           (!activeState) && 
           <div className="out-error">Not be an empty</div>
           :
           isDate ?
-            (!activeState) && errors!.includes(validType.date) &&
+            (!activeState) && errors!.includes(validError.age) &&
             <div className="out-error">You too young</div>
             :
-            (!activeState) && errors!.includes(validType.text) && (title !== 'Street') &&
+            (!activeState) && errors!.includes(validError.text) && (title !== 'Street') &&
             <div className="out-error">Please, don't use nums or spec chars</div>
       }
 

@@ -22,14 +22,14 @@ const CPostalCode: FC<IPostalCodeProps> = ({
 
   useEffect(() => {
 
-    selectedCountry &&
-    (!valid.isNotEmpty || 
-    !valid.isPostalCodeGood ||
-    !selectedCountry?.postalCode.test(value)) && 
-    !activeState ?
-      setError('error')
-      :
-      setError('');
+    // selectedCountry &&
+    // (!valid!.isNotEmpty || 
+    // !valid!.isPostalCodeGood ||
+    // !selectedCountry?.postalCode.test(value)) && 
+    // !activeState ?
+    //   setError('error')
+    //   :
+    //   setError('');
 
   }, [
     activeState,
@@ -48,10 +48,10 @@ const CPostalCode: FC<IPostalCodeProps> = ({
         onBlur={blurHandler}
       />
 
-      {!valid.isNotEmpty && !activeState && selectedCountry &&
+      {!activeState && selectedCountry &&
       <div className="out-error">Not be an empty</div>}
 
-      {valid.isNotEmpty && selectedCountry && !selectedCountry?.postalCode.test(value) && !activeState &&
+      {selectedCountry && !selectedCountry?.postalCode.test(value) && !activeState &&
       <div className="out-error">Please, enter a valid postal code</div>}
 
     </div>

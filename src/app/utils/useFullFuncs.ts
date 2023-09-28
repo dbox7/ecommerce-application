@@ -1,6 +1,6 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { IProductFilters, IQueryArgs, Rule } from './types';
-import { COUNTRIES, MS_IN_YEAR, validType } from './constants';
+import { IProductFilters, IQueryArgs, IRule } from './types';
+import { COUNTRIES, MS_IN_YEAR, validError } from './constants';
 
 export const getSizeArray = (product: ProductProjection) => {
   
@@ -13,7 +13,7 @@ export const getSizeArray = (product: ProductProjection) => {
 
 };
 
-export const checkRegExp: Rule<RegExp, string> = (option, type) => (value) => {
+export const checkRegExp: IRule<RegExp, string> = (option, msg) => (value) => {
 
   if (option.test(value)) {
 
@@ -25,14 +25,14 @@ export const checkRegExp: Rule<RegExp, string> = (option, type) => (value) => {
 
     return {
       valid: false,
-      type: type
+      msg
     };
   
   }
 
 };
 
-export const checkPostalCode: Rule<void, void> = (option) => (value) => {
+export const checkPostalCode: IRule<void, void> = (option) => (value) => {
 
   if (COUNTRIES.some((country) => country.postalCode.test(value))) {
 
@@ -44,14 +44,14 @@ export const checkPostalCode: Rule<void, void> = (option) => (value) => {
 
     return {
       valid: false,
-      type: validType.postalCode
+      msg: validError.postalCode
     };
   
   }
 
 };
 
-export const isEmpty: Rule<void, void> = (option) => (value) => {
+export const isEmpty: IRule<void, void> = (option) => (value) => {
   
   if (value !== '') {
 
@@ -63,33 +63,37 @@ export const isEmpty: Rule<void, void> = (option) => (value) => {
 
     return {
       valid: false,
-      type: validType.empty
+      msg: validError.empty
     };
 
   }
 
 };
 
-export const checkMinMax: Rule<[number, number?], 'date' | 'length' | 'num'> = ([min = 0, max = 100], type) => (value) => {
+export const checkMinMax: IRule<[number, number?], 'date' | 'length' | 'num'> = ([min = 0, max = 100], type) => (value) => {
   
   let checkValue = 0;
+  let msg = '';
 
   if (type === 'date') {
 
     // Проверяет дату
     checkValue = Math.floor((Date.now() - Date.parse(value)) / MS_IN_YEAR);
+    msg = validError.age;
 
   } else if (type === 'length') {
 
     // Проверяет длину строки
     checkValue = value.length;
+    msg = validError.pwdLength;
 
   } else if (type === 'num'){
 
     // Проверяет любое число
     checkValue = Number(value);
+    msg = `Enter number from ${min} to ${max}`;
 
-  }
+  }  
 
   if (min <= checkValue && checkValue <= max) {
 
@@ -101,7 +105,7 @@ export const checkMinMax: Rule<[number, number?], 'date' | 'length' | 'num'> = (
 
     return {
       valid: false,
-      type: type
+      msg
     };
 
   }

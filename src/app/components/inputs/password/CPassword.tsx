@@ -5,7 +5,7 @@ import showPasswordIcon from '../../../assets/show-password-icon.svg';
 import hidePasswordIcon from '../../../assets/hide-password-icon.svg';
 
 import { CInfo } from '../../info/CInfo';
-import { validType } from '../../../utils/constants';
+import { validError } from '../../../utils/constants';
 
 const CPassword: FC<IInputProps> = ({
   title,
@@ -53,7 +53,7 @@ const CPassword: FC<IInputProps> = ({
       />
 
       {
-        errors!.includes(validType.length) ?
+        errors!.includes(validError.age) ?
           (!activeState) && 
           <div className="out-error">At least 8 characters</div>
           :

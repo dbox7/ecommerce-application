@@ -10,9 +10,9 @@ const useValidation = (value: string, rules: Function[]): string[] => {
 
       const res = rule(value);
 
-      if (!res.valid && res.type) {
+      if (!res.valid && res.msg) {
 
-        errors.push(res.type);
+        errors.push(res.msg);
       
       }
 

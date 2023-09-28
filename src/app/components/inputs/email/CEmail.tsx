@@ -6,7 +6,7 @@ import {
 import { IInputProps } from '../../../utils/types';
 
 import { CInfo } from '../../info/CInfo';
-import { validType } from '../../../utils/constants';
+import { validError } from '../../../utils/constants';
 
 
 const CEmail: FC<IInputProps> = ({
@@ -49,11 +49,11 @@ const CEmail: FC<IInputProps> = ({
         />
 
         {
-          errors!.includes(validType.empty) ?
+          errors!.includes(validError.empty) ?
             (!activeState) && 
             <div className="out-error">Not be an empty</div>
             :
-            (!activeState) && errors!.includes(validType.email) &&
+            (!activeState) && errors!.includes(validError.email) &&
             <div className="out-error">Please, enter a valid email</div>
         }
       </div>

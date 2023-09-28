@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useValidation from './useValidation2';
 import { IInputProps } from '../../utils/types';
 
-const useInput = (initialValue: string, rules: Function[]): IInputProps => {
+const useInput = (type: string, rules: Function[], initialValue: string = ''): IInputProps => {
 
   const [value, setValue] = useState(initialValue);
   const [activeState, setActiveState] = useState(true);
@@ -24,6 +24,7 @@ const useInput = (initialValue: string, rules: Function[]): IInputProps => {
 
   return {
     value,
+    type,
     changeHandler,
     blurHandler,
     activeState,

@@ -1,5 +1,5 @@
 import { useState, FC } from 'react';
-import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, msg, validType } from '../../utils/constants';
+import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, inputsInfo, msg, validError } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
 import useInput from '../../services/input/useInput2';
@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 import './CRegistrationForm.css';
 import { checkMinMax, checkPostalCode, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
+import CInput from '../inputs/CInput';
 
 const getCountryCode = (countryName: string): string => {
   
@@ -35,46 +36,124 @@ export const CRegistrationForm: FC = () => {
   const server = useServerApi();
   const showMessage = useShowMessage();
 
-  const email = useInput('', [checkRegExp(EmailREGEXP, validType.email), isEmpty()]);
-  const password = useInput('', [checkRegExp(PasswordREGEXP, validType.password)]);
-  const dateOfBirth = useInput('', [checkMinMax([14]), isEmpty()]);  
-  const firstName = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-  const lastName = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-
-  const shippingStreet = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-  const shippingCity = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-  const shippingPostalCode = useInput('', [checkPostalCode(), isEmpty()]);
-  const shippingCountry = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-
-  const billingStreet = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-  const billingCity = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
-  const billingPostalCode = useInput('', [checkPostalCode(), isEmpty()]);
-  const billingCountry = useInput('', [checkRegExp(TextREGEXP, validType.text), isEmpty()]);
+  const data = {
+    email: useInput(
+      'email', 
+      [
+        checkRegExp(EmailREGEXP, validError.email), 
+        isEmpty()
+      ]
+    ),
+    password: useInput(
+      'password', 
+      [
+        checkRegExp(PasswordREGEXP, validError.password),
+        checkMinMax([8], 'length')
+      ]
+    ),
+    dateOfBirth: useInput(
+      'date', 
+      [
+        checkMinMax([14], 'date'), 
+        isEmpty()
+      ]
+    ),
+    firstName: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    lastName: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    shippingStreet: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    shippingCity: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    shippingPostalCode: useInput(
+      'text', 
+      [
+        checkPostalCode(), 
+        isEmpty()
+      ]
+    ),
+    shippingCountry: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    billingStreet: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    billingCity: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    ),
+    billingPostalCode: useInput(
+      'text', 
+      [
+        checkPostalCode(), 
+        isEmpty()
+      ]
+    ),
+    billingCountry: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ]
+    )
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
 
     const shippingAddress: IAddress = {
-      streetName: shippingStreet.value,
-      city: shippingCity.value,
-      postalCode: shippingPostalCode.value,
-      country: getCountryCode(shippingCountry.value),
+      streetName: data.shippingStreet.value,
+      city: data.shippingCity.value,
+      postalCode: data.shippingPostalCode.value,
+      country: getCountryCode(data.shippingCountry.value),
     };
 
     const billingAddress: IAddress = {
-      streetName: billingStreet.value,
-      city: billingCity.value,
-      postalCode: billingPostalCode.value,
-      country: getCountryCode(billingCountry.value),
+      streetName: data.billingStreet.value,
+      city: data.billingCity.value,
+      postalCode: data.billingPostalCode.value,
+      country: getCountryCode(data.billingCountry.value),
     };
 
     const payload: IPayload = {
       email: email.value, 
-      password: password.value, 
-      firstName: firstName.value, 
-      lastName: lastName.value, 
-      dateOfBirth: dateOfBirth.value,
+      password: data.password.value, 
+      firstName: data.firstName.value, 
+      lastName: data.lastName.value, 
+      dateOfBirth: data.dateOfBirth.value,
       addresses: [
         shippingAddress
       ],
@@ -151,23 +230,26 @@ export const CRegistrationForm: FC = () => {
 
         <div className="info">
           <div className="info-block">
-            <CEmail 
-              {...email}
+            <CInput
+              {...data.email}
+              title="Email"
+              info={inputsInfo.email}
             />
-            <CPassword 
-              {...password}
+            <CInput
+              {...data.password}
               title="Password"
+              info={inputsInfo.password}
             />
-            <CTextDateInput 
-              {...firstName}
+            <CInput
+              {...data.firstName}
               title="First name"
             />
-            <CTextDateInput 
-              {...lastName}
+            <CInput
+              {...data.lastName}
               title="Last name"
             />
             <CTextDateInput 
-              {...dateOfBirth}
+              {...data.dateOfBirth}
               title="Date of birth"
               data={null}
               isDate={true}
@@ -176,20 +258,20 @@ export const CRegistrationForm: FC = () => {
           
           <div className="info-block">
             <h4 className="clarification">Enter the shipping address:</h4>
-            <CTextDateInput 
-              {...shippingStreet}
+            <CInput 
+              {...data.shippingStreet}
               title="Street"
             />
-            <CTextDateInput 
-              {...shippingCity}
+            <CInput 
+              {...data.shippingCity}
               title="City"
             />
             <CPostalCode 
-              {...shippingPostalCode}
-              country={shippingCountry.value}
+              {...data.shippingPostalCode}
+              country={data.shippingCountry.value}
             />
             <CTextDateInput 
-              {...shippingCountry}
+              {...data.shippingCountry}
               title="Country"
               data={COUNTRIES}
             />
@@ -208,20 +290,20 @@ export const CRegistrationForm: FC = () => {
           {!useBillingAddress && (
             <div className="info-block">
               <h4 className="clarification">Enter the billing address:</h4>
-              <CTextDateInput 
-                {...billingStreet}
+              <CInput 
+                {...data.billingStreet}
                 title="Street"
               />
-              <CTextDateInput 
-                {...billingCity}
+              <CInput 
+                {...data.billingCity}
                 title="City"
               />
               <CPostalCode 
-                {...billingPostalCode}
-                country={billingCountry.value}
+                {...data.billingPostalCode}
+                country={data.billingCountry.value}
               />
               <CTextDateInput 
-                {...billingCountry}
+                {...data.billingCountry}
                 title="Country"
                 data={COUNTRIES}
               />

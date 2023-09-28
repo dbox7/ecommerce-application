@@ -52,14 +52,14 @@ const CUserProfileForm: FC = () => {
     country: address.country || '',
   }));
 
-  const isPasswordBlockedByInfo = UseFormBlock([
-    newPassword.valid.isNotEmpty!,
-    newPassword.valid.isMinLength!,
-    newPassword.valid.isPasswordGood!,
-    currentPassword.valid.isNotEmpty!,
-    currentPassword.valid.isMinLength!,
-    currentPassword.valid.isPasswordGood!,
-  ]);
+  // const isPasswordBlockedByInfo = UseFormBlock([
+  //   newPassword.valid.isNotEmpty!,
+  //   newPassword.valid.isMinLength!,
+  //   newPassword.valid.isPasswordGood!,
+  //   currentPassword.valid.isNotEmpty!,
+  //   currentPassword.valid.isMinLength!,
+  //   currentPassword.valid.isPasswordGood!,
+  // ]);
 
   const isEmptyEvent = () => {
 
@@ -118,15 +118,15 @@ const CUserProfileForm: FC = () => {
 
   };
 
-  const isFormBlockedByInfo = UseFormBlock([
-    email.valid.isNotEmpty!,
-    email.valid.isEmailGood!,
-    dateOfBirth.valid.isDateGood!,
-    firstName.valid.isNotEmpty!,
-    firstName.valid.isTextGood!,
-    lastName.valid.isNotEmpty!,
-    lastName.valid.isTextGood!,
-  ]);
+  // const isFormBlockedByInfo = UseFormBlock([
+  //   email.valid.isNotEmpty!,
+  //   email.valid.isEmailGood!,
+  //   dateOfBirth.valid.isDateGood!,
+  //   firstName.valid.isNotEmpty!,
+  //   firstName.valid.isTextGood!,
+  //   lastName.valid.isNotEmpty!,
+  //   lastName.valid.isTextGood!,
+  // ]);
 
   const anyInputChanged =
   initFirstName.hasChanged ||
@@ -199,8 +199,8 @@ const CUserProfileForm: FC = () => {
               <CButton
                 value="Save changes"
                 type="submit"
-                disabled={!isFormBlockedByInfo && !anyInputChanged ?
-                  !anyInputChanged: isFormBlockedByInfo}
+                // disabled={!isFormBlockedByInfo && !anyInputChanged ?
+                //   !anyInputChanged: isFormBlockedByInfo}
               />
             </form>
           </div>
@@ -224,7 +224,7 @@ const CUserProfileForm: FC = () => {
               <CButton
                 value="Save changes"
                 type="submit"
-                disabled={isPasswordBlockedByInfo}
+                // disabled={isPasswordBlockedByInfo}
               />
             </form>
           </div>
