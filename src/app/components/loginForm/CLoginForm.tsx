@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useServerApi } from '../../services/useServerApi';
-import useInput from '../../services/input/useInput2';
+import useInput from '../../services/input/useInput';
 import { useShowMessage } from '../../services/useShowMessage';
 import { checkMinMax, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 import { 

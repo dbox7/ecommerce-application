@@ -3,7 +3,7 @@ import { COUNTRIES, TextREGEXP, inputsInfo, msg, validError } from '../../utils/
 import { IAddress } from '../../utils/types';
 import { checkRegExp, isEmpty, checkPostalCode } from '../../utils/usefullFuncs';
 
-import useInput from '../../services/input/useInput2';
+import useInput from '../../services/input/useInput';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';

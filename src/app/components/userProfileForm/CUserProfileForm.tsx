@@ -1,6 +1,6 @@
 import { IAddress, IChangePassword } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import useInput from '../../services/input/useInput2';
+import useInput from '../../services/input/useInput';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useEffect, FC } from 'react';
 import { useShowMessage } from '../../services/useShowMessage';

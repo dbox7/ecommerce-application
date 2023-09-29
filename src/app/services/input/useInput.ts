@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useValidation from './useValidation2';
+import useValidation from './useValidation';
 import { IInputProps } from '../../utils/types';
 
 const useInput = (type: string, rules: Function[], initialValue: string = ''): IInputProps => {

@@ -7,6 +7,8 @@ import { IInputProps } from '../../utils/types';
 
 import { CInfo } from '../info/CInfo';
 
+import './input.css';
+
 
 const CInput: FC<IInputProps> = ({
   title,

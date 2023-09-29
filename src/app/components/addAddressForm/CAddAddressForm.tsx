@@ -1,7 +1,7 @@
 import { useState, Dispatch, SetStateAction, FC } from 'react';
 import { COUNTRIES, TextREGEXP, inputsInfo, msg, validError } from '../../utils/constants';
 import { IAddress } from '../../utils/types';
-import useInput from '../../services/input/useInput2';
+import useInput from '../../services/input/useInput';
 import { useServerApi } from '../../services/useServerApi';
 import { useShowMessage } from '../../services/useShowMessage';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';

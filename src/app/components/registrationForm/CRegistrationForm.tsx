@@ -2,7 +2,7 @@ import { useState, FC } from 'react';
 import { COUNTRIES, EmailREGEXP, PasswordREGEXP, TextREGEXP, inputsInfo, msg, validError } from '../../utils/constants';
 import { IAddress, IPayload } from '../../utils/types';
 import { useServerApi } from '../../services/useServerApi';
-import useInput from '../../services/input/useInput2';
+import useInput from '../../services/input/useInput';
 import { checkMinMax, checkPostalCode, checkRegExp, isEmpty } from '../../utils/usefullFuncs';
 import { useShowMessage } from '../../services/useShowMessage';
 
