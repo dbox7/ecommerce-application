@@ -7,7 +7,6 @@ import { useShowMessage } from '../../services/useShowMessage';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { checkRegExp, isEmpty, checkPostalCode } from '../../utils/usefullFuncs';
 
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';

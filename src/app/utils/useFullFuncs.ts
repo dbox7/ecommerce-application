@@ -1,5 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { ICountry, IProductFilters, IQueryArgs, IRule } from './types';
+import { IProductFilters, IQueryArgs, IRule } from './types';
 import { COUNTRIES, MS_IN_YEAR, validError } from './constants';
 
 export const getSizeArray = (product: ProductProjection) => {

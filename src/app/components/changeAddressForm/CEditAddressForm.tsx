@@ -1,18 +1,20 @@
 import { Dispatch, SetStateAction, useState, FC } from 'react';
-import { COUNTRIES, msg } from '../../utils/constants';
+import { COUNTRIES, TextREGEXP, inputsInfo, msg, validError } from '../../utils/constants';
 import { IAddress } from '../../utils/types';
+import { checkRegExp, isEmpty, checkPostalCode } from '../../utils/usefullFuncs';
 
-import useInput from '../../services/input/useInput';
+import useInput from '../../services/input/useInput2';
 import { useServerApi } from '../../services/useServerApi';
 import { useTypedSelector } from '../../store/hooks/useTypedSelector';
 import { useShowMessage } from '../../services/useShowMessage';
 
-import CTextDateInput from '../inputs/textDateInput/CTextDateInput';
 import CPostalCode from '../inputs/postalCode/CPostalCode';
 import CCheckbox from '../inputs/checkbox/CCheckbox';
 import CButton from '../button/CButton';
+import CInput from '../inputs/CInput';
 
 import '../registrationForm/CRegistrationForm.css';
+
 
 interface IEditAdrdressProps {
   setModal: Dispatch<SetStateAction<boolean>> | ((isActive: boolean) => void);
@@ -52,11 +54,41 @@ export const CEditAddressForm: FC<IEditAdrdressProps> = ({setModal,  addressId})
   const targetCity = targetAddress?.city;
   const targetCountry = getCountryName(targetAddress?.country);
   const targetPostalCode = targetAddress?.postalCode;
-  
-  const street = useInput(`${targetStreetName}`, 'text');
-  const city = useInput(`${targetCity}`, 'text');
-  const postalCode = useInput(`${targetPostalCode}`, 'postalCode');
-  const country = useInput(`${targetCountry}`, 'text');
+
+  const data = {
+    street: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ],
+      `${targetStreetName}`    
+    ),
+    city: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ],
+      `${targetCity}`
+    ),
+    postalCode: useInput(
+      'text', 
+      [
+        checkPostalCode(), 
+        isEmpty()
+      ],
+      `${targetPostalCode}`
+    ),
+    country: useInput(
+      'text', 
+      [
+        checkRegExp(TextREGEXP, validError.text), 
+        isEmpty()
+      ],
+      `${targetCountry}`
+    ),
+  };
 
   const server = useServerApi();
   const showMessage = useShowMessage();
@@ -76,10 +108,10 @@ export const CEditAddressForm: FC<IEditAdrdressProps> = ({setModal,  addressId})
     e.preventDefault();
 
     const address: IAddress = {
-      streetName: street.value,
-      city: city.value,
-      postalCode: postalCode.value,
-      country: getCountryCode(country.value),
+      streetName: data.street.value,
+      city: data.city.value,
+      postalCode: data.postalCode.value,
+      country: getCountryCode(data.country.value),
     };
     
     const actionMap: Record<string, string[]> = {
@@ -146,22 +178,26 @@ export const CEditAddressForm: FC<IEditAdrdressProps> = ({setModal,  addressId})
       >
         <div className="info">
           <div className="info-block">
-            <CTextDateInput
-              {...street}
+            <CInput
+              {...data.street}
               title="Street"
+              info={inputsInfo.street}
             />
-            <CTextDateInput
-              {...city}
+            <CInput
+              {...data.city}
               title="City"
+              info={inputsInfo.text}
             />
             <CPostalCode
-              {...postalCode}
-              country={country.value}
+              {...data.postalCode}
+              title="Postal Code"
+              info={inputsInfo.postalCode}
+              country={data.country.value}
             />
-            <CTextDateInput
-              {...country}
+            <CInput
+              {...data.country}
               title="Country"
-              data={COUNTRIES}
+              dataList={COUNTRIES}
             />
             <CCheckbox
               title="Set as shipping address"
