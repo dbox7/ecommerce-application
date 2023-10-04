@@ -1,0 +1,58 @@
+.about__content {
+  padding: 5vh;
+}
+
+.about__content__title,
+.about__content__sub-title {
+  margin-bottom: 2vh;
+  font-family: var(--tera);
+  width: fit-content;
+}
+
+.about__content__title {
+  font-size: var(--title);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+.about__content__sub-title {
+  font-size: var(--sub-title);
+  border-bottom: 1px solid var(--accent-color);
+  margin-top: 2vh;
+}
+
+.about__content__text {
+  position: relative;
+  font-family: var(--exa);
+  font-size: var(--main-text);
+}
+
+.about__content__text__school-logo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-image: url("../../assets/rs_school_js_alpha.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  width: 5rem;
+  height: 5rem;
+}
+
+.about__content__text__text-link:hover {
+  color: var(--dark-accent-color);
+  transition: all 0.3s ease-in-out;
+}
+
+.about__content__team {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3vh 0;
+}
+
+@media screen and (max-width: 900px) {
+  .about__content__team {
+    flex-direction: column;
+  }
+}

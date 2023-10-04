@@ -1,0 +1,30 @@
+.size-option {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 15px;
+}
+
+.size {
+  min-width: 65px;
+
+  font-family: var(--exa);
+  font-size: var(--sub-title);
+  font-weight: 700;
+
+  transition: color 0.2s ease-in;
+  cursor: pointer;
+}
+
+.size.disabled {
+  color: var(--disabled);
+}
+
+.size:not(.disabled):hover {
+  color: var(--dark-extra-color);
+}
+
+.size.active {
+  color: var(--dark-extra-color);
+}

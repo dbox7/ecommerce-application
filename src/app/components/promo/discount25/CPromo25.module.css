@@ -1,0 +1,96 @@
+.promo__container {
+  height: 165px;
+  padding: 10px 40px;
+  background: linear-gradient(to right, #ff9500, #ff3300);
+}
+
+.promo__container__content {
+  background-image: url("../../../assets/promo-runner.png");
+  background-size: 18rem;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-position-x: 13vw;
+  background-position-y: 0.5vh;
+  height: 100%;
+}
+
+.promo__container__content__text {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--basic-color);
+  font-family: var(--exa);
+  font-size: var(--title);
+}
+
+.promo__container__content__text_right {
+  text-align: right;
+}
+
+.promo__container__content__code {
+  font-size: calc(var(--title) * 2);
+}
+
+@media screen and (max-width: 880px) {
+  .promo__container {
+    height: 16vh;
+  }
+  .promo__container__content {
+    background-size: 15rem;
+    background-position-x: 10vw;
+    background-position-y: 0vh;
+  }
+  .promo__container__content__text {
+    font-size: calc(var(--title) * 0.7);
+  }
+  .promo__container__content__code {
+    font-size: calc(var(--title) * 1.5);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .promo__container {
+    height: 14vh;
+  }
+  .promo__container__content {
+    background-position-x: 15vw;
+    background-position-y: 1vh;
+    background-size: 10rem;
+  }
+  .promo__container__content__text {
+    font-size: calc(var(--title) * 0.6);
+  }
+  .promo__container__content__code {
+    font-size: calc(var(--title) * 1.2);
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .promo__container {
+    height: 12vh;
+  }
+  .promo__container__content {
+    background-position-x: 13vw;
+    background-position-y: 1vh;
+    background-size: 8rem;
+  }
+  .promo__container__content__text {
+    font-size: calc(var(--title) * 0.5);
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .promo__container {
+    height: 10vh;
+  }
+  .promo__container__content {
+    background-position-x: 10vw;
+    background-position-y: 1vh;
+    background-size: 6rem;
+  }
+  .promo__container__content__text {
+    font-size: calc(var(--title) * 0.3);
+  }
+}
